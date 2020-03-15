@@ -1,0 +1,21 @@
+{
+  "name": "ig-server",
+  "version": "1.0.0",
+  "description": "IG Server",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "node-ig-api": "^2.0.4",
+    "nodemailer": "^6.4.2",
+    "plotly": "^1.0.6",
+    "rxjs": "^6.5.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "run"
+  },
+  "author": "Miles Holt",
+  "license": "ISC"
+}

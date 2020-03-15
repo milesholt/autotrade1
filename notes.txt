@@ -1,0 +1,15 @@
+
+Simple determination
+
+if first three prices are below line, then we consider the trend to be bullish
+if the opposite, then bearish
+the assumption that after three confirmations within the range, this trend will continue
+we're calling this the 'stair strategy' as this appears a number of times in charts
+you'll have a upward/downward trend, then a range /fluctuation, then the trend will continue.
+the strategy is to do a small buy/sell with a sharp stop and short limit, before the direction changes.
+
+Another strategy - Range Bound trading
+
+This strategy works within the range and the logic is to trade within support and resistance Lines
+to mitigate risk
+https://www.investopedia.com/terms/r/rangeboundtrading.asp
