@@ -1,1 +1,1 @@
-web: node main_050320.js
+worker: node main_050320.js
