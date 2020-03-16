@@ -131,6 +131,7 @@ async function exec(){
       prices.push(r.prices[0]);
       pricedatacount++;
       //remove first hour
+      console.log('removing first hour');
       prices.shift();
       //store back to the file
         fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
