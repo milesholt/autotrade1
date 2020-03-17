@@ -190,7 +190,13 @@ if(noError){
   let resistanceline = 0;
   supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
   resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
-
+  
+  //TO DO: Temporary correction if supportline is greater than resistance - this is due to one line having more pricebars recording a higher level than the other during a certain period.
+  if(supportline > resistanceline){
+    supportline = resistanceline;
+    resistanceline = supportline;
+  }
+  
   //verify horizontal lines meet conditions
   //must have 50 points minimum distance from each other
   //if are 200 points maximum distance apart, then chart is not considered ranging
