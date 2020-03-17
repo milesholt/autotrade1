@@ -198,7 +198,7 @@ if(noError){
   if((lineDistance > 20 && lineDistance < 200) && (resistanceline > supportline)) check0 = true;
 
   //Get the percentage change of the first price bar and support/resistance lines
-  const firstClose = pricedata.support[0].close;
+  const firstClose = pricedata2.support[0].close;
   let firstDiff = firstClose > resistanceline ? Math.abs(100 - (resistanceline / firstClose * 100)).toFixed(2) : Math.abs(100 - (supportline / firstClose * 100)).toFixed(2);
 
   //Get percentage change of latest price bar to determine if there is a break
