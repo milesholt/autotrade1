@@ -64,7 +64,7 @@ actions.calcResistSupport = async function(pricedata,type){
 actions.calcWicks = async function(pricedata){
 
   //set how many wicks to check
-  let wicklimit = 4;
+  let wicklimit = 3;
   let strengthlimit = 20;
   let wickdata = [];
   let beardir = bulldir = 0;
@@ -73,7 +73,7 @@ actions.calcWicks = async function(pricedata){
   let confirmation1 = false;
   let confirmation2 = false;
 
-  for(let i = (pricedata.support.length-wicklimit) , len = pricedata.support.length-1; i < len; i++){
+  for(let i = (pricedata.support.length-wicklimit) , len = pricedata.support.length-1; i <= len; i++){
 
     let pricebar = pricedata.support[i];
     let open = pricebar.open;
