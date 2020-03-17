@@ -188,13 +188,18 @@ if(noError){
 
   let supportline = 0;
   let resistanceline = 0;
-  supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
-  resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+  let horizline1 = 0;
+  let horizline2 = 0;
+  horizline1 = await strategy.actions.calcResistSupport(pricedata2,'support');
+  horizline2 = await strategy.actions.calcResistSupport(pricedata2,'resistance');
   
   //TO DO: Temporary correction if supportline is greater than resistance - this is due to one line having more pricebars recording a higher level than the other during a certain period.
-  if(supportline > resistanceline){
-    supportline = resistanceline;
-    resistanceline = supportline;
+  if(horizline1 > horizline2){
+    resistanceline = horizline1;
+    supportline = horizline2;  
+  } else {
+    resistanceline = horizline2;
+    supportline = horizline1;  
   }
   
   //verify horizontal lines meet conditions
