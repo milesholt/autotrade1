@@ -62,8 +62,6 @@ actions.calcResistSupport = async function(pricedata,type){
 }
 
 actions.calcWicks = async function(pricedata){
-  
-  console.log('using updated calcWicks');
 
   //set how many wicks to check
   let wicklimit = 3;
