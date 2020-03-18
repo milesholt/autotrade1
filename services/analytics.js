@@ -36,48 +36,48 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis){
     customdata.push({});
 
 
-    // confirmations.support_index.forEach(sidx => {
-    //   if(sidx == i){
-    //     let j = i+1;
-    //     let circle = {
-    //       type: 'circle',
-    //       xref: 'x',
-    //       yref: 'y',
-    //       fillcolor: 'rgba(217, 14, 87, 0.7)',
-    //       line: {
-    //         width: 0,
-    //         dash:'solid'
-    //       },
-    //       x0: price.time,
-    //       y0: price.price,
-    //       x1: moment(price.time).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-    //       y1: price.price+10
-    //     }
-    //     shapes.push(circle);
-    //   }
-    // });
+    confirmations.support_index.forEach(sidx => {
+      if(sidx == i){
+        let j = i+1;
+        let circle = {
+          type: 'circle',
+          xref: 'x',
+          yref: 'y',
+          fillcolor: 'rgba(217, 14, 87, 0.7)',
+          line: {
+            width: 0,
+            dash:'solid'
+          },
+          x0: price.time,
+          y0: price.price,
+          x1: moment(price.time).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          y1: price.price+10
+        }
+        shapes.push(circle);
+      }
+    });
 
-    // confirmations.resistance_index.forEach(ridx => {
-    //   if(ridx == i){
-    //     console.log(ridx);
-    //     let j = i+1;
-    //     let circle = {
-    //       type: 'circle',
-    //       xref: 'x',
-    //       yref: 'y',
-    //       fillcolor: 'rgba(29, 199, 201, 0.7)',
-    //       line: {
-    //         width: 0,
-    //         dash:'solid'
-    //       },
-    //       x0: price.time,
-    //       y0: price.price,
-    //       x1: moment(price.time).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-    //       y1: price.price+10
-    //     }
-    //     shapes.push(circle);
-    //   }
-    // });
+    confirmations.resistance_index.forEach(ridx => {
+      if(ridx == i){
+        console.log(ridx);
+        let j = i+1;
+        let circle = {
+          type: 'circle',
+          xref: 'x',
+          yref: 'y',
+          fillcolor: 'rgba(29, 199, 201, 0.7)',
+          line: {
+            width: 0,
+            dash:'solid'
+          },
+          x0: price.time,
+          y0: price.price,
+          x1: moment(price.time).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          y1: price.price+10
+        }
+        shapes.push(circle);
+      }
+    });
 
     //console.log(shapes);
 
