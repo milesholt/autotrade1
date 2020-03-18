@@ -128,12 +128,15 @@ async function exec(){
     await api.histPrc(epic, resolution, from2, to2).then(r => {
       console.log(r);
       //prices.push.apply(prices, r.prices);
-      prices.push(r.prices[0]);
-      pricedatacount++;
-      //remove first hour
-      console.log('removing first hour');
-      prices.shift();
-      //store back to the file
+      //Check price bar doesn't already exist on pricedata
+      if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
+        console.log('Latest price bar does not exist, adding..');
+        prices.push(r.prices[0]);
+        pricedatacount++;
+        //remove first hour
+        console.log('Removing first hour');
+        prices.shift();
+        //store back to the file
         fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
           if (e) {
             console.log('Could not write price data');
@@ -141,6 +144,9 @@ async function exec(){
             console.log('Price data written to file.');
           }
         });
+      }else{
+        console.log('Latest price bar already exists. Not adding or writing to file');
+      }        
     }).catch(e => {
       console.log(e);
       loop('Price data not empty. Error retrieving prices latest hour. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
