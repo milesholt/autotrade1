@@ -42,6 +42,7 @@ let pricedatacount = 0;
 
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
+console.log(prices);
 //Execute main function
 exec();
 
