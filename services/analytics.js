@@ -11,7 +11,7 @@ var actions = {};
 const moment=require('moment');
 moment().format();
 
-actions.drawChart = async function(pricedata, wickdata, linedata, analysis){
+actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rangedata){
 
   let times = [], customdata = [], shapes = [], closes = [], opens = [], highs = [], lows = [], range = [];
 
@@ -34,6 +34,29 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis){
     range.push(price.low);
     range.push(price.high);
     customdata.push({});
+
+    rangedata.support.prices_idx.forEach((pidx,ridx) => {
+      //console.log(pidx);
+      //console.log(rangedata.support.prices[ridx]);
+      if(pidx == i){
+        let j = i+1;
+        let circle = {
+          type: 'circle',
+          xref: 'x',
+          yref: 'y',
+          fillcolor: 'rgba(217, 14, 87, 0.7)',
+          line: {
+            width: 0,
+            dash:'solid'
+          },
+          x0: moment(price.time).subtract(15, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          y0: rangedata.support.prices[ridx]-30,
+          x1: moment(price.time).add(15, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          y1: rangedata.support.prices[ridx]+30
+        }
+        shapes.push(circle);
+      }
+    });
 
 
     confirmations.support_index.forEach(sidx => {
@@ -141,9 +164,60 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis){
         layer: 'above'
   }
 
+  var supportline2 = {
+    type: 'line',
+    y0: linedata.support2,
+    y1: linedata.support2,
+    x0: starttime,
+    x1: endtime,
+    line: {
+      color: '#D90E57', //red
+      width: 4,
+      dash: 'dot'
+    },
+    xref: 'x',
+    yref: 'y',
+    opacity: 0.3,
+    layer: 'above'
+  }
+
+var resistanceline2 = {
+      type: 'line',
+      y0: linedata.resistance2,
+      y1: linedata.resistance2,
+      x0: starttime,
+      x1: endtime,
+      line: {
+        color: '#1DC7C9', //green
+        width: 4,
+        dash: 'dot'
+      },
+      xref: 'x',
+      yref: 'y',
+      opacity: 0.3,
+      layer: 'above'
+}
+
+  var midrangeline = {
+        type: 'line',
+        y0: linedata.midrange,
+        y1: linedata.midrange,
+        x0: starttime,
+        x1: endtime,
+        line: {
+          color: '#1d39c9', //green
+          width: 4,
+          dash: 'dot'
+        },
+        xref: 'x',
+        yref: 'y',
+        opacity: 0.3,
+        layer: 'above'
+  }
+
   var data = [trace1];
 
-  shapes.push(supportline, resistanceline);
+  shapes.push(supportline, resistanceline, midrangeline, supportline2, resistanceline2);
 
   var layout = {
     dragmode: 'zoom',

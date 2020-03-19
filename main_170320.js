@@ -27,6 +27,8 @@ const stream = require('./services/stream.js');
 let check0 = false, check1 = false, check2 = false, check3 = false, check4 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
+global.rangedata = {'resistance': {}, 'support': {}};
+global.linedata = {'support': 0, 'resistance': 0, 'support2': 0, 'resistance2': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 let confirmationlimit = 3;
 const epic = 'CS.D.BITCOIN.TODAY.IP';
@@ -147,7 +149,7 @@ async function exec(){
         });
       }else{
         console.log('Latest price bar already exists. Not adding or writing to file');
-      }        
+      }
     }).catch(e => {
       console.log(e);
       loop('Price data not empty. Error retrieving prices latest hour. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
@@ -195,20 +197,24 @@ if(noError){
 
   let supportline = 0;
   let resistanceline = 0;
+  let supportline2 = 0;
+  let resistanceline2 = 0;
   let horizline1 = 0;
   let horizline2 = 0;
   horizline1 = await strategy.actions.calcResistSupport(pricedata2,'support');
   horizline2 = await strategy.actions.calcResistSupport(pricedata2,'resistance');
-  
+  supportline2 = await strategy.actions.calcResistSupport2(pricedata2,'support');
+  resistanceline2 = await strategy.actions.calcResistSupport2(pricedata2,'resistance');
+
   //TO DO: Temporary correction if supportline is greater than resistance - this is due to one line having more pricebars recording a higher level than the other during a certain period.
   if(horizline1 > horizline2){
     resistanceline = horizline1;
-    supportline = horizline2;  
+    supportline = horizline2;
   } else {
     resistanceline = horizline2;
-    supportline = horizline1;  
+    supportline = horizline1;
   }
-  
+
   //verify horizontal lines meet conditions
   //must have 50 points minimum distance from each other
   //if are 200 points maximum distance apart, then chart is not considered ranging
@@ -238,7 +244,11 @@ if(noError){
 
   //Lastly, check wick data
   let wickdata = await strategy.actions.calcWicks(pricedata);
-  let linedata = {'support': supportline, 'resistance': resistanceline};
+  linedata.support = supportline;
+  linedata.resistance = resistanceline;
+  linedata.support2 = supportline2;
+  linedata.resistance2 = resistanceline2;
+
   let summary = wickdata.length-1;
   let wds = wickdata[summary];
   let wicktrend = wds.resistance;
@@ -342,7 +352,7 @@ if(noError){
 
   //console.log(pricedata2.support);
 
-  analytics.actions.drawChart(pricedata2.support, wickdata, linedata, analysis);
+  analytics.actions.drawChart(pricedata2.support, wickdata, linedata, analysis, rangedata);
 
   // await api.showOpenPositions().then(async positionsData => {
   //   console.log(util.inspect(positionsData, false, null));
