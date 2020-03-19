@@ -24,7 +24,7 @@ const mailer = require('./services/mailer.js');
 const stream = require('./services/stream.js');
 
 //Parameters
-let check0 = false, check1 = false, check2 = false, check3 = false, check4 = false;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
@@ -221,6 +221,9 @@ if(noError){
   let lineDistance = Math.abs(resistanceline - supportline);
   if((lineDistance > 20 && lineDistance < 200) && (resistanceline > supportline)) check0 = true;
 
+  let lineDistance2 = Math.abs(resistanceline2 - supportline2);
+  if((lineDistance2 > 20 && lineDistance2 < 200) && (resistanceline2 > supportline2)) check0_2 = true;
+
   //Get the percentage change of the first price bar and support/resistance lines
   const firstClose = pricedata2.support[0].close;
   let firstDiff = firstClose > resistanceline ? Math.abs(100 - (resistanceline / firstClose * 100)).toFixed(2) : Math.abs(100 - (supportline / firstClose * 100)).toFixed(2);
@@ -288,6 +291,7 @@ if(noError){
     'isStrengthGreaterThanLimit': wds.confirmation1,
     'isStrengthIncreasing': wds.confirmation2,
     'isRanging':check0,
+    'isRanging2':check0_2,
     'isLastDiffGreaterThan100Points': check1,
     'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
