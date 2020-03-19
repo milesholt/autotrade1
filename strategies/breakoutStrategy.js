@@ -62,7 +62,7 @@ actions.calcResistSupport = async function(pricedata,type){
 }
 
 
-actions.calcResistSupport2 = async functioncalcResistSupport(pricedata,type){
+actions.calcResistSupport2 = async function(pricedata,type){
 
   //1) Use a small margin (margin1) to locate midrange line - looking for the most number of prices that fit within a small margin
   //2) Once we have a group of prices within that margin, we find the medium average price which becomes the midrange line
