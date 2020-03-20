@@ -222,6 +222,7 @@ if(noError){
   if((lineDistance > 20 && lineDistance < 200) && (resistanceline > supportline)) check0 = true;
 
   let lineDistance2 = Math.abs(resistanceline2 - supportline2);
+  console.log('lineDistance2: ' + lineDistance2);
   if((lineDistance2 > 20 && lineDistance2 < 200) && (resistanceline2 > supportline2)) check0_2 = true;
 
   //Get the percentage change of the first price bar and support/resistance lines
