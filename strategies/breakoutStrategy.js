@@ -71,7 +71,7 @@ actions.calcResistSupport2 = async function(pricedata,type){
 
   let prices = pricedata[type].map(r => (parseInt((r.high+r.low)/2).toFixed(2)));
   let margin1 = 50;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
-  let margin2 = 500; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
+  let margin2 = 200; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
   let matches = []; // Matches for midrange line
   let matches2 = []; // Matches for support and resistance lines
   let line = 0;
