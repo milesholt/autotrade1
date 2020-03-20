@@ -223,7 +223,7 @@ if(noError){
 
   let lineDistance2 = Math.abs(resistanceline2 - supportline2);
   console.log('lineDistance2: ' + lineDistance2);
-  if((lineDistance2 > 20 && lineDistance2 < 200) && (resistanceline2 > supportline2)) check0_2 = true;
+  if((lineDistance2 > 20 && lineDistance2 < 300) && (resistanceline2 > supportline2)) check0_2 = true;
 
   //Get the percentage change of the first price bar and support/resistance lines
   const firstClose = pricedata2.support[0].close;
