@@ -149,7 +149,7 @@ actions.calcWicks = async function(pricedata){
 
   //set how many wicks to check
   let wicklimit = 3;
-  let strengthlimit = 20;
+  let strengthlimit = 50;
   let wickdata = [];
   let beardir = bulldir = 0;
   let dir = '';

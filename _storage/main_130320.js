@@ -24,11 +24,9 @@ const mailer = require('./services/mailer.js');
 const stream = require('./services/stream.js');
 
 //Parameters
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
+let check0 = false, check1 = false, check2 = false, check3 = false, check4 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
-global.rangedata = {'resistance': {}, 'support': {}};
-global.linedata = {'support': 0, 'resistance': 0, 'support2': 0, 'resistance2': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 let confirmationlimit = 3;
 const epic = 'CS.D.BITCOIN.TODAY.IP';
@@ -36,21 +34,20 @@ const resolution = 'HOUR';
 let date1 = moment().add(1, 'days').format('YYYY-MM-DD');
 let date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
 let today = moment().format('YYYY-MM-DD');
-//because the currenthour is still moving, we get the previous hour
-//but we get this exactly as the previous hour is logged onto the API
-//so it was effectively the currenthour seconds before
-//by looping at the exact new hour rather than at a random timeframe
-let currenthour = moment().subtract(1, 'hours').format("HH");
-let lasthour = moment().subtract(2, 'hours').format("HH");
+let currenthour = moment().format("HH");
+let lasthour = moment().subtract(1, 'hours').format("HH");
 var pricedataDir = path.join(__dirname, 'pricedata.json');
-let dealId = '';
+let dealId = 'DIAAAADCRKKRRAN';
 let pricedatacount = 0;
+let pricedatalimit = 72; //3 days of hourly price data
+let sethour = 25;
 
-//first, lets retreive stored data from file
-prices = require(pricedataDir);
-console.log(prices);
 //Execute main function
-exec();
+api.login(true).then(r => {
+  console.log(util.inspect(r,false,null));
+}).catch(e => console.log(e));
+
+loop();
 
 //Begin Exec function
 async function exec(){
@@ -59,12 +56,12 @@ async function exec(){
   let pricedata2 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
   //confirmations = {'resistance': 0, 'support': 0};
-  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
+  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false;
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
-  currenthour = moment().subtract(1, 'hours').format("HH");
-  lasthour = moment().subtract(2, 'hours').format("HH");
+  currenthour = moment().format("HH");
+  lasthour = moment().subtract(1, 'hours').format("HH");
   let noError = true;
   //3 day date range
   let from = date2+'%20'+'00:00:00';
@@ -79,95 +76,102 @@ async function exec(){
   console.log('--------BEGIN EXEC AUTO TRADE');
 
   //Login
-  //console.log('-------Logging in');
+  console.log('-------Logging in');
   await api.login(true).then(r => {
     //console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
 
   //Retrieve data from epic
   console.log('-------Retrieving historic pricing data for epic');
+  //first, lets retreive stored data from file
+  prices = await require(pricedataDir);
+  //console.log('Prices required from path. Length is: ' + prices.length);
 
   //if data from file is empty, load last 3 days
-  console.log('Price length: ' + prices.length);
-  if(prices.length == 0){
-    console.log('Price data is empty, storing data for last 3 days.');
-    await api.histPrc(epic, resolution, from, to).then(r => {
-      prices = r.prices;
-      pricedatacount = prices.length;
-      //store back to the file
-        fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
-          if (e) {
-            console.log('Could not write price data');
-          } else {
-            console.log('Price data written to file.');
-          }
-        });
-    }).catch(e => {
-      console.log(e);
-      console.log(pricedatacount)
-      loop('Price data was empty. Error retrieving prices for 3 days. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
-      noError = false;
-      return false;
-    });
-  } else {
+  //if(prices.length === 0){
+    // console.log('Price data is empty, storing data for last 3 days.');
+    // await api.histPrc(epic, resolution, from, to).then(r => {
+    //   prices = r.prices;
+    //   pricedatacount = prices.length;
+    //   //store back to the file
+    //     fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
+    //       if (e) {
+    //         console.log('Could not write price data');
+    //       } else {
+    //         console.log('Price data written to file.');
+    //       }
+    //     });
+    // }).catch(e => {
+    //   console.log(e);
+    //   console.log(pricedatacount)
+    //   loop('Price data was empty. Error retrieving prices for 3 days. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
+    //   noError = false;
+    //   return false;
+    // });
+  //} else {
     console.log('Retrieving last hour and appending to price data.');
 
     //use real-time streaming to get latest hour
-    // await stream.actions.startStream();
-    // await stream.actions.readStream(true).then(r => {
-    //   console.log('Stream response:');
-    //   console.log(r);
-    //   if(Object.keys(r).length){
-    //     prices.push(r);
-    //     //store back to the file
-    //       fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
-    //         if (e) {
-    //           console.log('Could not write price data');
-    //         } else {
-    //           console.log('Price data written to file.');
-    //         }
-    //       });
-    //     console.log('Collected price data, closing stream.');
-    //     stream.actions.endStream();
-    //   }
-    // });
-
-    await api.histPrc(epic, resolution, from2, to2).then(r => {
+    await stream.actions.startStream();
+    await stream.actions.readStream(true).then(r => {
+      console.log('Stream response:');
       console.log(r);
-      //prices.push.apply(prices, r.prices);
-      //Check price bar doesn't already exist on pricedata
-      if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
-        console.log('Latest price bar does not exist, adding..');
-        prices.push(r.prices[0]);
-        pricedatacount++;
-        //remove first hour
-        console.log('Removing first hour');
-        prices.shift();
-        //store back to the file
-        fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
-          if (e) {
-            console.log('Could not write price data');
-          } else {
-            console.log('Price data written to file.');
-          }
-        });
-      }else{
-        console.log('Latest price bar already exists. Not adding or writing to file');
+      if(Object.keys(r).length){
+        prices.push(r);
+        stream.actions.endStream();
+      } else {
+        console.log('no data from stream.');
+        noError = false;
+        return false;
       }
-    }).catch(e => {
-      console.log(e);
-      loop('Price data not empty. Error retrieving prices latest hour. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
-      noError = false;
-      return false;
     });
 
-  }
+    //remove first price is over pricedatalimit
+    if(prices.length > pricedatalimit) prices.shift();
+
+    //store back to the file
+    fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
+      if (e) {
+        console.log('Could not write price data');
+        noError = false;
+        return false;
+      } else {
+        console.log('Price data written to file.');
+      }
+    });
+    console.log('Collected price data, closing stream.');
+
+    // await api.histPrc(epic, resolution, from2, to2).then(r => {
+    //   console.log(r);
+    //   //prices.push.apply(prices, r.prices);
+    //   prices.push(r.prices[0]);
+    //   pricedatacount++;
+    //   //remove first hour
+    //   prices.shift();
+    //   //store back to the file
+    //     fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
+    //       if (e) {
+    //         console.log('Could not write price data');
+    //       } else {
+    //         console.log('Price data written to file.');
+    //       }
+    //     });
+    // }).catch(e => {
+    //   console.log(e);
+    //   loop('Price data not empty. Error retrieving prices latest hour. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
+    //   noError = false;
+    //   return false;
+    // });
+
+  //}
 
 
 if(noError){
 
+  console.log(prices.length);
+
   //Retrieve data from prices
-  if(prices.length > 0){
+  if(prices.length >= pricedatalimit){
     console.log('-------- Prices:');
     //console.log(prices);
     prices.forEach((price,idx) =>{
@@ -189,6 +193,7 @@ if(noError){
       }
     });
   } else {
+    loop('Not enough prices, going again in an hour.');
     return false;
   }
 
@@ -201,23 +206,8 @@ if(noError){
 
   let supportline = 0;
   let resistanceline = 0;
-  let supportline2 = 0;
-  let resistanceline2 = 0;
-  let horizline1 = 0;
-  let horizline2 = 0;
-  horizline1 = await strategy.actions.calcResistSupport(pricedata2,'support');
-  horizline2 = await strategy.actions.calcResistSupport(pricedata2,'resistance');
-  supportline2 = await strategy.actions.calcResistSupport2(pricedata2,'support');
-  resistanceline2 = await strategy.actions.calcResistSupport2(pricedata2,'resistance');
-
-  //TO DO: Temporary correction if supportline is greater than resistance - this is due to one line having more pricebars recording a higher level than the other during a certain period.
-  if(horizline1 > horizline2){
-    resistanceline = horizline1;
-    supportline = horizline2;
-  } else {
-    resistanceline = horizline2;
-    supportline = horizline1;
-  }
+  supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
+  resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
 
   //verify horizontal lines meet conditions
   //must have 50 points minimum distance from each other
@@ -225,12 +215,8 @@ if(noError){
   let lineDistance = Math.abs(resistanceline - supportline);
   if((lineDistance > 20 && lineDistance < 200) && (resistanceline > supportline)) check0 = true;
 
-  let lineDistance2 = Math.abs(resistanceline2 - supportline2);
-  console.log('lineDistance2: ' + lineDistance2);
-  if((lineDistance2 > 20 && lineDistance2 < 300) && (resistanceline2 > supportline2)) check0_2 = true;
-
   //Get the percentage change of the first price bar and support/resistance lines
-  const firstClose = pricedata2.support[0].close;
+  const firstClose = pricedata.support[0].close;
   let firstDiff = firstClose > resistanceline ? Math.abs(100 - (resistanceline / firstClose * 100)).toFixed(2) : Math.abs(100 - (supportline / firstClose * 100)).toFixed(2);
 
   //Get percentage change of latest price bar to determine if there is a break
@@ -252,11 +238,7 @@ if(noError){
 
   //Lastly, check wick data
   let wickdata = await strategy.actions.calcWicks(pricedata);
-  linedata.support = supportline;
-  linedata.resistance = resistanceline;
-  linedata.support2 = supportline2;
-  linedata.resistance2 = resistanceline2;
-
+  let linedata = {'support': supportline, 'resistance': resistanceline};
   let summary = wickdata.length-1;
   let wds = wickdata[summary];
   let wicktrend = wds.resistance;
@@ -266,8 +248,8 @@ if(noError){
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
-  if(trend == 'bearish' && lastClose < resistanceline) check5 = true;
-  if(trend == 'bullish' && lastClose > supportline) check5 = true;
+  // if(trend == 'bearish' && lastClose < resistanceline) check5 = true;
+  // if(trend == 'bullish' && lastClose > supportline) check5 = true;
 
 
   //another thing we could check//
@@ -277,22 +259,6 @@ if(noError){
 
   console.log('Last support price bar:');
   console.log(pricedata.support[pricedata.support.length-1]);
-
-  //loop through recent price bars and determine movement
-  let recentlimit = 4;
-  let recenttrendArr = [];
-  let recenttrend = '';
-  let ups = 0;
-  let downs = 0;
-  let pl = pricedata.support.length;
-  let movementValue = pricedata.support[pl].close - pricedata.support[pl-recentlimit].close;
-  for(let i = pl - recentlimit, len = pl; i < len; i++){
-    let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
-    if(movement == 'down') { downs++ } else { ups++ };
-    recenttrendArr.push(movement);
-  }
-  recenttrend = (movementValue < 0 && downs > ups) ? 'bearish' : 'bullish';
-  if(trend == recenttrend) check6 = true;
 
   let analysis = {
     'pricedata':pricedata,
@@ -309,19 +275,14 @@ if(noError){
     'wicktrend': wicktrend,
     'wickstrength':wds.strength,
     'confirmations': confirmations,
-    'isWickStrengthGreaterThanLimit': wds.confirmation1,
-    'isWickStrengthIncreasing': wds.confirmation2,
+    'isStrengthGreaterThanLimit': wds.confirmation1,
+    'isStrengthIncreasing': wds.confirmation2,
     'isRanging':check0,
-    'isRanging2':check0_2,
-    'recentTrendArr': recenttrendArr,
-    'recentTrend': recenttrend,
     'isLastDiffGreaterThan100Points': check1,
     'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
     'isWickTrendSameAsTrend': check4,
-    'islastCloseAboveBelowLines': check5,
-    'isRecentTrendSameAsTrend': check6,
-    'ticket': {} 
+    'ticket': {}
   };
 
   // const idx = 5;
@@ -381,7 +342,7 @@ if(noError){
 
   //console.log(pricedata2.support);
 
-  analytics.actions.drawChart(pricedata2.support, wickdata, linedata, analysis, rangedata);
+  analytics.actions.drawChart(pricedata2.support, wickdata, linedata, analysis);
 
   // await api.showOpenPositions().then(async positionsData => {
   //   console.log(util.inspect(positionsData, false, null));
@@ -390,7 +351,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  if(check0 === true && check1 === true && check2 === true && check3 === true && check4 === true && check5 == true && check6 == true){
+  if(check0 === true && check1 === true && check2 === true && check3 === true && check4 === true){
 
       //check if we already have a position
       let positionOpen = false;
@@ -523,29 +484,60 @@ function loop(msg){
   let timestamp  = moment().format('LLL');
   console.log('Time is:' + timestamp);
   //wait for duration then restart function
-  // setTimeout(() => {
-  //   exec();
-  // }, 60 * 60 * 1000);
 
-  //executes at every full hour, one minute before the new hour begins
-  // var d = new Date();
-  // //mark the hour
-  // var hour = d.getHours();
-  // var min = d.getMinutes();
-  // var sec = d.getSeconds();
-  // setTimeout(exec,(60*(59-min)+(60-sec))*1000);
-
-  //executes at every full hour and 10 seconds offset
-  //to collect the previous hour
+  //executes at every full hour
   var d = new Date();
+  //mark the hour
+  var hour = d.getHours();
   var min = d.getMinutes();
   var sec = d.getSeconds();
-  if((min == '00') && (sec == '10')){
-    let timestamp  = moment().format('LLL');
-    console.log('Beginning exec. Should be 10 seconds after hour. Time is:' + timestamp);
-    exec();
-  } else {
-    setTimeout(exec,(60*(60-min)+(70-sec))*1000);
-  }
+  console.log('seconds: ' + sec);
+  let timeout1 = (60*(58-min)+(60-sec))*1000;
+  console.log('timeout1: '+ timeout1);
+  setTimeout(endPriceBar,(60*(58-min)+(60-sec))*1000);
+  setTimeout(exec,(60*(59-min)+(60-sec))*1000);
 
+  // if(sethour !== hour){
+  //   console.log('sethour is not equal to hour');
+  //   console.log('sethour: ' + sethour);
+  //   console.log('min: ' + min);
+  //   console.log('hour:' +  hour);
+  //   if(min == '00'){
+  //     console.log('running new hour');
+  //     exec();
+  //     sethour = hour;
+  //     console.log('run, sethour is now:' + sethour);
+  //     return false;
+  //   } else {
+  //     setTimeout(exec,(60*(59-min)+(60-sec))*1000);
+  //     return false;
+  //   }
+  // }
+
+
+}
+
+async function endPriceBar(){
+  console.log('-------------- Getting end of price bar:');
+  let prices = await require(pricedataDir);
+  await stream.actions.startStream();
+  await stream.actions.readStream(true).then(r => {
+    console.log('Stream response:');
+    console.log(r);
+    if(Object.keys(r).length){
+      //modify last price bar with latest close, high, low data before hour ends
+      let lastprice = prices[prices.length-1];
+      lastprice.closePrice.bid = r.closePrice.bid;
+      lastprice.closePrice.ask = r.closePrice.ask;
+      lastprice.highPrice.bid = r.highPrice.bid;
+      lastprice.highPrice.ask = r.highPrice.ask;
+      lastprice.lowPrice.bid = r.lowPrice.bid;
+      lastprice.lowPrice.ask = r.lowPrice.ask;
+      stream.actions.endStream();
+    } else {
+      console.log('no data from stream.');
+      noError = false;
+      return false;
+    }
+  });
 }

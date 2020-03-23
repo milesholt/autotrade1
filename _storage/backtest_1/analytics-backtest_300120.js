@@ -174,7 +174,7 @@ actions.drawChart = function(pricedata, strategydata, tradeactivity){
   };
 
   var options = {
-    "filename": "analyticsBacktest",
+    "filename": "streamSimpleSensor",
     "fileopt": "overwrite",
     layout,
     "world_readable": true

@@ -1,0 +1,6 @@
+22/03/20
+
+1) Added check5 - verifying that lastClose is above or below lines depending on trend
+2) Updated loop so that it would cycle exactly 10 seconds after each hour, thereby pulling the last hour which would have just passed. This is so that the data captured is accurate enough when doing backtesting. As before when we were pulling the current hour at various times, the data was still moving.
+3) Changed wick strength limit to 50
+3) New check to determine recent movement of last 5 price bars, how many green/red
