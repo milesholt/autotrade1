@@ -275,7 +275,7 @@ if(noError){
     if(movement == 'down') { downs++ } else { ups++ };
     recenttrendArr.push(movement);
   }
-  recenttrend = (movementValue < 0 && downs > ups) ? 'bearish' : 'bullish';
+  recenttrend = (movementValue < 0 && downs >= ups) ? 'bearish' : 'bullish';
   if(trend == recenttrend) check6 = true;
 
   let analysis = {
@@ -296,7 +296,6 @@ if(noError){
     'isWickStrengthGreaterThanLimit': wds.confirmation1,
     'isWickStrengthIncreasing': wds.confirmation2,
     'isRanging':check0,
-    'isRanging2':check0_2,
     'recentTrendArr': recenttrendArr,
     'recentTrend': recenttrend,
     'isLastDiffGreaterThan100Points': check1,
