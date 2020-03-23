@@ -3,6 +3,67 @@ let actions = {};
 
 actions.calcResistSupport = async function(pricedata,type){
 
+  let prices = pricedata[type].map(r => parseInt(r.price));
+  let margin = 5 //the smaller the margin, the more accurate
+
+  //sort newdata by order
+  prices.sort(sortNumber);
+
+  //console.log(type);
+  //console.log(prices);
+
+  let matches = [];
+  let line = 0;
+
+  //loop through min and max values of prices
+  let midx = 0;
+  for(let i = prices[0], len = prices[prices.length - 1]; i <= len; i++){
+    let match = false
+    let m = [];
+    let pi = []
+
+    //for each value, find the difference for each price
+    prices.forEach((price,pidx) => {
+
+      price = parseFloat(price);
+      let diff = Math.abs(price - i);
+
+      //if the difference is small (eg. 2 ), count as a potential match
+      if(diff <= margin){
+        match = true;
+        //push each price as part of that match
+        m.push(price);
+        pi.push(pidx);
+      }
+    });
+    //push number of matching prices with matched value
+    if(match) matches.push({'idx':midx, 'integer': i.toFixed(2),'prices': m, 'prices_idx':pi});
+    //if(match) matches.push({'integer': i.toFixed(2),'prices': m });
+    midx++;
+  }
+
+  //console.log(matches);
+  //console.log(confirmations[type]);
+
+  //loop through matches
+  matches.forEach(match =>{
+
+    //if value has the greatest number of low / high prices, this becomes the support / resistance line
+    if(match.prices.length >= confirmations[type]){
+      line = match.integer;
+      //console.log(line);
+      //console.log(match);
+      confirmations[type] = match.prices.length;
+      confirmations[type+'_index'] = match.prices_idx;
+    }
+  });
+
+  return line;
+}
+
+
+actions.calcResistSupport2 = async function(pricedata,type){
+
   //1) Use a small margin (margin1) to locate midrange line - looking for the most number of prices that fit within a small margin
   //2) Once we have a group of prices within that margin, we find the medium average price which becomes the midrange line
   //3) We then use midrange line and loop through prices again, collecting only prices that are within margin2 from the midrange line

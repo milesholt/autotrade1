@@ -49,10 +49,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             width: 0,
             dash:'solid'
           },
-          x0: moment(price.time).subtract(15, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-          y0: rangedata.support.prices[ridx]-30,
-          x1: moment(price.time).add(15, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-          y1: rangedata.support.prices[ridx]+30
+          x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          y0: rangedata.support.prices[ridx]-10,
+          x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          y1: rangedata.support.prices[ridx]+10
         }
         shapes.push(circle);
       }
@@ -164,40 +164,6 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         layer: 'above'
   }
 
-  var supportline2 = {
-    type: 'line',
-    y0: linedata.support2,
-    y1: linedata.support2,
-    x0: starttime,
-    x1: endtime,
-    line: {
-      color: '#D90E57', //red
-      width: 4,
-      dash: 'dot'
-    },
-    xref: 'x',
-    yref: 'y',
-    opacity: 0.3,
-    layer: 'above'
-  }
-
-var resistanceline2 = {
-      type: 'line',
-      y0: linedata.resistance2,
-      y1: linedata.resistance2,
-      x0: starttime,
-      x1: endtime,
-      line: {
-        color: '#1DC7C9', //green
-        width: 4,
-        dash: 'dot'
-      },
-      xref: 'x',
-      yref: 'y',
-      opacity: 0.3,
-      layer: 'above'
-}
-
   var midrangeline = {
         type: 'line',
         y0: linedata.midrange,
@@ -217,7 +183,7 @@ var resistanceline2 = {
 
   var data = [trace1];
 
-  shapes.push(supportline, resistanceline, midrangeline, supportline2, resistanceline2);
+  shapes.push(supportline, resistanceline, midrangeline);
 
   var layout = {
     dragmode: 'zoom',

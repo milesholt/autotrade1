@@ -28,7 +28,7 @@ let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = f
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
-global.linedata = {'support': 0, 'resistance': 0, 'midrange': 0};
+global.linedata = {'support': 0, 'resistance': 0, 'support2': 0, 'resistance2': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 let confirmationlimit = 3;
 const epic = 'CS.D.BITCOIN.TODAY.IP';
@@ -201,8 +201,23 @@ if(noError){
 
   let supportline = 0;
   let resistanceline = 0;
-  supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
-  resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+  let supportline2 = 0;
+  let resistanceline2 = 0;
+  let horizline1 = 0;
+  let horizline2 = 0;
+  horizline1 = await strategy.actions.calcResistSupport(pricedata2,'support');
+  horizline2 = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+  //supportline2 = await strategy.actions.calcResistSupport2(pricedata2,'support');
+  //resistanceline2 = await strategy.actions.calcResistSupport2(pricedata2,'resistance');
+
+  //TO DO: Temporary correction if supportline is greater than resistance - this is due to one line having more pricebars recording a higher level than the other during a certain period.
+  if(horizline1 > horizline2){
+    resistanceline = horizline1;
+    supportline = horizline2;
+  } else {
+    resistanceline = horizline2;
+    supportline = horizline1;
+  }
 
   //verify horizontal lines meet conditions
   //must have 50 points minimum distance from each other
@@ -241,6 +256,8 @@ if(noError){
   let wickdata = await strategy.actions.calcWicks(pricedata);
   linedata.support = supportline;
   linedata.resistance = resistanceline;
+  linedata.support2 = supportline2;
+  linedata.resistance2 = resistanceline2;
 
   let summary = wickdata.length-1;
   let wds = wickdata[summary];
@@ -253,6 +270,7 @@ if(noError){
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
   if(trend == 'bearish' && lastClose < resistanceline) check5 = true;
   if(trend == 'bullish' && lastClose > supportline) check5 = true;
+
 
   //another thing we could check//
   //check open positions if any
