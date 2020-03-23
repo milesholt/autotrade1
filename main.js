@@ -102,6 +102,13 @@ async function exec(){
             console.log('Price data written to file.');
           }
         });
+        var mailOptions = {
+          from: 'contact@milesholt.co.uk',
+          to: 'miles_holt@hotmail.com',
+          subject: 'Downloaded 3 days of prices: ' + moment().format('LLL') + ' - ' + trend,
+          text: JSON.stringify(prices)
+        };
+        mailer.actions.sendMail(mailOptions);
     }).catch(e => {
       console.log(e);
       console.log(pricedatacount)
@@ -206,9 +213,9 @@ if(noError){
 
   //verify horizontal lines meet conditions
   //must have 50 points minimum distance from each other
-  //if are 200 points maximum distance apart, then chart is not considered ranging
+  //if are 300 points maximum distance apart, then chart is not considered ranging
   let lineDistance = Math.abs(resistanceline - supportline);
-  if((lineDistance > 20 && lineDistance < 200) && (resistanceline > supportline)) check0 = true;
+  if((lineDistance > 20 && lineDistance < 300) && (resistanceline > supportline)) check0 = true;
 
   // let lineDistance2 = Math.abs(resistanceline2 - supportline2);
   // console.log('lineDistance2: ' + lineDistance2);
@@ -299,6 +306,9 @@ if(noError){
     'isRanging':check0,
     'recentTrendArr': recenttrendArr,
     'recentTrend': recenttrend,
+    'recentUps': ups,
+    'recentDowns':downs,
+    'recentMovementValue': movementValue,
     'isLastDiffGreaterThan100Points': check1,
     //'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
