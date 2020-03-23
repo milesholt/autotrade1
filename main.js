@@ -289,6 +289,7 @@ if(noError){
     'lastDiff': lastDiff,
     'wickdata': wickdata,
     'linedata': linedata,
+    'lineDistance': lineDistance,
     'trend': trend,
     'wicktrend': wicktrend,
     'wickstrength':wds.strength,
