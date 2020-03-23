@@ -49,8 +49,8 @@ let pricedatacount = 0;
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
 console.log(prices);
-//Execute main function
-exec();
+//Execute main function, looping first
+loop();
 
 //Begin Exec function
 async function exec(){
@@ -321,7 +321,7 @@ if(noError){
     'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
     'isRecentTrendSameAsTrend': check6,
-    'ticket': {} 
+    'ticket': {}
   };
 
   // const idx = 5;
