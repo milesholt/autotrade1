@@ -105,7 +105,7 @@ async function exec(){
         var mailOptions = {
           from: 'contact@milesholt.co.uk',
           to: 'miles_holt@hotmail.com',
-          subject: 'Downloaded 3 days of prices: ' + moment().format('LLL') + ' - ' + trend,
+          subject: 'Downloaded 3 days of prices: ' + moment().format('LLL'),
           text: JSON.stringify(prices)
         };
         mailer.actions.sendMail(mailOptions);
