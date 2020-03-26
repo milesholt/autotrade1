@@ -109,7 +109,7 @@ async function exec(){
           text: JSON.stringify(prices)
         };
         mailer.actions.sendMail(mailOptions);
-    }).catch(e => {
+    }).catch(async e => {
       console.log(e);
 
       if(e.body.errorCode == 'error.security.client-token-invalid'){
