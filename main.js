@@ -111,10 +111,25 @@ async function exec(){
         mailer.actions.sendMail(mailOptions);
     }).catch(e => {
       console.log(e);
-      console.log(pricedatacount)
-      loop('Price data was empty. Error retrieving prices for 3 days. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
-      noError = false;
-      return false;
+
+      if(e.body.errorCode == 'error.security.client-token-invalid'){
+        console.log(e);
+        console.log('Logging out and clearing tokens...');
+        await api.logout(true).then(r => {
+          console.log(util.inspect(r,false,null));
+        }).catch(e => console.log(e));
+        //once logged out and tokens cleared, try again in 2 seconds
+        setTimeout(()=>{
+          exec();
+        },2000);
+
+      } else {
+        console.log(pricedatacount);
+        loop('Price data was empty. Error retrieving prices for 3 days. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
+        noError = false;
+        return false;
+      }
+
     });
   } else {
     console.log('Retrieving last hour and appending to price data.');
