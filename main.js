@@ -291,7 +291,7 @@ if(noError){
   let ups = 0;
   let downs = 0;
   let pl = pricedata.support.length;
-  let movementValue = pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].close;
+  let movementValue = (pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].close).toFixed(2);
   for(let i = (pl - recentlimit), len = pl; i < len; i++){
     let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
     if(movement == 'down') { downs++ } else { ups++ };
