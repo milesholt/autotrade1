@@ -297,7 +297,10 @@ if(noError){
     if(movement == 'down') { downs++ } else { ups++ };
     recenttrendArr.push(movement);
   }
-  recenttrend = (movementValue < 0 && downs >= ups) ? 'bearish' : 'bullish';
+  recenttrend = 'ranging';
+  if(movementValue < 0 && downs >= ups) recenttrend = 'bearish';
+  if(movementValue > 0 && ups >= downs) recenttrend = 'bullish';
+  
   if(trend == recenttrend) check6 = true;
 
   let analysis = {
