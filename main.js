@@ -227,7 +227,7 @@ if(noError){
   resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
 
   //verify horizontal lines meet conditions
-  //must have 50 points minimum distance from each other
+  //must have 20 points minimum distance from each other
   //if are 300 points maximum distance apart, then chart is not considered ranging
   let lineDistance = Math.abs(resistanceline - supportline);
   if((lineDistance > 20 && lineDistance < 300) && (resistanceline > supportline)) check0 = true;
@@ -237,6 +237,7 @@ if(noError){
   // if((lineDistance2 > 20 && lineDistance2 < 300) && (resistanceline2 > supportline2)) check0_2 = true;
 
   //Get the percentage change of the first price bar and support/resistance lines
+  const beforeRangeFirstClose = pricedata.support[0].close;
   const firstClose = pricedata2.support[0].close;
   let firstDiff = firstClose > resistanceline ? Math.abs(100 - (resistanceline / firstClose * 100)).toFixed(2) : Math.abs(100 - (supportline / firstClose * 100)).toFixed(2);
 
@@ -248,7 +249,16 @@ if(noError){
   let lastDiff = lastClose > resistanceline ? Math.abs(100 - (resistanceline / lastClose * 100)).toFixed(2) : Math.abs(100 - (supportline / lastClose * 100)).toFixed(2);
 
   //Determine trend before line ranges
-  let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
+  let beforeRangeTrend = beforeRangeFirstClose > firstClose ? 'bearish' : 'bullish';
+  //this made when it was working with 3 days of data, but not the same when working with 1 day
+  //let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
+  const trendDiff = parseFloat(firstClose - lastClose).toFixed(2);
+  const trendDiffPerc = Math.abs(100 - (firstClose / lastClose * 100)).toFixed(2);
+
+  let trend = 'ranging';
+  const trendlimit = 300; //minimum difference to count as a trend movement
+  if((firstClose > lastClose) && (trendDiff >= trendlimit)) trend = 'bearish';
+  if((lastClose > firstClose) && (trendDiff >= trendlimit)) trend = 'bullish';
 
   //If percentage change is significant, confirm trend (0.50% = 50 points which is quite significant)
   //UPDATE: I changed this to 100points for more certainty of momentum
@@ -306,6 +316,7 @@ if(noError){
   let analysis = {
     'pricedata':pricedata,
     'firstClose': firstClose,
+    'beforeRangeFirstClose': beforeRangeFirstClose,
     'firstDiff': firstDiff,
     'lastTime': lastTime,
     'lastClose': lastClose,
@@ -316,6 +327,9 @@ if(noError){
     'linedata': linedata,
     'lineDistance': lineDistance,
     'trend': trend,
+    'trendDiff': trendDiff,
+    'trendDiffPerc': trendDiffPerc,
+    'beforeRangeTrend': beforeRangeTrend,    
     'wicktrend': wicktrend,
     'wickstrength':wds.strength,
     //'confirmations': confirmations,
