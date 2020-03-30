@@ -55,6 +55,7 @@ loop();
 //Begin Exec function
 async function exec(){
 
+  let timestamp  = moment().format('LLL');
   let pricedata = {'support': [], 'resistance': []};
   let pricedata2 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
@@ -73,8 +74,10 @@ async function exec(){
   //last hour date range
   let from2 = today+'%20'+lasthour+':30:00';
   let to2 = today+'%20'+currenthour+':00:00';
-  let timestamp  = moment().format('LLL');
 
+
+  console.log('currenthour: ' + currenthour);
+  console.log('lasthour: ' + lasthour);
   console.log('--------BEGIN EXEC: ' + timestamp );
   console.log('--------BEGIN EXEC AUTO TRADE');
 
@@ -253,7 +256,7 @@ if(noError){
   let beforeRangeTrend = beforeRangeFirstClose > firstClose ? 'bearish' : 'bullish';
   //this made when it was working with 3 days of data, but not the same when working with 1 day
   //let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
-  const trendDiff = parseFloat((firstClose - lastClose).toFixed(2));
+  const trendDiff = parseFloat(Math.abs(firstClose - lastClose).toFixed(2));
   const trendDiffPerc = Math.abs(100 - (firstClose / lastClose * 100)).toFixed(2);
 
   let trend = 'ranging';
@@ -329,7 +332,7 @@ if(noError){
     'lineDistance': lineDistance,
     'trend': trend,
     'trendDiff': trendDiff,
-    'trendDiffPerc': trendDiffPerc,
+    'trendDiffPerc': trendDiffPerc + '%',
     'beforeRangeTrend': beforeRangeTrend,
     'wicktrend': wicktrend,
     'wickstrength':wds.strength,

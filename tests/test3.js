@@ -27,10 +27,10 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Login
-  console.log('-------Logging in');
-  await api.login(true).then(r => {
-    console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
+  // console.log('-------Logging in');
+  // await api.login(true).then(r => {
+  //   console.log(util.inspect(r,false,null));
+  // }).catch(e => console.log(e));
 
   //Switch Default Account (Spread - Z32EDV, CFD - Z32EDW)
   // console.log('-------Switching accounts');
@@ -39,10 +39,10 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Check account
-  console.log('-------Checking account');
-  await api.acctInfo().then(r => {
-    //console.log(r);
-  }).catch(e => console.log(e));
+  // console.log('-------Checking account');
+  // await api.acctInfo().then(r => {
+  //   //console.log(r);
+  // }).catch(e => console.log(e));
 
   //Search contract
   //CS.D.BITCOIN.TODAY.IP
@@ -50,6 +50,11 @@ async function exec(){
   // await api.search('Bitcoin').then(r => {
   //   console.log(r);
   // }).catch(e => console.log(e));
+
+
+  //time check6let timestamp  = moment().format('LLL');
+  let timestamp  = moment().format('LLL');
+  console.log('Beginning exec. Should be 10 seconds after hour. Time is:' + timestamp);
 
 
 }
