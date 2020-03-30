@@ -40,8 +40,8 @@ let today = moment().format('YYYY-MM-DD');
 //but we get this exactly as the previous hour is logged onto the API
 //so it was effectively the currenthour seconds before
 //by looping at the exact new hour rather than at a random timeframe
-let currenthour = moment().subtract(1, 'hours').format("HH");
-let lasthour = moment().subtract(2, 'hours').format("HH");
+let currenthour = moment().format("HH");
+let lasthour = moment().subtract(1, 'hours').format("HH");
 var pricedataDir = path.join(__dirname, 'pricedata.json');
 let dealId = '';
 let pricedatacount = 0;
@@ -63,8 +63,8 @@ async function exec(){
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
-  currenthour = moment().subtract(1, 'hours').format("HH");
-  lasthour = moment().subtract(2, 'hours').format("HH");
+  currenthour = moment().format("HH");
+  lasthour = moment().subtract(1, 'hours').format("HH");
   let noError = true;
   //3 day date range
   let from = date2+'%20'+'00:00:00';
@@ -249,10 +249,11 @@ if(noError){
   let lastDiff = lastClose > resistanceline ? Math.abs(100 - (resistanceline / lastClose * 100)).toFixed(2) : Math.abs(100 - (supportline / lastClose * 100)).toFixed(2);
 
   //Determine trend before line ranges
+  //this could be a possible check7, not introduced yet
   let beforeRangeTrend = beforeRangeFirstClose > firstClose ? 'bearish' : 'bullish';
   //this made when it was working with 3 days of data, but not the same when working with 1 day
   //let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
-  const trendDiff = parseFloat(firstClose - lastClose).toFixed(2);
+  const trendDiff = parseFloat((firstClose - lastClose).toFixed(2));
   const trendDiffPerc = Math.abs(100 - (firstClose / lastClose * 100)).toFixed(2);
 
   let trend = 'ranging';
@@ -329,7 +330,7 @@ if(noError){
     'trend': trend,
     'trendDiff': trendDiff,
     'trendDiffPerc': trendDiffPerc,
-    'beforeRangeTrend': beforeRangeTrend,    
+    'beforeRangeTrend': beforeRangeTrend,
     'wicktrend': wicktrend,
     'wickstrength':wds.strength,
     //'confirmations': confirmations,
