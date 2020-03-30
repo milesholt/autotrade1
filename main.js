@@ -302,18 +302,23 @@ if(noError){
   let recentlimit = 4;
   let recenttrendArr = [];
   let recenttrend = '';
+  let movementlimit = 100;
   let ups = 0;
   let downs = 0;
   let pl = pricedata.support.length;
-  let movementValue = parseFloat((pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].close).toFixed(2));
+  let movementValue = parseFloat((pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].open).toFixed(2));
+  let movementValueDiff = Math.abs(movementValue);
+
+  //todo:removing ups and downs, this no longer is being considered
   for(let i = (pl - recentlimit), len = pl; i < len; i++){
     let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
     if(movement == 'down') { downs++ } else { ups++ };
     recenttrendArr.push(movement);
   }
+
   recenttrend = 'ranging';
-  if(movementValue < 0 && downs > ups) recenttrend = 'bearish';
-  if(movementValue > 0 && ups > downs) recenttrend = 'bullish';
+  if((movementValue < 0) && (movementValueDiff > movementlimit)) recenttrend = 'bearish';
+  if((movementValue > 0) && (movementValueDiff > movementlimit)) recenttrend = 'bullish';
 
   if(trend == recenttrend) check6 = true;
 
