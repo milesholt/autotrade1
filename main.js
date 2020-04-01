@@ -320,8 +320,10 @@ if(noError){
   }
 
   recenttrend = 'ranging';
-  if((movementValue < 0) && (movementValueDiff > rangelimit)) recenttrend = 'bearish';
-  if((movementValue > 0) && (movementValueDiff > rangelimit)) recenttrend = 'bullish';
+  if((movementValue < 0) && (movementValueDiff > (rangelimit/2))) recenttrend = 'bearish';
+  if((movementValue > 0) && (movementValueDiff > (rangelimit/2))) recenttrend = 'bullish';
+  if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
+  if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
   if(trend == recenttrend) check6 = true;
 
