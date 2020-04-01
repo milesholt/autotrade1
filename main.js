@@ -70,7 +70,7 @@ async function exec(){
   let noError = true;
   //3 day date range
   let from = date2+'%20'+'00:00:00';
-  let to = date1+'%20'+'00:00:00';
+  let to = date1+'%20'+currenthour+':00:00';
 
   //last hour date range
   let from2 = today+'%20'+lasthour+':30:00';
