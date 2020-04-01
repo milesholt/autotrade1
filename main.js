@@ -57,6 +57,7 @@ loop();
 async function exec(){
 
   let timestamp  = moment().format('LLL');
+  console.log(timestamp);
   let pricedata = {'support': [], 'resistance': []};
   let pricedata2 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
@@ -70,7 +71,7 @@ async function exec(){
   let noError = true;
   //3 day date range
   let from = date2+'%20'+'00:00:00';
-  let to = date1+'%20'+currenthour+':00:00';
+  let to = date1+'%20'+currenthour+':30:00';
 
   //last hour date range
   let from2 = today+'%20'+lasthour+':30:00';
@@ -95,6 +96,8 @@ async function exec(){
   console.log('Price length: ' + prices.length);
   if(prices.length == 0){
     console.log('Price data is empty, storing data for last 3 days.');
+    console.log(from);
+    console.log(to);
     await api.histPrc(epic, resolution, from, to).then(r => {
       prices = r.prices;
       pricedatacount = prices.length;
