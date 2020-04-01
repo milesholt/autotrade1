@@ -103,6 +103,8 @@ actions.calcWicks = async function(pricedata){
     let close = pricebar.close;
     let highest = pricebar.high;
     let lowest = pricebar.low;
+    let time =  pricebar.time;
+    let closeAsk = pricebar.closeAsk;
 
     //get total difference of price bar
     let pricediff = Math.round(highest - lowest);
@@ -118,7 +120,7 @@ actions.calcWicks = async function(pricedata){
 
     topwick > botwick ? beardir++ : bulldir++;
 
-    wickdata.push({'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
+    wickdata.push({'time': time, 'closeAsk': closeAsk, 'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
 
   }
 
