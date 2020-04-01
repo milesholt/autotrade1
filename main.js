@@ -260,7 +260,7 @@ if(noError){
   const trendDiffPerc = Math.abs(100 - (firstClose / lastClose * 100)).toFixed(2);
 
   let trend = 'ranging';
-  const trendlimit = 300; //minimum difference to count as a trend movement
+  const trendlimit = 150; //minimum difference to count as a trend movement
   if((firstClose > lastClose) && (trendDiff >= trendlimit)) trend = 'bearish';
   if((lastClose > firstClose) && (trendDiff >= trendlimit)) trend = 'bullish';
 
