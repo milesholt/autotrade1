@@ -15,25 +15,25 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 
   let times = [], customdata = [], shapes = [], closes = [], opens = [], highs = [], lows = [], range = [];
 
-  // prices.forEach(price =>{
-  //   times.push(price.snapshotTime.replace(/\//g, '-'));
-  //   closes.push(price.closePrice.ask);
-  //   opens.push(price.openPrice.ask);
-  //   highs.push(price.highPrice.ask);
-  //   lows.push(price.lowPrice.ask);
-  //   range.push(price.lowPrice.ask);
-  //   range.push(price.highPrice.ask);
-  // });
-
-  pricedata.forEach((price, i) =>{
+  pricedata.forEach(price =>{
     times.push(price.time);
     closes.push(price.close);
     opens.push(price.open);
     highs.push(price.high);
     lows.push(price.low);
+    customdata.push({});
     range.push(price.low);
     range.push(price.high);
-    customdata.push({});
+  });
+
+  range.sort(sortNumber);
+
+  const lowestnum = range[0];
+  const highestnum = range[range.length-1];
+  const pricediff = highestnum - lowestnum;
+  const circleheight = pricediff * 0.015; //get fraction of height, so it's in proportion to data range
+
+  pricedata.forEach((price, i) =>{
 
     rangedata.support.prices_idx.forEach((pidx,ridx) => {
       //console.log(pidx);
@@ -50,9 +50,9 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             dash:'solid'
           },
           x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-          y0: rangedata.support.prices[ridx]-10,
+          y0: rangedata.support.prices[ridx]-circleheight,
           x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-          y1: rangedata.support.prices[ridx]+10
+          y1: rangedata.support.prices[ridx]+circleheight
         }
         shapes.push(circle);
       }
