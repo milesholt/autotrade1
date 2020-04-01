@@ -24,6 +24,7 @@ const mailer = require('./services/mailer.js');
 const stream = require('./services/stream.js');
 
 //Parameters
+const rangelimit = 100;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
@@ -231,9 +232,10 @@ if(noError){
 
   //verify horizontal lines meet conditions
   //must have 20 points minimum distance from each other
-  //if are 300 points maximum distance apart, then chart is not considered ranging
+  //if are certain number of points maximum distance apart, then chart is not considered ranging
+  //rangelimit is currently considered 100 points
   let lineDistance = Math.abs(resistanceline - supportline);
-  if((lineDistance > 20 && lineDistance < 300) && (resistanceline > supportline)) check0 = true;
+  if((lineDistance > 20 && lineDistance < rangelimit) && (resistanceline > supportline)) check0 = true;
 
   // let lineDistance2 = Math.abs(resistanceline2 - supportline2);
   // console.log('lineDistance2: ' + lineDistance2);
@@ -260,9 +262,8 @@ if(noError){
   const trendDiffPerc = Math.abs(100 - (firstClose / lastClose * 100)).toFixed(2);
 
   let trend = 'ranging';
-  const trendlimit = 150; //minimum difference to count as a trend movement
-  if((firstClose > lastClose) && (trendDiff >= trendlimit)) trend = 'bearish';
-  if((lastClose > firstClose) && (trendDiff >= trendlimit)) trend = 'bullish';
+  if((firstClose > lastClose) && (trendDiff >= rangelimit)) trend = 'bearish';
+  if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
 
   //If percentage change is significant, confirm trend (0.50% = 50 points which is quite significant)
   //UPDATE: I changed this to 100points for more certainty of momentum
@@ -302,7 +303,6 @@ if(noError){
   let recentlimit = 4;
   let recenttrendArr = [];
   let recenttrend = '';
-  let movementlimit = 100;
   let ups = 0;
   let downs = 0;
   let pl = pricedata.support.length;
@@ -317,8 +317,8 @@ if(noError){
   }
 
   recenttrend = 'ranging';
-  if((movementValue < 0) && (movementValueDiff > movementlimit)) recenttrend = 'bearish';
-  if((movementValue > 0) && (movementValueDiff > movementlimit)) recenttrend = 'bullish';
+  if((movementValue < 0) && (movementValueDiff > rangelimit)) recenttrend = 'bearish';
+  if((movementValue > 0) && (movementValueDiff > rangelimit)) recenttrend = 'bullish';
 
   if(trend == recenttrend) check6 = true;
 
