@@ -42,6 +42,8 @@ actions.calcResistSupport = async function(pricedata,type){
   // The one with the largest cluster (the last one in the order) is the data used to determine midrange line
   rangedata[type] = matches[matches.length-1];
 
+  console.log(rangedata[type].prices);
+
   // Get low/highest point depending on line type
   let midrangeprices = deepCopy(rangedata[type].prices).sort(sortNumber);
   let lowestprice = midrangeprices[0];
