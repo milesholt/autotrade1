@@ -430,7 +430,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  if(check0 === true && check1 === true && check3 === true && check5 == true && check6 == true){
+  if(check0 === true && check1 === true && check5 == true && check6 == true){
 
       //check if we already have a position
       let positionOpen = false;
