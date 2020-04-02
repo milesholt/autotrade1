@@ -337,18 +337,18 @@ if(noError){
     'lastCloseAsk': lastCloseAsk,
     'lastCloseBid': lastCloseBid,
     'lastDiff': lastDiff,
-    'wickdata': wickdata,
+    //'wickdata': wickdata,
     'linedata': linedata,
     'lineDistance': lineDistance,
     'trend': trend,
     'trendDiff': trendDiff,
     'trendDiffPerc': trendDiffPerc + '%',
     'beforeRangeTrend': beforeRangeTrend,
-    'wicktrend': wicktrend,
-    'wickstrength':wds.strength,
+    //'wicktrend': wicktrend,
+    //'wickstrength':wds.strength,
     //'confirmations': confirmations,
-    'isWickStrengthGreaterThanLimit': wds.confirmation1,
-    'isWickStrengthIncreasing': wds.confirmation2,
+    //'isWickStrengthGreaterThanLimit': wds.confirmation1,
+    //'isWickStrengthIncreasing': wds.confirmation2,
     'isRanging':check0,
     'recentTrendArr': recenttrendArr,
     'recentTrend': recenttrend,
@@ -357,8 +357,8 @@ if(noError){
     'recentMovementValue': movementValue,
     'isLastDiffGreaterThan100Points': check1,
     //'isConfirmationsGreaterThanLimit': check2,
-    'isWickConfirmationsTrue': check3,
-    'isWickTrendSameAsTrend': check4,
+    //'isWickConfirmationsTrue': check3,
+    //'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
     'isRecentTrendSameAsTrend': check6,
     'ticket': {}
@@ -430,7 +430,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  if(check0 === true && check1 === true && check3 === true && check4 === true && check5 == true && check6 == true){
+  if(check0 === true && check1 === true && check3 === true && check5 == true && check6 == true){
 
       //check if we already have a position
       let positionOpen = false;
