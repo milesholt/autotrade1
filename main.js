@@ -500,7 +500,7 @@ if(noError){
         }
 
         //stop distance = minimum 1% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = Math.round(lastClose * 0.01) + 10;
+        let stopDistance = Math.round(lastClose * 0.05) + 10;
         console.log('stop distance: ' + stopDistance);
 
 
