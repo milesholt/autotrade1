@@ -10,11 +10,12 @@ const moment=require('moment');
 moment().format();
 
 //Require strategy
-const strategy = require('../strategies/breakoutStrategy.js');
+const strategy = require('../strategies/tests/breakoutStrategy.js');
 
 //Parameters
 let actions = {};
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false;
+const rangelimit = 100;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
 let prices;
 global.rangedata = {'resistance': {}, 'support': {}};
 global.linedata = {'support': 0, 'resistance': 0, 'support2': 0, 'resistance2': 0, 'midrange': 0};
@@ -31,7 +32,7 @@ actions.exec = async function(epic, prices){
     let pricedata2 = {'support': [], 'resistance': []};
     confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
     //confirmations = {'resistance': 0, 'support': 0};
-    check0 = false, check1 = false, check2 = false, check3 = false, check4 = false;
+    check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
 
   //console.log('--------BEGIN EXEC BREAKOUT STRATEGY');
 
@@ -117,6 +118,33 @@ actions.exec = async function(epic, prices){
   if(wds.confirmation1 == true && wds.confirmation2 == true) check3 = true;
   if(trend == wicktrend) check4 = true;
 
+  if(trend == 'bearish' && lastClose < resistanceline) check5 = true;
+  if(trend == 'bullish' && lastClose > supportline) check5 = true;
+
+  //loop through recent price bars and determine movement
+  let recentlimit = 4;
+  let recenttrendArr = [];
+  let recenttrend = '';
+  let ups = 0;
+  let downs = 0;
+  let pl = pricedata.support.length;
+  let movementValue = parseFloat((pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].open).toFixed(2));
+  let movementValueDiff = Math.abs(movementValue);
+
+  for(let i = (pl - recentlimit), len = pl; i < len; i++){
+    let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
+    if(movement == 'down') { downs++ } else { ups++ };
+    recenttrendArr.push(movement);
+  }
+
+  recenttrend = 'ranging';
+  if((movementValue < 0) && (movementValueDiff > (rangelimit/2))) recenttrend = 'bearish';
+  if((movementValue > 0) && (movementValueDiff > (rangelimit/2))) recenttrend = 'bullish';
+  if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
+  if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
+
+  if(trend == recenttrend) check6 = true;
+
   let r = {
     'pricedata':pricedata,
     'firstClose': firstClose,
@@ -136,20 +164,23 @@ actions.exec = async function(epic, prices){
     'isStrengthIncreasing': wds.confirmation2,
     'isRanging':check0,
     'isLastDiffGreaterThan100Points': check1,
-    'isConfirmationsGreaterThanLimit': check2,
+    //'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
     'isWickTrendSameAsTrend': check4,
+    'islastCloseAboveBelowLines': check5,
+    'isRecentTrendSameAsTrend': check6,
     'ticket': {}
   };
 
   //If all checks pass, begin trade
-  if(check0 === true && check1 === true && check2 === true && check3 === true && check4 === true){
+  const checks = [check0,check1,check3,check4,check5,check6];
+  if(checks.indexOf(false) == -1){
 
-      console.log('make trade');
+      //console.log('make trade');
 
       //stop distance = minimum 1% of lastClose price + fluctuation of 10 as prices are changing
-      let stopDistance = Math.round(lastClose * 0.01) + 10;
-      console.log('stop distance: ' + stopDistance);
+      let stopDistance = Math.round(lastClose * 0.08) + 10;
+      //console.log('stop distance: ' + stopDistance);
 
       //check for existing open tickets
       // await api.showOpenPositions().then(async positionsData => {

@@ -91,7 +91,10 @@ async function testStrategy(i, data){
     if(i == prices.length) {
       console.log('Finished looping through data.');
 
-      console.log(strategydata[197]);
+      //console.log(strategydata);
+      calcTest(strategydata);
+
+
 
       // fs.writeFile(strategyDir, JSON.stringify(strategydata), 'utf8', (e) => {
       //     if (e) {
@@ -119,11 +122,105 @@ async function testStrategy(i, data){
       data.push(prices[i]);
       //console.log('---------------------------------------'+ parseInt(i));
       await main.actions.exec(epic, data).then(async r => {
-        //if(Object.keys(r.ticket).length > 0) strategydata.push(r);
-        strategydata.push(r);
+        if(Object.keys(r.ticket).length > 0) {
+          r.pid = i;
+          strategydata.push(r);
+        }
+        //strategydata.push(r);
         i++;
         await testStrategy(i,data);
       });
   }
 
+}
+
+async function calcTest(trades){
+
+  let log = [];
+  let results = {losses:0, profits:0};
+
+  trades.forEach(async (trade,i) =>{
+
+      const close = trade.lastClose;
+      const limitDist = trade.ticket.limitDistance;
+      const stopDist = trade.ticket.stopDistance;
+      const direction = trade.ticket.direction;
+      const limit = direction == 'BUY' ? close + limitDist : close - limitDist;
+      const stop = direction == 'BUY' ? close - stopDist: close + stopDist;
+
+      const tradeInfo = {
+        time : trade.lastTime,
+        close : trade.lastClose,
+        closeAsk : trade.lastCloseAsk,
+        closeBid : trade.lastCloseBid,
+        pid : trade.pid,
+        limitDist : trade.ticket.limitDistance,
+        stopDist : trade.ticket.stopDistance,
+        direction : trade.ticket.direction,
+        limit : limit,
+        stop : stop
+      }
+
+
+      let nextprice = (trade.pid+1);
+      await calcTest2(nextprice, tradeInfo, log, results);
+
+  });
+
+  console.log(log);
+  console.log(results);
+
+}
+
+async function calcTest2(i, tradeInfo, log, results){
+
+    if(i == prices.length) {
+      console.log('Finished looping through data. calcTest2');
+      return;
+    }else{
+      let closePos = false;
+      let movement = 0;
+      let p = prices[i];
+      let pp = prices[i-1];
+      let close = p.closePrice.ask - (parseInt(p.closePrice.ask - p.closePrice.bid)/2);
+      let prevclose = pp.closePrice.ask - (parseInt(pp.closePrice.ask - pp.closePrice.bid)/2);
+      let diff = Math.abs(close - prevclose);
+      if(close > prevclose) movement += diff;
+      if(close < prevclose) movement -= diff;
+
+      if(tradeInfo.direction == 'SELL' && (p.closePrice.bid >= tradeInfo.stop)) closePos = true;
+      if(tradeInfo.direction == 'SELL' && (p.closePrice.bid <= tradeInfo.limit)) closePos = true;
+      if(tradeInfo.direction == 'BUY' && (p.closePrice.ask <= tradeInfo.stop)) closePos = true;
+      if(tradeInfo.direction == 'BUY' && (p.closePrice.ask >= tradeInfo.limit)) closePos = true;
+
+      if(closePos){
+
+        let result = 'PROFIT';
+        if(tradeInfo.direction == 'SELL' && movement > 0) result = 'LOSS';
+        if(tradeInfo.direction == 'BUY' && movement < 0) result = 'LOSS';
+
+        log.push({
+            tradeTime: tradeInfo.time,
+            tradeDirection: tradeInfo.direction,
+            marketPrice: (tradeInfo.direction == 'BUY' ? tradeInfo.closeAsk : tradeInfo.closeBid),
+            closePosTime: p.snapshotTime,
+            closeAsk: p.closePrice.ask,
+            closeBid: p.closePrice.bid,
+            close: close,
+            limit: tradeInfo.limit,
+            stop: tradeInfo.stop,
+            movement: Math.round(movement),
+            result: result
+        });
+
+        if(result == 'PROFIT') results.profits++;
+        if(result == 'LOSS') results.losses++;
+
+        return;
+
+      } else{
+        i++;
+        await calcTest2(i, tradeInfo, log, results);
+      }
+    }
 }

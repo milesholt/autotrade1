@@ -312,7 +312,6 @@ if(noError){
   let movementValue = parseFloat((pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].open).toFixed(2));
   let movementValueDiff = Math.abs(movementValue);
 
-  //todo:removing ups and downs, this no longer is being considered
   for(let i = (pl - recentlimit), len = pl; i < len; i++){
     let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
     if(movement == 'down') { downs++ } else { ups++ };
@@ -500,7 +499,7 @@ if(noError){
         }
 
         //stop distance = minimum 1% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = Math.round(lastClose * 0.05) + 10;
+        let stopDistance = Math.round(lastClose * 0.03) + 10;
         console.log('stop distance: ' + stopDistance);
 
 
@@ -515,7 +514,7 @@ if(noError){
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
-          	'limitDistance': 100,
+          	'limitDistance': 50,
           	'limitLevel': null,
           	'stopDistance': stopDistance,
           	'stopLevel': null,
