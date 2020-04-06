@@ -22,6 +22,8 @@ const analytics = require('./services/analytics.js');
 const mailer = require('./services/mailer.js');
 //Require stream
 const stream = require('./services/stream.js');
+//Require monitor
+const monitor = require('./services/monitor.js');
 
 //Parameters
 const rangelimit = 100;
@@ -515,7 +517,7 @@ if(noError){
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
-          	'limitDistance': 50,
+          	'limitDistance': 100,
           	'limitLevel': null,
           	'stopDistance': stopDistance,
           	'stopLevel': null,
@@ -542,6 +544,10 @@ if(noError){
                 text: JSON.stringify(analysis)
               };
               mailer.actions.sendMail(mailOptions);
+
+              console.log('beginning monitoring..');
+              monitor.actions.beginMonitor();
+
               loop('Checks passed and trade has been made. Will go again in 1 hour.');
               return false;
 

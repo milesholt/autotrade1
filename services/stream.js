@@ -96,7 +96,7 @@ actions.readStream = function(single){
            reject(err.stack);
         });
 
-        if(!single) stream(single);
+        if(!single) actions.readStream(single);
 
     },3000);
   });

@@ -138,6 +138,7 @@ async function calcTest(trades){
 
   let log = [];
   let results = {losses:0, profits:0};
+  let wicks = {correct:0, wrong:0};
 
   trades.forEach(async (trade,i) =>{
 
@@ -154,6 +155,7 @@ async function calcTest(trades){
         closeAsk : trade.lastCloseAsk,
         closeBid : trade.lastCloseBid,
         pid : trade.pid,
+        wicktrend: trade.wicktrend,
         limitDist : trade.ticket.limitDistance,
         stopDist : trade.ticket.stopDistance,
         direction : trade.ticket.direction,
@@ -163,16 +165,17 @@ async function calcTest(trades){
 
 
       let nextprice = (trade.pid+1);
-      await calcTest2(nextprice, tradeInfo, log, results);
+      await calcTest2(nextprice, tradeInfo, log, results, wicks);
 
   });
 
   console.log(log);
   console.log(results);
+  console.log(wicks);
 
 }
 
-async function calcTest2(i, tradeInfo, log, results){
+async function calcTest2(i, tradeInfo, log, results, wicks){
 
     if(i == prices.length) {
       console.log('Finished looping through data. calcTest2');
@@ -209,6 +212,7 @@ async function calcTest2(i, tradeInfo, log, results){
             close: close,
             limit: tradeInfo.limit,
             stop: tradeInfo.stop,
+            wicktrend: tradeInfo.wicktrend,
             movement: Math.round(movement),
             result: result
         });
@@ -216,11 +220,16 @@ async function calcTest2(i, tradeInfo, log, results){
         if(result == 'PROFIT') results.profits++;
         if(result == 'LOSS') results.losses++;
 
+        if(movement > 0 && tradeInfo.wicktrend == 'bullish') wicks.correct++;
+        if(movement > 0 && tradeInfo.wicktrend == 'bearish') wicks.wrong++;
+        if(movement < 0 && tradeInfo.wicktrend == 'bearish') wicks.correct++;
+        if(movement < 0 && tradeInfo.wicktrend == 'bullish') wicks.wrong++;
+
         return;
 
       } else{
         i++;
-        await calcTest2(i, tradeInfo, log, results);
+        await calcTest2(i, tradeInfo, log, results, wicks);
       }
     }
 }
