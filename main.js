@@ -356,8 +356,8 @@ if(noError){
     'recentMovementValue': movementValue,
     'isLastDiffGreaterThan100Points': check1,
     //'isConfirmationsGreaterThanLimit': check2,
-    //'isWickConfirmationsTrue': check3,
-    //'isWickTrendSameAsTrend': check4,
+    'isWickConfirmationsTrue': check3,
+    'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
     'isRecentTrendSameAsTrend': check6,
     'ticket': {}
@@ -429,7 +429,8 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  if(check0 === true && check1 === true && check5 == true && check6 == true){
+  const checks = [check0,check1,check3,check4,check5,check6];
+  if(checks.indexOf(false) == -1){
 
       //check if we already have a position
       let positionOpen = false;
