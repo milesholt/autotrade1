@@ -84,6 +84,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
 }
 
+
 actions.calcWicks = async function(pricedata){
 
   //set how many wicks to check
@@ -93,6 +94,9 @@ actions.calcWicks = async function(pricedata){
   let beardir = bulldir = 0;
   let dir = '';
   let strength = false;
+  let topstrength = 0;
+  let botstrength = 0;
+  let resistance = 'none';
   let confirmation1 = false;
   let confirmation2 = false;
 
@@ -103,8 +107,6 @@ actions.calcWicks = async function(pricedata){
     let close = pricebar.close;
     let highest = pricebar.high;
     let lowest = pricebar.low;
-    let time =  pricebar.time;
-    let closeAsk = pricebar.closeAsk;
 
     //get total difference of price bar
     let pricediff = Math.round(highest - lowest);
@@ -118,14 +120,24 @@ actions.calcWicks = async function(pricedata){
     //get difference in percentage between wick and non-wick to determine wick strength
     let wickstrength = 100 - ((Math.abs(open - close) / pricediff) * 100);
 
-    topwick > botwick ? beardir++ : bulldir++;
+    //topwick > botwick ? beardir++ : bulldir++;
 
-    wickdata.push({'time': time, 'closeAsk': closeAsk, 'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
+    wickdata.push({'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
 
   }
 
-  resistance = bulldir > beardir ? 'bullish' : 'bearish';
-  strength = Math.abs(wickdata[0].wickstrength - wickdata[2].wickstrength);
+  //get difference of topwicks (first and last) and botwicks
+
+  topstrength = Math.abs(wickdata[0].topwick - wickdata[2].topwick);
+  botstrength = Math.abs(wickdata[0].botwick - wickdata[2].botwick);
+
+  //depending on which wick end is greater, and if over strengthlimit, determines trend
+
+  if((topstrength > botstrength) && (topstrength > strengthlimit)) resistance = 'bullish';
+  if((botstrength > topstrength) && (botstrength > strengthlimit)) resistance = 'bearish';
+
+  //strength is now only the strength of the latest wick
+  strength = wickdata[2].wickstrength;
 
   //is wicks percentage change of strength greater than 50%?
   if (strength >= strengthlimit) confirmation1 = true;
@@ -140,6 +152,8 @@ actions.calcWicks = async function(pricedata){
   return wickdata;
 
 }
+
+
 
 function sortNumber(a, b) {
   return a - b;

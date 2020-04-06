@@ -42,8 +42,6 @@ actions.calcResistSupport = async function(pricedata,type){
   // The one with the largest cluster (the last one in the order) is the data used to determine midrange line
   rangedata[type] = matches[matches.length-1];
 
-  //console.log(rangedata[type].prices);
-
   // Get low/highest point depending on line type
   let midrangeprices = deepCopy(rangedata[type].prices).sort(sortNumber);
   let lowestprice = midrangeprices[0];
@@ -86,7 +84,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
 }
 
-actions.calcWicks_old = async function(pricedata){
+actions.calcWicks = async function(pricedata){
 
   //set how many wicks to check
   let wicklimit = 3;
@@ -105,6 +103,8 @@ actions.calcWicks_old = async function(pricedata){
     let close = pricebar.close;
     let highest = pricebar.high;
     let lowest = pricebar.low;
+    let time =  pricebar.time;
+    let closeAsk = pricebar.closeAsk;
 
     //get total difference of price bar
     let pricediff = Math.round(highest - lowest);
@@ -120,81 +120,12 @@ actions.calcWicks_old = async function(pricedata){
 
     topwick > botwick ? beardir++ : bulldir++;
 
-    wickdata.push({'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
+    wickdata.push({'time': time, 'closeAsk': closeAsk, 'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
 
   }
 
   resistance = bulldir > beardir ? 'bullish' : 'bearish';
   strength = Math.abs(wickdata[0].wickstrength - wickdata[2].wickstrength);
-
-  //is wicks percentage change of strength greater than 50%?
-  if (strength >= strengthlimit) confirmation1 = true;
-
-  //is wick resistance growing?
-  if (wickdata[0].wickstrength < wickdata[2].wickstrength) confirmation2 = true;
-
-  wickdata.push({'resistance': resistance, 'strength': strength, 'confirmation1': confirmation1, 'confirmation2': confirmation2});
-
-  //wickdata.push({'resistance': resistance, 'strength': strength, 'confirmation1': true, 'confirmation2': true});
-
-  return wickdata;
-
-}
-
-
-actions.calcWicks = async function(pricedata){
-
-  //set how many wicks to check
-  let wicklimit = 3;
-  let strengthlimit = 30;
-  let wickdata = [];
-  let beardir = bulldir = 0;
-  let dir = '';
-  let strength = false;
-  let topstrength = 0;
-  let botstrength = 0;
-  let resistance = 'none';
-  let confirmation1 = false;
-  let confirmation2 = false;
-
-  for(let i = (pricedata.support.length-wicklimit) , len = pricedata.support.length-1; i <= len; i++){
-
-    let pricebar = pricedata.support[i];
-    let open = pricebar.open;
-    let close = pricebar.close;
-    let highest = pricebar.high;
-    let lowest = pricebar.low;
-
-    //get total difference of price bar
-    let pricediff = Math.round(highest - lowest);
-
-    //get percentage of bearish resistance (top wick)
-    let topwick = ((highest - (open > close ? open : close)) /  pricediff) * 100;
-
-    //get percentage of bullish resistance (bottom wick)
-    let botwick = (((open < close ? open : close) - lowest) /  pricediff) * 100;
-
-    //get difference in percentage between wick and non-wick to determine wick strength
-    let wickstrength = 100 - ((Math.abs(open - close) / pricediff) * 100);
-
-    //topwick > botwick ? beardir++ : bulldir++;
-
-    wickdata.push({'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
-
-  }
-
-  //get difference of topwicks (first and last) and botwicks
-
-  topstrength = Math.abs(wickdata[0].topwick - wickdata[2].topwick);
-  botstrength = Math.abs(wickdata[0].botwick - wickdata[2].botwick);
-
-  //depending on which wick end is greater, and if over strengthlimit, determines trend
-
-  if((topstrength > botstrength) && (topstrength > strengthlimit)) resistance = 'bullish';
-  if((botstrength > topstrength) && (botstrength > strengthlimit)) resistance = 'bearish';
-
-  //strength is now only the strength of the latest wick
-  strength = wickdata[2].wickstrength;
 
   //is wicks percentage change of strength greater than 50%?
   if (strength >= strengthlimit) confirmation1 = true;
