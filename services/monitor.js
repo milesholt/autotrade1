@@ -14,11 +14,11 @@ let direction = '';
 let dealId = '';
 
 //Require stream
-const stream = require('./services/stream.js');
+const stream = require('./stream.js');
 //Require mailer
-const mailer = require('./services/mailer.js');
+const mailer = require('./mailer.js');
 //Stream log
-var streamLogDir = path.join(__dirname, './services/stream.json');
+var streamLogDir = path.join(__dirname, './stream.json');
 let streamLog = require(streamLogDir);
 
 
