@@ -56,7 +56,8 @@ actions.beginMonitor = async function(){
   await stream.actions.startStream();
   await stream.actions.readStream(false).then(r => {
 
-    let close = false;
+    let closeprofit = false;
+    let closeloss = false;
     let limitDiff = (Math.abs(openLevel - limitLevel) / 2);
     let newlimitBuy = openLevel + limitDiff;
     let newlimitSell = openLevel - limitDiff;
@@ -99,14 +100,19 @@ actions.beginMonitor = async function(){
         }
 
         //if stream price goes beyond settings, take action
-        //the latest price is the close bid, even for a buy. I'm asking IG about this.
 
         //our settings
         //half the limit level
-        if(direction == 'BUY' && d.closePrice.bid >= newlimit) close = true;
-        if(direction == 'SELL' && d.closePrice.bid <= newlimit) close = true;
+        if(direction == 'BUY' && d.closePrice.ask >= newlimit) closeprofit = true;
+        if(direction == 'SELL' && d.closePrice.bid <= newlimit) closeprofit = true;
 
-        if(close){
+        //stopLevel remains as is
+        if(direction == 'BUY' && d.closePrice.ask <= stopLevel) closeloss = true;
+        if(direction == 'SELL' && d.closePrice.bid >= stopLevel) closeloss = true;
+
+
+
+        if(closeprofit){
           console.log('New limit level reached. Closing position.');
           console.log('new limit was: ' + newlimit);
           console.log('closing price was: ' + d.closePrice.bid);
@@ -115,7 +121,7 @@ actions.beginMonitor = async function(){
             limitLevel: limitLevel,
             stopLevel: stopLevel,
             newLimit: newlimit,
-            lastClose: d.closePrice.bid,
+            lastClose: d.closePrice.ask,
             direction: direction
           }
 
@@ -123,11 +129,31 @@ actions.beginMonitor = async function(){
           var mailOptions = {
             from: 'contact@milesholt.co.uk',
             to: 'miles_holt@hotmail.com',
-            subject: 'Closed position, new limit reached. ' + moment().format('LLL'),
+            subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
             text: JSON.stringify(closeAnalysis)
           };
           mailer.actions.sendMail(mailOptions);
 
+          console.log('Finished monitoring, positions should be closed. Ending stream.');
+          stream.actions.endStream();
+
+        }
+
+        if(closeloss){
+
+          let closeAnalysis = {
+            limitLevel: limitLevel,
+            stopLevel: stopLevel,
+            lastClose: d.closePrice.bid,
+            direction: direction
+          }
+          var mailOptions = {
+            from: 'contact@milesholt.co.uk',
+            to: 'miles_holt@hotmail.com',
+            subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
+            text: JSON.stringify(closeAnalysis)
+          };
+          mailer.actions.sendMail(mailOptions);
           console.log('Finished monitoring, positions should be closed. Ending stream.');
           stream.actions.endStream();
 
