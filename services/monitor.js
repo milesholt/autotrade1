@@ -22,7 +22,7 @@ var streamLogDir = path.join(__dirname, './services/stream.json');
 let streamLog = require(streamLogDir);
 
 
-actions.beginMonitor = function(){
+actions.beginMonitor = async function(){
   //login
   // await api.login(true).then(r => {
   //   //console.log(util.inspect(r,false,null));
