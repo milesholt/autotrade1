@@ -126,13 +126,13 @@ actions.beginMonitor = async function(){
         if(direction == 'BUY' && d.closePrice.ask <= stopLevel) closeloss = true;
         if(direction == 'SELL' && d.closePrice.bid >= stopLevel) closeloss = true;
 
-
+        let closePrice = direction == 'BUY' ? d.closePrice.ask : d.closePrice.bid;
 
         if(closeprofit){
 
           console.log('New limit level reached. Closing position.');
           console.log('new limit was: ' + newlimit);
-          console.log('closing price was: ' + d.closePrice.bid);
+          console.log('closing price was: ' + closePrice);
 
           console.log('Finished monitoring, positions should be closed. Ending stream.');
           stream.actions.endStream();
@@ -141,7 +141,7 @@ actions.beginMonitor = async function(){
             limitLevel: limitLevel,
             stopLevel: stopLevel,
             newLimit: newlimit,
-            lastClose: d.closePrice.ask,
+            lastClose: closePrice,
             direction: direction
           }
 
@@ -154,8 +154,6 @@ actions.beginMonitor = async function(){
           };
           mailer.actions.sendMail(mailOptions);
 
-
-
         }
 
         if(closeloss){
@@ -166,7 +164,7 @@ actions.beginMonitor = async function(){
           let closeAnalysis = {
             limitLevel: limitLevel,
             stopLevel: stopLevel,
-            lastClose: d.closePrice.bid,
+            lastClose: closePrice,
             direction: direction
           }
           var mailOptions = {
@@ -176,10 +174,10 @@ actions.beginMonitor = async function(){
             text: JSON.stringify(closeAnalysis)
           };
           mailer.actions.sendMail(mailOptions);
-          
+
         }
 
-        console.log(d);
+        console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);
       });
     },3000);
   });
