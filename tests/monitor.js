@@ -66,7 +66,7 @@ async function beginMonitor(){
 
     console.log('new limit is: ' + newlimit);
 
-    let mointorAnalysis = {
+    let monitorAnalysis = {
       limitLevel: limitLevel,
       stopLevel: stopLevel,
       newLimit: newlimit,
@@ -179,7 +179,7 @@ async function beginMonitor(){
             text: JSON.stringify(closeAnalysis)
           };
           mailer.actions.sendMail(mailOptions);
-          
+
         }
 
         console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);

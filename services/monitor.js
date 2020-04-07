@@ -65,7 +65,7 @@ actions.beginMonitor = async function(){
 
     console.log('new limit is: ' + newlimit);
 
-    let mointorAnalysis = {
+    let monitorAnalysis = {
       limitLevel: limitLevel,
       stopLevel: stopLevel,
       newLimit: newlimit,
