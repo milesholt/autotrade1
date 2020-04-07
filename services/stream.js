@@ -58,8 +58,19 @@ actions.readStream = function(single){
 
         // Handle stream events --> data, end, and error
         readerStream.on('data', function(chunk) {
+
            //data += chunk;
-           data = JSON.parse(chunk);
+
+           if (/^[\],:{}\s]*$/.test(chunk.replace(/\\["\\\/bfnrtu]/g, '@').
+            replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+            replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+              //the json is ok
+              data = JSON.parse(chunk);
+            }else{
+              //the json is not ok
+              data = {};
+            }
+
         });
 
         readerStream.on('end',function() {
