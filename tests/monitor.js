@@ -83,106 +83,119 @@ async function beginMonitor(){
     mailer.actions.sendMail(mailOptions);
 
     console.log('Stream response:');
-    setInterval(()=>{
+    var timer = setInterval(()=>{
       fs.readFile(streamLogDir, function (err, data) {
         if (err) {
+          stream.actions.endStream();
           return console.error(err);
         }
 
-        data = JSON.parse(data.toString());
-        let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
-        let d = {
-          'snapshotTime':time,
-          'openPrice': {
-            'bid': parseFloat(data[8]),
-            'ask': parseFloat(data[4]),
-            'lastTraded': null
-          },
-          'closePrice': {
-            'bid': parseFloat(data[9]),
-            'ask': parseFloat(data[5]),
-            'lastTraded': null
-          },
-          'highPrice': {
-            'bid': parseFloat(data[10]),
-            'ask': parseFloat(data[6]),
-            'lastTraded': null
-          },
-          'lowPrice': {
-            'bid': parseFloat(data[11]),
-            'ask': parseFloat(data[7]),
-            'lastTraded': null
-          },
-          'lastTradedVolume': parseFloat(data[3])
+        if (/^[\],:{}\s]*$/.test(data.toString().replace(/\\["\\\/bfnrtu]/g, '@').
+         replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+         replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+              //the json is ok
+
+              data = JSON.parse(data.toString());
+              let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
+              let d = {
+                'snapshotTime':time,
+                'openPrice': {
+                  'bid': parseFloat(data[8]),
+                  'ask': parseFloat(data[4]),
+                  'lastTraded': null
+                },
+                'closePrice': {
+                  'bid': parseFloat(data[9]),
+                  'ask': parseFloat(data[5]),
+                  'lastTraded': null
+                },
+                'highPrice': {
+                  'bid': parseFloat(data[10]),
+                  'ask': parseFloat(data[6]),
+                  'lastTraded': null
+                },
+                'lowPrice': {
+                  'bid': parseFloat(data[11]),
+                  'ask': parseFloat(data[7]),
+                  'lastTraded': null
+                },
+                'lastTradedVolume': parseFloat(data[3])
+              }
+
+              //if stream price goes beyond settings, take action
+
+              //our settings
+              //half the limit level
+              if(direction == 'BUY' && d.closePrice.ask >= newlimit) closeprofit = true;
+              if(direction == 'SELL' && d.closePrice.bid <= newlimit) closeprofit = true;
+
+              //stopLevel remains as is
+              if(direction == 'BUY' && d.closePrice.ask <= stopLevel) closeloss = true;
+              if(direction == 'SELL' && d.closePrice.bid >= stopLevel) closeloss = true;
+
+              let closePrice = direction == 'BUY' ? d.closePrice.ask : d.closePrice.bid;
+
+              if(streamer.actions.isConnected()){
+
+                if(closeprofit){
+
+                  console.log('New limit level reached. Closing position.');
+                  console.log('new limit was: ' + newlimit);
+                  console.log('closing price was: ' + closePrice);
+
+                  console.log('PROFIT - Finished monitoring, positions should be closed. Ending stream.');
+                  stream.actions.endStream();
+
+                  let closeAnalysis = {
+                    limitLevel: limitLevel,
+                    stopLevel: stopLevel,
+                    newLimit: newlimit,
+                    lastClose: closePrice,
+                    direction: direction
+                  }
+
+                  api.closePosition(dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
+                  var mailOptions = {
+                    from: 'contact@milesholt.co.uk',
+                    to: 'miles_holt@hotmail.com',
+                    subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
+                    text: JSON.stringify(closeAnalysis)
+                  };
+                  mailer.actions.sendMail(mailOptions);
+                  clearInterval(timer);
+                }
+
+                if(closeloss){
+
+                  console.log('LOSS - Finished monitoring, positions should be closed. Ending stream.');
+                  stream.actions.endStream();
+
+                  let closeAnalysis = {
+                    limitLevel: limitLevel,
+                    stopLevel: stopLevel,
+                    lastClose: closePrice,
+                    direction: direction
+                  }
+                  var mailOptions = {
+                    from: 'contact@milesholt.co.uk',
+                    to: 'miles_holt@hotmail.com',
+                    subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
+                    text: JSON.stringify(closeAnalysis)
+                  };
+                  mailer.actions.sendMail(mailOptions);
+                  clearInterval(timer);
+                }
+
+                console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);
+              } else {
+                console.log('Stream is no longer connected.');
+              }
+
+
+        } else{
+                //the json is not ok
+                data = {};
         }
-
-        //if stream price goes beyond settings, take action
-
-        //our settings
-        //half the limit level
-        if(direction == 'BUY' && d.closePrice.ask >= newlimit) closeprofit = true;
-        if(direction == 'SELL' && d.closePrice.bid <= newlimit) closeprofit = true;
-
-        //stopLevel remains as is
-        if(direction == 'BUY' && d.closePrice.ask <= stopLevel) closeloss = true;
-        if(direction == 'SELL' && d.closePrice.bid >= stopLevel) closeloss = true;
-
-        let closePrice = direction == 'BUY' ? d.closePrice.ask : d.closePrice.bid;
-
-
-
-        if(closeprofit){
-
-          console.log('New limit level reached. Closing position.');
-          console.log('new limit was: ' + newlimit);
-          console.log('closing price was: ' + closePrice);
-
-          console.log('Finished monitoring, positions should be closed. Ending stream.');
-          stream.actions.endStream();
-
-          let closeAnalysis = {
-            limitLevel: limitLevel,
-            stopLevel: stopLevel,
-            newLimit: newlimit,
-            lastClose: closePrice,
-            direction: direction
-          }
-
-          api.closePosition(dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
-          var mailOptions = {
-            from: 'contact@milesholt.co.uk',
-            to: 'miles_holt@hotmail.com',
-            subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
-            text: JSON.stringify(closeAnalysis)
-          };
-          mailer.actions.sendMail(mailOptions);
-
-
-
-        }
-
-        if(closeloss){
-
-          console.log('Finished monitoring, positions should be closed. Ending stream.');
-          stream.actions.endStream();
-
-          let closeAnalysis = {
-            limitLevel: limitLevel,
-            stopLevel: stopLevel,
-            lastClose: closePrice,
-            direction: direction
-          }
-          var mailOptions = {
-            from: 'contact@milesholt.co.uk',
-            to: 'miles_holt@hotmail.com',
-            subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
-            text: JSON.stringify(closeAnalysis)
-          };
-          mailer.actions.sendMail(mailOptions);
-
-        }
-
-        console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);
       });
     },3000);
 

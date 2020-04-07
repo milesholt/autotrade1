@@ -1,0 +1,47 @@
+{
+  "_from": "node-ig-api",
+  "_id": "node-ig-api@2.0.4",
+  "_inBundle": false,
+  "_integrity": "sha1-5rqh8wlOirzR8AugSANEs3d+N+8=",
+  "_location": "/node-ig-api",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "node-ig-api",
+    "name": "node-ig-api",
+    "escapedName": "node-ig-api",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/node-ig-api/-/node-ig-api-2.0.4.tgz",
+  "_shasum": "e6baa1f3094e8abcd1f00ba0480344b3777e37ef",
+  "_spec": "node-ig-api",
+  "_where": "/Users/milesholt/Development/ig-server",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/gfiocco/node-ig-api/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "faye-websocket": "^0.11.1",
+    "requirejs": "^2.3.2",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "deprecated": false,
+  "description": "Node.js IG REST Trading & Streaming API",
+  "homepage": "https://github.com/gfiocco/node-ig-api#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "node-ig-api",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gfiocco/node-ig-api.git"
+  },
+  "version": "2.0.4"
+}

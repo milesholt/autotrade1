@@ -27,6 +27,10 @@ actions.connectStream = function(check){
   });
 }
 
+actions.isConnected = async function(){
+  return api.isConnectedToLightStreamer();
+}
+
 actions.startStream = async function(check = false){
   await actions.connectStream(check).then(r =>{
     if(api.isConnectedToLightStreamer()) {
