@@ -65,6 +65,22 @@ actions.beginMonitor = async function(){
 
     console.log('new limit is: ' + newlimit);
 
+    let mointorAnalysis = {
+      limitLevel: limitLevel,
+      stopLevel: stopLevel,
+      newLimit: newlimit,
+      openLevel: openLevel,
+      direction: direction
+    }
+
+    var mailOptions = {
+      from: 'contact@milesholt.co.uk',
+      to: 'miles_holt@hotmail.com',
+      subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
+      text: JSON.stringify(monitorAnalysis)
+    };
+    mailer.actions.sendMail(mailOptions);
+
     console.log('Stream response:');
     setInterval(()=>{
       fs.readFile(streamLogDir, function (err, data) {
