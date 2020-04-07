@@ -71,7 +71,7 @@ actions.beginMonitor = async function(){
       newLimit: newlimit,
       openLevel: openLevel,
       direction: direction
-    } 
+    }
 
     var mailOptions = {
       from: 'contact@milesholt.co.uk',
@@ -129,9 +129,13 @@ actions.beginMonitor = async function(){
 
 
         if(closeprofit){
+
           console.log('New limit level reached. Closing position.');
           console.log('new limit was: ' + newlimit);
           console.log('closing price was: ' + d.closePrice.bid);
+
+          console.log('Finished monitoring, positions should be closed. Ending stream.');
+          stream.actions.endStream();
 
           let closeAnalysis = {
             limitLevel: limitLevel,
@@ -150,12 +154,14 @@ actions.beginMonitor = async function(){
           };
           mailer.actions.sendMail(mailOptions);
 
-          console.log('Finished monitoring, positions should be closed. Ending stream.');
-          stream.actions.endStream();
+
 
         }
 
         if(closeloss){
+
+          console.log('Finished monitoring, positions should be closed. Ending stream.');
+          stream.actions.endStream();
 
           let closeAnalysis = {
             limitLevel: limitLevel,
@@ -170,9 +176,7 @@ actions.beginMonitor = async function(){
             text: JSON.stringify(closeAnalysis)
           };
           mailer.actions.sendMail(mailOptions);
-          console.log('Finished monitoring, positions should be closed. Ending stream.');
-          stream.actions.endStream();
-
+          
         }
 
         console.log(d);
