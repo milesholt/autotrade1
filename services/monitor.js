@@ -71,7 +71,7 @@ actions.beginMonitor = async function(){
       newLimit: newlimit,
       openLevel: openLevel,
       direction: direction
-    }
+    } 
 
     var mailOptions = {
       from: 'contact@milesholt.co.uk',
