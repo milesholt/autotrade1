@@ -133,8 +133,8 @@ actions.calcWicks = async function(pricedata){
 
   //depending on which wick end is greater, and if over strengthlimit, determines trend
 
-  if((topstrength > botstrength) && (topstrength > strengthlimit)) resistance = 'bullish';
-  if((botstrength > topstrength) && (botstrength > strengthlimit)) resistance = 'bearish';
+  if((topstrength > botstrength) && (topstrength > strengthlimit)) resistance = 'bearish';
+  if((botstrength > topstrength) && (botstrength > strengthlimit)) resistance = 'bullish';
 
   //strength is now only the strength of the latest wick
   strength = wickdata[2].wickstrength;
