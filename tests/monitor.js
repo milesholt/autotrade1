@@ -135,7 +135,7 @@ async function beginMonitor(){
 
               let closePrice = direction == 'BUY' ? d.closePrice.ask : d.closePrice.bid;
 
-              if(streamer.actions.isConnected()){
+              //if(stream.actions.isConnected()){
 
                 if(closeprofit){
 
@@ -187,9 +187,9 @@ async function beginMonitor(){
                 }
 
                 console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);
-              } else {
-                console.log('Stream is no longer connected.');
-              }
+              // } else {
+              //   console.log('Stream is no longer connected.');
+              // }
 
 
         } else{
