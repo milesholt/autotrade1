@@ -232,9 +232,9 @@ if(noError){
   pricedata2.resistance = pricedata.resistance.filter((price,i) => i > start);
 
   //pricedata3 does 36 hours
-  let start = (pricedata.support.length - 37);
-  pricedata3.support = pricedata.support.filter((price,i) => i > start);
-  pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start);
+  let start2 = (pricedata.support.length - 37);
+  pricedata3.support = pricedata.support.filter((price,i) => i > start2);
+  pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
 
   let supportline = 0;
   let resistanceline = 0;
