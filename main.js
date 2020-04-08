@@ -27,7 +27,7 @@ const monitor = require('./services/monitor.js');
 
 //Parameters
 const rangelimit = 100;
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
@@ -62,9 +62,10 @@ async function exec(){
   console.log(timestamp);
   let pricedata = {'support': [], 'resistance': []};
   let pricedata2 = {'support': [], 'resistance': []};
+  let pricedata3 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
   //confirmations = {'resistance': 0, 'support': 0};
-  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
+  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false;
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -230,6 +231,11 @@ if(noError){
   pricedata2.support = pricedata.support.filter((price,i) => i > start);
   pricedata2.resistance = pricedata.resistance.filter((price,i) => i > start);
 
+  //pricedata3 does 36 hours
+  let start = (pricedata.support.length - 37);
+  pricedata3.support = pricedata.support.filter((price,i) => i > start);
+  pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start);
+
   let supportline = 0;
   let resistanceline = 0;
   supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
@@ -246,8 +252,8 @@ if(noError){
   // console.log('lineDistance2: ' + lineDistance2);
   // if((lineDistance2 > 20 && lineDistance2 < 300) && (resistanceline2 > supportline2)) check0_2 = true;
 
-  //Get the percentage change of the first price bar and support/resistance lines
-  const beforeRangeFirstClose = pricedata.support[0].close;
+  //Get the percentage change of the first price bar and support/resistance lines (within 36 hour range)
+  const beforeRangeFirstClose = pricedata3.support[0].close;
   const firstClose = pricedata2.support[0].close;
   let firstDiff = firstClose > resistanceline ? Math.abs(100 - (resistanceline / firstClose * 100)).toFixed(2) : Math.abs(100 - (supportline / firstClose * 100)).toFixed(2);
 
@@ -362,6 +368,7 @@ if(noError){
     'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
     'isRecentTrendSameAsTrend': check6,
+    'isBeforeRangeSameAsTrend': check7,
     'ticket': {}
   };
 
@@ -431,7 +438,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check3,check4,check5,check6];
+  const checks = [check0,check1,check3,check4,check5,check6,check7];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
