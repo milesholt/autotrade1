@@ -135,7 +135,7 @@ actions.beginMonitor = async function(){
 
               let closePrice = direction == 'BUY' ? d.closePrice.ask : d.closePrice.bid;
 
-            
+
 
                 if(closeprofit){
 
@@ -163,6 +163,7 @@ actions.beginMonitor = async function(){
                   };
                   mailer.actions.sendMail(mailOptions);
                   clearInterval(timer);
+                  return;
                 }
 
                 if(closeloss){
@@ -184,6 +185,7 @@ actions.beginMonitor = async function(){
                   };
                   mailer.actions.sendMail(mailOptions);
                   clearInterval(timer);
+                  return;
                 }
 
                 console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);

@@ -163,6 +163,7 @@ async function beginMonitor(){
                   };
                   mailer.actions.sendMail(mailOptions);
                   clearInterval(timer);
+                  return;
                 }
 
                 if(closeloss){
@@ -184,6 +185,7 @@ async function beginMonitor(){
                   };
                   mailer.actions.sendMail(mailOptions);
                   clearInterval(timer);
+                  return;
                 }
 
                 console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);
