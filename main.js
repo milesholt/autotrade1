@@ -333,6 +333,7 @@ if(noError){
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
   if(trend == recenttrend) check6 = true;
+  if(trend == beforeRangeTrend) check7 = true;
 
   let analysis = {
     'pricedata':pricedata,
