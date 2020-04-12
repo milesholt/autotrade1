@@ -1,5 +1,7 @@
 
 let actions = {};
+const { from, range } = require('rxjs');
+const { map, filter } = require('rxjs/operators');
 
 actions.calcResistSupport = async function(pricedata,type){
 
@@ -185,8 +187,20 @@ actions.calcWicks = async function(pricedata){
 
   //get difference of topwicks (first and last) and botwicks
 
-  topstrength = Math.abs(wickdata[0].topwick - wickdata[2].topwick);
-  botstrength = Math.abs(wickdata[0].botwick - wickdata[2].botwick);
+  //topstrength = Math.abs(wickdata[0].topwick - wickdata[2].topwick);
+  //botstrength = Math.abs(wickdata[0].botwick - wickdata[2].botwick);
+
+  //let toparr = from(wickdata).pipe(map(val => val.topwick));
+  //let botarr = from(wickdata).pipe(map(val => val.botwick));
+
+  let toparr = [], botarr = [];
+  from(wickdata).pipe(map(val => val.topwick)).subscribe(val => toparr.push(val));
+  from(wickdata).pipe(map(val => val.botwick)).subscribe(val => botarr.push(val));
+
+  topstrength = Math.max.apply( Math, toparr );
+  botstrength = Math.max.apply( Math, botarr );
+
+  console.log(botstrength);
 
   //depending on which wick end is greater, and if over strengthlimit, determines trend
 
