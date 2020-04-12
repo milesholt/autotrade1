@@ -1,5 +1,7 @@
 
 let actions = {};
+const { from, range } = require('rxjs');
+const { map, filter } = require('rxjs/operators');
 
 actions.calcResistSupport = async function(pricedata,type){
 
@@ -130,6 +132,9 @@ actions.calcWicks = async function(pricedata){
 
   //topstrength = Math.abs(wickdata[0].topwick - wickdata[2].topwick);
   //botstrength = Math.abs(wickdata[0].botwick - wickdata[2].botwick);
+
+  //updated method builds an array of all the top/bot wick values, and selects the largest using Max
+  //this method selects the strongest wickend of the three, which includes the second wick
 
   let toparr = [], botarr = [];
   from(wickdata).pipe(map(val => val.topwick)).subscribe(val => toparr.push(val));
