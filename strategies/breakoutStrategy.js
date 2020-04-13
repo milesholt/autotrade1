@@ -109,6 +109,8 @@ actions.calcWicks = async function(pricedata){
     let close = pricebar.close;
     let highest = pricebar.high;
     let lowest = pricebar.low;
+    let time = pricebar.time;
+    let closeAsk = pricebar.closeAsk;
 
     //get total difference of price bar
     let pricediff = Math.round(highest - lowest);
