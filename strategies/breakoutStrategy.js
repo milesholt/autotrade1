@@ -124,7 +124,7 @@ actions.calcWicks = async function(pricedata){
 
     //topwick > botwick ? beardir++ : bulldir++;
 
-    wickdata.push({'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
+    wickdata.push({'time': time, 'closeAsk': closeAsk, 'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
 
   }
 
