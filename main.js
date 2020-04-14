@@ -278,7 +278,7 @@ if(noError){
 
   //If percentage change is significant, confirm trend (0.50% = 50 points which is quite significant)
   //UPDATE: I changed this to 100points for more certainty of momentum
-  if(lastDiff > 1) check1 = true;
+  if(lastDiff > 0.5) check1 = true;
 
   //count how many confirmations/ re-tests
   //if(confirmations.support >= confirmationlimit && confirmations.resistance >= confirmationlimit) check2 = true;
@@ -363,7 +363,7 @@ if(noError){
     'recentUps': ups,
     'recentDowns':downs,
     'recentMovementValue': movementValue,
-    'isLastDiffGreaterThan100Points': check1,
+    'isLastDiffGreaterThan50Points': check1,
     //'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
     'isWickTrendSameAsTrend': check4,
