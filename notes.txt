@@ -13,3 +13,10 @@ Another strategy - Range Bound trading
 This strategy works within the range and the logic is to trade within support and resistance Lines
 to mitigate risk
 https://www.investopedia.com/terms/r/rangeboundtrading.asp
+
+
+TODOS:
+
+24 hour trend should be ranging, but recenttrend and beforerangetrend should match. This will give the visual graph of the market we are looking for (staircase)
+
+Recent trend movement should exceed 50 points and go above/beyond horizontal lines to suggest downward or upward trend

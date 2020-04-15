@@ -15,7 +15,7 @@ const strategy = require('../strategies/tests/breakoutStrategy.js');
 //Parameters
 let actions = {};
 const rangelimit = 100;
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false;
 let prices;
 global.rangedata = {'resistance': {}, 'support': {}};
 global.linedata = {'support': 0, 'resistance': 0, 'support2': 0, 'resistance2': 0, 'midrange': 0};
@@ -30,6 +30,7 @@ actions.exec = async function(epic, prices){
 
     let pricedata = {'support': [], 'resistance': []};
     let pricedata2 = {'support': [], 'resistance': []};
+    let pricedata3 = {'support': [], 'resistance': []};
     confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
     //confirmations = {'resistance': 0, 'support': 0};
     check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false;
@@ -61,6 +62,11 @@ actions.exec = async function(epic, prices){
   pricedata2.support = pricedata.support.filter((price,i) => i > start);
   pricedata2.resistance = pricedata.resistance.filter((price,i) => i > start);
 
+  //pricedata3 does 36 hours
+  let start2 = (pricedata.support.length - 37);
+  pricedata3.support = pricedata.support.filter((price,i) => i > start2);
+  pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
+
   //console.log(pricedata2);
 
 
@@ -87,6 +93,7 @@ actions.exec = async function(epic, prices){
   if((lineDistance > 20 && lineDistance < 200) && (resistanceline > supportline)) check0 = true;
 
   //Get the percentage change of the first price bar and support/resistance lines
+  const beforeRangeFirstClose = pricedata3.support[0].close;
   const firstClose = pricedata2.support[0].close;
   let firstDiff = firstClose > resistanceline ? Math.abs(100 - (resistanceline / firstClose * 100)).toFixed(2) : Math.abs(100 - (supportline / firstClose * 100)).toFixed(2);
 
@@ -98,11 +105,21 @@ actions.exec = async function(epic, prices){
   let lastDiff = lastClose > resistanceline ? Math.abs(100 - (resistanceline / lastClose * 100)).toFixed(2) : Math.abs(100 - (supportline / lastClose * 100)).toFixed(2);
 
   //Determine trend before line ranges
-  let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
+  //this could be a possible check7, not introduced yet
+  let beforeRangeTrend = beforeRangeFirstClose > firstClose ? 'bearish' : 'bullish';
+  //this made when it was working with 3 days of data, but not the same when working with 1 day
+  //let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
+  const trendDiff = parseFloat(Math.abs(firstClose - lastClose).toFixed(2));
+  const trendDiffPerc = Math.abs(100 - (firstClose / lastClose * 100)).toFixed(2);
+
+  //Determine trend before line ranges
+  let trend = 'ranging';
+  if((firstClose > lastClose) && (trendDiff >= rangelimit)) trend = 'bearish';
+  if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
 
   //If percentage change is significant, confirm trend (0.50% = 50 points which is quite significant)
   //UPDATE: I changed this to 100points for more certainty of momentum
-  if(lastDiff > 1) check1 = true;
+  if(lastDiff > 0.5) check1 = true;
 
   //count how many confirmations/ re-tests
   if(confirmations.support >= confirmationlimit && confirmations.resistance >= confirmationlimit) check2 = true;
@@ -115,11 +132,11 @@ actions.exec = async function(epic, prices){
   let summary = wickdata.length-1;
   let wds = wickdata[summary];
   let wicktrend = wds.resistance; //trend with strongest resistance for last three price bars
-  if(wds.confirmation1 == true && wds.confirmation2 == true) check3 = true;
+  if(wds.confirmation1 == true) check3 = true;
   if(trend == wicktrend) check4 = true;
 
-  if(trend == 'bearish' && lastClose < resistanceline) check5 = true;
-  if(trend == 'bullish' && lastClose > supportline) check5 = true;
+  if(lastClose < resistanceline) check5 = true;
+  if(lastClose > supportline) check5 = true;
 
   //loop through recent price bars and determine movement
   let recentlimit = 4;
@@ -143,7 +160,8 @@ actions.exec = async function(epic, prices){
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
-  if(trend == recenttrend) check6 = true;
+  if(beforeRangeTrend == recenttrend) check6 = true;
+  if(trend == 'ranging') check7 = true;
 
   let r = {
     'pricedata':pricedata,
@@ -161,19 +179,20 @@ actions.exec = async function(epic, prices){
     'wickstrength':wds.strength,
     'confirmations': confirmations,
     'isStrengthGreaterThanLimit': wds.confirmation1,
-    'isStrengthIncreasing': wds.confirmation2,
-    'isRanging':check0,
-    'isLastDiffGreaterThan100Points': check1,
+    //'isStrengthIncreasing': wds.confirmation2,
+    'isRangeAreaGood':check0,
+    'isLastDiffGreaterThan50Points': check1,
     //'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
     'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
-    'isRecentTrendSameAsTrend': check6,
+    'isRecentTrendSameAsBeforeRange': check6,
+    'isTrendRanging': check7,
     'ticket': {}
   };
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check3,check4,check5,check6];
+  const checks = [check0,check1,check3,check4,check5,check6,check7];
   if(checks.indexOf(false) == -1){
 
       //console.log('make trade');

@@ -293,14 +293,14 @@ if(noError){
   let summary = wickdata.length-1;
   let wds = wickdata[summary];
   let wicktrend = wds.resistance;
-  if(wds.confirmation1 == true) check3 = true;
+  if(wds.confirmation1 == true && wds.confirmation2 == true) check3 = true;
   if(trend == wicktrend) check4 = true;
 
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
-  if(lastClose < resistanceline) check5 = true;
-  if(lastClose > supportline) check5 = true;
+  if(trend == 'bearish' && lastClose < resistanceline) check5 = true;
+  if(trend == 'bullish' && lastClose > supportline) check5 = true;
 
   //another thing we could check//
   //check open positions if any
@@ -332,8 +332,8 @@ if(noError){
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
-  if(beforeRangeTrend == recenttrend) check6 = true;
-  if(trend == 'ranging') check7 = true;
+  if(trend == recenttrend) check6 = true;
+  if(trend == beforeRangeTrend) check7 = true;
 
   let analysis = {
     'pricedata':pricedata,
@@ -356,8 +356,8 @@ if(noError){
     'wickstrength':wds.strength,
     //'confirmations': confirmations,
     'isWickStrengthGreaterThanLimit': wds.confirmation1,
-    //'isWickStrengthIncreasing': wds.confirmation2,
-    'isRangeAreaGood':check0,
+    'isWickStrengthIncreasing': wds.confirmation2,
+    'isRanging':check0,
     'recentTrendArr': recenttrendArr,
     'recentTrend': recenttrend,
     'recentUps': ups,
@@ -368,8 +368,8 @@ if(noError){
     'isWickConfirmationsTrue': check3,
     'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
-    'isRecentTrendSameAsBeforeRange': check6,
-    'isTrendRanging': check7,
+    'isRecentTrendSameAsTrend': check6,
+    'isBeforeRangeSameAsTrend': check7,
     'ticket': {}
   };
 
