@@ -294,7 +294,7 @@ if(noError){
   let wds = wickdata[summary];
   let wicktrend = wds.resistance;
   if(wds.confirmation1 == true) check3 = true;
-  if(trend == wicktrend) check4 = true;
+
 
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
@@ -332,6 +332,7 @@ if(noError){
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
+  if(beforeRangeTrend == wicktrend) check4 = true;
   if(beforeRangeTrend == recenttrend) check6 = true;
   if(trend == 'ranging') check7 = true;
 
@@ -366,8 +367,8 @@ if(noError){
     'isLastDiffGreaterThan50Points': check1,
     //'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
-    'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
+    'isWickTrendSameAsBeforeRange': check4,
     'isRecentTrendSameAsBeforeRange': check6,
     'isTrendRanging': check7,
     'ticket': {}

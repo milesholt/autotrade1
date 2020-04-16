@@ -133,7 +133,7 @@ actions.exec = async function(epic, prices){
   let wds = wickdata[summary];
   let wicktrend = wds.resistance; //trend with strongest resistance for last three price bars
   if(wds.confirmation1 == true) check3 = true;
-  if(trend == wicktrend) check4 = true;
+
 
   if(lastClose < resistanceline) check5 = true;
   if(lastClose > supportline) check5 = true;
@@ -160,6 +160,7 @@ actions.exec = async function(epic, prices){
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
+  if(beforeRangeTrend == wicktrend) check4 = true;
   if(beforeRangeTrend == recenttrend) check6 = true;
   if(trend == 'ranging') check7 = true;
 
@@ -184,8 +185,8 @@ actions.exec = async function(epic, prices){
     'isLastDiffGreaterThan50Points': check1,
     //'isConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
-    'isWickTrendSameAsTrend': check4,
     'islastCloseAboveBelowLines': check5,
+    'isWickTrendSameAsBeforeRange': check4,
     'isRecentTrendSameAsBeforeRange': check6,
     'isTrendRanging': check7,
     'ticket': {}
