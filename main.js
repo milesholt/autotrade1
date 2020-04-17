@@ -296,12 +296,6 @@ if(noError){
   if(wds.confirmation1 == true) check3 = true;
 
 
-  //Possible addition of check5
-  //this checks to ensure last price bar is either above support/resistance depending on trend
-  //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
-  if(lastClose < resistanceline) check5 = true;
-  if(lastClose > supportline) check5 = true;
-
   //another thing we could check//
   //check open positions if any
   //then analyse wick Data
@@ -333,6 +327,13 @@ if(noError){
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
   if(beforeRangeTrend == wicktrend) check4 = true;
+
+  //Possible addition of check5
+  //this checks to ensure last price bar is either above support/resistance depending on trend
+  //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
+  if(beforeRangeTrend == 'bearish' && lastClose < resistanceline) check5 = true;
+  if(beforeRangeTrend == 'bullish' && lastClose > supportline) check5 = true;
+
   if(beforeRangeTrend == recenttrend) check6 = true;
   if(trend == 'ranging') check7 = true;
 
