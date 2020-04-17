@@ -27,6 +27,7 @@ const monitor = require('./services/monitor.js');
 
 //Parameters
 const rangelimit = 100;
+const rangeConfirmationLimit = 10;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
@@ -246,7 +247,9 @@ if(noError){
   //if are certain number of points maximum distance apart, then chart is not considered ranging
   //rangelimit is currently considered 100 points
   let lineDistance = Math.abs(resistanceline - supportline);
+  let rangeConfirmations = rangedata.support.prices_idx.length;
   if((lineDistance > 20 && lineDistance < rangelimit) && (resistanceline > supportline)) check0 = true;
+  if(rangeConfirmations >= rangeConfirmationLimit) check2 = true;
 
   // let lineDistance2 = Math.abs(resistanceline2 - supportline2);
   // console.log('lineDistance2: ' + lineDistance2);
@@ -326,16 +329,15 @@ if(noError){
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
-  if(beforeRangeTrend == wicktrend) check4 = true;
-
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
-  if(beforeRangeTrend == 'bearish' && lastClose < resistanceline) check5 = true;
-  if(beforeRangeTrend == 'bullish' && lastClose > supportline) check5 = true;
+  if(trend == 'bearish' && lastClose < resistanceline) check5 = true;
+  if(trend == 'bullish' && lastClose > supportline) check5 = true;
 
-  if(beforeRangeTrend == recenttrend) check6 = true;
-  if(trend == 'ranging') check7 = true;
+  if(trend == wicktrend) check4 = true;
+  if(trend == recenttrend) check6 = true;
+  if(trend == beforeRangeTrend) check7 = true;
 
   let analysis = {
     'pricedata':pricedata,
@@ -359,19 +361,20 @@ if(noError){
     //'confirmations': confirmations,
     'isWickStrengthGreaterThanLimit': wds.confirmation1,
     //'isWickStrengthIncreasing': wds.confirmation2,
-    'isRangeAreaGood':check0,
+    'rangeConfirmations':rangeConfirmations,
     'recentTrendArr': recenttrendArr,
     'recentTrend': recenttrend,
     'recentUps': ups,
     'recentDowns':downs,
     'recentMovementValue': movementValue,
     'isLastDiffGreaterThan50Points': check1,
-    //'isConfirmationsGreaterThanLimit': check2,
+    'isRangeAreaGood':check0,
+    'isRangeConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
     'islastCloseAboveBelowLines': check5,
-    'isWickTrendSameAsBeforeRange': check4,
-    'isRecentTrendSameAsBeforeRange': check6,
-    'isTrendRanging': check7,
+    'isWickTrendSameAsTrend': check4,
+    'isRecentTrendSameAsTrend': check6,
+    'isBeforeRangeSameAsTrend': check7,
     'ticket': {}
   };
 
@@ -441,7 +444,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check3,check4,check5,check6,check7];
+  const checks = [check0,check1,check2,check3,check4,check5,check6,check7];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
