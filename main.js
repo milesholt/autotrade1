@@ -329,6 +329,9 @@ if(noError){
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
+  //if wicktrend and recenttrend are the same and wicktrend strength is over limit and trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
+  if(wicktrend == recenttrend && wds.confirmation1 == true && trend == 'ranging') trend = wicktrend;
+
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
@@ -338,6 +341,8 @@ if(noError){
   if(trend == wicktrend) check4 = true;
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
+
+
 
   let analysis = {
     'pricedata':pricedata,
