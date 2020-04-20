@@ -79,6 +79,7 @@ actions.readStream = function(single){
 
         readerStream.on('end',function() {
             console.log(data);
+          if(Array.isArray(data)){
             let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
             let d = {
               'snapshotTime':time,
@@ -104,7 +105,10 @@ actions.readStream = function(single){
               },
               'lastTradedVolume': parseFloat(data[3])
             }
-           resolve(d);
+            resolve(d);
+          } else {
+            reject('tried to end stream, but object is not array');
+          }       
         });
 
         readerStream.on('error', function(err) {
