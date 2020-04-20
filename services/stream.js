@@ -14,7 +14,7 @@ var subscriptionMode = 'MERGE';
 // var fields = ['UPDATE_TIME', 'BID', 'OFFER', 'HIGH', 'LOW', 'MID_OPEN'];
 var items = ['CHART:'+epic+':HOUR'];
 var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN','BID_CLOSE','BID_HIGH','BID_LOW'];
-
+var destroyStream = false;
 
 actions.connectStream = function(check){
   return new Promise((resolve, reject) => {
@@ -48,6 +48,7 @@ actions.startStream = async function(check = false){
 actions.endStream = function(){
   api.unsubscribeToLightstreamer();
   api.disconnectToLightstreamer();
+  destroyStream = true;
 }
 
 actions.readStream = function(single){
@@ -77,37 +78,42 @@ actions.readStream = function(single){
 
         });
 
-        readerStream.on('end',function() {
-          //console.log(data);
-          let d = {};
-          if(Array.isArray(data)){
-            let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
-            d = {
-              'snapshotTime':time,
-              'openPrice': {
-                'bid': parseFloat(data[8]),
-                'ask': parseFloat(data[4]),
-                'lastTraded': null
-              },
-              'closePrice': {
-                'bid': parseFloat(data[9]),
-                'ask': parseFloat(data[5]),
-                'lastTraded': null
-              },
-              'highPrice': {
-                'bid': parseFloat(data[10]),
-                'ask': parseFloat(data[6]),
-                'lastTraded': null
-              },
-              'lowPrice': {
-                'bid': parseFloat(data[11]),
-                'ask': parseFloat(data[7]),
-                'lastTraded': null
-              },
-              'lastTradedVolume': parseFloat(data[3])
-            }            
-          }
-          resolve(d);
+        readerStream.on('end',function() {         
+          if(destroyStream){
+            console.log('destroyStream is true, stream should be destroyed.');
+            readerStream.destroy();
+          } else{
+            //console.log(data);
+            let d = {};
+            if(Array.isArray(data)){
+              let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
+              d = {
+                'snapshotTime':time,
+                'openPrice': {
+                  'bid': parseFloat(data[8]),
+                  'ask': parseFloat(data[4]),
+                  'lastTraded': null
+                },
+                'closePrice': {
+                  'bid': parseFloat(data[9]),
+                  'ask': parseFloat(data[5]),
+                  'lastTraded': null
+                },
+                'highPrice': {
+                  'bid': parseFloat(data[10]),
+                  'ask': parseFloat(data[6]),
+                  'lastTraded': null
+                },
+                'lowPrice': {
+                  'bid': parseFloat(data[11]),
+                  'ask': parseFloat(data[7]),
+                  'lastTraded': null
+                },
+                'lastTradedVolume': parseFloat(data[3])
+              }            
+            }
+            resolve(d);
+          }     
         });
 
         readerStream.on('error', function(err) {
