@@ -54,14 +54,16 @@ let pricedatacount = 0;
 prices = require(pricedataDir);
 console.log(prices);
 
+run();
 
-//Login and check for open positions first
-await firstrun();
-//Then execute main function, looping initially
-loop();
+async function run(){
+  //Login and check for open positions first
+  await init();
+  //Then execute main function, looping initially
+  loop();
+}
 
-
-async function firstrun(){
+async function init(){
   //Login
   //console.log('-------Logging in');
   await api.login(true).then(r => {
