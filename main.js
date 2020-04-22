@@ -92,6 +92,16 @@ async function exec(){
   await api.login(true).then(r => {
     //console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
+  
+  //Check for open positions
+  await api.showOpenPositions().then(async positionsData => {
+        console.log('------checking for open positions');
+        console.log(util.inspect(positionsData, false, null));
+        if(positionsData.positions.length > 0){
+          console.log('position found beginning monitoring.');
+          monitor.actions.beginMonitor();
+        }
+  });
 
   //Retrieve data from epic
   console.log('-------Retrieving historic pricing data for epic');
@@ -287,7 +297,6 @@ if(noError){
   //if(confirmations.support >= confirmationlimit && confirmations.resistance >= confirmationlimit) check2 = true;
   //overiding confirmations as this is no longer valid and needs to be redone
 
-
   //Lastly, check wick data
   let wickdata = await strategy.actions.calcWicks(pricedata);
   linedata.support = supportline;
@@ -297,7 +306,6 @@ if(noError){
   let wds = wickdata[summary];
   let wicktrend = wds.resistance;
   if(wds.confirmation1 == true) check3 = true;
-
 
   //another thing we could check//
   //check open positions if any
@@ -345,8 +353,6 @@ if(noError){
   if(trend == wicktrend) check4 = true;
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
-
-
 
   let analysis = {
     'pricedata':pricedata,
@@ -491,43 +497,10 @@ if(noError){
       //check for existing open tickets
       await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
-
-        if(positionsData.positions.length > 0){
-          let pos = positionsData.positions[0];
-          let stop = pos.position.stopLevel;
-          let dealId = pos.position.dealId;
-          let catchDiff = Math.abs(pos.position.openLevel - pos.position.stopLevel) / 2;
-          let catchPrice = trend === 'bullish' ? pos.position.openLevel - catchDiff : pos.position.openLevel + catchDiff;
-          //only trigger if position is 50% close towards loss, then we close
-          if((trend === 'bullish' && lastClose <= catchPrice) || (trend === 'bearish' && lastClose >= catchPrice)){
-              let closeAnalysis = {
-                stop: stop,
-                catchDiff: catchDiff,
-                catchPrice: catchPrice,
-                lastClose: lastClose,
-                trend: trend
-              }
-              console.log('closing position, because loss is 50% towards stop value.');
-              console.log('stop value: ' + stop);
-              console.log('catchDiff: ' + catchDiff);
-              console.log('catchPrice (50% towards stop value): ' + catchPrice);
-              console.log('lastClose: '+ lastClose);
-              console.log('trend: '+ trend);
-              api.closePosition(dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
-              var mailOptions = {
-                from: 'contact@milesholt.co.uk',
-                to: 'miles_holt@hotmail.com',
-                subject: 'Closed position due to 50% towards loss: ' + moment().format('LLL') + ' - ' + trend,
-                text: JSON.stringify(closeAnalysis)
-              };
-              mailer.actions.sendMail(mailOptions);
-          }
-        }
-
+    
         //stop distance = minimum 1% of lastClose price + fluctuation of 10 as prices are changing
         let stopDistance = Math.round(lastClose * 0.03) + 10;
         console.log('stop distance: ' + stopDistance);
-
 
         if(!positionOpen && positionsData.positions.length === 0){
           console.log('You have no open position, begin trade.');
@@ -552,7 +525,6 @@ if(noError){
           analysis.ticket = ticket;
           console.log(analysis);
 
-
               //Open a ticket
               api.deal(ticket).then(r => {
                 console.log(util.inspect(r, false, null));
@@ -573,7 +545,6 @@ if(noError){
 
               loop('Checks passed and trade has been made. Will go again in 1 hour.');
               return false;
-
 
         } else {
           loop('You are already trading on this epic. Waiting 1 hour.');
