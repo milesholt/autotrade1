@@ -79,7 +79,6 @@ actions.beginMonitor = async function(){
         console.log('Stream response:');
 
         var timer = setInterval(()=>{
-          console.log('interval running..');
           
           fs.readFile(streamLogDir, function (err, data) {
             if (err) {
@@ -159,8 +158,7 @@ actions.beginMonitor = async function(){
                         text: JSON.stringify(closeAnalysis)
                       };
                       mailer.actions.sendMail(mailOptions);
-                      clearInterval(timer);
-                      return;
+                      actions.stopMonitor(timer);
                     }
 
                     if(closeloss){
@@ -181,8 +179,7 @@ actions.beginMonitor = async function(){
                         text: JSON.stringify(closeAnalysis)
                       };
                       mailer.actions.sendMail(mailOptions);
-                      clearInterval(timer);
-                      return;
+                      actions.stopMonitor(timer);
                     }
 
                     console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);
@@ -206,6 +203,12 @@ actions.beginMonitor = async function(){
   });
 
 
+}
+
+actions.stopMonitor = async function(timer){
+  console.log('stopping monitor');
+  clearInterval(timer);
+  return false;
 }
 
 module.exports = {
