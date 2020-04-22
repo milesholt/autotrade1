@@ -82,6 +82,7 @@ actions.readStream = function(single){
           if(destroyStream){
             console.log('destroyStream is true, stream should be destroyed.');
             readerStream.destroy();
+            reject();
           } else{
             //console.log(data);
             let d = {};
