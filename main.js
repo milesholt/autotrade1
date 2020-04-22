@@ -54,26 +54,30 @@ let pricedatacount = 0;
 prices = require(pricedataDir);
 console.log(prices);
 
+
 //Login and check for open positions first
-
-//Login
-//console.log('-------Logging in');
-await api.login(true).then(r => {
-  //console.log(util.inspect(r,false,null));
-}).catch(e => console.log(e));
-  
-//Check for open positions
-await api.showOpenPositions().then(async positionsData => {
-      console.log('------checking for open positions');
-      console.log(util.inspect(positionsData, false, null));
-      if(positionsData.positions.length > 0){
-        console.log('position found beginning monitoring.');
-        monitor.actions.beginMonitor();
-      }
-});
-
-//Execute main function, looping initially
+await firstrun();
+//Then execute main function, looping initially
 loop();
+
+
+async function firstrun(){
+  //Login
+  //console.log('-------Logging in');
+  await api.login(true).then(r => {
+    //console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
+
+  //Check for open positions
+  await api.showOpenPositions().then(async positionsData => {
+        console.log('------checking for open positions');
+        console.log(util.inspect(positionsData, false, null));
+        if(positionsData.positions.length > 0){
+          console.log('position found beginning monitoring.');
+          monitor.actions.beginMonitor();
+        }
+  });
+}
 
 //Begin Exec function
 async function exec(){
