@@ -53,7 +53,26 @@ let pricedatacount = 0;
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
 console.log(prices);
-//Execute main function, looping first
+
+//Login and check for open positions first
+
+//Login
+//console.log('-------Logging in');
+await api.login(true).then(r => {
+  //console.log(util.inspect(r,false,null));
+}).catch(e => console.log(e));
+  
+//Check for open positions
+await api.showOpenPositions().then(async positionsData => {
+      console.log('------checking for open positions');
+      console.log(util.inspect(positionsData, false, null));
+      if(positionsData.positions.length > 0){
+        console.log('position found beginning monitoring.');
+        monitor.actions.beginMonitor();
+      }
+});
+
+//Execute main function, looping initially
 loop();
 
 //Begin Exec function
@@ -81,28 +100,11 @@ async function exec(){
   let from2 = today+'%20'+lasthour+':30:00';
   let to2 = today+'%20'+currenthour+':00:00';
 
-
   console.log('currenthour: ' + currenthour);
   console.log('lasthour: ' + lasthour);
   console.log('--------BEGIN EXEC: ' + timestamp );
   console.log('--------BEGIN EXEC AUTO TRADE');
-
-  //Login
-  //console.log('-------Logging in');
-  await api.login(true).then(r => {
-    //console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
   
-  //Check for open positions
-  await api.showOpenPositions().then(async positionsData => {
-        console.log('------checking for open positions');
-        console.log(util.inspect(positionsData, false, null));
-        if(positionsData.positions.length > 0){
-          console.log('position found beginning monitoring.');
-          monitor.actions.beginMonitor();
-        }
-  });
-
   //Retrieve data from epic
   console.log('-------Retrieving historic pricing data for epic');
 
