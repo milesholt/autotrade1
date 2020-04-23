@@ -91,13 +91,14 @@ actions.calcWicks = async function(pricedata){
 
   //set how many wicks to check
   let wicklimit = 3;
-  let strengthlimit = 30;
+  let strengthlimit = 25;
   let wickdata = [];
   let beardir = bulldir = 0;
   let dir = '';
   let strength = false;
   let topstrength = 0;
   let botstrength = 0;
+  let wickstrength = 0;
   let resistance = 'none';
   let confirmation1 = false;
   let confirmation2 = false;
@@ -138,20 +139,25 @@ actions.calcWicks = async function(pricedata){
   //updated method builds an array of all the top/bot wick values, and selects the largest using Max
   //this method selects the strongest wickend of the three, which includes the second wick
 
-  let toparr = [], botarr = [];
+  let toparr = [], botarr = [], strengtharr = [];
   from(wickdata).pipe(map(val => val.topwick)).subscribe(val => toparr.push(val));
   from(wickdata).pipe(map(val => val.botwick)).subscribe(val => botarr.push(val));
+  from(wickdata).pipe(map(val => val.wickstrength)).subscribe(val => strengtharr.push(val));
 
   topstrength = Math.max.apply( Math, toparr );
   botstrength = Math.max.apply( Math, botarr );
+  wickstrength = Math.max.apply( Math, strengtharr );
 
   //depending on which wick end is greater, and if over strengthlimit, determines trend
 
-  if((topstrength > botstrength) && (topstrength > strengthlimit)) resistance = 'bearish';
-  if((botstrength > topstrength) && (botstrength > strengthlimit)) resistance = 'bullish';
+  if((topstrength > botstrength) && (topstrength >= strengthlimit)) resistance = 'bearish';
+  if((botstrength > topstrength) && (botstrength >= strengthlimit)) resistance = 'bullish';
 
   //strength is now only the strength of the latest wick
-  strength = wickdata[(wicklimit-1)].wickstrength;
+  //strength = wickdata[(wicklimit-1)].wickstrength;
+  
+  //update: we now choose wick with highest strength
+  strength = wickstrength;
 
   //is wicks percentage change of strength greater than 50%?
   if (strength >= strengthlimit) confirmation1 = true;
