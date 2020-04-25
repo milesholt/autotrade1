@@ -181,8 +181,11 @@ actions.beginMonitor = async function(){
                       mailer.actions.sendMail(mailOptions);
                       actions.stopMonitor(timer);
                     }
+              
+                    //get modification time of file
+                    const stats = fs.statSync(streamLogDir);
 
-                    console.log('close price: ' + closePrice + ' newlimit: ' + newlimit);
+                    console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' updated: ' + stats.mtime);
 
 
 
