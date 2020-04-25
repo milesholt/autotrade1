@@ -184,8 +184,9 @@ actions.beginMonitor = async function(){
               
                     //get modification time of file
                     const stats = fs.statSync(streamLogDir);
+                    const modtime = moment(stats.mtime).format('LT');
 
-                    console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' updated: ' + stats.mtime);
+                    console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' updated: ' + modtime);
 
 
 
