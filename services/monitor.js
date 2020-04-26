@@ -147,7 +147,9 @@ actions.beginMonitor = async function(){
                         stopLevel: stopLevel,
                         newLimit: newlimit,
                         lastClose: closePrice,
-                        direction: direction
+                        direction: direction,
+                        openLevel: openLevel,
+                        data: d
                       }
 
                       api.closePosition(dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
@@ -170,7 +172,9 @@ actions.beginMonitor = async function(){
                         limitLevel: limitLevel,
                         stopLevel: stopLevel,
                         lastClose: closePrice,
-                        direction: direction
+                        direction: direction,
+                        openLevel: openLevel,
+                        data: d
                       }
                       var mailOptions = {
                         from: 'contact@milesholt.co.uk',
