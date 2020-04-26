@@ -196,7 +196,7 @@ actions.beginMonitor = async function(){
             }
           });
         },3000);
-      });
+      }).catch(error => alert(error.message));
 
     } else{
       console.log('no opens positions found but should be, going again....');
