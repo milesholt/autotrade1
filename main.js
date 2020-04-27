@@ -408,7 +408,7 @@ if(noError){
     'isRecentTrendSameAsTrend': check6,
     'isBeforeRangeSameAsTrend': check7,
     'isBreakingThroughRange': isBreakingThroughRange,
-    'wasPreviousTrendRanging' : check8
+    'wasPreviousTrendRanging' : check8,
     'ticket': {}
   };
 
