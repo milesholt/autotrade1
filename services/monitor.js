@@ -198,9 +198,9 @@ actions.beginMonitor = async function(){
                     //the json is not ok
                     data = {};
             }
-          }).catch(error => console.log(error.message));
+          }).catch(error => console.error(error));
         },3000);
-      }).catch(error => console.log(error.message));
+      }).catch(error => console.error(error));
 
     } else{
       console.log('no opens positions found but should be, going again....');
@@ -208,7 +208,7 @@ actions.beginMonitor = async function(){
         actions.beginMonitor();
       },2000)
     }
-  }).catch(error => console.log(error.message));
+  }).catch(error => console.error(error));
 
 
 }
