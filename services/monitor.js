@@ -198,7 +198,7 @@ actions.beginMonitor = async function(){
                     //the json is not ok
                     data = {};
             }
-          }).catch(error => console.error(error));
+          });
         },3000);
       }).catch(error => console.error(error));
 
