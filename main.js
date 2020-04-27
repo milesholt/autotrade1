@@ -28,7 +28,7 @@ const monitor = require('./services/monitor.js');
 //Parameters
 const rangelimit = 100;
 const rangeConfirmationLimit = 13;
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
@@ -49,6 +49,7 @@ let lasthour = moment().subtract(1, 'hours').format("HH");
 var pricedataDir = path.join(__dirname, 'pricedata.json');
 let dealId = '';
 let pricedatacount = 0;
+let previousTrend = '';
 
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
@@ -91,7 +92,7 @@ async function exec(){
   let pricedata3 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
   //confirmations = {'resistance': 0, 'support': 0};
-  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false;
+  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false;
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -361,6 +362,14 @@ if(noError){
   if(trend == wicktrend) check4 = true;
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
+  
+  //set previous trend for next loop
+  //if previous trend was ranging and latest trend isn't, this suggests trend has broken out of range
+  if(previousTrend == 'ranging' && trend !== 'ranging'){
+    check8 = true;
+    isBreakingThroughRange = true;
+  }
+  previousTrend = trend;
 
   let analysis = {
     'pricedata':pricedata,
@@ -399,6 +408,7 @@ if(noError){
     'isRecentTrendSameAsTrend': check6,
     'isBeforeRangeSameAsTrend': check7,
     'isBreakingThroughRange': isBreakingThroughRange,
+    'wasPreviousTrendRanging' : check8
     'ticket': {}
   };
 
@@ -465,10 +475,15 @@ if(noError){
   //   console.log(util.inspect(positionsData, false, null));
   //   console.log(positionsData.positions.length);
   // });
+  
+  
+  
+  
+  
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check2,check3,check4,check5,check6,check7];
+  const checks = [check0,check1,check2,check3,check4,check5,check6,check7,check8];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
