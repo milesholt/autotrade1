@@ -368,7 +368,7 @@ if(noError){
   if(previousTrend == 'ranging' && trend !== 'ranging'){
     check8 = true;
   }
-  previousTrend = trend;
+  
 
   let analysis = {
     'pricedata':pricedata,
@@ -417,6 +417,9 @@ if(noError){
   // console.log('resistance:' +analysis.pricedata.resistance[idx].price);
   //
   //
+  
+  //set previous trend after everything else
+  previousTrend = trend;
 
   console.log(analysis);
 
