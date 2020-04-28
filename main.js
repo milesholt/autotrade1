@@ -347,10 +347,10 @@ if(noError){
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
   //if wicktrend and recenttrend are the same and wicktrend strength is over limit and trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
-  let isBreakingThroughRange = false;
+  let isRecentTrendBreaking = false;
   if(wicktrend == recenttrend && wds.confirmation1 == true && trend == 'ranging'){
     trend = wicktrend;
-    isBreakingThroughRange = true;
+    isRecentTrendBreaking = true;
   }
 
   //Possible addition of check5
@@ -367,7 +367,6 @@ if(noError){
   //if previous trend was ranging and latest trend isn't, this suggests trend has broken out of range
   if(previousTrend == 'ranging' && trend !== 'ranging'){
     check8 = true;
-    isBreakingThroughRange = true;
   }
   previousTrend = trend;
 
@@ -384,6 +383,7 @@ if(noError){
     'wickdata': wickdata,
     'linedata': linedata,
     'lineDistance': lineDistance,
+    'previousTrend' : previousTrend,
     'trend': trend,
     'trendDiff': trendDiff,
     'trendDiffPerc': trendDiffPerc + '%',
@@ -407,8 +407,8 @@ if(noError){
     'isWickTrendSameAsTrend': check4,
     'isRecentTrendSameAsTrend': check6,
     'isBeforeRangeSameAsTrend': check7,
-    'isBreakingThroughRange': isBreakingThroughRange,
-    'wasPreviousTrendRanging' : check8,
+    'isRecentTrendBreaking' : isRecentTrendBreaking,
+    'isBreakingThroughRange': check8, 
     'ticket': {}
   };
 
