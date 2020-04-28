@@ -348,7 +348,8 @@ if(noError){
 
   //if wicktrend and recenttrend are the same and wicktrend strength is over limit and trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   let isRecentTrendBreaking = false;
-  if(wicktrend == recenttrend && wds.confirmation1 == true && trend == 'ranging'){
+  let currenttrend = trend; //store a copy of trend before (if) changing it for analysis
+  if(wicktrend == recenttrend && wds.confirmation1 == true && trend == 'ranging'){  
     trend = wicktrend;
     isRecentTrendBreaking = true;
   }
@@ -384,7 +385,7 @@ if(noError){
     'linedata': linedata,
     'lineDistance': lineDistance,
     'previousTrend' : previousTrend,
-    'trend': trend,
+    'trend': currenttrend,
     'trendDiff': trendDiff,
     'trendDiffPerc': trendDiffPerc + '%',
     'beforeRangeTrend': beforeRangeTrend,
