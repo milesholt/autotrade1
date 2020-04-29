@@ -349,7 +349,7 @@ if(noError){
   //if wicktrend and recenttrend are the same and wicktrend strength is over limit and trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   let isRecentTrendBreaking = false;
   let currenttrend = trend; //store a copy of trend before (if) changing it for analysis
-  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2) && trend == 'ranging'){  
+  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2)) && trend == 'ranging'){  
     trend = recenttrend;
     isRecentTrendBreaking = true;
   }
