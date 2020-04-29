@@ -349,8 +349,8 @@ if(noError){
   //if wicktrend and recenttrend are the same and wicktrend strength is over limit and trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   let isRecentTrendBreaking = false;
   let currenttrend = trend; //store a copy of trend before (if) changing it for analysis
-  if(wicktrend == recenttrend && wds.confirmation1 == true && trend == 'ranging'){  
-    trend = wicktrend;
+  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2) && trend == 'ranging'){  
+    trend = recenttrend;
     isRecentTrendBreaking = true;
   }
 
@@ -400,12 +400,13 @@ if(noError){
     'recentUps': ups,
     'recentDowns':downs,
     'recentMovementValue': movementValue,
+    'recentMovementValueDiff': movementValueDiff,
     'isLastDiffGreaterThan50Points': check1,
     'isRangeAreaGood':check0,
     'isRangeConfirmationsGreaterThanLimit': check2,
     'isWickConfirmationsTrue': check3,
     'islastCloseAboveBelowLines': check5,
-    'isWickTrendSameAsTrend': check4,
+    //'isWickTrendSameAsTrend': check4,
     'isRecentTrendSameAsTrend': check6,
     'isBeforeRangeSameAsTrend': check7,
     'isRecentTrendBreaking' : isRecentTrendBreaking,
@@ -487,7 +488,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check2,check3,check4,check5,check6,check7,check8];
+  const checks = [check0,check1,check2,check3,check5,check6,check7,check8];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
