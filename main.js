@@ -49,7 +49,7 @@ let lasthour = moment().subtract(1, 'hours').format("HH");
 var pricedataDir = path.join(__dirname, 'pricedata.json');
 let dealId = '';
 let pricedatacount = 0;
-let previousTrend = '';
+let previousTrend = 'ranging';
 
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
@@ -333,6 +333,7 @@ if(noError){
   let pl = pricedata.support.length;
   let movementValue = parseFloat((pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].open).toFixed(2));
   let movementValueDiff = Math.abs(movementValue);
+  let movementValueDiffPerc = Math.abs(movementValue / pricedata.support[pl-1].close * 100).toFixed(2);
 
   for(let i = (pl - recentlimit), len = pl; i < len; i++){
     let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
@@ -400,7 +401,7 @@ if(noError){
     'recentUps': ups,
     'recentDowns':downs,
     'recentMovementValue': movementValue,
-    'recentMovementValueDiff': movementValueDiff,
+    'recentMovementValueDiffPerc': movementValueDiffPerc + '%',
     'isLastDiffGreaterThan50Points': check1,
     'isRangeAreaGood':check0,
     'isRangeConfirmationsGreaterThanLimit': check2,
@@ -420,8 +421,8 @@ if(noError){
   //
   //
   
-  //set previous trend after everything else
-  previousTrend = trend;
+  //set previous trend after everything else (using currenttrend to catch 'ranging' otherwise isBreakingThroughRange is false)
+  previousTrend = currenttrend;
 
   console.log(analysis);
 
