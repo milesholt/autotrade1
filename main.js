@@ -27,7 +27,7 @@ const monitor = require('./services/monitor.js');
 
 //Parameters
 const rangelimit = 100;
-const rangeConfirmationLimit = 13;
+const rangeConfirmationLimit = 12;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
@@ -49,7 +49,7 @@ let lasthour = moment().subtract(1, 'hours').format("HH");
 var pricedataDir = path.join(__dirname, 'pricedata.json');
 let dealId = '';
 let pricedatacount = 0;
-let previousTrend = 'ranging';
+let previousTrend = 'bullish';
 
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
@@ -367,7 +367,8 @@ if(noError){
   
   //set previous trend for next loop
   //if previous trend was ranging and latest trend isn't, this suggests trend has broken out of range
-  if(previousTrend == 'ranging' && trend !== 'ranging'){
+  //rangedata.support.prices_idx;
+  if((previousTrend == 'ranging' || (check2 == true && recenttrend == 'ranging')) && trend !== 'ranging'){
     check8 = true;
   }
   
@@ -395,6 +396,7 @@ if(noError){
     //'confirmations': confirmations,
     'isWickStrengthGreaterThanLimit': wds.confirmation1,
     //'isWickStrengthIncreasing': wds.confirmation2,
+    'rangedata_indexes': rangedata.support.prices_idx,
     'rangeConfirmations':rangeConfirmations,
     'recentTrendArr': recenttrendArr,
     'recentTrend': recenttrend,
