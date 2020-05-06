@@ -402,7 +402,7 @@ if(noError){
     'recentDowns':downs,
     'recentMovementValue': movementValue,
     'recentMovementValueDiffPerc': movementValueDiffPerc + '%',
-    'isLastDiffGreaterThan50Points': check1,
+    //'isLastDiffGreaterThan50Points': check1,
     'isRangeAreaGood':check0,
     'isRangeConfirmationsGreaterThanLimit': check2,
     //'isWickConfirmationsTrue': check3,
@@ -489,7 +489,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check2,check5,check6,check7,check8];
+  const checks = [check0,check2,check5,check6,check7,check8];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
