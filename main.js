@@ -295,8 +295,12 @@ if(noError){
   const trendDiffPerc = Math.abs(100 - (firstClose / lastClose * 100)).toFixed(2);
 
   let trend = 'ranging';
-  if((firstClose > lastClose) && (trendDiff >= rangelimit)) trend = 'bearish';
-  if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
+  //if range confirmations not over confirmation limit, then it's not ranging
+  if(check2 !== true){
+    //if prices have moved and over significant distance (range area limit)
+    if((firstClose > lastClose) && (trendDiff >= rangelimit)) trend = 'bearish';
+    if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
+  }
 
   //If percentage change is significant, confirm trend (0.50% = 50 points which is quite significant)
   //UPDATE: I changed this to 100points for more certainty of momentum
