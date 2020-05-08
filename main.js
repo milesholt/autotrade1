@@ -301,9 +301,9 @@ if(noError){
   if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
 
 
-  //If percentage change is significant, confirm trend (0.50% = 50 points which is quite significant)
-  //UPDATE: I changed this to 100points for more certainty of momentum
-  if(lastDiff > 0.5) check1 = true;
+  //If percentage change is significant, confirm trend (0.20% = 20 points)
+  //It needs to be at least 20 points past the line to count as momentum
+  if(lastDiff > 0.2) check1 = true;
 
   //count how many confirmations/ re-tests
   //if(confirmations.support >= confirmationlimit && confirmations.resistance >= confirmationlimit) check2 = true;
@@ -422,7 +422,7 @@ if(noError){
     'recentDowns':downs,
     'recentMovementValue': movementValue,
     'recentMovementValueDiffPerc': movementValueDiffPerc + '%',
-    //'isLastDiffGreaterThan50Points': check1,
+    'isLastDiffGreaterThan20Points': check1,
     'isRangeAreaGood':check0,
     'isRangeConfirmationsGreaterThanLimit': check2,
     //'isWickConfirmationsTrue': check3,
@@ -509,7 +509,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check2,check5,check6,check7,check8];
+  const checks = [check0,check1,check2,check5,check6,check7,check8];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
