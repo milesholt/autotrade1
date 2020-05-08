@@ -371,7 +371,13 @@ if(noError){
   //set previous trend for next loop
   //if previous trend was ranging and latest trend isn't, this suggests trend has broken out of range
   //rangedata.support.prices_idx;
-  if(previousTrend == 'ranging' && trend !== 'ranging'){
+  let recentrange = [];
+  let recentrangelimit =  5;
+  rangedata.support.prices.idx.forEach(pid => {
+    if(pid > 12) recentrange.push(pid);
+  });
+                                       
+  if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && trend !== 'ranging'){
     check8 = true;
   }
   
