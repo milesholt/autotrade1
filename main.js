@@ -373,7 +373,7 @@ if(noError){
   //rangedata.support.prices_idx;
   let recentrange = [];
   let recentrangelimit =  5;
-  rangedata.support.prices.idx.forEach(pid => {
+  rangedata.support.prices_idx.forEach(pid => {
     if(pid > 12) recentrange.push(pid);
   });
                                        
