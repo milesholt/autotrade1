@@ -49,7 +49,7 @@ let lasthour = moment().subtract(1, 'hours').format("HH");
 var pricedataDir = path.join(__dirname, 'pricedata.json');
 let dealId = '';
 let pricedatacount = 0;
-let previousTrend = '';
+let previousTrend = 'bearish';
 
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
