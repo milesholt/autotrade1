@@ -33,14 +33,16 @@ actions.beginMonitor = async function(){
   //get open position information
 
   await api.showOpenPositions().then(async positionsData => {
-    //console.log(util.inspect(positionsData, false, null));
-    let status = positionsData.confirms.dealStatus;
+    console.log(util.inspect(positionsData, false, null));
     
-    if(status == 'REJECTED'){
-      console.error('deal was rejected');
-      return console.error(positionsData.confirms.reason);
+    if(Objects.keys(positionsData).indexOf('confirms') !== -1){
+      let status = positionsData.confirms.dealStatus;
+      if(status == 'REJECTED'){
+        console.error('deal was rejected');
+        return console.error(positionsData.confirms.reason);
+      }
     }
-
+   
     if(positionsData.positions.length){
       const position = positionsData.positions[0].position;
 
