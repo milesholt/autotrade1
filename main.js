@@ -302,6 +302,7 @@ if(noError){
   //Determine trend before line ranges
   //This determines trend between price bar at 36 hours to lastClose
   let beforeRangeTrend = 'ranging';
+  let beforeRangeFirstCloseData = pricedata3.support[0];
   const beforeRangeTrendDiff = parseFloat(Math.abs(beforeRangeFirstClose - lastClose).toFixed(2));
   if((beforeRangeFirstClose > lastClose) && (beforeRangeTrendDiff >= rangelimit)) beforeRangeTrend = 'bearish';
   if((beforeRangeFirstClose < lastClose) && (beforeRangeTrendDiff >= rangelimit)) beforeRangeTrend = 'bullish';
@@ -414,6 +415,8 @@ if(noError){
     'trendDiff': trendDiff,
     'trendDiffPerc': trendDiffPerc + '%',
     'beforeRangeTrend': beforeRangeTrend,
+    'beforeRangeFirstCloseData' : beforeRangeFirstCloseData,
+    'beforeRangeTrendDiff': beforeRangeTrendDiff,
     'wicktrend': wicktrend,
     'wickstrength':wds.strength,
     //'confirmations': confirmations,
