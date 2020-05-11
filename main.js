@@ -300,7 +300,7 @@ if(noError){
   if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
   
   //Determine trend before line ranges
-  //This detemrines trend between price bar at 36 hours to lastClose
+  //This determines trend between price bar at 36 hours to lastClose
   let beforeRangeTrend = 'ranging';
   const beforeRangeTrendDiff = parseFloat(Math.abs(beforeRangeFirstClose - lastClose).toFixed(2));
   if((beforeRangeFirstClose > lastClose) && (beforeRangeTrendDiff >= rangelimit)) beforeRangeTrend = 'bearish';
