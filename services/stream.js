@@ -122,7 +122,11 @@ actions.readStream = function(single){
            reject(err.stack);
         });
 
-        if(!single) actions.readStream(single);
+        if(!single){
+          if(!destroyStream){
+            actions.readStream(single);
+          }          
+        }
 
     },3000);
   });
