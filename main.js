@@ -300,13 +300,11 @@ if(noError){
   if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
   
   //Determine trend before line ranges
-  let beforeRangeTrend = 'Not determined';
-  //this confirms beforeRangeFirstClose is either above / below firstClose of trend area, but also that it agrees with trend
-  //bear in mind the beforeRange only checks 36hours to the start of the 24 hour area
-  //this is why it needs to agree with trend, otherwise if there is sudden, significant drop, beforeRange might be bullish but comparing to lastClose, it is actually bearish
-  if((beforeRangeFirstClose > firstClose) && trend == 'bearish') beforeRangeTrend = 'bearish';
-  if((beforeRangeFirstClose < firstClose) && trend == 'bullish') beforeRangeTrend = 'bullish';
-
+  //This detemrines trend between price bar at 36 hours to lastClose
+  let beforeRangeTrend = 'ranging';
+  const beforeRangeTrendDiff = parseFloat(Math.abs(beforeRangeFirstClose - lastClose).toFixed(2));
+  if((beforeRangeFirstClose > lastClose) && (beforeRangeTrendDiff >= rangelimit)) beforeRangeTrend = 'bearish';
+  if((beforeRangeFirstClose < lastClose) && (beforeRangeTrendDiff >= rangelimit)) beforeRangeTrend = 'bullish';
 
   //If percentage change is significant, confirm trend (0.20% = 20 points)
   //It needs to be at least 20 points past the line to count as momentum
