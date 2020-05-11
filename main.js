@@ -286,9 +286,8 @@ if(noError){
   const lastCloseBid = pricedata.support[pricedata.support.length-1].closeBid;
   let lastDiff = lastClose > resistanceline ? Math.abs(100 - (resistanceline / lastClose * 100)).toFixed(2) : Math.abs(100 - (supportline / lastClose * 100)).toFixed(2);
 
-  //Determine trend before line ranges
-  //this could be a possible check7, not introduced yet
-  let beforeRangeTrend = beforeRangeFirstClose > firstClose ? 'bearish' : 'bullish';
+ 
+ 
   //this made when it was working with 3 days of data, but not the same when working with 1 day
   //let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
   const trendDiff = parseFloat(Math.abs(firstClose - lastClose).toFixed(2));
@@ -299,6 +298,14 @@ if(noError){
   //if prices have moved and over significant distance (range area limit)
   if((firstClose > lastClose) && (trendDiff >= rangelimit)) trend = 'bearish';
   if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
+  
+  //Determine trend before line ranges
+  let beforeRangeTrend = 'Not determined';
+  //this confirms beforeRangeFirstClose is either above / below firstClose of trend area, but also that it agrees with trend
+  //bear in mind the beforeRange only checks 36hours to the start of the 24 hour area
+  //this is why it needs to agree with trend, otherwise if there is sudden, significant drop, beforeRange might be bullish but comparing to lastClose, it is actually bearish
+  if((beforeRangeFirstClose > firstClose) && trend == 'bearish') beforeRangeTrend = 'bearish';
+  if((beforeRangeFirstClose < firstClose) && trend == 'bullish') beforeRangeTrend = 'bullish';
 
 
   //If percentage change is significant, confirm trend (0.20% = 20 points)
