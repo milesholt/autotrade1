@@ -169,6 +169,7 @@ actions.beginMonitor = async function(){
                       };
                       mailer.actions.sendMail(mailOptions);
                       actions.stopMonitor(timer);
+                      return console.error('read should be ended.');
                     }
 
                     if(closeloss){
@@ -192,6 +193,7 @@ actions.beginMonitor = async function(){
                       };
                       mailer.actions.sendMail(mailOptions);
                       actions.stopMonitor(timer);
+                      return console.error('read should be ended.');
                     }
               
                     //get modification time of file
