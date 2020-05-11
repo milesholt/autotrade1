@@ -88,8 +88,6 @@ actions.beginMonitor = async function(){
 
         var timer = setInterval(()=>{
           
-          console.log('interval running...');
-          
           fs.readFile(streamLogDir, function (err, data) {
             if (err) {
               stream.actions.endStream();
