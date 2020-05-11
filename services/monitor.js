@@ -35,7 +35,7 @@ actions.beginMonitor = async function(){
   await api.showOpenPositions().then(async positionsData => {
     console.log(util.inspect(positionsData, false, null));
     
-    if(Objects.keys(positionsData).indexOf('confirms') !== -1){
+    if(Object.keys(positionsData).indexOf('confirms') !== -1){
       let status = positionsData.confirms.dealStatus;
       if(status == 'REJECTED'){
         console.error('deal was rejected');
