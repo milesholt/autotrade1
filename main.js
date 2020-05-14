@@ -392,7 +392,7 @@ if(noError){
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
                                        
-  if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && trend !== 'ranging'){
+  if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
     check8 = true;
   }
   
