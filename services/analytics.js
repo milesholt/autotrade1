@@ -217,9 +217,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
     layout,
     "world_readable": true
   }
-  
-  console.log(data);
-  console.log(options);
+
   
   plotly.plot(data, options, function (err, msg) {
     if (err) return console.log(err)
