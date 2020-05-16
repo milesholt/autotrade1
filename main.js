@@ -79,7 +79,7 @@ async function init(){
           console.log('position found beginning monitoring.');
           monitor.actions.beginMonitor();
         }
-  });
+  }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }
 
 //Begin Exec function
