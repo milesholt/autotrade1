@@ -52,7 +52,7 @@ async function exec(){
   let to2 = today+'%20'+currenthour+':00:00';
 
 
-  console.log('--------BEGIN EXEC AUTO TRADE');
+  console.log('--------BEGIN CHECK API');
 
   //Login
   console.log('-------Logging in');
@@ -70,8 +70,7 @@ async function exec(){
   await api.histPrc(epic, resolution, from2, to2).then(r => {
     console.log(r);
   }).catch(e => {
-    //console.log(e);
-    loop('Price data not empty. Error retrieving prices latest hour. Possible allowance reached. Waiting an hour.');
+    console.log(e);
     return false;
   });
 
