@@ -149,7 +149,7 @@ async function exec(){
           console.log(util.inspect(r,false,null));
         }).catch(e => console.log(e));
         //once logged out and tokens cleared, try again in 2 seconds
-        setTimeout(()=>{
+        setTimeout(async()=>{
           //log back in and go again..
           await init();
           exec();
