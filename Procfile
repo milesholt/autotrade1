@@ -1,3 +1,3 @@
 worker: node main.js
-worker: node tests/test_template.js
+worker: node tests/apicheck.js
 
