@@ -59,8 +59,15 @@ async function exec(){
   await api.login(true).then(r => {
     console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
+  
+  //Logout
+  console.log('-------Logging out - should clear token');
+  await api.logout(true).then(r => {
+    console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
 
   //Retrieve data from epic
+  /*
   console.log('-------Retrieving historic pricing data for epic');
 
   console.log(from2);
@@ -72,7 +79,7 @@ async function exec(){
   }).catch(e => {
     console.log(e);
     return false;
-  });
+  });*/
 
 
 }
