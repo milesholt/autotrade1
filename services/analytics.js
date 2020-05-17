@@ -6,7 +6,12 @@
 const username = 'miles_holt';
 const apikey = 'WGIhp2vCZ9C86KEkjEJf';
 const streamtoken = 'vbey2uqiwm';
-var plotly = require('plotly')(username,apikey);
+const userdetails = {
+  username : username,
+  apiKey : apikey,
+  host: 'chart-studio.plotly.com'
+};
+var plotly = require('plotly')(userdetails,apikey);
 var actions = {};
 const moment=require('moment');
 moment().format();
