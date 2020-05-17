@@ -18,10 +18,8 @@ exec();
 //Execute async script
 async function exec(){
 
-  console.log('--------LOGGIN OUT AND CLEARING TOKENS');
-
   //Logout --clears tokens
-  console.log('-------Logging out');
+  console.log('-------Logging in');
   await api.login(true).then(r => {
     console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
