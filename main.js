@@ -388,6 +388,7 @@ if(noError){
   if(check5 == false && check2 == true && recentrange.length >= recentrangelimit){
     trend = 'ranging';
     recenttrend = 'ranging';
+    isRecentTrendBreaking = false;
   }
 
   if(trend == wicktrend) check4 = true;
