@@ -400,8 +400,7 @@ if(noError){
     check8 = true;
   }
   
-  //hiccup check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
-  //This looks like a sudden reaction within the market visually, hence the term 'hiccup'
+  //trade threshold check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
   if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
   
@@ -455,7 +454,7 @@ if(noError){
     'isBeforeRangeSameAsTrend': check7,
     'isRecentTrendBreaking' : isRecentTrendBreaking,
     'isBreakingThroughRange': check8, 
-    'isNoHiccup': check9,
+    'isWithinTradeThreshold': check9,
     'ticket': {}
   };
 
