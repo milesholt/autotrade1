@@ -27,8 +27,9 @@ const monitor = require('./services/monitor.js');
 
 //Parameters
 const rangelimit = 100;
+const tradelimit = 200;
 const rangeConfirmationLimit = 12;
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
@@ -92,7 +93,7 @@ async function exec(){
   let pricedata3 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
   //confirmations = {'resistance': 0, 'support': 0};
-  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false;
+  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true;
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -399,6 +400,12 @@ if(noError){
     check8 = true;
   }
   
+  //hiccup check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
+  //This looks like a sudden reaction within the market visually, hence the term 'hiccup'
+  if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
+  if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
+  
+  
 
   let analysis = {
     'pricedata':pricedata,
@@ -448,6 +455,7 @@ if(noError){
     'isBeforeRangeSameAsTrend': check7,
     'isRecentTrendBreaking' : isRecentTrendBreaking,
     'isBreakingThroughRange': check8, 
+    'isNoHiccup': check9,
     'ticket': {}
   };
 
@@ -525,7 +533,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check2,check5,check6,check7,check8];
+  const checks = [check0,check1,check2,check5,check6,check7,check8,check9];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
