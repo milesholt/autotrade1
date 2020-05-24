@@ -198,7 +198,7 @@ actions.beginMonitor = async function(){
                     const stats = fs.statSync(streamLogDir);
                     const modtime = moment(stats.mtime).format('LT');
 
-                    console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' updated: ' + modtime);
+                    console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
 
 
