@@ -270,7 +270,7 @@ if(noError){
   //rangelimit is currently considered 100 points
   let lineDistance = Math.abs(resistanceline - supportline);
   let rangeConfirmations = rangedata.support.prices_idx.length;
-  if((lineDistance > 20 && lineDistance < rangelimit) && (resistanceline > supportline)) check0 = true;
+  if((lineDistance >= 20 && lineDistance <= rangelimit) && (resistanceline > supportline)) check0 = true;
   if(rangeConfirmations >= rangeConfirmationLimit) check2 = true;
 
   // let lineDistance2 = Math.abs(resistanceline2 - supportline2);
