@@ -29,7 +29,7 @@ const monitor = require('./services/monitor.js');
 const rangelimit = 100;
 const tradelimit = 200;
 const rangeConfirmationLimit = 12;
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
@@ -93,7 +93,7 @@ async function exec(){
   let pricedata3 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
   //confirmations = {'resistance': 0, 'support': 0};
-  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true;
+  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true;
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -404,6 +404,20 @@ if(noError){
   if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
   
+  //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
+  let time = pricedata.support[0].time;
+  let isHoursCorrect = true;
+  pricedata.support.forEach((price,index) => {
+    //skip the first hour
+    if(index !== 0){
+      let ntime = price.time;
+      let diff = time.diff(ntime, 'minutes');
+      console.log(diff);
+      if(time.diff(ntime, 'minutes') !== 60) isHoursCorrect = false;  
+      time = price.time;      
+    }   
+  });
+  check10 = isHoursCorrect;
   
 
   let analysis = {
@@ -455,6 +469,7 @@ if(noError){
     'isRecentTrendBreaking' : isRecentTrendBreaking,
     'isBreakingThroughRange': check8, 
     'isWithinTradeThreshold': check9,
+    'isHoursCorrect': check10,
     'ticket': {}
   };
 
@@ -532,7 +547,7 @@ if(noError){
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check2,check5,check6,check7,check8,check9];
+  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
