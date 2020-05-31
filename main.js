@@ -413,7 +413,7 @@ if(noError){
       let ntime = moment(price.time);
       let diff = time.diff(ntime, 'minutes');
       console.log(diff);
-      if(time.diff(ntime, 'minutes') !== 60) isHoursCorrect = false;  
+      if(diff !== 60) isHoursCorrect = false;  
       time = price.time;      
     }   
   });
