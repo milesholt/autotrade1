@@ -412,7 +412,6 @@ if(noError){
     if(index !== 0){
       let ntime = moment(price.time);
       let diff = Math.abs(time.diff(ntime, 'minutes'));
-      console.log('old time:' + time + ' new time: ' + price.time + ' diff: ' + diff);
       if(diff !== 60) isHoursCorrect = false;  
       time = moment(price.time);      
     }   
