@@ -411,10 +411,10 @@ if(noError){
     //skip the first hour
     if(index !== 0){
       let ntime = moment(price.time);
-      let diff = time.diff(ntime, 'minutes');
+      let diff = Math.abs(time.diff(ntime, 'minutes'));
       console.log(diff);
       if(diff !== 60) isHoursCorrect = false;  
-      time = price.time;      
+      time = moment(price.time);      
     }   
   });
   check10 = isHoursCorrect;
