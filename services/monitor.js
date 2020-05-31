@@ -146,6 +146,8 @@ actions.beginMonitor = async function(){
                       console.log('New limit level reached. Closing position.');
                       console.log('new limit was: ' + newlimit);
                       console.log('closing price was: ' + closePrice);
+                      console.log('closing price (ask) was: ' + d.closePrice.ask);
+                      console.log('closing price (bid) was: ' + d.closePrice.bid);
 
                       console.log('PROFIT - Finished monitoring, positions should be closed. Ending stream.');
                       stream.actions.endStream();
@@ -172,6 +174,12 @@ actions.beginMonitor = async function(){
                     }
 
                     if(closeloss){
+                      
+                      console.log('Stop level reached. Closing position.');
+                      console.log('stop level was: ' + stopLevel);
+                      console.log('closing price was: ' + closePrice);
+                      console.log('closing price (ask) was: ' + d.closePrice.ask);
+                      console.log('closing price (bid) was: ' + d.closePrice.bid);
 
                       console.log('LOSS - Finished monitoring, positions should be closed. Ending stream.');
                       stream.actions.endStream();
@@ -198,7 +206,8 @@ actions.beginMonitor = async function(){
                     const stats = fs.statSync(streamLogDir);
                     const modtime = moment(stats.mtime).format('LT');
 
-                    console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
+                    //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
+                    console.log('close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
 
 
