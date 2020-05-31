@@ -407,7 +407,7 @@ if(noError){
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
   let time = moment(pricedata.support[0].time);
   let isHoursCorrect = true;
-  pricedata.support.forEach((price,index) => {
+  pricedata2.support.forEach((price,index) => {
     //skip the first hour
     if(index !== 0){
       let ntime = moment(price.time);
