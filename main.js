@@ -405,12 +405,12 @@ if(noError){
   if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
   
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
-  let time = pricedata.support[0].time;
+  let time = moment(pricedata.support[0].time);
   let isHoursCorrect = true;
   pricedata.support.forEach((price,index) => {
     //skip the first hour
     if(index !== 0){
-      let ntime = price.time;
+      let ntime = moment(price.time);
       let diff = time.diff(ntime, 'minutes');
       console.log(diff);
       if(time.diff(ntime, 'minutes') !== 60) isHoursCorrect = false;  
