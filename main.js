@@ -407,16 +407,20 @@ if(noError){
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
   let time = moment(pricedata2.support[0].time);
   let isHoursCorrect = true;
+  let totalMissingHours = 0;
+  const missingHoursLimit = 3;
   pricedata2.support.forEach((price,index) => {
     //skip the first hour
     if(index !== 0){
       let ntime = moment(price.time);
       let diff = Math.abs(time.diff(ntime, 'minutes'));
       console.log('old time: ' + time + ' new time: ' + ntime + ' diff: ' + diff); 
-      if(diff !== 60) isHoursCorrect = false;  
+      if(diff !== 60) totalMissingHours++;
       time = moment(price.time);      
     }   
   });
+  //if the number of hours is greater than limit, set data as missing. Exceptions if for example, only one or two hours is missing, this is fine. 
+  if(totalMissingHours >= missingHoursLimit) isHoursCorrect = false;
   check10 = isHoursCorrect;
   
 
@@ -470,6 +474,7 @@ if(noError){
     'isBreakingThroughRange': check8, 
     'isWithinTradeThreshold': check9,
     'isHoursCorrect': check10,
+    'totalMissingHours': totalMissingHours,
     'ticket': {}
   };
 
