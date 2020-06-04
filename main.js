@@ -27,7 +27,7 @@ const monitor = require('./services/monitor.js');
 
 //Parameters
 const rangelimit = 100;
-const tradelimit = 80;
+const tradelimit = 120;
 const rangeConfirmationLimit = 12;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true;
 let prices = [];
