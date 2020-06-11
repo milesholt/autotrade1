@@ -29,7 +29,7 @@ const monitor = require('./services/monitor.js');
 const rangelimit = 100;
 const tradelimit = 120;
 const rangeConfirmationLimit = 12;
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
@@ -93,7 +93,7 @@ async function exec(){
   let pricedata3 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
   //confirmations = {'resistance': 0, 'support': 0};
-  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true;
+  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true;
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -423,6 +423,13 @@ if(noError){
   if(totalMissingHours >= missingHoursLimit) isHoursCorrect = false;
   check10 = isHoursCorrect;
   
+  //this checks that if some price bars are ignored within the range area, and they are greater or smaller than the beforerangefirstclose, then 
+  //this suggests a bump / hill formation within the range area and not a staircase formation
+  pricedata3.support.forEach(price => {
+    if(trend == 'bearish') if(price.close >= beforeRangeFirstClose) check11 = false;
+    if(trend == 'bullish') if(price.close <= beforeRangeFirstClose) check11 = false;
+  });
+  
 
   let analysis = {
     'pricedata':pricedata,
@@ -475,6 +482,7 @@ if(noError){
     'isWithinTradeThreshold': check9,
     'isHoursCorrect': check10,
     'totalMissingHours': totalMissingHours,
+    'noBumpInRange': check11,
     'ticket': {}
   };
 
