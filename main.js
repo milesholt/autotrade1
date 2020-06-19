@@ -29,7 +29,7 @@ const monitor = require('./services/monitor.js');
 const rangelimit = 100;
 const tradelimit = 120;
 const rangeConfirmationLimit = 12;
-let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true;
+let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}};
@@ -51,6 +51,7 @@ var pricedataDir = path.join(__dirname, 'pricedata.json');
 let dealId = '';
 let pricedatacount = 0;
 let previousTrend = 'ranging';
+let tradedbefore = false;
 
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
@@ -93,7 +94,7 @@ async function exec(){
   let pricedata3 = {'support': [], 'resistance': []};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
   //confirmations = {'resistance': 0, 'support': 0};
-  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true;
+  check0 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
   today = moment().format('YYYY-MM-DD');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -430,6 +431,8 @@ if(noError){
     if(trend == 'bullish') if(price.close <= beforeRangeFirstClose) check11 = false;
   });
   
+  if(tradedbefore) check12 = false;
+  
 
   let analysis = {
     'pricedata':pricedata,
@@ -483,6 +486,7 @@ if(noError){
     'isHoursCorrect': check10,
     'totalMissingHours': totalMissingHours,
     'noBumpInRange': check11,
+    'notTradedBefore': check12,
     'ticket': {}
   };
 
@@ -554,13 +558,10 @@ if(noError){
   // });
   
   
-  
-  
-  
 
 
   //If all checks pass, begin trade
-  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10];
+  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
   if(checks.indexOf(false) == -1){
 
       //check if we already have a position
@@ -642,16 +643,19 @@ if(noError){
 
               console.log('beginning monitoring..');
               monitor.actions.beginMonitor();
-
+          
+              tradedbefore = true;
               loop('Checks passed and trade has been made. Will go again in 1 hour.');
               return false;
 
         } else {
+          
           loop('You are already trading on this epic. Waiting 1 hour.');
           return false;
         };
       }).catch(e => console.log(e));
   } else {
+      tradedbefore = false;
       loop('Checks not passed. No trade. Waiting 1 hour.');
       return false;
   }
