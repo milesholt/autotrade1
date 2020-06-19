@@ -1,7 +1,4 @@
-// IG_API_KEY=e47644533fa136f5f93a7abd40953d3c28ed9c67
-// IG_IDENTIFIER=milesholt
-// IG_PASSWORD=Savelli_1986
-// IG_DEMO=TRUE
+
 
 const api=require('node-ig-api');
 const util=require('util');
