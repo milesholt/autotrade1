@@ -280,6 +280,7 @@ if(noError){
   let firstDiff = firstClose > resistanceline ? Math.abs(100 - (resistanceline / firstClose * 100)).toFixed(2) : Math.abs(100 - (supportline / firstClose * 100)).toFixed(2);
 
   //Get percentage change of latest price bar to determine if there is a break
+  const lastOpen = pricedata.support[pricedata.support.length-1].open;
   const lastClose = pricedata.support[pricedata.support.length-1].close;
   const lastTime = pricedata.support[pricedata.support.length-1].time;
   const lastCloseAsk = pricedata.support[pricedata.support.length-1].closeAsk;
@@ -400,6 +401,7 @@ if(noError){
   //trade threshold check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
   if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
+  if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
   
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
   let time = moment(pricedata2.support[0].time);
