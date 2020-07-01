@@ -47,6 +47,9 @@ var pricedataDir = path.join(__dirname, 'pricedata.json');
 let dealId = '';
 let pricedatacount = 0;
 let previousTrend = 'ranging';
+let lastBeforeRangeTrendMovement = '';
+let lastBeforeRangeTrendMovementClose = 0;
+let lastBeforeRangeTrendMovementTime = '';
 let tradedbefore = false;
 
 //first, lets retreive stored data from file
@@ -305,8 +308,13 @@ if(noError){
   let beforeRangeTrend = 'ranging';
   let beforeRangeFirstCloseData = pricedata3.support[0];
   const beforeRangeTrendDiff = parseFloat(Math.abs(beforeRangeFirstClose - lastClose).toFixed(2));
-  if((beforeRangeFirstClose > lastClose) && (beforeRangeTrendDiff >= rangelimit)) beforeRangeTrend = 'bearish';
-  if((beforeRangeFirstClose < lastClose) && (beforeRangeTrendDiff >= rangelimit)) beforeRangeTrend = 'bullish';
+  if((beforeRangeFirstClose > resistanceline) && (beforeRangeTrendDiff >= (rangelimit/2))) beforeRangeTrend = 'bearish';
+  if((beforeRangeFirstClose < supportline) && (beforeRangeTrendDiff >= (rangelimit/2))) beforeRangeTrend = 'bullish';
+  if(beforeRangeTrend !== 'ranging'){
+    lastBeforeRangeTrendMovement = beforeRangeTrend;
+    lastBeforeRangeTrendMovementClose = beforeRangeFirstClose;
+    lastBeforeRangeTrendMovementTime = beforeRangeFirstCloseData.time;
+  }
 
   //If percentage change is significant, confirm trend (0.20% = 20 points)
   //It needs to be at least 20 points past the line to count as momentum
@@ -422,12 +430,24 @@ if(noError){
   if(totalMissingHours >= missingHoursLimit) isHoursCorrect = false;
   check10 = isHoursCorrect;
   
+  //if a number of checks are passed, we overide beforeRangeTrend and pass only if lastBeforeRangeMovement is also the same as trend
+  //lastBeforeRangeMovement only holds 'bullish' or 'bearish' when last recorded as beforeRangeTrend
+  //this is to capture longer ranging staircase patterns, where the beforeRangeTrend might be outside number of hours we set as parameter
+  let beforeRangeOveridden = false;
+  if(beforeRangeTrend == 'ranging' && trend == lastBeforeRangeTrendMovement && check8 == true && check5 == true) {
+    check7 = true;
+    beforeRangeOveridden = true;
+  }
+  
   //this checks that if some price bars are ignored within the range area, and they are greater or smaller than the beforerangefirstclose, then 
   //this suggests a bump / hill formation within the range area and not a staircase formation
+  let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
   pricedata3.support.forEach(price => {
-    if(trend == 'bearish') if(price.close >= beforeRangeFirstClose) check11 = false;
-    if(trend == 'bullish') if(price.close <= beforeRangeFirstClose) check11 = false;
+    if(trend == 'bearish') if(price.close >= bf) check11 = false;
+    if(trend == 'bullish') if(price.close <= bf) check11 = false;
   });
+  
+  
   
   if(tradedbefore) check12 = false;
   
@@ -485,6 +505,10 @@ if(noError){
     'totalMissingHours': totalMissingHours,
     'noBumpInRange': check11,
     'notTradedBefore': check12,
+    'beforeRangeOveridden': beforeRangeOveridden,
+    'lastBeforeRangeTrendMovement': lastBeforeRangeTrendMovement,
+    'lastBeforeRangeTrendMovementClose': lastBeforeRangeTrendMovementClose,
+    'lastBeforeRangeTrendMovementTime': lastBeforeRangeTrendMovementTime,
     'ticket': {}
   };
 
