@@ -441,11 +441,11 @@ if(noError){
   
   //this checks that if some price bars are ignored within the range area, and they are greater or smaller than the beforerangefirstclose, then 
   //this suggests a bump / hill formation within the range area and not a staircase formation
-  let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
+  //let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
   let bumps = [];
-  pricedata3.support.forEach((price,idx) => {
-    if(trend == 'bearish') if(price.close >= bf) bumps.push({ 'idx' : idx, 'close' : price.close });
-    if(trend == 'bullish') if(price.close <= bf) bumps.push({ 'idx' : idx, 'close' : price.close });
+  pricedata2.support.forEach((price,idx) => {
+    if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx)) bumps.push({ 'idx' : idx, 'close' : price.close });
+    if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx)) bumps.push({ 'idx' : idx, 'close' : price.close });
   });
   if(bumps.length > 0) check11 = false;
   
