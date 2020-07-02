@@ -444,11 +444,10 @@ if(noError){
   let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
   let bumps = [];
   pricedata3.support.forEach((price,idx) => {
-    if(trend == 'bearish') if(price.close >= bf) check11 = false;
-    if(trend == 'bullish') if(price.close <= bf) check11 = false;
-    if(check11 == false) bumps.push({ 'idx' : idx, 'close' : price.close });
+    if(trend == 'bearish') if(price.close >= bf) bumps.push({ 'idx' : idx, 'close' : price.close });
+    if(trend == 'bullish') if(price.close <= bf) bumps.push({ 'idx' : idx, 'close' : price.close });
   });
-  
+  if(bumps.length > 0) check11 = false;
   
   
   if(tradedbefore) check12 = false;
