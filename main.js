@@ -447,7 +447,17 @@ if(noError){
     if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx)) bumps.push({ 'idx' : idx, 'close' : price.close });
     if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx)) bumps.push({ 'idx' : idx, 'close' : price.close });
   });
-  if(bumps.length > 0) check11 = false;
+  
+  let bidx = 0;
+  let bumpgroupcount = 0;
+  const bumpgrouplimit = 5;
+  //this makes sure that the bumps are together as a group (not scattered indexes), and must exceed a certain amount
+  bumps.forEach(bump => {
+    if(bump.idx == (bidx+1)) bumpgroupcount++;
+    bidx = bump.idx;   
+  });
+  
+  if(bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
   
   
   if(tradedbefore) check12 = false;
@@ -506,6 +516,7 @@ if(noError){
     'totalMissingHours': totalMissingHours,
     'noBumpInRange': check11,
     'bumps': bumps,
+    'bumpgroupcount': bumpgroupcount,
     'notTradedBefore': check12,
     'beforeRangeOveridden': beforeRangeOveridden,
     'lastBeforeRangeTrendMovement': lastBeforeRangeTrendMovement,
