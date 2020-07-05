@@ -585,7 +585,7 @@ if(noError){
 
   //console.log(pricedata2.support);
 
-  analytics.actions.drawChart(pricedata2.support, wickdata, linedata, analysis, rangedata);
+  analytics.actions.drawChart(pricedata3.support, wickdata, linedata, analysis, rangedata);
 
   // await api.showOpenPositions().then(async positionsData => {
   //   console.log(util.inspect(positionsData, false, null));
