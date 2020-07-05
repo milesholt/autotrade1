@@ -118,7 +118,9 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   let lowest = range[0];
   let highest = range[range.length-1];
   let starttime =  times[0];
-  let endtime = times[times.length-1]
+  let starttime2 = times[11]; //12 hours ahead (range area needs to be 24 hours not 36)
+  let endtime = times[times.length-1];
+  
 
   var trace1 = {
       x: times,
@@ -139,7 +141,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       type: 'line',
       y0: linedata.support,
       y1: linedata.support,
-      x0: starttime,
+      x0: starttime2,
       x1: endtime,
       line: {
         color: '#D90E57', //red
@@ -156,7 +158,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         type: 'line',
         y0: linedata.resistance,
         y1: linedata.resistance,
-        x0: starttime,
+        x0: starttime2,
         x1: endtime,
         line: {
           color: '#1DC7C9', //green
@@ -173,7 +175,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         type: 'line',
         y0: linedata.midrange,
         y1: linedata.midrange,
-        x0: starttime,
+        x0: starttime2,
         x1: endtime,
         line: {
           color: '#1d39c9', //green
