@@ -63,8 +63,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         }
         shapes.push(circle);
       }
-    }
-    //});
+    
+    });
 
 
     // confirmations.support_index.forEach(sidx => {
@@ -111,8 +111,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
     // });
 
     //console.log(shapes);
-
-  });
+  }
+  //});
 
   customdata[customdata.length-1] = analysis;
 
