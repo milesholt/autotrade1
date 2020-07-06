@@ -38,9 +38,9 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const pricediff = highestnum - lowestnum;
   const circleheight = pricediff * 0.015; //get fraction of height, so it's in proportion to data range
 
-  //pricedata.forEach((price, i) =>{
+  pricedata.forEach((price, i) =>{
   //move forward by 12 hours
-  for(let i = 11, len = pricedata.length; i<len; i++){ 
+  //for(let i = 11, len = pricedata.length; i<len; i++){ 
     let price = pricedata[i];
     rangedata.support.prices_idx.forEach((pidx,ridx) => {
       //console.log(pidx);
@@ -56,9 +56,9 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             width: 0,
             dash:'solid'
           },
-          x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
           y0: rangedata.support.prices[ridx]-circleheight,
-          x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+          x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
           y1: rangedata.support.prices[ridx]+circleheight
         }
         shapes.push(circle);
@@ -111,8 +111,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
     // });
 
     //console.log(shapes);
-  }
-  //});
+  //}
+  });
 
   customdata[customdata.length-1] = analysis;
 
