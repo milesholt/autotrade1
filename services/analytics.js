@@ -41,7 +41,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   pricedata.forEach((price, i) =>{
   //move forward by 12 hours
   //for(let i = 11, len = pricedata.length; i<len; i++){ 
-    let price = pricedata[i];
+    //let price = pricedata[i];
     rangedata.support.prices_idx.forEach((pidx,ridx) => {
       //console.log(pidx);
       //console.log(rangedata.support.prices[ridx]);
