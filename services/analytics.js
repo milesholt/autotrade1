@@ -37,12 +37,15 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const highestnum = range[range.length-1];
   const pricediff = highestnum - lowestnum;
   const circleheight = pricediff * 0.015; //get fraction of height, so it's in proportion to data range
-
-  pricedata.forEach((price, i) =>{
+  
   //skip first 12 hours
-  if(i < 11){
-    continue;
-  }
+  let pricedata2 = pricedata.slice(11, pricedata.length);
+
+  pricedata2.forEach((price, i) =>{
+  //skip first 12 hours
+//   if(i < 11){
+//     continue;
+//   }
     //for(let i = 11, len = pricedata.length; i<len; i++){ 
       //let price = pricedata[i];
       rangedata.support.prices_idx.forEach((pidx,ridx) => {
