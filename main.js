@@ -645,7 +645,7 @@ if(noError){
           	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
           	'epic': epic,
           	'expiry': 'DFB',
-          	'size': 0.5,
+          	'size': 1,
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
