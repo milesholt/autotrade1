@@ -57,7 +57,7 @@ let beforeRangeData;
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
 //grab any written beforerange data
-beforerangeData = require(beforeRangeDir);
+beforeRangeData = require(beforeRangeDir);
 
 console.log(prices);
 
