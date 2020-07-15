@@ -44,6 +44,7 @@ let today = moment().format('YYYY-MM-DD');
 let currenthour = moment().format("HH");
 let lasthour = moment().subtract(1, 'hours').format("HH");
 var pricedataDir = path.join(__dirname, 'pricedata.json');
+var beforeRangeDir = path.join(__dirname, 'beforerangedata.json');
 let dealId = '';
 let pricedatacount = 0;
 let previousTrend = 'ranging';
@@ -51,10 +52,23 @@ let lastBeforeRangeTrendMovement = '';
 let lastBeforeRangeTrendMovementClose = 0;
 let lastBeforeRangeTrendMovementTime = '';
 let tradedbefore = false;
+let beforeRangeData;
 
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
+//grab any written beforerange data
+beforerangeData = require(beforeRangeDir);
+
 console.log(prices);
+
+console.log('written beforerange data:');
+console.log(beforeRangeData);
+
+if(beforeRangeData.length > 0){
+  lastBeforeRangeTrendMovement = beforeRangeData.lastBeforeRangeTrendMovement;
+  lastBeforeRangeTrendMovementClose = beforeRangeData.lastBeforeRangeTrendMovementClose;
+  lastBeforeRangeTrendMovementTime = beforeRangeData.lastBeforeRangeTrendMovementTime;
+}
 
 run();
 
@@ -314,6 +328,20 @@ if(noError){
     lastBeforeRangeTrendMovement = beforeRangeTrend;
     lastBeforeRangeTrendMovementClose = beforeRangeFirstClose;
     lastBeforeRangeTrendMovementTime = beforeRangeFirstCloseData.time;
+    
+    let beforeRangeData = {
+      'lastBeforeRangeTrendMovement': lastBeforeRangeTrendMovement,
+      'lastBeforeRangeTrendMovementClose' : lastBeforeRangeTrendMovementClose,
+      'lastBeforeRangeTrendMovementTime' : lastBeforeRangeTrendMovementTime
+    }
+    
+     fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
+          if (e) {
+            console.log('Could not before range data');
+          } else {
+            console.log('Before range data written to file.');
+          }
+      });
   }
 
   //If percentage change is significant, confirm trend (0.20% = 20 points)
