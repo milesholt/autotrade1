@@ -64,7 +64,8 @@ console.log(prices);
 console.log('written beforerange data:');
 console.log(beforeRangeData);
 
-if(beforeRangeData.length > 0){
+if(beforeRangeData.lastBeforeRangeTrendMovement !== ''){
+  console.log('using stored beforerangedata');
   lastBeforeRangeTrendMovement = beforeRangeData.lastBeforeRangeTrendMovement;
   lastBeforeRangeTrendMovementClose = beforeRangeData.lastBeforeRangeTrendMovementClose;
   lastBeforeRangeTrendMovementTime = beforeRangeData.lastBeforeRangeTrendMovementTime;
