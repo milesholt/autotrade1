@@ -663,8 +663,8 @@ if(noError){
       await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
     
-        //stop distance = minimum 1% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = Math.round(lastClose * 0.03) + 10;
+        //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
+        let stopDistance = Math.round(lastClose * 0.024) + 10;
         console.log('stop distance: ' + stopDistance);
 
         if(!positionOpen && positionsData.positions.length === 0){
@@ -674,7 +674,7 @@ if(noError){
           	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
           	'epic': epic,
           	'expiry': 'DFB',
-          	'size': 1,
+          	'size': 1.5,
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
