@@ -20,6 +20,8 @@ const mailer = require('./services/mailer.js');
 const stream = require('./services/stream.js');
 //Require monitor
 const monitor = require('./services/monitor.js');
+//Require Github API
+const github = require('./services/github.js');
 
 //Parameters
 const rangelimit = 100;
@@ -57,7 +59,8 @@ let beforeRangeData;
 //first, lets retreive stored data from file
 prices = require(pricedataDir);
 //grab any written beforerange data
-beforeRangeData = require(beforeRangeDir);
+//beforeRangeData = require(beforeRangeDir);
+beforeRangeData = github.actions.getFile(beforeRangeDir);
 
 console.log(prices);
 
@@ -127,7 +130,7 @@ async function exec(){
   console.log('lasthour: ' + lasthour);
   console.log('--------BEGIN EXEC: ' + timestamp );
   console.log('--------BEGIN EXEC AUTO TRADE');
-  
+
   //Retrieve data from epic
   console.log('-------Retrieving historic pricing data for epic');
 
@@ -305,8 +308,8 @@ if(noError){
   const lastCloseBid = pricedata.support[pricedata.support.length-1].closeBid;
   let lastDiff = lastClose > resistanceline ? Math.abs(100 - (resistanceline / lastClose * 100)).toFixed(2) : Math.abs(100 - (supportline / lastClose * 100)).toFixed(2);
 
- 
- 
+
+
   //this made when it was working with 3 days of data, but not the same when working with 1 day
   //let trend = firstClose > resistanceline ? 'bearish' : 'bullish';
   const trendDiff = parseFloat(Math.abs(firstClose - lastClose).toFixed(2));
@@ -317,7 +320,7 @@ if(noError){
   //if prices have moved and over significant distance (range area limit)
   if((firstClose > lastClose) && (trendDiff >= rangelimit)) trend = 'bearish';
   if((lastClose > firstClose) && (trendDiff >= rangelimit)) trend = 'bullish';
-  
+
   //Determine trend before line ranges
   //This determines trend between price bar at 36 hours to lastClose
   let beforeRangeTrend = 'ranging';
@@ -329,20 +332,24 @@ if(noError){
     lastBeforeRangeTrendMovement = beforeRangeTrend;
     lastBeforeRangeTrendMovementClose = beforeRangeFirstClose;
     lastBeforeRangeTrendMovementTime = beforeRangeFirstCloseData.time;
-    
+
     let beforeRangeData = {
       'lastBeforeRangeTrendMovement': lastBeforeRangeTrendMovement,
       'lastBeforeRangeTrendMovementClose' : lastBeforeRangeTrendMovementClose,
       'lastBeforeRangeTrendMovementTime' : lastBeforeRangeTrendMovementTime
     }
-    
-     fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
-          if (e) {
-            console.log('Could not before range data');
-          } else {
-            console.log('Before range data written to file.');
-          }
-      });
+
+    let objJsonStr = JSON.stringify(beforeRangeData);
+    let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+    github.actions.updateFile(objJsonB64,beforeRangeDir);
+
+     // fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
+     //      if (e) {
+     //        console.log('Could not before range data');
+     //      } else {
+     //        console.log('Before range data written to file.');
+     //      }
+     //  });
   }
 
   //If percentage change is significant, confirm trend (0.20% = 20 points)
@@ -397,7 +404,7 @@ if(noError){
   //if wicktrend and recenttrend are the same and wicktrend strength is over limit and trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   let isRecentTrendBreaking = false;
   let currenttrend = trend; //store a copy of trend before (if) changing it for analysis
-  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2)) && trend == 'ranging'){  
+  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2)) && trend == 'ranging'){
     trend = recenttrend;
     isRecentTrendBreaking = true;
   }
@@ -407,7 +414,7 @@ if(noError){
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
   if(lastClose < supportline && lastClose < resistanceline) check5 = true;
   if(lastClose > supportline && lastClose > resistanceline) check5 = true;
-  
+
   //set previous trend for next loop
   //if previous trend was ranging and latest trend isn't, this suggests trend has broken out of range
   //rangedata.support.prices_idx;
@@ -416,7 +423,7 @@ if(noError){
   rangedata.support.prices_idx.forEach(pid => {
     if(pid > 12) recentrange.push(pid);
   });
-  
+
   //if number of range confirmations is over limit
   //if price bar is within horizontal lines
   //if range confirmations are recent and over count limit
@@ -430,16 +437,16 @@ if(noError){
   if(trend == wicktrend) check4 = true;
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
-                                       
+
   if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
     check8 = true;
   }
-  
+
   //trade threshold check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
   if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
   if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
-  
+
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
   let time = moment(pricedata2.support[0].time);
   let isHoursCorrect = true;
@@ -450,15 +457,15 @@ if(noError){
     if(index !== 0){
       let ntime = moment(price.time);
       let diff = Math.abs(time.diff(ntime, 'minutes'));
-      console.log('old time: ' + time + ' new time: ' + ntime + ' diff: ' + diff); 
+      console.log('old time: ' + time + ' new time: ' + ntime + ' diff: ' + diff);
       if(diff !== 60) totalMissingHours = diff / 60;
-      time = moment(price.time);      
-    }   
+      time = moment(price.time);
+    }
   });
-  //if the number of hours is greater than limit, set data as missing. Exceptions if for example, only one or two hours is missing, this is fine. 
+  //if the number of hours is greater than limit, set data as missing. Exceptions if for example, only one or two hours is missing, this is fine.
   if(totalMissingHours >= missingHoursLimit) isHoursCorrect = false;
   check10 = isHoursCorrect;
-  
+
   //if a number of checks are passed, we overide beforeRangeTrend and pass only if lastBeforeRangeMovement is also the same as trend
   //lastBeforeRangeMovement only holds 'bullish' or 'bearish' when last recorded as beforeRangeTrend
   //this is to capture longer ranging staircase patterns, where the beforeRangeTrend might be outside number of hours we set as parameter
@@ -467,8 +474,8 @@ if(noError){
     check7 = true;
     beforeRangeOveridden = true;
   }
-  
-  //this checks that if some price bars are ignored within the range area, and they are greater or smaller than the beforerangefirstclose, then 
+
+  //this checks that if some price bars are ignored within the range area, and they are greater or smaller than the beforerangefirstclose, then
   //this suggests a bump / hill formation within the range area and not a staircase formation
   //let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
   let bumps = [];
@@ -476,21 +483,21 @@ if(noError){
     if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
     if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
   });
-  
+
   let bidx = 0;
   let bumpgroupcount = 0;
   const bumpgrouplimit = 5;
   //this makes sure that the bumps are together as a group (not scattered indexes), and must exceed a certain amount
   bumps.forEach(bump => {
     if(bump.idx == (bidx+1)) bumpgroupcount++;
-    bidx = bump.idx;   
+    bidx = bump.idx;
   });
-  
+
   if(bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
-  
-  
+
+
   if(tradedbefore) check12 = false;
-  
+
 
   let analysis = {
     'pricedata':pricedata,
@@ -539,7 +546,7 @@ if(noError){
     'isRecentTrendSameAsTrend': check6,
     'isBeforeRangeSameAsTrend': check7,
     'isRecentTrendBreaking' : isRecentTrendBreaking,
-    'isBreakingThroughRange': check8, 
+    'isBreakingThroughRange': check8,
     'isWithinTradeThreshold': check9,
     'isHoursCorrect': check10,
     'totalMissingHours': totalMissingHours,
@@ -559,7 +566,7 @@ if(noError){
   // console.log('resistance:' +analysis.pricedata.resistance[idx].price);
   //
   //
-  
+
   //set previous trend after everything else (using currenttrend to catch 'ranging' otherwise isBreakingThroughRange is false)
   previousTrend = currenttrend;
 
@@ -620,8 +627,8 @@ if(noError){
   //   console.log(util.inspect(positionsData, false, null));
   //   console.log(positionsData.positions.length);
   // });
-  
-  
+
+
 
 
   //If all checks pass, begin trade
@@ -662,7 +669,7 @@ if(noError){
       //check for existing open tickets
       await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
-    
+
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
         let stopDistance = Math.round(lastClose * 0.024) + 10;
         console.log('stop distance: ' + stopDistance);
@@ -707,13 +714,13 @@ if(noError){
 
               console.log('beginning monitoring..');
               monitor.actions.beginMonitor();
-          
+
               tradedbefore = true;
               loop('Checks passed and trade has been made. Will go again in 1 hour.');
               return false;
 
         } else {
-          
+
           loop('You are already trading on this epic. Waiting 1 hour.');
           return false;
         };
