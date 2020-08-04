@@ -6,7 +6,7 @@ const moment=require('moment');
 
 moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
-const octokit = new Octokit({ auth: '93eb99a0094ad95179649f685ecb63bf62542601' });
+const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
 const obj =
       {
       "lastBeforeRangeTrendMovement" : "bearish",
