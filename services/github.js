@@ -6,7 +6,7 @@ const moment=require('moment');
 var actions = {};
 moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
-const octokit = new Octokit({ auth: '93eb99a0094ad95179649f685ecb63bf62542601' });
+const octokit = new Octokit({ auth: 'aac51dc7ed32b39e7d7789f461703d81ea0ad724' });
 const obj = {};
 let sha = 0;
 const path = '';
