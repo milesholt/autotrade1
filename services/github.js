@@ -25,14 +25,10 @@ actions.getFile = async function(path){
 }).catch(e => {
   console.log(e);
 });
-  console.log(result);
   sha = result.data.sha;
-  console.log('sha: ' + sha);
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
   let obj = JSON.parse(string);
-  console.log('request response:');
-  console.log(obj);
   return obj;
 }
 
