@@ -24,7 +24,9 @@ actions.getFile = async function(path){
   console.log(e);
 });
   sha = result.data.sha;
-  return JSON.parse(atob(result.data.content));
+  let buff = new Buffer(result.data.content, 'base64');
+  let string = buff.toString('ascii');
+  return JSON.parse(string);
 }
 
 //Update file
