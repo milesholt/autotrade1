@@ -61,10 +61,7 @@ let beforeRangeData;
 prices = require(pricedataDir);
 //grab any written beforerange data
 //beforeRangeData = require(beforeRangeDir);
-github.actions.getFile(beforeRangeDir).then(res => {
-  console.log(res);
-  beforeRangeData =  res;
-});
+github.actions.getFile(beforeRangeDir);
 
 console.log(prices);
 
