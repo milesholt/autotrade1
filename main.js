@@ -61,23 +61,25 @@ let beforeRangeData;
 prices = require(pricedataDir);
 //grab any written beforerange data
 //beforeRangeData = require(beforeRangeDir);
-github.actions.getFile(beforeRangeDir);
-
-console.log(prices);
-
-console.log('written beforerange data:');
-console.log(beforeRangeData);
-
-if(beforeRangeData.lastBeforeRangeTrendMovement !== ''){
-  console.log('using stored beforerangedata');
-  lastBeforeRangeTrendMovement = beforeRangeData.lastBeforeRangeTrendMovement;
-  lastBeforeRangeTrendMovementClose = beforeRangeData.lastBeforeRangeTrendMovementClose;
-  lastBeforeRangeTrendMovementTime = beforeRangeData.lastBeforeRangeTrendMovementTime;
-}
 
 run();
 
 async function run(){
+  
+  beforeRangeData = await github.actions.getFile(beforeRangeDir);
+
+  console.log(prices);
+
+  console.log('written beforerange data:');
+  console.log(beforeRangeData);
+
+  if(beforeRangeData.lastBeforeRangeTrendMovement !== ''){
+    console.log('using stored beforerangedata');
+    lastBeforeRangeTrendMovement = beforeRangeData.lastBeforeRangeTrendMovement;
+    lastBeforeRangeTrendMovementClose = beforeRangeData.lastBeforeRangeTrendMovementClose;
+    lastBeforeRangeTrendMovementTime = beforeRangeData.lastBeforeRangeTrendMovementTime;
+  }
+  
   //Login and check for open positions first
   await init();
   //Then execute main function, looping initially
