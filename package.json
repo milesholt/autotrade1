@@ -1,7 +1,6 @@
 {
   "name": "ig-server",
   "version": "1.0.0",
-  "type": "module",
   "description": "IG Server",
   "main": "index.js",
   "dependencies": {
