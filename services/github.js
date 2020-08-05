@@ -11,7 +11,8 @@ const obj = {};
 const path = '';
 const owner = 'milesholt';
 const branch = 'main';
-let  sha = 0;
+let  shas = [];
+let sha = 0;
 const repo = 'autotrade1';
 
 //Get file
@@ -25,7 +26,7 @@ actions.getFile = async function(path){
 }).catch(e => {
   console.log(e);
 });
-  sha = result.data.sha;
+  shas.push({'path': path, 'sha':result.data.sha});
   console.log('getting file, sha is now:' + sha);
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
@@ -41,6 +42,13 @@ actions.updateFile = async function(data,path){
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
   //update SHA
+  shas.forEach(s =>{ 
+    if(s.path == path){
+      console.log('Found matching path');
+      console.log(s);
+      sha = s.sha; 
+    } 
+  });
   await actions.getFile(path);
   console.log('updating file with sha: ' + sha);
   //write data 
