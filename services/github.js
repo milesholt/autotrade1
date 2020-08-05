@@ -26,6 +26,7 @@ actions.getFile = async function(path){
   console.log(e);
 });
   sha = result.data.sha;
+  console.log('getting file, sha is now:' + sha);
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
@@ -41,6 +42,7 @@ actions.updateFile = async function(data,path){
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
   //update SHA
   await actions.getFile(path);
+  console.log('updating file with sha: ' + sha);
   //write data 
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner: owner,
@@ -53,7 +55,7 @@ actions.updateFile = async function(data,path){
   }).catch(e => {
     console.log(e);
   });
-  console.log(result);
+  //console.log(result);
 }
 
 module.exports = {
