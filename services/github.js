@@ -39,7 +39,7 @@ actions.updateFile = async function(content,path){
     owner: owner,
     repo: repo,
     path: path,
-    message: 'beforerange updated - ' + moment(timestamp).format('LLL'),
+    message: 'File updated - ' + moment(timestamp).format('LLL'),
     content: content,
     branch: branch,
     sha: sha
