@@ -65,23 +65,7 @@ let beforeRangeData;
 
 run();
 
-async function run(){
-  
-  prices = await github.actions.getFile(pricedataDir);
-  beforeRangeData = await github.actions.getFile(beforeRangeDir);
-
-  console.log('prices: '  + prices.length);
-
-  console.log('written beforerange data:');
-  console.log(beforeRangeData);
-
-  if(beforeRangeData.lastBeforeRangeTrendMovement !== ''){
-    console.log('using stored beforerangedata');
-    lastBeforeRangeTrendMovement = beforeRangeData.lastBeforeRangeTrendMovement;
-    lastBeforeRangeTrendMovementClose = beforeRangeData.lastBeforeRangeTrendMovementClose;
-    lastBeforeRangeTrendMovementTime = beforeRangeData.lastBeforeRangeTrendMovementTime;
-  }
-  
+async function run(){ 
   //Login and check for open positions first
   await init();
   //Then execute main function, looping initially
@@ -135,6 +119,22 @@ async function exec(){
   console.log('lasthour: ' + lasthour);
   console.log('--------BEGIN EXEC: ' + timestamp );
   console.log('--------BEGIN EXEC AUTO TRADE');
+  
+  //get stored price and beforeRangeData from GitHub
+  prices = await github.actions.getFile(pricedataDir);
+  beforeRangeData = await github.actions.getFile(beforeRangeDir);
+
+  console.log('prices: '  + prices.length);
+  console.log('written beforerange data:');
+  console.log(beforeRangeData);
+
+  //set beforeRangeData  
+  if(beforeRangeData.lastBeforeRangeTrendMovement !== ''){
+    console.log('using stored beforerangedata');
+    lastBeforeRangeTrendMovement = beforeRangeData.lastBeforeRangeTrendMovement;
+    lastBeforeRangeTrendMovementClose = beforeRangeData.lastBeforeRangeTrendMovementClose;
+    lastBeforeRangeTrendMovementTime = beforeRangeData.lastBeforeRangeTrendMovementTime;
+  }
 
   //Retrieve data from epic
   console.log('-------Retrieving historic pricing data for epic');
