@@ -11,7 +11,7 @@ const obj = {};
 const path = '';
 const owner = 'milesholt';
 const branch = 'main';
-let  shas = [];
+let shas = [];
 let sha = 0;
 const repo = 'autotrade1';
 
