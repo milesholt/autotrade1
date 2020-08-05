@@ -51,7 +51,7 @@ actions.updateFile = async function(data,path){
     } 
   });
   //await actions.getFile(path);
-  console.log('updating file with sha: ' + sha);
+  console.log('updating file with sha: ' + sha + 'and path:' + path);
   //write data 
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner: owner,
