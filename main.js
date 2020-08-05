@@ -350,8 +350,11 @@ if(noError){
       'lastBeforeRangeTrendMovementClose' : lastBeforeRangeTrendMovementClose,
       'lastBeforeRangeTrendMovementTime' : lastBeforeRangeTrendMovementTime
     }
-
-    github.actions.updateFile(beforeRangeData,beforeRangeDir);
+    setTimeout(()=>{
+      console.log('updating beforerangeDir after 10 seconds...');
+      github.actions.updateFile(beforeRangeData,beforeRangeDir);
+    },10000);
+    
 
      // fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
      //      if (e) {
