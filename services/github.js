@@ -26,6 +26,7 @@ actions.getFile = async function(path){
   console.log(e);
 });
   sha = result.data.sha;
+  //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
   let obj = JSON.parse(string);
@@ -33,14 +34,17 @@ actions.getFile = async function(path){
 }
 
 //Update file
-actions.updateFile = async function(content,path){
-  const timestamp = Date.now();
+actions.updateFile = async function(data,path){
+  const timestamp = Date.now(); 
+  //encode data to base64 string
+  let dataToStr = typeof data === 'string' ? data : JSON.stringify(prices);
+  let dataTo64 = Buffer.from(dataToStr).toString("base64");
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner: owner,
     repo: repo,
     path: path,
     message: 'File updated - ' + moment(timestamp).format('LLL'),
-    content: content,
+    content: dataTo64,
     branch: branch,
     sha: sha
   }).catch(e => {
