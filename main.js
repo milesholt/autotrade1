@@ -149,9 +149,7 @@ async function exec(){
       prices = r.prices;
       pricedatacount = prices.length;
          
-        let objJsonStr = JSON.stringify(prices);
-        let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
-        github.actions.updateFile(objJsonB64,pricedataDir);
+        github.actions.updateFile(prices,pricedataDir);
         //store back to the file
         /*fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
           if (e) {
@@ -228,9 +226,7 @@ async function exec(){
         prices.shift();
         //store back to the file
         
-        let objJsonStr = JSON.stringify(prices);
-        let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
-        github.actions.updateFile(objJsonB64,pricedataDir);
+        github.actions.updateFile(prices,pricedataDir);
         /*
         fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
           if (e) {
@@ -355,9 +351,7 @@ if(noError){
       'lastBeforeRangeTrendMovementTime' : lastBeforeRangeTrendMovementTime
     }
 
-    let objJsonStr = JSON.stringify(beforeRangeData);
-    let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
-    github.actions.updateFile(objJsonB64,beforeRangeDir);
+    github.actions.updateFile(beforeRangeData,beforeRangeDir);
 
      // fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
      //      if (e) {
