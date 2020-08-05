@@ -49,6 +49,8 @@ let lasthour = moment().subtract(1, 'hours').format("HH");
 //var beforeRangeDir = path.join(__dirname, 'beforerangedata.json');
 var pricedataDir = 'pricedata.json';
 var beforeRangeDir = 'beforerangedata.json';
+var pricedataSha;
+var beforeRangeSha;
 let dealId = '';
 let pricedatacount = 0;
 let previousTrend = 'ranging';
@@ -67,8 +69,8 @@ run();
 
 async function run(){
   
-  prices = await github.actions.getFile(pricedataDir);
-  beforeRangeData = await github.actions.getFile(beforeRangeDir);
+  prices = await github.actions.getFile(pricedataDir,pricedataSha);
+  beforeRangeData = await github.actions.getFile(beforeRangeDir,beforeRangeSha);
 
   console.log(prices);
 
