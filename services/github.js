@@ -27,6 +27,7 @@ actions.getFile = async function(path){
   console.log(e);
 });
   shas.push({'path': path, 'sha':result.data.sha});
+  sha = result.data.sha;
   console.log('getting file, sha is now:' + sha);
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
