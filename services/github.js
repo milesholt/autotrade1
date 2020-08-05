@@ -39,6 +39,9 @@ actions.updateFile = async function(data,path){
   //encode data to base64 string
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
+  //update SHA
+  await actions.getFile(path);
+  //write data 
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner: owner,
     repo: repo,
