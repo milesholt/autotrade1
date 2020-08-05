@@ -350,10 +350,8 @@ if(noError){
       'lastBeforeRangeTrendMovementClose' : lastBeforeRangeTrendMovementClose,
       'lastBeforeRangeTrendMovementTime' : lastBeforeRangeTrendMovementTime
     }
-    setTimeout(()=>{
-      console.log('updating beforerangeDir after 10 seconds...');
-      github.actions.updateFile(beforeRangeData,beforeRangeDir);
-    },10000);
+    github.actions.updateFile(beforeRangeData,beforeRangeDir);
+    
     
 
      // fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
