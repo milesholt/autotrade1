@@ -37,7 +37,7 @@ actions.getFile = async function(path){
 actions.updateFile = async function(data,path){
   const timestamp = Date.now(); 
   //encode data to base64 string
-  let dataToStr = typeof data === 'string' ? data : JSON.stringify(prices);
+  let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner: owner,
