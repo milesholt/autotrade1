@@ -70,7 +70,7 @@ async function run(){
   prices = await github.actions.getFile(pricedataDir);
   beforeRangeData = await github.actions.getFile(beforeRangeDir);
 
-  console.log(prices);
+  console.log('prices: '  + prices.length);
 
   console.log('written beforerange data:');
   console.log(beforeRangeData);
