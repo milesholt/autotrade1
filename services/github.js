@@ -11,10 +11,11 @@ const obj = {};
 const path = '';
 const owner = 'milesholt';
 const branch = 'main';
+let  sha = 0;
 const repo = 'autotrade1';
 
 //Get file
-actions.getFile = async function(path,sha){
+actions.getFile = async function(path){
   console.log('Getting file from github');
   console.log(path);
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
@@ -33,7 +34,7 @@ actions.getFile = async function(path,sha){
 }
 
 //Update file
-actions.updateFile = async function(data,path,sha){
+actions.updateFile = async function(data,path){
   const timestamp = Date.now(); 
   //encode data to base64 string
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
