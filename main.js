@@ -149,7 +149,7 @@ async function exec(){
       prices = r.prices;
       pricedatacount = prices.length;
          
-        github.actions.updateFile(prices,pricedataDir,pricedataSha);
+        github.actions.updateFile(prices,pricedataDir);
         //store back to the file
         /*fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
           if (e) {
@@ -226,7 +226,7 @@ async function exec(){
         prices.shift();
         //store back to the file
         
-        github.actions.updateFile(prices,pricedataDir,pricedataSha);
+        github.actions.updateFile(prices,pricedataDir);
         /*
         fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
           if (e) {
@@ -351,7 +351,7 @@ if(noError){
       'lastBeforeRangeTrendMovementTime' : lastBeforeRangeTrendMovementTime
     }
 
-    github.actions.updateFile(beforeRangeData,beforeRangeDir,beforeRangeSha);
+    github.actions.updateFile(beforeRangeData,beforeRangeDir);
 
      // fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
      //      if (e) {
