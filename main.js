@@ -45,8 +45,9 @@ let today = moment().format('YYYY-MM-DD');
 //by looping at the exact new hour rather than at a random timeframe
 let currenthour = moment().format("HH");
 let lasthour = moment().subtract(1, 'hours').format("HH");
-var pricedataDir = path.join(__dirname, 'pricedata.json');
+//var pricedataDir = path.join(__dirname, 'pricedata.json');
 //var beforeRangeDir = path.join(__dirname, 'beforerangedata.json');
+var pricedataDir = 'pricedata.json';
 var beforeRangeDir = 'beforerangedata.json';
 let dealId = '';
 let pricedatacount = 0;
@@ -58,7 +59,7 @@ let tradedbefore = false;
 let beforeRangeData;
 
 //first, lets retreive stored data from file
-prices = require(pricedataDir);
+//prices = require(pricedataDir);
 //grab any written beforerange data
 //beforeRangeData = require(beforeRangeDir);
 
@@ -66,6 +67,7 @@ run();
 
 async function run(){
   
+  prices = await github.actions.getFile(pricedataDir);
   beforeRangeData = await github.actions.getFile(beforeRangeDir);
 
   console.log(prices);
@@ -146,14 +148,19 @@ async function exec(){
     await api.histPrc(epic, resolution, from, to).then(r => {
       prices = r.prices;
       pricedatacount = prices.length;
-      //store back to the file
-        fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
+         
+        let objJsonStr = JSON.stringify(prices);
+        let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+        github.actions.updateFile(objJsonB64,pricedataDir);
+        //store back to the file
+        /*fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
           if (e) {
             console.log('Could not write price data');
           } else {
             console.log('Price data written to file.');
           }
-        });
+        });*/
+      
         var mailOptions = {
           from: 'contact@milesholt.co.uk',
           to: 'miles_holt@hotmail.com',
@@ -220,6 +227,11 @@ async function exec(){
         console.log('Removing first hour');
         prices.shift();
         //store back to the file
+        
+        let objJsonStr = JSON.stringify(prices);
+        let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+        github.actions.updateFile(objJsonB64,pricedataDir);
+        /*
         fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
           if (e) {
             console.log('Could not write price data');
@@ -227,6 +239,7 @@ async function exec(){
             console.log('Price data written to file.');
           }
         });
+        */
       }else{
         console.log('Latest price bar already exists. Not adding or writing to file');
       }
