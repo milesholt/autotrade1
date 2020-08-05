@@ -71,6 +71,8 @@ async function run(){
   
   prices = await github.actions.getFile(pricedataDir,pricedataSha);
   beforeRangeData = await github.actions.getFile(beforeRangeDir,beforeRangeSha);
+  console.log('price sha:' + pricedataSha);
+  console.log('beforerange sha:' + beforeRangeSha);
 
   console.log(prices);
 
