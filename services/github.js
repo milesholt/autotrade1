@@ -8,14 +8,13 @@ moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
 const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
 const obj = {};
-let sha = 0;
 const path = '';
 const owner = 'milesholt';
 const branch = 'main';
 const repo = 'autotrade1';
 
 //Get file
-actions.getFile = async function(path){
+actions.getFile = async function(path,sha){
   console.log('Getting file from github');
   console.log(path);
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
@@ -34,7 +33,7 @@ actions.getFile = async function(path){
 }
 
 //Update file
-actions.updateFile = async function(data,path){
+actions.updateFile = async function(data,path,sha){
   const timestamp = Date.now(); 
   //encode data to base64 string
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
