@@ -50,7 +50,7 @@ actions.updateFile = async function(data,path){
       sha = s.sha; 
     } 
   });
-  await actions.getFile(path);
+  //await actions.getFile(path);
   console.log('updating file with sha: ' + sha);
   //write data 
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
