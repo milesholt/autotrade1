@@ -15,6 +15,12 @@ let shas = [];
 let sha = 0;
 const repo = 'autotrade1';
 
+//Ini
+actions.iniGitub = async function(path){
+  shas = [];
+  sha = 0;
+}
+
 //Get file
 actions.getFile = async function(path){
   console.log('Getting file from github');
