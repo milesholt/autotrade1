@@ -75,5 +75,7 @@ actions.updateFile = async function(data,path){
 }
 
 module.exports = {
-  actions: actions
+  actions: actions,
+  shas: shas,
+  sha: sha
 }
