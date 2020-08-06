@@ -58,6 +58,7 @@ let lastBeforeRangeTrendMovementTime = '';
 let tradedbefore = false;
 let beforeRangeData;
 
+
 //first, lets retreive stored data from file
 //prices = require(pricedataDir);
 //grab any written beforerange data
@@ -123,7 +124,12 @@ async function exec(){
   //get stored price and beforeRangeData from GitHub
   github.shas = [];
   prices = await github.actions.getFile(pricedataDir);
+  let pricesSha = github.sha;
   beforeRangeData = await github.actions.getFile(beforeRangeDir);
+  let beforeRangeSha = github.sha;
+  
+  console.log('priceSha: ' + pricesSha);
+  console.log('beforeRangeSha: ' + beforeRangeSha);
 
   console.log('prices: '  + prices.length);
   console.log('written beforerange data:');
@@ -780,4 +786,16 @@ function loop(msg){
     setTimeout(exec,(60*(60-min)+(70-sec))*1000);
   }
 
+}
+
+
+function deepCopy(origObj){
+        var newObj = origObj;
+         if (origObj && typeof origObj === "object") {
+             newObj = Object.prototype.toString.call(origObj) === "[object Array]" ? [] : {};
+             for (var i in origObj) {
+                 newObj[i] = this.deepCopy(origObj[i]);
+             }
+         }
+         return newObj;
 }
