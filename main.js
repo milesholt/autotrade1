@@ -121,6 +121,7 @@ async function exec(){
   console.log('--------BEGIN EXEC AUTO TRADE');
   
   //get stored price and beforeRangeData from GitHub
+  github.shas = [];
   prices = await github.actions.getFile(pricedataDir);
   beforeRangeData = await github.actions.getFile(beforeRangeDir);
 
