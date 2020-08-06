@@ -32,7 +32,15 @@ actions.getFile = async function(path){
 }).catch(e => {
   console.log(e);
 });
-  shas.push({'path': path, 'sha':result.data.sha});
+  
+  shas.forEach(s =>{ 
+    if(s.path == path){
+      s.sha = result.data.sha;
+    }else{
+      shas.push({'path': path, 'sha':result.data.sha});
+    }
+  });
+  
   sha = result.data.sha;
   console.log('getting file, sha is now:' + sha);
   //decode data from base64 string to object
