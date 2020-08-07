@@ -33,7 +33,7 @@ actions.getFile = async function(path){
   console.log(e);
 });
   
-  shas.push({'path': path, 'sha':result.data.sha});
+  //shas.push({'path': path, 'sha':result.data.sha});
   /*shas.forEach(s =>{ 
     if(s.path == path){
       s.sha = result.data.sha;
@@ -58,7 +58,8 @@ actions.updateFile = async function(data,path){
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
   //update SHA
-  console.log(shas);
+  //console.log(shas);
+  /*
   shas.forEach(s =>{ 
     if(s.path == path){
       console.log('Found matching path');
@@ -66,7 +67,8 @@ actions.updateFile = async function(data,path){
       sha = s.sha; 
     } 
   });
-  //await actions.getFile(path);
+  */
+  await actions.getFile(path);
   console.log('updating file with sha: ' + sha + ' and path:' + path);
   //write data 
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
