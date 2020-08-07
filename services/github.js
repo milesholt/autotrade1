@@ -33,13 +33,14 @@ actions.getFile = async function(path){
   console.log(e);
 });
   
-  shas.forEach(s =>{ 
+  shas.push({'path': path, 'sha':result.data.sha});
+  /*shas.forEach(s =>{ 
     if(s.path == path){
       s.sha = result.data.sha;
     }else{
       shas.push({'path': path, 'sha':result.data.sha});
     }
-  });
+  });*/
   
   sha = result.data.sha;
   console.log('getting file, sha is now:' + sha);
