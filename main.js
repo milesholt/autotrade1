@@ -30,7 +30,7 @@ const rangeConfirmationLimit = 12;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
-global.rangedata = {'resistance': {}, 'support': {}, 'bumps: []};
+global.rangedata = {'resistance': {}, 'support': {}, 'bumps': []};
 global.linedata = {'support': 0, 'resistance': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 let confirmationlimit = 3;
