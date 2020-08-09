@@ -48,6 +48,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 //   }
     //for(let i = 11, len = pricedata.length; i<len; i++){ 
       //let price = pricedata[i];
+      let range_col = 'rgba(217, 14, 87, 0.7)';
+      let bump_col = 'rgba(92, 123, 207, 0.7)';
       rangedata.support.prices_idx.forEach((pidx,ridx) => {
         //console.log(pidx);
         //console.log(rangedata.support.prices[ridx]);
@@ -57,7 +59,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             type: 'circle',
             xref: 'x',
             yref: 'y',
-            fillcolor: 'rgba(217, 14, 87, 0.7)',
+            fillcolor: rangedata.bump[ridx].idx == i ? bump_col : range_col,
             line: {
               width: 0,
               dash:'solid'
