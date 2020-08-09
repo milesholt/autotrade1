@@ -503,8 +503,9 @@ if(noError){
   //let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
   let bumps = [];
   pricedata2.support.forEach((price,idx) => {
-    if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
-    if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
+    //if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
+    //if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
+    if((price.close >= resistanceline || price.close <= supportline) && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
   });
 
   let bidx = 0;
