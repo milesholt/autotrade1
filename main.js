@@ -481,7 +481,7 @@ if(noError){
       let ntime = moment(price.time);
       let diff = Math.abs(time.diff(ntime, 'minutes'));
       console.log('old time: ' + time + ' new time: ' + ntime + ' diff: ' + diff);
-      if(diff !== 60) totalMissingHours = diff / 60;
+      if(diff !== 60) totalMissingHours += diff / 60;
       time = moment(price.time);
     }
   });
