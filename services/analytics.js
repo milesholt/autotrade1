@@ -59,7 +59,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             type: 'circle',
             xref: 'x',
             yref: 'y',
-            fillcolor: rangedata.bump[ridx].idx == i ? bump_col : range_col,
+            fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
             line: {
               width: 0,
               dash:'solid'
