@@ -30,7 +30,7 @@ const rangeConfirmationLimit = 12;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
-global.rangedata = {'resistance': {}, 'support': {}};
+global.rangedata = {'resistance': {}, 'support': {}, 'bumps: []};
 global.linedata = {'support': 0, 'resistance': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 let confirmationlimit = 3;
@@ -501,23 +501,23 @@ if(noError){
   //this checks that if some price bars are ignored within the range area, and they are greater or smaller than the beforerangefirstclose, then
   //this suggests a bump / hill formation within the range area and not a staircase formation
   //let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
-  let bumps = [];
+  //let bumps = [];
   pricedata2.support.forEach((price,idx) => {
     //if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
     //if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
-    if((price.close >= resistanceline || price.close <= supportline) && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
+    if((price.close >= resistanceline || price.close <= supportline) && rangedata.support.prices_idx.indexOf(idx) !== -1) rangedata.bumps.push({ 'idx' : idx, 'close' : price.close });
   });
 
   let bidx = 0;
   let bumpgroupcount = 0;
   const bumpgrouplimit = 5;
   //this makes sure that the bumps are together as a group (not scattered indexes), and must exceed a certain amount
-  bumps.forEach(bump => {
+  rangedata.bumps.forEach(bump => {
     if(bump.idx == (bidx+1)) bumpgroupcount++;
     bidx = bump.idx;
   });
 
-  if(bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
+  if(rangedata.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
 
 
   if(tradedbefore) check12 = false;
@@ -575,7 +575,7 @@ if(noError){
     'isHoursCorrect': check10,
     'totalMissingHours': totalMissingHours,
     'noBumpInRange': check11,
-    'bumps': bumps,
+    'bumps': rangedata.bumps,
     'bumpgroupcount': bumpgroupcount,
     'notTradedBefore': check12,
     'beforeRangeOveridden': beforeRangeOveridden,
