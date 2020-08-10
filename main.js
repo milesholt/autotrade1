@@ -502,10 +502,13 @@ if(noError){
   //this suggests a bump / hill formation within the range area and not a staircase formation
   //let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
   //let bumps = [];
+  let rd = rangedata.support.prices_idx;
   pricedata2.support.forEach((price,idx) => {
     //if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
     //if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
-    if((price.close >= resistanceline || price.close <= supportline) && rangedata.support.prices_idx.indexOf(idx) !== -1) rangedata.bumps.push({ 'idx' : idx, 'close' : price.close });
+    //if((price.close >= resistanceline || price.close <= supportline) && rangedata.support.prices_idx.indexOf(idx) !== -1) rangedata.bumps.push({ 'idx' : idx, 'close' : price.close });
+    if((price.close >= resistanceline || price.close <= supportline) && rd.indexOf(idx) === -1 && (idx >= rd[0] && idx <= rd[rd.length-1)) rangedata.bumps.push({ 'idx' : idx, 'close' : price.close });
+
   });
 
   let bidx = 0;
