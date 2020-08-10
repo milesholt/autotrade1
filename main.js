@@ -507,7 +507,7 @@ if(noError){
     //if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
     //if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
     //if((price.close >= resistanceline || price.close <= supportline) && rangedata.support.prices_idx.indexOf(idx) !== -1) rangedata.bumps.push({ 'idx' : idx, 'close' : price.close });
-    if((price.close >= resistanceline || price.close <= supportline) && rd.indexOf(idx) === -1 && (idx >= rd[0] && idx <= rd[rd.length-1)) rangedata.bumps.push({ 'idx' : idx, 'close' : price.close });
+    if((price.close >= resistanceline || price.close <= supportline) && rd.indexOf(idx) === -1 && (idx >= rd[0] && idx <= rd[rd.length-1])) rangedata.bumps.push({ 'idx' : idx, 'close' : price.close });
 
   });
 
