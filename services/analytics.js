@@ -266,8 +266,20 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 
   
   plotly.plot(data, options, function (err, msg) {
-    if (err) return console.log(err)
+    if (err) return console.log(err);
     console.log(msg);
+  });
+  
+  var chart = { 'data': [ data ], 'layout':layout };
+  actions.getImage(chart);
+}
+
+actions.getImage(chart){
+  var pngOptions = { format: ‘png’, width: 1000, height: 500 };
+  plotly.getImage(chart, pngOptions, function (err, imageData) {
+    if (err) return console.log(err);
+    console.log('generated plot image data:');
+    console.log(imageData);
   });
 }
 
