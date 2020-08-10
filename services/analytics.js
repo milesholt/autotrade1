@@ -279,7 +279,10 @@ actions.getImage = async function(chart){
   plotly.getImage(chart, pngOptions, function (err, imageData) {
     if (err) return console.log(err);
     console.log('generated plot image data:');
-    console.log(imageData);
+    //var fileStream = fs.createWriteStream('test.png');
+    //imageStream.pipe(fileStream);
+    //fileStream.on('error', reject);
+    //fileStream.on('finish', resolve);
   });
 }
 
