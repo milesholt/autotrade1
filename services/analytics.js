@@ -275,7 +275,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 }
 
 actions.getImage = async function(chart){
-  var pngOptions = { format: ‘png’, width: 1000, height: 500 };
+  var pngOptions = { format: 'png', width: 1000, height: 500 };
   plotly.getImage(chart, pngOptions, function (err, imageData) {
     if (err) return console.log(err);
     console.log('generated plot image data:');
