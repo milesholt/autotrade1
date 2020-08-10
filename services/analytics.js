@@ -73,9 +73,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             y1: rangedata.support.prices[ridx]+circleheight
           }
           shapes.push(circle);
-        }
-        
-        rangedata.bumps.forEach((bump,bidx) => {
+        }    
+      });
+    
+    rangedata.bumps.forEach((bump,bidx) => {
         //console.log(pidx);
         //console.log(rangedata.support.prices[ridx]);
         if(bump.idx == i){
@@ -98,9 +99,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             y1: rangedata.support.prices[bidx]+circleheight
           }
           shapes.push(circle);
-        }
-
-      });
+        }     
+    });
 
 
     // confirmations.support_index.forEach(sidx => {
