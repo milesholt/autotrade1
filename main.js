@@ -514,6 +514,7 @@ if(noError){
   let bidx = 0;
   let bumpgroupcount = 0;
   const bumpgrouplimit = 5;
+  rangedata.bumps = [];
   //this makes sure that the bumps are together as a group (not scattered indexes), and must exceed a certain amount
   rangedata.bumps.forEach(bump => {
     if(bump.idx == (bidx+1)) bumpgroupcount++;
