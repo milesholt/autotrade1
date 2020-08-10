@@ -60,7 +60,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             xref: 'x',
             yref: 'y',
             //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
-            fillcolor: 'rgba(217, 14, 87, 0.7)',
+            fillcolor: range_col,
             line: {
               width: 0,
               dash:'solid'
@@ -71,6 +71,31 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             y1: rangedata.support.prices[ridx]+circleheight
+          }
+          shapes.push(circle);
+        }
+        
+        rangedata.bumps.forEach((bump,bidx) => {
+        //console.log(pidx);
+        //console.log(rangedata.support.prices[ridx]);
+        if(bump.idx == i){
+          let j = i+1;
+          let circle = {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
+            fillcolor: bump_col,
+            line: {
+              width: 0,
+              dash:'solid'
+            },
+            //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            y0: rangedata.support.prices[bidx]-circleheight,
+            //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            y1: rangedata.support.prices[bidx]+circleheight
           }
           shapes.push(circle);
         }
