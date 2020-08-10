@@ -43,7 +43,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
-  let midprices = pricedata2.support.map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
+  let midprices = pricedata2.map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
 
   pricedata2.forEach((price, i) =>{
   //skip first 12 hours
