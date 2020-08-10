@@ -40,6 +40,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
+  let midprices = pricedata2.support.map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
 
   pricedata2.forEach((price, i) =>{
   //skip first 12 hours
@@ -93,10 +94,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             },
             //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y0: rangedata.support.prices[bidx]-circleheight,
+            y0: midprices[i]-circleheight,
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y1: rangedata.support.prices[bidx]+circleheight
+            y1: midprices[i]+circleheight
           }
           shapes.push(circle);
         }     
