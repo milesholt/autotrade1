@@ -80,6 +80,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         }    
       });
     
+    let midprice = parseInt((price.open+price.close)/2).toFixed(2));
+    
     rangedata.bumps.forEach((bump,bidx) => {
         //console.log(pidx);
         //console.log(rangedata.support.prices[ridx]);
@@ -97,10 +99,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             },
             //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y0: midprices[i]-circleheight,
+            y0: midprice-circleheight,
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y1: midprices[i]+circleheight
+            y1: midprice+circleheight
           }
           shapes.push(circle);
         }     
