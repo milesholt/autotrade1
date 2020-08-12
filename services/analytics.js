@@ -99,10 +99,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             },
             //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y0: midprice-circleheight,
+            y0: midprice-10,
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y1: midprice+circleheight
+            y1: midprice+10
           }
           shapes.push(circle);
         }     
