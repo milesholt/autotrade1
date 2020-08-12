@@ -503,6 +503,9 @@ if(noError){
   //let bf = beforeRangeOveridden ? lastBeforeRangeTrendMovementClose : beforeRangeFirstClose;
   //let bumps = [];
   let rd = rangedata.support.prices_idx;
+  rangedata.bumps = [];
+  
+  
   pricedata2.support.forEach((price,idx) => {
     //if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
     //if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
@@ -514,7 +517,7 @@ if(noError){
   let bidx = 0;
   let bumpgroupcount = 0;
   const bumpgrouplimit = 5;
-  rangedata.bumps = [];
+
   //this makes sure that the bumps are together as a group (not scattered indexes), and must exceed a certain amount
   rangedata.bumps.forEach(bump => {
     if(bump.idx == (bidx+1)) bumpgroupcount++;
