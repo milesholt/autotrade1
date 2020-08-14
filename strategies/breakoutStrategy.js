@@ -10,7 +10,7 @@ actions.calcResistSupport = async function(pricedata,type){
   //3) We then use midrange line and loop through prices again, collecting only prices that are within margin2 from the midrange line
   //4) We then order those prices, and select the lowest for support, and the highest for resistance
 
-  let prices = pricedata[type].map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
+  let prices = pricedata[type].map(r => ((r.open+r.close)/2).toFixed(2) );
   let margin1 = 50;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
   let margin2 = 250; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
   let matches = []; // Matches for midrange line
@@ -19,12 +19,16 @@ actions.calcResistSupport = async function(pricedata,type){
   let midx = 0;
 
   prices.forEach((price,idx) => {
+    console.log('price: ' + price);
     price = parseFloat(price);
+    console.log('float price: ' + price);
     let match = false
     let m = [];
     let pi = []
     prices.forEach((price2,idx2) => {
+        console.log('price2: ' + price2);
       price2 = parseFloat(price2);
+      console.log('float price2: ' + price2);
       let diff = Math.abs(price2 - price);
       // If the difference is within margin, add it to matches
       if(diff <= margin1){
@@ -155,7 +159,7 @@ actions.calcWicks = async function(pricedata){
 
   //strength is now only the strength of the latest wick
   //strength = wickdata[(wicklimit-1)].wickstrength;
-  
+
   //update: we now choose wick with highest strength
   strength = wickstrength;
 
