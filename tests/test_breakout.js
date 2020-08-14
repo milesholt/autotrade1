@@ -8,10 +8,13 @@ const path = require('path');
 moment().format();
 
 const strategy = require('../strategies/breakoutStrategy.js');
+const analytics = require('../services/tests/analytics.js');
+
 var pricesDir = path.join(__dirname, '../pricedata.json');
 
 let pricedata = {'support': [], 'resistance': []};
 let pricedata2 = {'support': [], 'resistance': []};
+let pricedata3 = {'support': [], 'resistance': []};
 global.rangedata = {'resistance': {}, 'support': {}, 'bumps': []};
 global.linedata = {'support': 0, 'resistance': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
@@ -45,11 +48,20 @@ async function exec(prices){
   pricedata2.support = pricedata.support.filter((price,i) => i > start);
   pricedata2.resistance = pricedata.resistance.filter((price,i) => i > start);
 
+  let start2 = (pricedata.support.length - 37);
+  pricedata3.support = pricedata.support.filter((price,i) => i > start2);
+  pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
+
   //console.log(pricedata2.support);
 
   let supportline = 0;
   let resistanceline = 0;
   supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
-  //resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+  resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+
+  linedata.support = supportline;
+  linedata.resistance = resistanceline;
+
+  analytics.actions.drawChart(pricedata3.support, {}, linedata, {}, rangedata);
 
 }

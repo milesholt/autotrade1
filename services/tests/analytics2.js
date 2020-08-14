@@ -3,10 +3,8 @@
 //Username - miles_holt
 //Streaming token - vbey2uqiwm
 
-// const username = 'miles_holt';
-// const apikey = 'WGIhp2vCZ9C86KEkjEJf';
-// const streamtoken = 'vbey2uqiwm';
-// var plotly = require('plotly')(username,apikey);
+const { from, range } = require('rxjs');
+const { map, filter } = require('rxjs/operators');
 
 const username = 'miles_holt';
 const apikey = 'WGIhp2vCZ9C86KEkjEJf';
@@ -43,36 +41,71 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const pricediff = highestnum - lowestnum;
   const circleheight = pricediff * 0.015; //get fraction of height, so it's in proportion to data range
 
-  console.log(lowestnum);
-  console.log(highestnum);
-
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
   let midprices = pricedata2.map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
 
   pricedata2.forEach((price, i) =>{
-
-    rangedata.support.prices_idx.forEach((pidx,ridx) => {
-      //console.log(pidx);
-      //console.log(rangedata.support.prices[ridx]);
-      if(pidx == i){
-        let j = i+1;
-        let circle = {
-          type: 'circle',
-          xref: 'x',
-          yref: 'y',
-          fillcolor: 'rgba(217, 14, 87, 0.7)',
-          line: {
-            width: 0,
-            dash:'solid'
-          },
-          x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-          y0: rangedata.support.prices[ridx]-circleheight,
-          x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-          y1: rangedata.support.prices[ridx]+circleheight
+  //skip first 12 hours
+//   if(i < 11){
+//     continue;
+//   }
+    //for(let i = 11, len = pricedata.length; i<len; i++){
+      //let price = pricedata[i];
+      let range_col = 'rgba(217, 14, 87, 0.7)';
+      let bump_col = 'rgba(92, 123, 207, 0.7)';
+      rangedata.support.prices_idx.forEach((pidx,ridx) => {
+        //console.log(pidx);
+        //console.log(rangedata.support.prices[ridx]);
+        if(pidx == i){
+          let j = i+1;
+          let circle = {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
+            fillcolor: range_col,
+            line: {
+              width: 0,
+              dash:'solid'
+            },
+            //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            y0: rangedata.support.prices[ridx]-circleheight,
+            //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            y1: rangedata.support.prices[ridx]+circleheight
+          }
+          shapes.push(circle);
         }
-        shapes.push(circle);
-      }
+      });
+
+    let midprice = parseInt((price.open+price.close)/2).toFixed(2);
+
+    rangedata.bumps.forEach((bump,bidx) => {
+        //console.log(pidx);
+        //console.log(rangedata.support.prices[ridx]);
+        if(bump.idx == i){
+          let j = i+1;
+          let circle = {
+            type: 'circle',
+            xref: 'x',
+            yref: 'y',
+            //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
+            fillcolor: bump_col,
+            line: {
+              width: 0,
+              dash:'solid'
+            },
+            //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            y0: midprice-10,
+            //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+            y1: midprice+10
+          }
+          shapes.push(circle);
+        }
     });
 
 
@@ -120,17 +153,19 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
     // });
 
     //console.log(shapes);
-
+  //}
   });
 
   customdata[customdata.length-1] = analysis;
 
-
+  range.sort(sortNumber);
 
   let lowest = range[0];
   let highest = range[range.length-1];
   let starttime =  times[0];
-  let endtime = times[times.length-1]
+  let starttime2 = times[11]; //12 hours ahead (range area needs to be 24 hours not 36)
+  let endtime = times[times.length-1];
+
 
   var trace1 = {
       x: times,
@@ -151,7 +186,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       type: 'line',
       y0: linedata.support,
       y1: linedata.support,
-      x0: starttime,
+      x0: starttime2,
       x1: endtime,
       line: {
         color: '#D90E57', //red
@@ -168,7 +203,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         type: 'line',
         y0: linedata.resistance,
         y1: linedata.resistance,
-        x0: starttime,
+        x0: starttime2,
         x1: endtime,
         line: {
           color: '#1DC7C9', //green
@@ -185,7 +220,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         type: 'line',
         y0: linedata.midrange,
         y1: linedata.midrange,
-        x0: starttime,
+        x0: starttime2,
         x1: endtime,
         line: {
           color: '#1d39c9', //green
@@ -235,9 +270,25 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
     "world_readable": true
   }
 
+
   plotly.plot(data, options, function (err, msg) {
-    if (err) return console.log(err)
+    if (err) return console.log(err);
     console.log(msg);
+  });
+
+  var chart = { 'data': [ data ], 'layout':layout };
+  actions.getImage(chart);
+}
+
+actions.getImage = async function(chart){
+  var pngOptions = { format: 'png', width: 1000, height: 500 };
+  plotly.getImage(chart, pngOptions, function (err, imageData) {
+    if (err) return console.log(err);
+    console.log('generated plot image data:');
+    //var fileStream = fs.createWriteStream('test.png');
+    //imageStream.pipe(fileStream);
+    //fileStream.on('error', reject);
+    //fileStream.on('finish', resolve);
   });
 }
 

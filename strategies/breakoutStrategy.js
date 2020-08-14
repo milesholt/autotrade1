@@ -11,24 +11,25 @@ actions.calcResistSupport = async function(pricedata,type){
   //4) We then order those prices, and select the lowest for support, and the highest for resistance
 
   let prices = pricedata[type].map(r => ((r.open+r.close)/2).toFixed(2) );
-  let margin1 = 50;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
-  let margin2 = 250; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
+  //Margins used for bitcoin
+  //let margin1 = 50;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  //let margin2 = 250; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
+
+  //TODO: Need to set margins as percentages of price data rather than fixed values
+  let margin1 = 0.2;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  let margin2 = 1; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
   let matches = []; // Matches for midrange line
   let matches2 = []; // Matches for support and resistance lines
   let line = 0;
   let midx = 0;
 
   prices.forEach((price,idx) => {
-    console.log('price: ' + price);
     price = parseFloat(price);
-    console.log('float price: ' + price);
     let match = false
     let m = [];
     let pi = []
     prices.forEach((price2,idx2) => {
-        console.log('price2: ' + price2);
       price2 = parseFloat(price2);
-      console.log('float price2: ' + price2);
       let diff = Math.abs(price2 - price);
       // If the difference is within margin, add it to matches
       if(diff <= margin1){
