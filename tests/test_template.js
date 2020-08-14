@@ -9,11 +9,11 @@ const path = require('path');
 moment().format();
 
 //Require strategy
-const strategy = require('./strategies/breakoutStrategy.js');
+const strategy = require('../strategies/breakoutStrategy.js');
 //Require analytics
-const analytics = require('./services/analytics.js');
+const analytics = require('../services/analytics.js');
 //Require mailer
-const mailer = require('./services/mailer.js');
+const mailer = require('../services/mailer.js');
 
 //Parameters
 let check1 = false, check2 = false, check3 = false, check4 = false;
@@ -21,7 +21,10 @@ let prices;
 let pricedata = {'support': [], 'resistance': []};
 global.confirmations = {'resistance': 0, 'support': 0};
 let confirmationlimit = 4;
-const epic = 'CS.D.BITCOIN.TODAY.IP';
+
+//bitcoin - CS.D.BITCOIN.TODAY.IP
+//stellar - CS.D.XLMUSD.TODAY.IP
+const epic = 'CS.D.XLMUSD.TODAY.IP';
 const resolution = 'HOUR';
 let date1 = moment().add(1, 'days').format('YYYY-MM-DD');
 let date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -62,6 +65,13 @@ async function exec(){
     console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
 
+  //Search contract
+  //CS.D.BITCOIN.TODAY.IP
+  // console.log('-------Searching for Epics');
+  // await api.search('Stellar').then(r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
+
   //Retrieve data from epic
   console.log('-------Retrieving historic pricing data for epic');
 
@@ -69,7 +79,7 @@ async function exec(){
   console.log(to2);
 
   //if data from file is empty, load last 3 days
-  await api.histPrc(epic, resolution, from2, to2).then(r => {
+  await api.histPrc(epic, resolution, from, to).then(r => {
     console.log(r);
   }).catch(e => {
     //console.log(e);

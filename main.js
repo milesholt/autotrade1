@@ -34,7 +34,7 @@ global.rangedata = {'resistance': {}, 'support': {}, 'bumps': []};
 global.linedata = {'support': 0, 'resistance': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 let confirmationlimit = 3;
-const epic = 'CS.D.BITCOIN.TODAY.IP';
+const epic = 'CS.D.XLMUSD.TODAY.IP';
 const resolution = 'HOUR';
 let date1 = moment().add(1, 'days').format('YYYY-MM-DD');
 let date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
@@ -66,7 +66,7 @@ let beforeRangeData;
 
 run();
 
-async function run(){ 
+async function run(){
   //Login and check for open positions first
   await init();
   //Then execute main function, looping initially
@@ -120,14 +120,14 @@ async function exec(){
   console.log('lasthour: ' + lasthour);
   console.log('--------BEGIN EXEC: ' + timestamp );
   console.log('--------BEGIN EXEC AUTO TRADE');
-  
+
   //get stored price and beforeRangeData from GitHub
   github.shas = [];
   prices = await github.actions.getFile(pricedataDir);
   let pricesSha = github.sha;
   beforeRangeData = await github.actions.getFile(beforeRangeDir);
   let beforeRangeSha = github.sha;
-  
+
   console.log('priceSha: ' + pricesSha);
   console.log('beforeRangeSha: ' + beforeRangeSha);
 
@@ -135,7 +135,7 @@ async function exec(){
   console.log('written beforerange data:');
   console.log(beforeRangeData);
 
-  //set beforeRangeData  
+  //set beforeRangeData
   if(beforeRangeData.lastBeforeRangeTrendMovement !== ''){
     console.log('using stored beforerangedata');
     lastBeforeRangeTrendMovement = beforeRangeData.lastBeforeRangeTrendMovement;
@@ -155,7 +155,7 @@ async function exec(){
     await api.histPrc(epic, resolution, from, to).then(r => {
       prices = r.prices;
       pricedatacount = prices.length;
-         
+
         github.actions.updateFile(prices,pricedataDir);
         //store back to the file
         /*fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
@@ -165,7 +165,7 @@ async function exec(){
             console.log('Price data written to file.');
           }
         });*/
-      
+
         var mailOptions = {
           from: 'contact@milesholt.co.uk',
           to: 'miles_holt@hotmail.com',
@@ -232,7 +232,7 @@ async function exec(){
         console.log('Removing first hour');
         prices.shift();
         //store back to the file
-        
+
         github.actions.updateFile(prices,pricedataDir);
         /*
         fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
@@ -357,14 +357,14 @@ if(noError){
       'lastBeforeRangeTrendMovementClose' : lastBeforeRangeTrendMovementClose,
       'lastBeforeRangeTrendMovementTime' : lastBeforeRangeTrendMovementTime
     }
-    
+
     setTimeout(()=>{
       console.log('updating beforeRangeData file after 10 seconds');
       github.actions.updateFile(beforeRangeData,beforeRangeDir);
     },10000);
-    
-    
-    
+
+
+
 
      // fs.writeFile(beforeRangeDir, JSON.stringify(beforeRangeData), 'utf8', (e) => {
      //      if (e) {
@@ -504,8 +504,8 @@ if(noError){
   //let bumps = [];
   let rd = rangedata.support.prices_idx;
   rangedata.bumps = [];
-  
-  
+
+
   pricedata2.support.forEach((price,idx) => {
     //if(trend == 'bearish') if(price.close >= resistanceline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
     //if(trend == 'bullish') if(price.close <= supportline && rangedata.support.prices_idx.indexOf(idx) !== -1) bumps.push({ 'idx' : idx, 'close' : price.close });
@@ -712,11 +712,11 @@ if(noError){
           	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
           	'epic': epic,
           	'expiry': 'DFB',
-          	'size': 1.5,
+          	'size': 50,
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
-          	'limitDistance': 100,
+          	'limitDistance': 0.5,
           	'limitLevel': null,
           	'stopDistance': stopDistance,
           	'stopLevel': null,
