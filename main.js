@@ -174,10 +174,12 @@ async function exec(){
         };
         mailer.actions.sendMail(mailOptions);
     }).catch(async e => {
-      console.log(e);
+
+      console.log('----ERRROR:');
+      console.log('e.body.errorCode:' + e.body.errorCode);
 
       if(e.body.errorCode == 'error.security.client-token-invalid'){
-        console.log(e);
+        //console.log(e);
         console.log('Logging out and clearing tokens...');
         await api.logout(true).then(r => {
           console.log(util.inspect(r,false,null));
