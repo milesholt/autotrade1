@@ -175,7 +175,7 @@ async function exec(){
         mailer.actions.sendMail(mailOptions);
     }).catch(async e => {
 
-      console.log('----ERRROR:');
+      console.log('----ERROR:');
       console.log('e.body.errorCode:' + e.body.errorCode);
 
       if(e.body.errorCode == 'error.security.client-token-invalid'){
