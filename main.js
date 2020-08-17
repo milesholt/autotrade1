@@ -28,7 +28,7 @@ const github = require('./services/github.js');
 //const tradelimit = 120;
 //const linedistancelimit =  20;
 const rangelimit = 0.4;
-const tradelimit = 0.2;
+const tradelimit = 0.4;
 const linedistancelimit =  0.1;
 const rangeConfirmationLimit = 12;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
