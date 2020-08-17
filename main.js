@@ -33,6 +33,7 @@ const rangelimit = 0.35;
 const tradelimit = 0.4;
 const linedistancelimit =  0.05;
 const rangeConfirmationLimit = 12;
+const stopDistanceFluctuation = 0.1;
 let check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
 let prices = [];
 let pricedata = {'support': [], 'resistance': []};
@@ -710,7 +711,7 @@ if(noError){
         console.log(util.inspect(positionsData, false, null));
 
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = Math.round(lastClose * 0.024) + 10;
+        let stopDistance = Math.round(lastClose * 0.024) + stopDistanceFluctuation;
         let ticketError = false;
         console.log('stop distance: ' + stopDistance);
 
