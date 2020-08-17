@@ -81,8 +81,13 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       });
 
     let midprice = parseInt((price.open+price.close)/2).toFixed(2);
-    let height =
-
+    
+    let midplus = midprice+circleheight;
+    let midminus = midprice-circleheight; 
+    
+    console.log('midprice plus circleheight' + midplus);
+    console.log('midprice minus circleheight' + midminus);
+    
     rangedata.bumps.forEach((bump,bidx) => {
         //console.log(pidx);
         //console.log(rangedata.support.prices[ridx]);
@@ -100,10 +105,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             },
             //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y0: midprice-circleheight,
+            y0: midplus,
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y1: midprice+circleheight
+            y1: midminus
           }
           shapes.push(circle);
         }
