@@ -18,7 +18,7 @@ var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN
 //todo: setup monitoring when deal is mate to monitor status as it's being processed
 //sometimes a deal will be created but the confirm will be dealnotfound and it wont be processed, we need to subscribe to stream to see whats happening
 //var streamLogDir = path.join(__dirname, 'stream_DealCreateMonitor.json');
-//var items = ['TRADE:'+accountid];
+//var items = ['TRADE:'+process.env.IG_IDENTIFIER];
 //var fields = ['CONFIRMS','OPU'];
 
 
