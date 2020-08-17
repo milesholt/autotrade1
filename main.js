@@ -10,6 +10,8 @@ const fs = require('fs');
 const path = require('path');
 moment().format();
 
+global.epic = 'CS.D.XLMUSD.TODAY.IP';
+
 //Require strategy
 const strategy = require('./strategies/breakoutStrategy.js');
 //Require analytics
@@ -38,7 +40,7 @@ global.rangedata = {'resistance': {}, 'support': {}, 'bumps': []};
 global.linedata = {'support': 0, 'resistance': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 let confirmationlimit = 3;
-global.epic = 'CS.D.XLMUSD.TODAY.IP';
+
 const resolution = 'HOUR';
 let date1 = moment().add(1, 'days').format('YYYY-MM-DD');
 let date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
