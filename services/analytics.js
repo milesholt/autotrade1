@@ -40,7 +40,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const highestnum = range[range.length-1];
   const pricediff = highestnum - lowestnum;
   const circleheight = pricediff * 0.015; //get fraction of height, so it's in proportion to data range
-  
+
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
   let midprices = pricedata2.map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
@@ -50,7 +50,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 //   if(i < 11){
 //     continue;
 //   }
-    //for(let i = 11, len = pricedata.length; i<len; i++){ 
+    //for(let i = 11, len = pricedata.length; i<len; i++){
       //let price = pricedata[i];
       let range_col = 'rgba(217, 14, 87, 0.7)';
       let bump_col = 'rgba(92, 123, 207, 0.7)';
@@ -77,11 +77,12 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             y1: rangedata.support.prices[ridx]+circleheight
           }
           shapes.push(circle);
-        }    
+        }
       });
-    
+
     let midprice = parseInt((price.open+price.close)/2).toFixed(2);
-    
+    let height =
+
     rangedata.bumps.forEach((bump,bidx) => {
         //console.log(pidx);
         //console.log(rangedata.support.prices[ridx]);
@@ -99,13 +100,13 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             },
             //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y0: midprice-10,
+            y0: midprice-circleheight,
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y1: midprice+10
+            y1: midprice+circleheight
           }
           shapes.push(circle);
-        }     
+        }
     });
 
 
@@ -165,7 +166,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   let starttime =  times[0];
   let starttime2 = times[11]; //12 hours ahead (range area needs to be 24 hours not 36)
   let endtime = times[times.length-1];
-  
+
 
   var trace1 = {
       x: times,
@@ -270,12 +271,12 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
     "world_readable": true
   }
 
-  
+
   plotly.plot(data, options, function (err, msg) {
     if (err) return console.log(err);
     console.log(msg);
   });
-  
+
   var chart = { 'data': [ data ], 'layout':layout };
   actions.getImage(chart);
 }
