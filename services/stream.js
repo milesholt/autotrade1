@@ -8,12 +8,20 @@ const path = require('path');
 
 var data = [];
 var streamLogDir = path.join(__dirname, 'stream.json');
-const epic = 'CS.D.BITCOIN.TODAY.IP';
+//const epic = 'CS.D.BITCOIN.TODAY.IP';
 var subscriptionMode = 'MERGE';
 // var items = ['L1:'+epic];
 // var fields = ['UPDATE_TIME', 'BID', 'OFFER', 'HIGH', 'LOW', 'MID_OPEN'];
 var items = ['CHART:'+epic+':HOUR'];
 var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN','BID_CLOSE','BID_HIGH','BID_LOW'];
+
+//todo: setup monitoring when deal is mate to monitor status as it's being processed
+//sometimes a deal will be created but the confirm will be dealnotfound and it wont be processed, we need to subscribe to stream to see whats happening
+//var streamLogDir = path.join(__dirname, 'stream_DealCreateMonitor.json');
+//var items = ['TRADE:'+accountid];
+//var fields = ['CONFIRMS','OPU'];
+
+
 var destroyStream = false;
 
 actions.connectStream = function(check){
