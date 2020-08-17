@@ -80,7 +80,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         }
       });
 
-    let midprice = parseInt((price.open+price.close)/2).toFixed(2);
+    let midprice = parseInt((price.open+price.close/2).toFixed(2));
     
     let midplus = midprice+circleheight;
     let midminus = midprice-circleheight; 
