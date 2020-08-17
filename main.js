@@ -709,6 +709,7 @@ if(noError){
 
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
         let stopDistance = Math.round(lastClose * 0.024) + 10;
+        let ticketError = false;
         console.log('stop distance: ' + stopDistance);
 
         if(!positionOpen && positionsData.positions.length === 0){
@@ -739,22 +740,31 @@ if(noError){
                 console.log(util.inspect(r, false, null));
                 //store dealId for later
                 dealId = r.confirms.dealId;
-              }).catch(e => console.log(e));
+              }).catch(e => {
+                console.log('---------Error creating ticket:');
+                console.log(e);
+                ticketError = true;
+              });
+          
+              if(ticketError == false){
+                  var mailOptions = {
+                    from: 'contact@milesholt.co.uk',
+                    to: 'miles_holt@hotmail.com',
+                    subject: 'Trade made at: ' + moment().format('LLL') + ' - ' + trend,
+                    text: JSON.stringify(analysis)
+                  };
+                  mailer.actions.sendMail(mailOptions);
 
-              var mailOptions = {
-                from: 'contact@milesholt.co.uk',
-                to: 'miles_holt@hotmail.com',
-                subject: 'Trade made at: ' + moment().format('LLL') + ' - ' + trend,
-                text: JSON.stringify(analysis)
-              };
-              mailer.actions.sendMail(mailOptions);
+                  console.log('beginning monitoring..');
+                  monitor.actions.beginMonitor();
 
-              console.log('beginning monitoring..');
-              monitor.actions.beginMonitor();
-
-              tradedbefore = true;
-              loop('Checks passed and trade has been made. Will go again in 1 hour.');
-              return false;
+                  tradedbefore = true;
+                  loop('Checks passed and trade has been made. Will go again in 1 hour.');
+                  return false;
+               } else {
+                  loop('Tried to make a trade, but it failed. Will go again in 1 hour.');
+                  return false;
+               }            
 
         } else {
 
