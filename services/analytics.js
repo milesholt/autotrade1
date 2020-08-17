@@ -81,13 +81,16 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       });
 
     let midprice = parseInt((price.open+price.close/2).toFixed(2));
-    
+    let midprice2 = (price.open+price.close/2).toFixed(2);
+
     let midplus = midprice+circleheight;
-    let midminus = midprice-circleheight; 
-    
-    console.log('midprice plus circleheight' + midplus);
-    console.log('midprice minus circleheight' + midminus);
-    
+    let midminus = midprice-circleheight;
+
+    console.log('midprice:' + midprice);
+    console.log('midprice2:' + midprice2);
+    console.log('midprice plus circleheight:' + midplus);
+    console.log('midprice minus circleheight:' + midminus);
+
     rangedata.bumps.forEach((bump,bidx) => {
         //console.log(pidx);
         //console.log(rangedata.support.prices[ridx]);
