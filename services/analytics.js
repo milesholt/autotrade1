@@ -39,8 +39,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const lowestnum = range[0];
   const highestnum = range[range.length-1];
   const pricediff = highestnum - lowestnum;
-  const circleheight = parseInt((pricediff * 0.015).toFixed(2)); //get fraction of height, so it's in proportion to data range
-  console.log('circleheight: ' + circleheight); 
+  const circleheight = parseFloat((pricediff * 0.015).toFixed(2)); //get fraction of height, so it's in proportion to data range
+  console.log('circleheight: ' + circleheight);
 
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
@@ -57,7 +57,11 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       let bump_col = 'rgba(92, 123, 207, 0.7)';
       rangedata.support.prices_idx.forEach((pidx,ridx) => {
         //console.log(pidx);
-        //console.log(rangedata.support.prices[ridx]);
+        console.log('yo: ' + rangedata.support.prices[ridx]);
+        console.log('y1: ' + rangedata.support.prices[ridx]);
+        console.log('yo: ' + rangedata.support.prices[ridx]-circleheight);
+        console.log('y1: ' + rangedata.support.prices[ridx]+circleheight);
+
         if(pidx == i){
           let j = i+1;
           let circle = {
