@@ -40,6 +40,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const highestnum = range[range.length-1];
   const pricediff = highestnum - lowestnum;
   const circleheight = parseInt((pricediff * 0.015).toFixed(2)); //get fraction of height, so it's in proportion to data range
+  console.log('circleheight: ' + circleheight);
 
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
