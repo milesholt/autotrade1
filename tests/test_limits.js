@@ -28,6 +28,12 @@ tradelimitperc = 20;
 linedistancelimitperc = 3;
 stopdistancefluctuationperc = 1.5;
 
+const open = 11.61;
+const close = 11.78;
+const diff = (Math.abs(open+close)/2).toFixed(2);
+
+console.log('midprice: '+diff);
+
 //STELLAR
 // rangelimitperc = 35;
 // tradelimitperc = 40;
