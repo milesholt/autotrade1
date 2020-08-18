@@ -61,10 +61,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         let y0 = parseFloat(rangedata.support.prices[ridx]-circleheight).toFixed(2);
         let y1 = parseFloat(rangedata.support.prices[ridx]+circleheight).toFixed(2);
 
-        console.log('yo: ' + rangedata.support.prices[ridx]);
-        console.log('y1: ' + rangedata.support.prices[ridx]);
-        console.log('yo: ' + y0);
-        console.log('y1: ' + y1);
+        //console.log('yo: ' + rangedata.support.prices[ridx]);
+        //console.log('y1: ' + rangedata.support.prices[ridx]);
+        //console.log('yo: ' + y0);
+        //console.log('y1: ' + y1);
 
         if(pidx == i){
           let j = i+1;
@@ -96,9 +96,9 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 
     //console.log('openprice:' + price.open);
     //console.log('closeprice:' + price.close);
-    console.log('midprice:' + midprice);
-    console.log('midprice plus circleheight:' + midplus);
-    console.log('midprice minus circleheight:' + midminus);
+    //console.log('midprice:' + midprice);
+    //console.log('midprice plus circleheight:' + midplus);
+    //console.log('midprice minus circleheight:' + midminus);
 
     rangedata.bumps.forEach((bump,bidx) => {
         //console.log(pidx);
