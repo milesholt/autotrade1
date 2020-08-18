@@ -82,8 +82,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 
     let midprice = (Math.abs(price.open+price.close)/2).toFixed(2);
 
-    let midplus = midprice+circleheight;
-    let midminus = midprice-circleheight;
+    let midplus = (midprice+circleheight).toFixed(2);
+    let midminus = (midprice-circleheight).toFixed(2);
 
     //console.log('openprice:' + price.open);
     //console.log('closeprice:' + price.close);
