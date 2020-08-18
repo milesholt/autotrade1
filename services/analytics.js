@@ -81,10 +81,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         }
       });
 
-    let midprice = parseInt((Math.abs(price.open+price.close)/2).toFixed(2));
+    let midprice = Math.abs(price.open+price.close)/2).toFixed(2);
 
-    let midplus = parseInt((midprice+circleheight).toFixed(2));
-    let midminus = parseInt((midprice-circleheight).toFixed(2));
+    let midplus = (midprice+circleheight).toFixed(2);
+    let midminus = (midprice-circleheight).toFixed(2);
 
     //console.log('openprice:' + price.open);
     //console.log('closeprice:' + price.close);
