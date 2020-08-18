@@ -57,10 +57,14 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       let bump_col = 'rgba(92, 123, 207, 0.7)';
       rangedata.support.prices_idx.forEach((pidx,ridx) => {
         //console.log(pidx);
+
+        let y0 = parseFloat(rangedata.support.prices[ridx]-circleheight).toFixed(2);
+        let y1 = parseFloat(rangedata.support.prices[ridx]+circleheight).toFixed(2);
+
         console.log('yo: ' + rangedata.support.prices[ridx]);
         console.log('y1: ' + rangedata.support.prices[ridx]);
-        console.log('yo: ' + parseFloat(rangedata.support.prices[ridx]-circleheight));
-        console.log('y1: ' + parseFloat(rangedata.support.prices[ridx]+circleheight));
+        console.log('yo: ' + y0);
+        console.log('y1: ' + y1);
 
         if(pidx == i){
           let j = i+1;
@@ -76,10 +80,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             },
             //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y0: parseFloat(rangedata.support.prices[ridx]-circleheight),
+            y0: y0,
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y1: parseFloat(rangedata.support.prices[ridx]+circleheight)
+            y1: y1
           }
           shapes.push(circle);
         }
