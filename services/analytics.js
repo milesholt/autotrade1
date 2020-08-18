@@ -39,7 +39,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const lowestnum = range[0];
   const highestnum = range[range.length-1];
   const pricediff = highestnum - lowestnum;
-  const circleheight = pricediff * 0.015; //get fraction of height, so it's in proportion to data range
+  const circleheight = parseInt((pricediff * 0.015).toFixed(2)); //get fraction of height, so it's in proportion to data range
 
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
@@ -80,10 +80,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         }
       });
 
-    let midprice = (Math.abs(price.open+price.close)/2).toFixed(2);
+    let midprice = parseInt((Math.abs(price.open+price.close)/2).toFixed(2));
 
-    let midplus = (midprice+circleheight).toFixed(2);
-    let midminus = (midprice-circleheight).toFixed(2);
+    let midplus = parseInt((midprice+circleheight).toFixed(2));
+    let midminus = parseInt((midprice-circleheight).toFixed(2));
 
     //console.log('openprice:' + price.open);
     //console.log('closeprice:' + price.close);
