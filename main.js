@@ -314,7 +314,7 @@ if(noError){
   //must have 20 points minimum distance from each other
   //if are certain number of points maximum distance apart, then chart is not considered ranging
   //rangelimit is currently considered 100 points
-  let lineDistance = Math.abs(resistanceline - supportline).toFixed(2);
+  let lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
   let rangeConfirmations = rangedata.support.prices_idx.length;
   if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) check0 = true;
   if(rangeConfirmations >= rangeConfirmationLimit) check2 = true;
