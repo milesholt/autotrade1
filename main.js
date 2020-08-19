@@ -745,11 +745,19 @@ if(noError){
                 console.log(util.inspect(r, false, null));
                 if(!r.confirms.dealId){
                   let ref = r.positions.dealReference;
+                  console.log('Error: ' + r.confirms.errorCode);
+                  //get status of position if error
                   await api.confirmPosition(ref).then(async rc => {
                     console.log(util.inspect(rc, false, null));
                   });
-                  console.log('Error: ' + r.confirms.errorCode);
                   ticketError = true;
+                  var mailOptions = {
+                    from: 'contact@milesholt.co.uk',
+                    to: 'miles_holt@hotmail.com',
+                    subject: 'Error - Trade NOT made at: ' + moment().format('LLL') + ' - ' + trend,
+                    text: JSON.stringify(analysis)
+                  };
+                  mailer.actions.sendMail(mailOptions);
                 } else {
                   //store dealId for later
                   dealId = r.confirms.dealId;
