@@ -711,8 +711,9 @@ if(noError){
         console.log(util.inspect(positionsData, false, null));
 
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        //let stopDistance = Math.round(lastClose * 0.024) + stopDistanceFluctuation;
-        let stopDistance = 0.2; 
+        let stopDistance2 = Math.round(lastClose * 0.024) + stopDistanceFluctuation;
+        console.log('stopDistance2: '+ stopDistance2);
+        let stopDistance = 0.2;
         let ticketError = false;
         console.log('stop distance: ' + stopDistance);
 
@@ -740,16 +741,27 @@ if(noError){
           console.log(analysis);
 
               //Open a ticket
-              api.deal(ticket).then(r => {
+              await api.deal(ticket).then(async r => {
                 console.log(util.inspect(r, false, null));
-                //store dealId for later
-                dealId = r.confirms.dealId;
+                if(!r.confirms.dealId){
+                  let ref = r.positions.dealReference;
+                  await api.confirmPosition(ref).then(async rc => {
+                    console.log(util.inspect(rc, false, null));
+                  });
+                  console.log('Error: ' + r.confirms.errorCode);
+                  ticketError = true;
+                } else {
+                  //store dealId for later
+                  dealId = r.confirms.dealId;
+                }
+
+
               }).catch(e => {
                 console.log('---------Error creating ticket:');
                 console.log(e);
                 ticketError = true;
               });
-          
+
               if(ticketError == false){
                   var mailOptions = {
                     from: 'contact@milesholt.co.uk',
@@ -768,7 +780,7 @@ if(noError){
                } else {
                   loop('Tried to make a trade, but it failed. Will go again in 1 hour.');
                   return false;
-               }            
+               }
 
         } else {
 
