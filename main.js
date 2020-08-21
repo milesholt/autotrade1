@@ -711,9 +711,9 @@ if(noError){
         console.log(util.inspect(positionsData, false, null));
 
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance2 = Math.round(lastClose * 0.024) + stopDistanceFluctuation;
+        let stopDistance2 = parseFloat(((lastClose * 0.024) + stopDistanceFluctuation).toFixed(2));
         console.log('stopDistance2: '+ stopDistance2);
-        let stopDistance = 0.8;
+        let stopDistance = 0.5;
         let ticketError = false;
         console.log('stop distance: ' + stopDistance);
 
