@@ -710,12 +710,13 @@ if(noError){
       await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
 
+        //limit distance = 1.5% of lastClose price
+        let limitdistance = parseFloat((lastClose * 0.015).toFixed(2));
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance2 = parseFloat(((lastClose * 0.024) + stopDistanceFluctuation).toFixed(2));
-        console.log('stopDistance2: '+ stopDistance2);
-        let stopDistance = 0.5;
+        let stopDistance = parseFloat(((lastClose * 0.024) + stopDistanceFluctuation).toFixed(2));
+        //console.log('stopDistance2: '+ stopDistance2);
+        //let stopDistance = 0.5;
         let ticketError = false;
-        console.log('stop distance: ' + stopDistance);
 
         if(!positionOpen && positionsData.positions.length === 0){
           console.log('You have no open position, begin trade.');
@@ -728,7 +729,7 @@ if(noError){
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
-          	'limitDistance': 0.5,
+          	'limitDistance':limitdistance,
           	'limitLevel': null,
           	'stopDistance': stopDistance,
           	'stopLevel': null,
@@ -751,18 +752,26 @@ if(noError){
                   //get status of position if error
                   await api.confirmPosition(ref).then(async rc => {
                     console.log(util.inspect(rc, false, null));
+                    //check again as sometimes there's an error - not found - if it's still being processed
+                    ticketError = true;
+                    if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
+                      ticketError = false;
+                      dealId = r.confirms.dealId;
+                    }
                   });
 
-                  //send email
-                  var mailOptions = {
-                    from: 'contact@milesholt.co.uk',
-                    to: 'miles_holt@hotmail.com',
-                    subject: 'Error - Trade NOT made at: ' + moment().format('LLL') + ' - ' + trend,
-                    text: JSON.stringify(analysis)
-                  };
-                  mailer.actions.sendMail(mailOptions);
+                  if(ticketError){
+                    //send email
+                    var mailOptions = {
+                      from: 'contact@milesholt.co.uk',
+                      to: 'miles_holt@hotmail.com',
+                      subject: 'Error - Trade NOT made at: ' + moment().format('LLL') + ' - ' + trend,
+                      text: JSON.stringify(analysis)
+                    };
+                    mailer.actions.sendMail(mailOptions);
+                  }
 
-                  ticketError = true;
+
                 } else {
                   //store dealId for later
                   dealId = r.confirms.dealId;
