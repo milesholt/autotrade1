@@ -127,17 +127,20 @@ actions.beginMonitor = async function(){
                   }
 
                   //if stream price goes beyond settings, take action
+                  
+                  //NOTE: If you're selling to open then you are buying to close.
+                  //So if your are SELLING you close at the ASK price. If your are BUYING, you close at the BID price.
 
                   //our settings
                   //half the limit level
-                  if(direction == 'BUY' && d.closePrice.ask >= newlimit) closeprofit = true;
-                  if(direction == 'SELL' && d.closePrice.bid <= newlimit) closeprofit = true;
+                  if(direction == 'BUY' && d.closePrice.bid >= newlimit) closeprofit = true;
+                  if(direction == 'SELL' && d.closePrice.ask <= newlimit) closeprofit = true;
 
                   //stopLevel remains as is
-                  if(direction == 'BUY' && d.closePrice.ask <= stopLevel) closeloss = true;
-                  if(direction == 'SELL' && d.closePrice.bid >= stopLevel) closeloss = true;
+                  if(direction == 'BUY' && d.closePrice.bid <= stopLevel) closeloss = true;
+                  if(direction == 'SELL' && d.closePrice.ask >= stopLevel) closeloss = true;
 
-                  let closePrice = direction == 'BUY' ? d.closePrice.ask : d.closePrice.bid;
+                  let closePrice = direction == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
 
 
 
