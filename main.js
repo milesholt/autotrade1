@@ -257,9 +257,27 @@ async function exec(){
       }
     }).catch(e => {
       console.log(e);
-      loop('Price data not empty. Error retrieving prices latest hour. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
-      noError = false;
-      return false;
+      
+       if(e.body.errorCode == 'error.security.client-token-invalid'){
+        //console.log(e);
+        console.log('Logging out and clearing tokens...');
+        await api.logout(true).then(r => {
+          console.log(util.inspect(r,false,null));
+        }).catch(e => console.log(e));
+        //once logged out and tokens cleared, try again in 2 seconds
+        setTimeout(async()=>{
+          //log back in and go again..
+          await init();
+          exec();
+        },2000);
+
+      } else {
+        console.log(pricedatacount);
+        loop('Price data not empty. Error retrieving prices latest hour. Possible allowance reached. Waiting an hour. Pricedatacount:' + pricedatacount);
+        noError = false;
+        return false;
+      }
+           
     });
 
   }
