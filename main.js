@@ -728,10 +728,12 @@ if(noError){
       await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
 
+        //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
+        let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk; 
         //limit distance = 1.5% of lastClose price
-        let limitdistance = parseFloat((lastClose * 0.015).toFixed(2));
+        let limitdistance = parseFloat((cp * 0.015).toFixed(2));
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = parseFloat(((lastClose * 0.024) + stopDistanceFluctuation).toFixed(2));
+        let stopDistance = parseFloat(((cp * 0.024) + stopDistanceFluctuation).toFixed(2));
         //console.log('stopDistance2: '+ stopDistance2);
         //let stopDistance = 0.5;
         let ticketError = false;
