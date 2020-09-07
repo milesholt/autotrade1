@@ -292,10 +292,10 @@ if(noError){
     prices.forEach((price,idx) =>{
       if(price !== null){
         let time =  price.snapshotTime.replace(/\//g, '-');
-        let midOpen = price.openPrice.ask - parseFloat((price.openPrice.ask - price.openPrice.bid)/2).toFixed(2);
-        let midClose = price.closePrice.ask - parseFloat((price.closePrice.ask - price.closePrice.bid)/2).toFixed(2);
-        let midHigh = price.highPrice.ask - parseFloat((price.highPrice.ask - price.highPrice.bid)/2).toFixed(2);
-        let midLow = price.lowPrice.ask - parseFloat((price.lowPrice.ask - price.lowPrice.bid)/2).toFixed(2);
+        let midOpen = parseFloat(price.openPrice.ask - ((price.openPrice.ask - price.openPrice.bid)/2)).toFixed(2);
+        let midClose = parseFloat(price.closePrice.ask - ((price.closePrice.ask - price.closePrice.bid)/2)).toFixed(2);
+        let midHigh = parseFloat(price.highPrice.ask - ((price.highPrice.ask - price.highPrice.bid)/2)).toFixed(2);
+        let midLow = parseFloat(price.lowPrice.ask - ((price.lowPrice.ask - price.lowPrice.bid)/2)).toFixed(2);
         let askClose = price.closePrice.ask;
         let bidClose = price.closePrice.bid;
         let supportprice = midOpen <= midClose ? midOpen : midClose;
