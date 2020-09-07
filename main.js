@@ -255,7 +255,7 @@ async function exec(){
       }else{
         console.log('Latest price bar already exists. Not adding or writing to file');
       }
-    }).catch(e => {
+    }).catch(async e => {
       console.log(e);
       
        if(e.body.errorCode == 'error.security.client-token-invalid'){
