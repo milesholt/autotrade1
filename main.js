@@ -292,16 +292,16 @@ if(noError){
     prices.forEach((price,idx) =>{
       if(price !== null){
         let time =  price.snapshotTime.replace(/\//g, '-');
-       
+       /*
         let midOpen = price.openPrice.ask - (parseInt(price.openPrice.ask - price.openPrice.bid)/2);
         let midClose = price.closePrice.ask - (parseInt(price.closePrice.ask - price.closePrice.bid)/2);
         let midHigh = price.highPrice.ask - (parseInt(price.highPrice.ask - price.highPrice.bid)/2);
-        let midLow = price.lowPrice.ask - (parseInt(price.lowPrice.ask - price.lowPrice.bid)/2);
-        /*
+        let midLow = price.lowPrice.ask - (parseInt(price.lowPrice.ask - price.lowPrice.bid)/2);*/
+        
         let midOpen = parseFloat(price.openPrice.ask - (price.openPrice.ask - price.openPrice.bid/2) ).toFixed(2);
         let midClose = parseFloat(price.closePrice.ask - (price.closePrice.ask - price.closePrice.bid/2) ).toFixed(2);
         let midHigh = parseFloat(price.highPrice.ask - (price.highPrice.ask - price.highPrice.bid/2) ).toFixed(2);
-        let midLow = parseFloat( price.lowPrice.ask - (price.lowPrice.ask - price.lowPrice.bid/2) ).toFixed(2);*/
+        let midLow = parseFloat( price.lowPrice.ask - (price.lowPrice.ask - price.lowPrice.bid/2) ).toFixed(2);
         
         let askClose = price.closePrice.ask;
         let bidClose = price.closePrice.bid;
@@ -319,6 +319,8 @@ if(noError){
   }
 
   console.log('-------- Analyst Data:');
+  
+  console.log(pricedata.support[0]);
 
   //UPDATE: Instead of using 3 days of data to create lines, we only use last 24 hours
   let start = (pricedata.support.length - 25);
