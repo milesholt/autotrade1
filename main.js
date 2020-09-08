@@ -257,7 +257,7 @@ async function exec(){
       }
     }).catch(async e => {
       console.log(e);
-      
+
        if(e.body.errorCode == 'error.security.client-token-invalid'){
         //console.log(e);
         console.log('Logging out and clearing tokens...');
@@ -277,7 +277,7 @@ async function exec(){
         noError = false;
         return false;
       }
-           
+
     });
 
   }
@@ -292,10 +292,10 @@ if(noError){
     prices.forEach((price,idx) =>{
       if(price !== null){
         let time =  price.snapshotTime.replace(/\//g, '-');
-        let midOpen = parseFloat(price.openPrice.ask - parseFloat((price.openPrice.ask - price.openPrice.bid)/2).toFixed(2) ).toFixed(2);
-        let midClose = parseFloat(price.closePrice.ask - parseFloat((price.closePrice.ask - price.closePrice.bid)/2).toFixed(2) ).toFixed(2);
-        let midHigh = parseFloat(price.highPrice.ask - parseFloat((price.highPrice.ask - price.highPrice.bid)/2).toFixed(2) ).toFixed(2);
-        let midLow = parseFloat( price.lowPrice.ask - parseFloat((price.lowPrice.ask - price.lowPrice.bid)/2).toFixed(2) ).toFixed(2);
+        let midOpen = parseFloat(price.openPrice.ask - (price.openPrice.ask - price.openPrice.bid/2) ).toFixed(2);
+        let midClose = parseFloat(price.closePrice.ask - (price.closePrice.ask - price.closePrice.bid/2) ).toFixed(2);
+        let midHigh = parseFloat(price.highPrice.ask - (price.highPrice.ask - price.highPrice.bid/2) ).toFixed(2);
+        let midLow = parseFloat( price.lowPrice.ask - (price.lowPrice.ask - price.lowPrice.bid/2) ).toFixed(2);
         let askClose = price.closePrice.ask;
         let bidClose = price.closePrice.bid;
         let supportprice = midOpen <= midClose ? midOpen : midClose;
@@ -729,7 +729,7 @@ if(noError){
         console.log(util.inspect(positionsData, false, null));
 
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
-        let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk; 
+        let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
         //limit distance = 1.5% of lastClose price
         let limitdistance = parseFloat((cp * 0.015).toFixed(2));
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
