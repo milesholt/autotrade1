@@ -298,10 +298,10 @@ if(noError){
         let midHigh = price.highPrice.ask - (parseInt(price.highPrice.ask - price.highPrice.bid)/2);
         let midLow = price.lowPrice.ask - (parseInt(price.lowPrice.ask - price.lowPrice.bid)/2);*/
         
-        let midOpen = parseFloat(parseFloat(price.openPrice.ask - (price.openPrice.ask - price.openPrice.bid/2) ).toFixed(2));
-        let midClose = parseFloat(parseFloat(price.closePrice.ask - (price.closePrice.ask - price.closePrice.bid/2) ).toFixed(2));
-        let midHigh = parseFloat(parseFloat(price.highPrice.ask - (price.highPrice.ask - price.highPrice.bid/2) ).toFixed(2));
-        let midLow = parseFloat(parseFloat( price.lowPrice.ask - (price.lowPrice.ask - price.lowPrice.bid/2) ).toFixed(2));
+        let midOpen = parseFloat(parseFloat(price.openPrice.ask - ((price.openPrice.ask - price.openPrice.bid)/2) ).toFixed(2));
+        let midClose = parseFloat(parseFloat(price.closePrice.ask - ((price.closePrice.ask - price.closePrice.bid)/2) ).toFixed(2));
+        let midHigh = parseFloat(parseFloat(price.highPrice.ask - ((price.highPrice.ask - price.highPrice.bid)/2) ).toFixed(2));
+        let midLow = parseFloat(parseFloat(price.lowPrice.ask - ((price.lowPrice.ask - price.lowPrice.bid)/2) ).toFixed(2));
         
         let askClose = price.closePrice.ask;
         let bidClose = price.closePrice.bid;
