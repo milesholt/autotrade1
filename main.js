@@ -811,8 +811,27 @@ if(noError){
 
 
                 } else {
-                  //store dealId for later
-                  dealId = r.confirms.dealId;
+                  
+                  //there can be a deal id but also an error, so check for errors again
+                  await api.confirmPosition(ref).then(async rc => {
+                    console.log(util.inspect(rc, false, null));
+                    //check again as sometimes there's an error - not found - if it's still being processed
+                    ticketError = true;
+                    if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
+                      ticketError = false;
+                      dealId = r.confirms.dealId;
+                    } else if(rc.dealStatus == 'REJECTED'){ 
+                      
+                          console.log('Deal rejected: ' + r.confirms.reason);
+                          var mailOptions = {
+                            from: 'contact@milesholt.co.uk',
+                            to: 'miles_holt@hotmail.com',
+                            subject: 'Error - Trade NOT made at: ' + moment().format('LLL') + ' - ' + trend,
+                            text: JSON.stringify(analysis)
+                          };
+                          mailer.actions.sendMail(mailOptions);
+                     }
+                  });
                 }
 
 
