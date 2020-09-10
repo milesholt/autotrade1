@@ -740,9 +740,18 @@ if(noError){
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
         let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
         //limit distance = 1.5% of lastClose price
-        let limitdistance = parseFloat((cp * 0.015).toFixed(2));
+        let limitDistance = parseFloat((lastClose * 0.015).toFixed(2));
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = parseFloat(((cp * 0.024) + stopDistanceFluctuation).toFixed(2));
+        let stopDistance = parseFloat(((lastClose * 0.024) + stopDistanceFluctuation).toFixed(2));
+        let limitLevel = trend == 'bullish' ? cp + limitDistance : cp - limitDistance;
+        let stopLevel = trend == 'bullish' ? cp - stopDistance : cp + stopDistance;
+  
+        console.log('trend is: ' + trend + ' so going by: ' + (trend == "bullish" ? 'bid price' : 'ask price') +  ' cp: ' + cp);
+        console.log('stopDistance: ' + stopDistance);
+        console.log('stopLevel:' + stopLevel);
+        console.log('limitDistance: ' + limitDistance);
+        console.log('limitLevel: ' + limitLevel);
+        
         //console.log('stopDistance2: '+ stopDistance2);
         //let stopDistance = 0.5;
         let ticketError = false;
@@ -758,10 +767,10 @@ if(noError){
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
-          	'limitDistance':limitdistance,
-          	'limitLevel': null,
-          	'stopDistance': stopDistance,
-          	'stopLevel': null,
+          	'limitDistance':null,
+          	'limitLevel': limitLevel,
+          	'stopDistance': null,
+          	'stopLevel': stopLevel,
           	'guaranteedStop': false,
           	'timeInForce': 'FILL_OR_KILL',
           	'trailingStop': null,
