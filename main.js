@@ -742,7 +742,7 @@ if(noError){
         //limit distance = 1.5% of lastClose price
         let limitDistance = parseFloat((cp * 0.015).toFixed(2));
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = parseFloat(((cp * 0.024) + stopDistanceFluctuation).toFixed(2));
+        let stopDistance = parseFloat(((cp * 0.05) + stopDistanceFluctuation).toFixed(2));
         //let limitLevel = trend == 'bullish' ? cp + limitDistance : cp - limitDistance;
         ///let stopLevel = trend == 'bullish' ? cp - stopDistance : cp + stopDistance;
   
