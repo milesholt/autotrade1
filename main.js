@@ -297,12 +297,12 @@ if(noError){
         let midClose = price.closePrice.ask - (parseInt(price.closePrice.ask - price.closePrice.bid)/2);
         let midHigh = price.highPrice.ask - (parseInt(price.highPrice.ask - price.highPrice.bid)/2);
         let midLow = price.lowPrice.ask - (parseInt(price.lowPrice.ask - price.lowPrice.bid)/2);*/
-        
+
         let midOpen = parseFloat(parseFloat(price.openPrice.ask - ((price.openPrice.ask - price.openPrice.bid)/2) ).toFixed(2));
         let midClose = parseFloat(parseFloat(price.closePrice.ask - ((price.closePrice.ask - price.closePrice.bid)/2) ).toFixed(2));
         let midHigh = parseFloat(parseFloat(price.highPrice.ask - ((price.highPrice.ask - price.highPrice.bid)/2) ).toFixed(2));
         let midLow = parseFloat(parseFloat(price.lowPrice.ask - ((price.lowPrice.ask - price.lowPrice.bid)/2) ).toFixed(2));
-        
+
         let askClose = price.closePrice.ask;
         let bidClose = price.closePrice.bid;
         let supportprice = midOpen <= midClose ? midOpen : midClose;
@@ -319,7 +319,7 @@ if(noError){
   }
 
   console.log('-------- Analyst Data:');
-  
+
   console.log(pricedata.support[0]);
 
   //UPDATE: Instead of using 3 days of data to create lines, we only use last 24 hours
@@ -737,40 +737,42 @@ if(noError){
       await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
 
+        //NEW LOGIC
+        /*
+
+        The logic is as follows:
+        When BUYING the openprice is the askprice, but it closes on bidprice, and vice versa for SELL
+        With this in mind, we need to account for the difference between these two prices and adjust it with the distance
+
+        The following calculations do the following:
+
+        get a percentage of ask/bid price depending on direction
+        we then get difference between ask and bid prices
+        for limit - we subtract the difference
+        for stop - we add the difference
+
+        */
+
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
         let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
         //limit distance = 1.5% of lastClose price
         let limitDistance = parseFloat((cp * 0.015).toFixed(2));
-        //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
+        //stop distance = 5% of lastClose price + fluctuation of 10 as prices are changing
         let stopDistance = parseFloat(((cp * 0.05) + stopDistanceFluctuation).toFixed(2));
-        //let limitLevel = trend == 'bullish' ? cp + limitDistance : cp - limitDistance;
-        ///let stopLevel = trend == 'bullish' ? cp - stopDistance : cp + stopDistance;
-  
+
+        //These calculations arrive to the same values as the logic above
+        //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop 
+
+        let nl = Math.abs(lastCloseAsk - (lastCloseBid + limitDistance));
+        let ns = Math.abs(lastCloseAsk - (lastCloseBid - stopDistance));
+
+
         console.log('trend is: ' + trend + ' so going by: ' + (trend == "bullish" ? 'bid price' : 'ask price') +  ' cp: ' + cp);
         console.log('stopDistance: ' + stopDistance);
-        //console.log('stopLevel:' + stopLevel);
         console.log('limitDistance: ' + limitDistance);
-        //console.log('limitLevel: ' + limitLevel);
-        
-        //NEW LOGIC
-        //If we're buying, the market opens on the askprice, but we close on the bid and vice versa
-        
-        //Example for BUY -
-        //So we are going from the askprice (as that's the price it opens with), but we need to get the same amount of distance from the bidprice, so we need to work out that difference
-        //Because when it is open, it will go by the bidprice for closing
-        //Proposed calculation - Math.abs(askprice - (bidprice + distance))
-        
-        let nl = Math.abs(lastCloseAsk - (lastCloseBid + limitDistance));
-        
-        //STOP - Math.abs(askprice - (bidprice - distance))
-        
-        let ns = Math.abs(lastCloseAsk - (lastCloseBid - stopDistance));
-        
-        //It's the same calculation for SELL, just everything in reverse, but the result is the same as we are using Math.abs, so we dont need to do this
-        
         console.log('new limit distance:' + nl);
         console.log('new stop distance:' + ns);
-        
+
         //console.log('stopDistance2: '+ stopDistance2);
         //let stopDistance = 0.5;
         let ticketError = false;
@@ -830,7 +832,7 @@ if(noError){
 
 
                 } else {
-                  
+
                   //there can be a deal id but also an error, so check for errors again
                   await api.confirmPosition(ref).then(async rc => {
                     console.log(util.inspect(rc, false, null));
@@ -839,8 +841,8 @@ if(noError){
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
                       ticketError = false;
                       dealId = r.confirms.dealId;
-                    } else if(rc.dealStatus == 'REJECTED'){ 
-                      
+                    } else if(rc.dealStatus == 'REJECTED'){
+
                           console.log('Deal rejected: ' + r.confirms.reason);
                           var mailOptions = {
                             from: 'contact@milesholt.co.uk',
