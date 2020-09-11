@@ -760,11 +760,11 @@ if(noError){
         //Because when it is open, it will go by the bidprice for closing
         //Proposed calculation - Math.abs(askprice - (bidprice + distance))
         
-        let nl = Math.abs(lastCloseAsk - (lastCloseBid + stopDistance));
+        let nl = Math.abs(lastCloseAsk - (lastCloseBid + limitDistance));
         
         //STOP - Math.abs(askprice - (bidprice - distance))
         
-        let ns = Math.abs(lastCloseAsk - (lastCloseBid - limitDistance));
+        let ns = Math.abs(lastCloseAsk - (lastCloseBid - stopDistance));
         
         //It's the same calculation for SELL, just everything in reverse, but the result is the same as we are using Math.abs, so we dont need to do this
         
