@@ -444,7 +444,7 @@ if(noError){
   let ups = 0;
   let downs = 0;
   let pl = pricedata.support.length;
-  let movementValue = parseFloat((pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].open).toFixed(2));
+  let movementValue = parseFloat((pricedata.support[pl-1].close - pricedata.support[pl-recentlimit].close).toFixed(2));
   let movementValueDiff = Math.abs(movementValue);
   let movementValueDiffPerc = Math.abs(movementValue / pricedata.support[pl-1].close * 100).toFixed(2);
 
@@ -455,8 +455,8 @@ if(noError){
   }
 
   recenttrend = 'ranging';
-  if((movementValue < 0) && (movementValueDiff > (rangelimit/2))) recenttrend = 'bearish';
-  if((movementValue > 0) && (movementValueDiff > (rangelimit/2))) recenttrend = 'bullish';
+  if((movementValue < 0) && (movementValueDiff >= (rangelimit/2))) recenttrend = 'bearish';
+  if((movementValue > 0) && (movementValueDiff >= (rangelimit/2))) recenttrend = 'bullish';
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
