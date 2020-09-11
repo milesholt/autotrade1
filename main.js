@@ -740,17 +740,36 @@ if(noError){
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
         let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
         //limit distance = 1.5% of lastClose price
-        let limitDistance = parseFloat((lastClose * 0.015).toFixed(2));
+        let limitDistance = parseFloat((cp * 0.015).toFixed(2));
         //stop distance = 2.4% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = parseFloat(((lastClose * 0.024) + stopDistanceFluctuation).toFixed(2));
-        let limitLevel = trend == 'bullish' ? cp + limitDistance : cp - limitDistance;
-        let stopLevel = trend == 'bullish' ? cp - stopDistance : cp + stopDistance;
+        let stopDistance = parseFloat(((cp * 0.024) + stopDistanceFluctuation).toFixed(2));
+        //let limitLevel = trend == 'bullish' ? cp + limitDistance : cp - limitDistance;
+        ///let stopLevel = trend == 'bullish' ? cp - stopDistance : cp + stopDistance;
   
         console.log('trend is: ' + trend + ' so going by: ' + (trend == "bullish" ? 'bid price' : 'ask price') +  ' cp: ' + cp);
         console.log('stopDistance: ' + stopDistance);
-        console.log('stopLevel:' + stopLevel);
+        //console.log('stopLevel:' + stopLevel);
         console.log('limitDistance: ' + limitDistance);
-        console.log('limitLevel: ' + limitLevel);
+        //console.log('limitLevel: ' + limitLevel);
+        
+        //NEW LOGIC
+        //If we're buying, the market opens on the askprice, but we close on the bid and vice versa
+        
+        //Example for BUY -
+        //So we are going from the askprice (as that's the price it opens with), but we need to get the same amount of distance from the bidprice, so we need to work out that difference
+        //Because when it is open, it will go by the bidprice for closing
+        //Proposed calculation - Math.abs(askprice - (bidprice + distance))
+        
+        let nl = Math.abs(lastCloseAsk - (lastCloseBid + stopDistance));
+        
+        //STOP - Math.abs(askprice - (bidprice - distance))
+        
+        let ns = Math.abs(lastCloseAsk - (lastCloseBid - limitDistance));
+        
+        //It's the same calculation for SELL, just everything in reverse, but the result is the same as we are using Math.abs, so we dont need to do this
+        
+        console.log('new limit distance:' + nl);
+        console.log('new stop distance:' + ns);
         
         //console.log('stopDistance2: '+ stopDistance2);
         //let stopDistance = 0.5;
@@ -767,10 +786,10 @@ if(noError){
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
-          	'limitDistance':null,
-          	'limitLevel': limitLevel,
-          	'stopDistance': null,
-          	'stopLevel': stopLevel,
+          	'limitDistance':nl,
+          	'limitLevel': null,
+          	'stopDistance': ns,
+          	'stopLevel': null,
           	'guaranteedStop': false,
           	'timeInForce': 'FILL_OR_KILL',
           	'trailingStop': null,
