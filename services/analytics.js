@@ -55,11 +55,16 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       //let price = pricedata[i];
       let range_col = 'rgba(217, 14, 87, 0.7)';
       let bump_col = 'rgba(92, 123, 207, 0.7)';
+    
+      let midprice = Math.abs((price.open+price.close)/2).toFixed(2);
+      let midplus = parseFloat(midprice+circleheight).toFixed(2);
+      let midminus = parseFloat(midprice-circleheight).toFixed(2);
+    
       rangedata.support.prices_idx.forEach((pidx,ridx) => {
         //console.log(pidx);
 
-        let y0 = parseFloat(rangedata.support.prices[ridx]-circleheight).toFixed(2);
-        let y1 = parseFloat(rangedata.support.prices[ridx]+circleheight).toFixed(2);
+        //let y0 = parseFloat(rangedata.support.prices[ridx]-circleheight).toFixed(2);
+        //let y1 = parseFloat(rangedata.support.prices[ridx]+circleheight).toFixed(2);
 
         //console.log('yo: ' + rangedata.support.prices[ridx]);
         //console.log('y1: ' + rangedata.support.prices[ridx]);
@@ -80,43 +85,6 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
             },
             //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y0: y0,
-            //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            y1: y1
-          }
-          shapes.push(circle);
-        }
-      });
-
-    let midprice = Math.abs((price.open+price.close)/2).toFixed(2);
-
-    let midplus = parseFloat(midprice+circleheight).toFixed(2);
-    let midminus = parseFloat(midprice-circleheight).toFixed(2);
-
-    //console.log('openprice:' + price.open);
-    //console.log('closeprice:' + price.close);
-    //console.log('midprice:' + midprice);
-    //console.log('midprice plus circleheight:' + midplus);
-    //console.log('midprice minus circleheight:' + midminus);
-
-    rangedata.bumps.forEach((bump,bidx) => {
-        //console.log(pidx);
-        //console.log(rangedata.support.prices[ridx]);
-        if(bump.idx == i){
-          let j = i+1;
-          let circle = {
-            type: 'circle',
-            xref: 'x',
-            yref: 'y',
-            //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
-            fillcolor: bump_col,
-            line: {
-              width: 0,
-              dash:'solid'
-            },
-            //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
-            x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             y0: midplus,
             //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
@@ -124,7 +92,39 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
           }
           shapes.push(circle);
         }
-    });
+      });
+
+      //console.log('openprice:' + price.open);
+      //console.log('closeprice:' + price.close);
+      //console.log('midprice:' + midprice);
+      //console.log('midprice plus circleheight:' + midplus);
+      //console.log('midprice minus circleheight:' + midminus);
+
+      rangedata.bumps.forEach((bump,bidx) => {
+          //console.log(pidx);
+          //console.log(rangedata.support.prices[ridx]);
+          if(bump.idx == i){
+            let j = i+1;
+            let circle = {
+              type: 'circle',
+              xref: 'x',
+              yref: 'y',
+              //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
+              fillcolor: bump_col,
+              line: {
+                width: 0,
+                dash:'solid'
+              },
+              //x0: moment(price.time).add(12, 'hours').subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+              x0: moment(price.time).subtract(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+              y0: midplus,
+              //x1: moment(price.time).add(12, 'hours').add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+              x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+              y1: midminus
+            }
+            shapes.push(circle);
+          }
+      });
 
 
     // confirmations.support_index.forEach(sidx => {
