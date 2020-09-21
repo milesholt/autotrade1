@@ -217,7 +217,15 @@ function login(encryption) {
 							if (e) {
 								rej(e);
 							} else {
+								console.log('new tokens should be written.');
+								console.log(tokens);
+								//update tokens
+								process.env.IG_TOKENS_EXP = tokens.tokens_exp;
+								process.env.IG_XST = tokens['x-security-token'];
+								process.env.IG_CST = tokens.cst;
+								process.env.IG_LIGHTSTREAMER_END_POINT = tokens.lightstreamerEndpoint;
 								res(r.body);
+
 							}
 						});
 					}
@@ -231,6 +239,8 @@ function login(encryption) {
 				password: process.env.IG_PASSWORD,
 				encryptedPassword: false
 			};
+			console.log('user:' + process.env.IG_IDENTIFIER);
+			console.log('pass:' + process.env.IG_PASSWORD);
 			_request('POST', '/session', payload, extraHeaders)
 				.then(r => {
 					if (r.status !== 200) {
@@ -260,6 +270,18 @@ function login(encryption) {
 
 // Log out
 function logout() {
+	/*
+	console.log('Logging out, security token is: ' + process.env.IG_XST);
+	fs.readFile(tokensDir,'utf8', (e,r) => {
+			if (e) {
+				console.log(e);
+			} else {
+				console.log('reading tokens file...');
+				console.log(r);
+			}
+		});
+	*/
+
 	return new Promise((res, rej) => {
 		let extraHeaders = {
 			'x-security-token': process.env.IG_XST,
@@ -370,8 +392,9 @@ function acctActivity(from, to, detailed, dealId, pageSize) {
 	return new Promise((res, rej) => {
 		// Constraints:
 		let dateReg = /^\d{4}([./-])\d{2}\1\d{2}$/;
-		if (!dateReg.test(from)) throw new Error('from has to have format: YYYY-MM-DD');
-		if (!dateReg.test(to)) throw new Error('to has to have format: YYYY-MM-DD');
+		if (typeof(from) !== 'undefined') if (!dateReg.test(from)) throw new Error('from has to have format: YYYY-MM-DD');
+		if (typeof(to) !== 'undefined') if (!dateReg.test(to)) throw new Error('to has to have format: YYYY-MM-DD');
+
 		if (typeof(from) === 'undefined') {
 			from = '?from=1990-01-01';
 		} else {
@@ -503,6 +526,21 @@ function showOpenPositions() {
 				}
 			});
 	});
+}
+
+//Gets status of position
+function confirmPosition(ref) {
+	return new Promise((res, rej) => {
+		get('/confirms/' + ref)
+			.then(r => {
+				if (r.status !== 200) {
+					rej(r);
+				} else {
+					res(r.body);
+				}
+			});
+	});
+	//return get('/confirms/' + ref);
 }
 
 // Creates an OTC position.
@@ -1209,6 +1247,7 @@ module.exports = {
 	acctActivity: acctActivity,
 	acctTransaction: acctTransaction,
 	getPosition:getPosition,
+	confirmPosition:confirmPosition,
 	showOpenPositions: showOpenPositions,
 	showWorkingOrders: showWorkingOrders,
 	deal: deal,

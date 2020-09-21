@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 moment().format();
 
-global.epic = 'CS.D.XLMUSD.TODAY.IP';
+global.epic = 'CS.D.XRPUSD.TODAY.IP';
 
 //Require strategy
 const strategy = require('./strategies/breakoutStrategy.js');
@@ -761,7 +761,7 @@ if(noError){
         let stopDistance = parseFloat(((cp * 0.05) + stopDistanceFluctuation).toFixed(2));
 
         //These calculations arrive to the same values as the logic above
-        //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop 
+        //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
 
         let nl = Math.abs(lastCloseAsk - (lastCloseBid + limitDistance));
         let ns = Math.abs(lastCloseAsk - (lastCloseBid - stopDistance));
