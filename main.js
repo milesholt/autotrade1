@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 moment().format();
 
-global.epic = 'CS.D.XRPUSD.TODAY.IP';
+global.epic = 'CS.D.XLMUSD.TODAY.IP';
 
 //Require strategy
 const strategy = require('./strategies/breakoutStrategy.js');
