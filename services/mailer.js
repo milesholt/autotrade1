@@ -24,19 +24,24 @@ actions.sendMail = function(mailOptions){
   sendMail(mailOptions,true);
 }
 
-function sendMail(mailOptions,tryagain){
-  transporter.sendMail(mailOptions, function(error, info){
+async function sendMail(mailOptions,tryagain){
+  //overide some Parameters
+  mailOptions.from = '"Miles Holt" <contact@milesholt.co.uk>';
+  mailOptions.to = "miles_holt@hotmail.com"
+  mailOptions.html = mailOptions.text;
+
+  await transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log('Error - Sending mail failed. Error message: ');
       console.log(error);
-      
+
       if(tryagain){
         console.log('Waiting 10 seconds, then trying again...');
         setTimeout(()=>{ sendMail(mailOptions,false); },10000);
       } else {
         console.log('Tried to send email again failed. Giving up.');
       }
-      
+
     } else {
       console.log('Email sent: ' + info.response);
     }

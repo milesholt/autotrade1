@@ -827,7 +827,7 @@ if(noError){
                       subject: 'Error - Trade NOT made at: ' + moment().format('LLL') + ' - ' + trend,
                       text: JSON.stringify(analysis)
                     };
-                    mailer.actions.sendMail(mailOptions);
+                    mailer.actions.sendMail(mailOptions).catch(console.error);
                   }
 
 
@@ -850,7 +850,7 @@ if(noError){
                             subject: 'Error - Trade NOT made at: ' + moment().format('LLL') + ' - ' + trend,
                             text: JSON.stringify(analysis)
                           };
-                          mailer.actions.sendMail(mailOptions);
+                          mailer.actions.sendMail(mailOptions).catch(console.error);
                      }
                   });
                 }
@@ -869,7 +869,7 @@ if(noError){
                     subject: 'Trade made at: ' + moment().format('LLL') + ' - ' + trend,
                     text: JSON.stringify(analysis)
                   };
-                  mailer.actions.sendMail(mailOptions);
+                  mailer.actions.sendMail(mailOptions).catch(console.error);
 
                   console.log('beginning monitoring..');
                   monitor.actions.beginMonitor();

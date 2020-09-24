@@ -34,7 +34,7 @@ actions.beginMonitor = async function(){
 
   await api.showOpenPositions().then(async positionsData => {
     console.log(util.inspect(positionsData, false, null));
-    
+
     if(Object.keys(positionsData).indexOf('confirms') !== -1){
       let status = positionsData.confirms.dealStatus;
       if(status == 'REJECTED'){
@@ -42,7 +42,7 @@ actions.beginMonitor = async function(){
         return console.error(positionsData.confirms.reason);
       }
     }
-   
+
     if(positionsData.positions.length){
       const position = positionsData.positions[0].position;
 
@@ -82,12 +82,12 @@ actions.beginMonitor = async function(){
           subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
           text: JSON.stringify(monitorAnalysis)
         };
-        mailer.actions.sendMail(mailOptions);
+        mailer.actions.sendMail(mailOptions).catch(console.error);
 
         console.log('Stream response:');
 
         var timer = setInterval(()=>{
-          
+
           fs.readFile(streamLogDir, function (err, data) {
             if (err) {
               stream.actions.endStream();
@@ -127,7 +127,7 @@ actions.beginMonitor = async function(){
                   }
 
                   //if stream price goes beyond settings, take action
-                  
+
                   //NOTE: If you're selling to open then you are buying to close.
                   //So if your are SELLING you close at the ASK price. If your are BUYING, you close at the BID price.
 
@@ -172,12 +172,12 @@ actions.beginMonitor = async function(){
                         subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
                         text: JSON.stringify(closeAnalysis)
                       };
-                      mailer.actions.sendMail(mailOptions);
+                      mailer.actions.sendMail(mailOptions).catch(console.error);
                       actions.stopMonitor(timer);
                     }
 
                     if(closeloss){
-                      
+
                       console.log('Stop level reached. Closing position.');
                       console.log('stop level was: ' + stopLevel);
                       console.log('closing price was: ' + closePrice);
@@ -201,10 +201,10 @@ actions.beginMonitor = async function(){
                         subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
                         text: JSON.stringify(closeAnalysis)
                       };
-                      mailer.actions.sendMail(mailOptions);
+                      mailer.actions.sendMail(mailOptions).catch(console.error);
                       actions.stopMonitor(timer);
                     }
-              
+
                     //get modification time of file
                     const stats = fs.statSync(streamLogDir);
                     const modtime = moment(stats.mtime).format('LT');
