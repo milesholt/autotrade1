@@ -28,7 +28,7 @@ async function sendMail(mailOptions,tryagain){
   //overide some Parameters
   mailOptions.from = '"Miles Holt" <contact@milesholt.co.uk>';
   mailOptions.to = "miles_holt@hotmail.com"
-  mailOptions.html = mailOptions.text;
+  mailOptions.html = deepCopy(mailOptions.text);
 
   await transporter.sendMail(mailOptions, function(error, info){
     if (error) {
@@ -47,6 +47,18 @@ async function sendMail(mailOptions,tryagain){
     }
   });
 }
+
+function deepCopy(origObj){
+        var newObj = origObj;
+         if (origObj && typeof origObj === "object") {
+             newObj = Object.prototype.toString.call(origObj) === "[object Array]" ? [] : {};
+             for (var i in origObj) {
+                 newObj[i] = this.deepCopy(origObj[i]);
+             }
+         }
+         return newObj;
+}
+
 
 module.exports = {
   actions: actions
