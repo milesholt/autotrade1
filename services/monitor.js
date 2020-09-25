@@ -82,7 +82,7 @@ actions.beginMonitor = async function(){
           subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
           text: JSON.stringify(monitorAnalysis)
         };
-        mailer.actions.sendMail(mailOptions).catch(console.error);
+        mailer.actions.sendMail(mailOptions);
 
         console.log('Stream response:');
 
@@ -172,7 +172,7 @@ actions.beginMonitor = async function(){
                         subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
                         text: JSON.stringify(closeAnalysis)
                       };
-                      mailer.actions.sendMail(mailOptions).catch(console.error);
+                      mailer.actions.sendMail(mailOptions);
                       actions.stopMonitor(timer);
                     }
 
@@ -201,7 +201,7 @@ actions.beginMonitor = async function(){
                         subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
                         text: JSON.stringify(closeAnalysis)
                       };
-                      mailer.actions.sendMail(mailOptions).catch(console.error);
+                      mailer.actions.sendMail(mailOptions);
                       actions.stopMonitor(timer);
                     }
 
