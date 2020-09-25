@@ -803,9 +803,11 @@ if(noError){
               //Open a ticket
               await api.deal(ticket).then(async r => {
                 console.log(util.inspect(r, false, null));
+                let ref = r.positions.dealReference;
+                
                 if(!r.confirms.dealId){
 
-                  let ref = r.positions.dealReference;
+                  
                   console.log('Error: ' + r.confirms.errorCode);
 
                   //get status of position if error
