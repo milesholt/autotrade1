@@ -233,27 +233,31 @@ async function exec(){
       console.log(r);
       //prices.push.apply(prices, r.prices);
       //Check price bar doesn't already exist on pricedata
-      if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
-        console.log('Latest price bar does not exist, adding..');
-        prices.push(r.prices[0]);
-        pricedatacount++;
-        //remove first hour
-        console.log('Removing first hour');
-        prices.shift();
-        //store back to the file
+      if(r.prices.length){
+          if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
+            console.log('Latest price bar does not exist, adding..');
+            prices.push(r.prices[0]);
+            pricedatacount++;
+            //remove first hour
+            console.log('Removing first hour');
+            prices.shift();
+            //store back to the file
 
-        github.actions.updateFile(prices,pricedataDir);
-        /*
-        fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
-          if (e) {
-            console.log('Could not write price data');
-          } else {
-            console.log('Price data written to file.');
+            github.actions.updateFile(prices,pricedataDir);
+            /*
+            fs.writeFile(pricedataDir, JSON.stringify(prices), 'utf8', (e) => {
+              if (e) {
+                console.log('Could not write price data');
+              } else {
+                console.log('Price data written to file.');
+              }
+            });
+            */
+          }else{
+            console.log('Latest price bar already exists. Not adding or writing to file');
           }
-        });
-        */
       }else{
-        console.log('Latest price bar already exists. Not adding or writing to file');
+        console.log('No prices recorded');
       }
     }).catch(async e => {
       console.log(e);
