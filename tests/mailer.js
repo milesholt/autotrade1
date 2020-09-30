@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 
 var actions = {};
 
-actions.testmail = function(){
+actions.testMail = function(){
   main().catch(console.error);
 }
 
