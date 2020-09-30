@@ -460,8 +460,8 @@ if(noError){
   }
 
   recenttrend = 'ranging';
-  if((movementValue < 0) && (movementValueDiff >= (rangelimit/2))) recenttrend = 'bearish';
-  if((movementValue > 0) && (movementValueDiff >= (rangelimit/2))) recenttrend = 'bullish';
+  if((movementValue < 0) && (movementValueDiff >= parseFloat((rangelimit/2).toFixed(2)) )) recenttrend = 'bearish';
+  if((movementValue > 0) && (movementValueDiff >= parseFloat((rangelimit/2).toFixed(2)) )) recenttrend = 'bullish';
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
 
@@ -501,7 +501,6 @@ if(noError){
   if(trend == wicktrend) check4 = true;
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
-
   if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
     check8 = true;
   }
