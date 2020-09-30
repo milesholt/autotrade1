@@ -18,6 +18,7 @@ const strategy = require('./strategies/breakoutStrategy.js');
 const analytics = require('./services/analytics.js');
 //Require mailer
 const mailer = require('./services/mailer.js');
+const testmailer = require('./tests/mailer.js');
 //Require stream
 const stream = require('./services/stream.js');
 //Require monitor
