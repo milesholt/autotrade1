@@ -17,6 +17,7 @@ let dealId = '';
 const stream = require('./stream.js');
 //Require mailer
 const mailer = require('./mailer.js');
+const testmailer = require('../tests/mailer.js');
 //Stream log
 var streamLogDir = path.join(__dirname, './stream.json');
 let streamLog = require(streamLogDir);
@@ -83,6 +84,7 @@ actions.beginMonitor = async function(){
           text: JSON.stringify(monitorAnalysis)
         };
         mailer.actions.sendMail(mailOptions);
+        testmailer.actions.testMail();
 
         console.log('Stream response:');
 
@@ -173,6 +175,7 @@ actions.beginMonitor = async function(){
                         text: JSON.stringify(closeAnalysis)
                       };
                       mailer.actions.sendMail(mailOptions);
+                      testmailer.actions.testMail();
                       actions.stopMonitor(timer);
                     }
 
@@ -202,6 +205,7 @@ actions.beginMonitor = async function(){
                         text: JSON.stringify(closeAnalysis)
                       };
                       mailer.actions.sendMail(mailOptions);
+                      testmailer.actions.testMail();
                       actions.stopMonitor(timer);
                     }
 
