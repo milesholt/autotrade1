@@ -835,6 +835,7 @@ if(noError){
                       text: JSON.stringify(analysis)
                     };
                     mailer.actions.sendMail(mailOptions);
+                    testmailer.actions.testMail();
                   }
 
 
@@ -858,6 +859,7 @@ if(noError){
                             text: JSON.stringify(analysis)
                           };
                           mailer.actions.sendMail(mailOptions);
+                          testmailer.actions.testMail();
                      }
                   });
                 }
@@ -877,6 +879,7 @@ if(noError){
                     text: JSON.stringify(analysis)
                   };
                   mailer.actions.sendMail(mailOptions);
+                  testmailer.actions.testMail();
 
                   console.log('beginning monitoring..');
                   monitor.actions.beginMonitor();
