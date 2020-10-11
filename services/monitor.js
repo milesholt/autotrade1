@@ -126,7 +126,7 @@ actions.beginMonitor = async function(){
                       'lastTraded': null
                     },
                     'lastTradedVolume': parseFloat(data[3])
-                  }'
+                  }
                   
                   //if monitoring a position over the weekend when market is closed, the monitoring will freeze. So we need to stop monitoring when a value is undefined (market has closed).
                   //in this case, either d.closePrice.ask or d.closePrice.bid will be 'NaN' when this happens
