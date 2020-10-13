@@ -533,7 +533,8 @@ if(noError){
   //lastBeforeRangeMovement only holds 'bullish' or 'bearish' when last recorded as beforeRangeTrend
   //this is to capture longer ranging staircase patterns, where the beforeRangeTrend might be outside number of hours we set as parameter
   let beforeRangeOveridden = false;
-  if(beforeRangeTrend == 'ranging' && trend == lastBeforeRangeTrendMovement && check8 == true && check5 == true) {
+  const lastBeforeRangeTrendMovementDiff = parseFloat(Math.abs(lastBeforeRangeTrendMovementClose - lastClose).toFixed(2));
+  if(beforeRangeTrend == 'ranging' && trend == lastBeforeRangeTrendMovement && check8 == true && check5 == true && lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
     check7 = true;
     beforeRangeOveridden = true;
   }
@@ -629,6 +630,7 @@ if(noError){
     'lastBeforeRangeTrendMovement': lastBeforeRangeTrendMovement,
     'lastBeforeRangeTrendMovementClose': lastBeforeRangeTrendMovementClose,
     'lastBeforeRangeTrendMovementTime': lastBeforeRangeTrendMovementTime,
+    'lastBeforeRangeTrendMovementDiff': lastBeforeRangeTrendMovementDiff,
     'ticket': {}
   };
 
