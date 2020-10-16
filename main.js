@@ -520,7 +520,7 @@ if(noError){
     if(index !== 0){
       let ntime = moment(price.time);
       let diff = Math.abs(time.diff(ntime, 'minutes'));
-      console.log('old time: ' + time + ' new time: ' + ntime + ' diff: ' + diff);
+      console.log('old time: ' + moment(time).format('HH') + ' new time: ' + moment(ntime).format('HH') + ' diff: ' + diff);
       if(diff !== 60) totalMissingHours += diff / 60;
       time = moment(price.time);
     }
@@ -810,10 +810,10 @@ if(noError){
               await api.deal(ticket).then(async r => {
                 console.log(util.inspect(r, false, null));
                 let ref = r.positions.dealReference;
-                
+
                 if(!r.confirms.dealId){
 
-                  
+
                   console.log('Error: ' + r.confirms.errorCode);
 
                   //get status of position if error
