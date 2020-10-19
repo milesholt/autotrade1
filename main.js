@@ -515,13 +515,27 @@ if(noError){
   let isHoursCorrect = true;
   let totalMissingHours = 0;
   const missingHoursLimit = 3;
+  
+
+  
+  
   pricedata2.support.forEach((price,index) => {
     //skip the first hour
     if(index !== 0){
+      
+      /*
       let ntime = moment(price.time);
       let diff = Math.abs(time.diff(ntime, 'minutes'));
       console.log('old time: ' + moment(time).format('HH') + ' new time: ' + moment(ntime).format('HH') + ' diff: ' + diff);
-      if(diff !== 60) totalMissingHours += diff / 60;
+      if(diff !== 60) totalMissingHours += diff / 60;*/
+      
+      let startTime=moment(time, "HH");
+      let endTime=moment(price.time, "HH");
+      let duration = moment.duration(endTime.diff(startTime));
+      let hours = parseInt(duration.asHours()-1) == -1 ? 0 : parseInt(duration.asHours()-1); //remove by one because we only want the number of hours in between
+      console.log('old time: ' + moment(time).format('HH') + ' new time: ' + moment(ntime).format('HH') + ' hours: ' + hours);
+      totalMissingHours += hours;
+      
       time = moment(price.time);
     }
   });
