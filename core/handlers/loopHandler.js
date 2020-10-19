@@ -1,5 +1,6 @@
 var actions = {};
 var core = require.main.exports;
+var moment =  core.moment;
 
 /*
 
