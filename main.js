@@ -515,7 +515,7 @@ if(noError){
   let isHoursCorrect = true;
   let totalMissingHours = 0;
   const missingHoursLimit = 3;
-  
+  let start = 0, end = 0, diff = 0, d = 0;
 
   
   
@@ -529,13 +529,11 @@ if(noError){
       console.log('old time: ' + moment(time).format('HH') + ' new time: ' + moment(ntime).format('HH') + ' diff: ' + diff);
       if(diff !== 60) totalMissingHours += diff / 60;*/
       
-      let start = time.format('HH');
-      let end = moment(price.time).format('HH');
-      //let duration = moment.duration(endTime.diff(startTime));
-      let hours = start.diff(end, "hours");
-      //let hours = parseInt(duration.asHours()-1) == -1 ? 0 : parseInt(duration.asHours()-1); //remove by one because we only want the number of hours in between
-      console.log('old time: ' + start + ' new time: ' + end + ' hours: ' + hours);
-      totalMissingHours += hours;
+      start = time;
+      end = moment(price.time);
+      diff = end.diff(start, "hours") - 1; //remove by one because we only want the number of hours in between
+      d = diff == -1 ? 0 : diff;
+      totalMissingHours += diff;
       
       time = moment(price.time);
     }
