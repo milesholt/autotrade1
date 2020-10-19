@@ -529,10 +529,11 @@ if(noError){
       console.log('old time: ' + moment(time).format('HH') + ' new time: ' + moment(ntime).format('HH') + ' diff: ' + diff);
       if(diff !== 60) totalMissingHours += diff / 60;*/
       
-      let startTime=moment(time, "HH");
-      let endTime=moment(price.time, "HH");
-      let duration = moment.duration(endTime.diff(startTime));
-      let hours = parseInt(duration.asHours()-1) == -1 ? 0 : parseInt(duration.asHours()-1); //remove by one because we only want the number of hours in between
+      let startTime = time.format('HH');
+      let endTime = moment(price.time).format('HH');
+      //let duration = moment.duration(endTime.diff(startTime));
+      let hours = start.diff(end, "hours");
+      //let hours = parseInt(duration.asHours()-1) == -1 ? 0 : parseInt(duration.asHours()-1); //remove by one because we only want the number of hours in between
       console.log('old time: ' + startTime + ' new time: ' + endTime + ' hours: ' + hours);
       totalMissingHours += hours;
       
