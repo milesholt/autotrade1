@@ -1,6 +1,10 @@
 
 var actions = {};
 var core = require.main.exports;
+var loop = core.loopHandler.actions.loop;
+var cloud = core.cloudHandler.actions;
+var error = core.errorHandler.actions;
+var api = core.api;
 
 /*
 
@@ -11,25 +15,25 @@ This pulls key data from API and also updates cloud data file
 
 actions.getPriceData = async function(){
   if(prices.length == 0){
-    await core.api.histPrc(epic, resolution, from, to).then(r => {
+    await api.histPrc(epic, resolution, from, to).then(r => {
             prices = r.prices;
-            core.cloudHandler.actions.updateFile(prices,pricedataDir);
+            cloud.updateFile(prices,pricedataDir);
     }).catch(async e => {
-      core.errorHandler.actions.handleError(e);
+      error.handleError(e);
     });
   } else {
-    await core.api.histPrc(epic, resolution, from2, to2).then(r => {
+    await api.histPrc(epic, resolution, from2, to2).then(r => {
       if(r.prices.length){
           //Check price bar doesn't already exist on pricedata
           if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
             //If it does, push new price and remove first hour
             prices.push(r.prices[0]);
             prices.shift();
-            core.cloudHandler.actions.updateFile(prices,pricedataDir);
+            cloud.updateFile(prices,pricedataDir);
           }
       }
     }).catch(async e => {
-       core.errorHandler.actions.handleError(e);
+       error.handleError(e);
     });
   }
 }
@@ -70,7 +74,7 @@ actions.sortPriceData = async function(){
         pricedata3.support = pricedata.support.filter((price,i) => i > start2);
         pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
       }else{
-        core.actions.loop('Price undefined? Waiting an hour and trying again');
+        loop('Price undefined? Waiting an hour and trying again');
         return false;
       }
     });

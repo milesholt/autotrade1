@@ -4,6 +4,7 @@ const github = require('../services/github.js');
 
 var actions = {};
 var core = require.main.exports;
+var github = core.github;
 
 
 /*
@@ -13,8 +14,8 @@ This updates a file hosted on cloud server
 
 */
 
-actions.updateFile(data,dir){
-  github.actions.updateFile(data,dir);
+actions.updateFile = async function(data,dir){
+  await github.actions.updateFile(data,dir);
 }
 
 
@@ -24,7 +25,7 @@ GET FILES
 This gets the data files from the cloud server
 */
 
-actions.getFiles(){
+actions.getFiles = async function(){
   github.shas = [];
   prices = await github.actions.getFile(pricedataDir);
   pricesSha = github.sha;

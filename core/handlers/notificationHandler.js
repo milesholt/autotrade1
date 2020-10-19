@@ -1,6 +1,7 @@
 var actions = {};
 var core = require.main.exports;
-
+var mailer = core.mailer.actions;
+var testmailer = core.testmailer.actions;
 
 /*
 
@@ -49,8 +50,8 @@ actions.sendNotification = async function(options, method = 'mail'){
       subject: options.title,
       text: options.content
     };
-    await core.mailer.actions.sendMail(mailOptions);
-    await core.testmailer.actions.testMail();
+    await mailer.sendMail(mailOptions);
+    await testmailer.testMail();
   }
 
 }

@@ -1,5 +1,6 @@
 var actions = {};
 var core = require.main.exports;
+var moment =  core.moment;
 
 actions.determineMissingHours = async function(){
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
@@ -15,7 +16,7 @@ actions.determineMissingHours = async function(){
       // let diff = Math.abs(time.diff(ntime, 'minutes'));
       // if(diff !== 60) totalMissingHours += diff / 60;
       // time = moment(price.time);
-      
+
       start = time;
       end = moment(price.time);
       diff = end.diff(start, "hours") - 1; //remove by one because we only want the number of hours in between

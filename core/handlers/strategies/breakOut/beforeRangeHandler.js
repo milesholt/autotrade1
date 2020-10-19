@@ -1,5 +1,6 @@
 var actions = {};
 var core = require.main.exports;
+var cloud = core.cloudHandler.actions;
 
 actions.setBeforeRangeData = function(){
 }
@@ -20,7 +21,7 @@ actions.determineBeforeRangeData = function(){
     }
     setTimeout(()=>{
       console.log('updating beforeRangeData file after 10 seconds');
-      core.cloudHandler.actions.updateFile(beforeRangeData,beforeRangeDir);
+      cloud.updateFile(beforeRangeData,beforeRangeDir);
     },10000);
   }
 }

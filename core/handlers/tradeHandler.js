@@ -2,6 +2,8 @@ var actions = {};
 var core = require.main.exports;
 var loop = core.loopHandler.actions.loop;
 var notification = core.notificationHandler.actions;
+var api = core.api;
+var monitor = core.monitor.actions;
 
 actions.determineTrade = async function(){
   //If all checks pass, begin trade
@@ -146,7 +148,7 @@ actions.determineTrade = async function(){
                   //Send notification
                   notification.notify('deal-success', analysis);
                   //Begin monitoring
-                  core.monitor.actions.beginMonitor();
+                  monitor.beginMonitor();
                   tradedbefore = true;
                   loop('Checks passed and trade has been made. Will go again in 1 hour.');
                   return false;
