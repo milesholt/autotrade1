@@ -19,7 +19,7 @@ var actions = {};
 const moment=require('moment');
 moment().format();
 
-actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rangedata){
+actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
 
   let times = [], customdata = [], shapes = [], closes = [], opens = [], highs = [], lows = [], range = [];
 
@@ -55,11 +55,11 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
       //let price = pricedata[i];
       let range_col = 'rgba(217, 14, 87, 0.7)';
       let bump_col = 'rgba(92, 123, 207, 0.7)';
-    
+
       let midprice = Math.abs((price.open+price.close)/2).toFixed(2);
       let midplus = parseFloat(midprice+circleheight).toFixed(2);
       let midminus = parseFloat(midprice-circleheight).toFixed(2);
-    
+
       rangedata.support.prices_idx.forEach((pidx,ridx) => {
         //console.log(pidx);
 

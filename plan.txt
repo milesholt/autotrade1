@@ -1,0 +1,13 @@
+split main in the following stages:
+
+priceData arrangement
+beforeRange check
+recentTrend check
+overide checks
+position determination
+error handling
+
+Notes
+
+Need to put strategy handlers in its own folder
+Same goes for checks, being assigned to one strategy to make tradeHandler more generic and open to other strategy checks
