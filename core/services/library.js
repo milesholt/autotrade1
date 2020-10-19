@@ -14,7 +14,7 @@ actions.toNumber = function(val,abs=true,points=2){
   if(!abs) return parseFloat(val.toFixed(points));
 }
 
-action.toString = function(val){
+actions.toString = function(val){
   if(action.isJSON(val)) return JSON.stringify(val);
   return val.toString();
 }
