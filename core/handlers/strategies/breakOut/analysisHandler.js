@@ -66,10 +66,10 @@ actions.finalAnalysis = async function(){
     'bumpgroupcount': bumpgroupcount,
     'notTradedBefore': check12,
     'beforeRangeOveridden': beforeRangeOveridden,
-    'lastBeforeRangeTrendMovement': lastBeforeRangeTrendMovement,
-    'lastBeforeRangeTrendMovementClose': lastBeforeRangeTrendMovementClose,
-    'lastBeforeRangeTrendMovementTime': lastBeforeRangeTrendMovementTime,
-    'lastBeforeRangeTrendMovementDiff': lastBeforeRangeTrendMovementDiff,
+    'lastBeforeRangeTrendMovement': bRD.lastBeforeRangeTrendMovement,
+    'lastBeforeRangeTrendMovementClose': bRD.lastBeforeRangeTrendMovementClose,
+    'lastBeforeRangeTrendMovementTime': bRD.lastBeforeRangeTrendMovementTime,
+    'lastBeforeRangeTrendMovementDiff': bRD.lastBeforeRangeTrendMovementDiff,
     'ticket': {}
   };
 
