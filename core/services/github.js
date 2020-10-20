@@ -28,7 +28,8 @@ actions.getFile = async function(path){
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
   owner: owner,
   repo: repo,
-  path: path
+  path: path,
+  ref: branch
 }).catch(e => {
   console.log(e);
 });

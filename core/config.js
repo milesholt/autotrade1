@@ -20,8 +20,8 @@ lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
 confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
 //Data files
-pricedataDir = '../data/pricedata.json';
-beforeRangeDir = '../data/beforerangedata.json';
+pricedataDir = 'data/pricedata.json';
+beforeRangeDir = 'data/beforerangedata.json';
 
 //Price data variables
 prices = [];
