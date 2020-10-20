@@ -247,6 +247,11 @@ module.exports = {
   notificationHandler:notificationHandler
 }
 
+const errorHandler = require('./handlers/errorHandler.js');
+module.exports = {
+  errorHandler:errorHandler
+}
+
 //Strategy handlers
 //Todo - for each strategy to have its own module that includes child modules to core
 
@@ -265,10 +270,7 @@ const trendHandler = require('./handlers/trendHandler.js');
 const priceDataHandler = require('./handlers/priceDataHandler.js');
 const tradeHandler = require('./handlers/tradeHandler.js');
 
-const errorHandler = require('./handlers/errorHandler.js');
-module.exports = {
-  errorHandler:errorHandler
-}
+
 
 
 
