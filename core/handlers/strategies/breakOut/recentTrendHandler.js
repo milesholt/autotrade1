@@ -47,9 +47,9 @@ actions.determineRecentTrend = async function(){
 actions.determineRecentRange = async function(){
   //set previous trend for next loop
   //if previous trend was ranging and latest trend isn't, this suggests trend has broken out of range
-  //rangedata.support.prices_idx;
+  //rangeData.support.prices_idx;
   recentrange = [];
-  rangedata.support.prices_idx.forEach(pid => {
+  rangeData.support.prices_idx.forEach(pid => {
     if(pid > 12) recentrange.push(pid);
   });
   //if number of range confirmations is over limit

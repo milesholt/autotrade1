@@ -29,7 +29,7 @@ CHECK RANGE
 */
 
 actions.checkRangeConfirmations = async function(){
-  let rangeConfirmations = rangedata.support.prices_idx.length;
+  let rangeConfirmations = rangeData.support.prices_idx.length;
   if(rangeConfirmations >= rangeConfirmationLimit) check2 = true;
 }
 
@@ -65,7 +65,7 @@ actions.finalChecks = async function(){
     check7 = true;
     beforeRangeOveridden = true;
   }
-  if(rangedata.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
+  if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
   if(tradedbefore) check12 = false;
 }
 

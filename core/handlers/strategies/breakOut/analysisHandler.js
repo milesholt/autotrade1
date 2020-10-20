@@ -28,7 +28,7 @@ actions.finalAnalysis = async function(){
     'lastCloseAsk': lastCloseAsk,
     'lastCloseBid': lastCloseBid,
     'lastDiff': lastDiff,
-    'linedata': linedata,
+    'lineData': lineData,
     'lineDistance': lineDistance,
     'previousTrend' : previousTrend,
     'trend': currenttrend,
@@ -37,7 +37,7 @@ actions.finalAnalysis = async function(){
     'beforeRangeTrend': beforeRangeTrend,
     'beforeRangeFirstCloseData' : beforeRangeFirstCloseData,
     'beforeRangeTrendDiff': beforeRangeTrendDiff,
-    'rangedata_indexes': rangedata.support.prices_idx,
+    'rangedata_indexes': rangeData.support.prices_idx,
     'recentrange': recentrange,
     'rangeConfirmations':rangeConfirmations,
     'recentTrendArr': recenttrendArr,
@@ -62,7 +62,7 @@ actions.finalAnalysis = async function(){
     'isHoursCorrect': check10,
     'totalMissingHours': totalMissingHours,
     'noBumpInRange': check11,
-    'bumps': rangedata.bumps,
+    'bumps': rangeData.bumps,
     'bumpgroupcount': bumpgroupcount,
     'notTradedBefore': check12,
     'beforeRangeOveridden': beforeRangeOveridden,
@@ -76,7 +76,7 @@ actions.finalAnalysis = async function(){
   //set previous trend after everything else (using currenttrend to catch 'ranging' otherwise isBreakingThroughRange is false)
   previousTrend = currenttrend;
   //Draw analytics
-  core.analytics.actions.drawChart(pricedata3.support, linedata, analysis, rangedata);
+  core.analytics.actions.drawChart(pricedata3.support, lineData, analysis, rangeData);
 }
 
 module.exports = {
