@@ -243,6 +243,19 @@ const notificationHandler = require('./handlers/notificationHandler.js');
 const errorHandler = require('./handlers/errorHandler.js');
 
 module.exports = {
+  actions:actions,
+  moment:moment,
+  api:api,
+  path:path,
+  fs:fs,
+  util:util,
+  strategy:strategy,
+  analytics:analytics,
+  mailer:mailer,
+  testmailer:testmailer,
+  stream:stream,
+  monitor:monitor,
+  lib:library,
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
   notificationHandler:notificationHandler,
