@@ -10,7 +10,7 @@ const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
 const obj = {};
 const path = '';
 const owner = 'milesholt';
-const branch = 'main';
+const branch = 'version2';
 let shas = [];
 let sha = 0;
 const repo = 'autotrade1';
@@ -32,16 +32,16 @@ actions.getFile = async function(path){
 }).catch(e => {
   console.log(e);
 });
-  
+
   //shas.push({'path': path, 'sha':result.data.sha});
-  /*shas.forEach(s =>{ 
+  /*shas.forEach(s =>{
     if(s.path == path){
       s.sha = result.data.sha;
     }else{
       shas.push({'path': path, 'sha':result.data.sha});
     }
   });*/
-  
+
   sha = result.data.sha;
   console.log('getting file, sha is now:' + sha);
   //decode data from base64 string to object
@@ -53,24 +53,24 @@ actions.getFile = async function(path){
 
 //Update file
 actions.updateFile = async function(data,path){
-  const timestamp = Date.now(); 
+  const timestamp = Date.now();
   //encode data to base64 string
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
   //update SHA
   //console.log(shas);
   /*
-  shas.forEach(s =>{ 
+  shas.forEach(s =>{
     if(s.path == path){
       console.log('Found matching path');
       console.log(s);
-      sha = s.sha; 
-    } 
+      sha = s.sha;
+    }
   });
   */
   await actions.getFile(path);
   console.log('updating file with sha: ' + sha + ' and path:' + path);
-  //write data 
+  //write data
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner: owner,
     repo: repo,
