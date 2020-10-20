@@ -64,6 +64,7 @@ dealId = '';
 pricedatacount = 0;
 previousTrend = 'ranging';
 bRD = {};
+bumpgroupcount = 0;
 
 //Dates
 resolution = 'HOUR';

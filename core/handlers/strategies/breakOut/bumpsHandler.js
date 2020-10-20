@@ -26,7 +26,7 @@ actions.determineBumps = async function(){
     if((price.close >= resistanceline || price.close <= supportline) && rd.indexOf(idx) === -1 && (idx >= rd[0] && idx <= rd[rd.length-1])) rangeData.bumps.push({ 'idx' : idx, 'close' : price.close });
   });
   let bidx = 0;
-  let bumpgroupcount = 0;
+  bumpgroupcount = 0;
   //this makes sure that the bumps are together as a group (not scattered indexes), and must exceed a certain amount
   rangeData.bumps.forEach(bump => {
     if(bump.idx == (bidx+1)) bumpgroupcount++;

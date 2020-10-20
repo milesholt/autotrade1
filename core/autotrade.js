@@ -130,6 +130,7 @@ actions.setDefaults = async function(){
   pricedatacount = 0;
   previousTrend = 'ranging';
   bRD = {};
+  bumpgroupcount = 0;
 
   //Other variables
   tradedbefore = false;
