@@ -29,7 +29,7 @@ CHECK RANGE
 */
 
 actions.checkRangeConfirmations = async function(){
-  let rangeConfirmations = rangeData.support.prices_idx.length;
+  rangeConfirmations = rangeData.support.prices_idx.length;
   if(rangeConfirmations >= rangeConfirmationLimit) check2 = true;
 }
 
