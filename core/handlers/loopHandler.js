@@ -11,7 +11,6 @@ REQUIRE
 actions.require = function(){
   core = require.main.exports;
   moment = core.moment;
-  console.log(core.actions);
 }
 
 /*

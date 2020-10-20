@@ -190,7 +190,7 @@ actions.exec = async function(){
   await actions.setDefaults();
 
   //Get hosted data files
-  await cloudHandler.actions.getHostedDataFiles();
+  await cloudHandler.actions.getFiles();
 
   //Handle price data
   await priceDataHandler.actions.getPriceData();
