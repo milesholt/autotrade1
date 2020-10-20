@@ -36,7 +36,7 @@ actions.loop = async function(msg = ''){
     let timestamp  = moment().format('LLL');
     core.actions.exec();
   } else {
-    setTimeout(exec,(60*(60-min)+(70-sec))*1000);
+    setTimeout(core.actions.exec,(60*(60-min)+(70-sec))*1000);
   }
 
 }
