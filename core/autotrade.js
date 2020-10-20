@@ -89,10 +89,6 @@ actions.setDefaults = async function(){
   from2 = today+'%20'+lasthour+':30:00';
   to2 = today+'%20'+currenthour+':00:00';
 
-  //Data variables
-  pricedataDir = '../data/pricedata.json';
-  beforeRangeDir = '../data/beforerangedata.json';
-
   //Price variables
   prices = [];
   pricedata = {'support': [], 'resistance': []};
