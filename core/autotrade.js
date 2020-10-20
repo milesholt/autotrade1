@@ -205,7 +205,7 @@ actions.exec = async function(){
   await checkHandler.actions.checkRangeConfirmations();
 
   //Set price data variables
-  await priceHandler.actions.setPriceData();
+  await priceDataHandler.actions.setPriceData();
 
   //Handle trend
   await trendHandler.actions.determineTrend();
