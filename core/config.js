@@ -85,3 +85,4 @@ to2 = '';
 tradedbefore = false;
 noError = true;
 isHoursCorrect = true;
+totalMissingHours = 0;
