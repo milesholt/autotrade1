@@ -240,11 +240,13 @@ Core handlers
 const cloudHandler = require('./handlers/cloudHandler.js');
 const loopHandler = require('./handlers/loopHandler.js');
 const notificationHandler = require('./handlers/notificationHandler.js');
+const errorHandler = require('./handlers/errorHandler.js');
 
 module.exports = {
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
-  notificationHandler:notificationHandler
+  notificationHandler:notificationHandler,
+  errorHandler:errorHandler
 }
 
 //Strategy handlers
@@ -264,7 +266,7 @@ const analysisHandler = require('./handlers/strategies/breakOut/analysisHandler.
 const trendHandler = require('./handlers/trendHandler.js');
 const priceDataHandler = require('./handlers/priceDataHandler.js');
 const tradeHandler = require('./handlers/tradeHandler.js');
-const errorHandler = require('./handlers/errorHandler.js');
+
 
 
 /*
