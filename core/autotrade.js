@@ -132,6 +132,8 @@ actions.setDefaults = async function(){
   bRD = {};
   bumpgroupcount = 0;
   lineDistance = 0;
+  rangeConfirmations = 0;
+
 
   //Other variables
   tradedbefore = false;
