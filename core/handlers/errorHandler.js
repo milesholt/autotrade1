@@ -1,6 +1,5 @@
 var actions = {};
 var core = require.main.exports;
-var loop = core.loopHandler.actions;
 var api = core.api;
 
 /*
@@ -20,6 +19,8 @@ actions.handleErrors = async function(e){
     }
   }
   //Once handled the error, we loop again
+  var core = require.main.exports;
+  var loop = core.loopHandler.actions;
   loop.resetLoop('Resetting loop after error handling');
 }
 
