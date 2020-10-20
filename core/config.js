@@ -65,6 +65,7 @@ pricedatacount = 0;
 previousTrend = 'ranging';
 bRD = {};
 bumpgroupcount = 0;
+lineDistance = 0;
 
 //Dates
 resolution = 'HOUR';

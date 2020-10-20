@@ -131,6 +131,7 @@ actions.setDefaults = async function(){
   previousTrend = 'ranging';
   bRD = {};
   bumpgroupcount = 0;
+  lineDistance = 0;
 
   //Other variables
   tradedbefore = false;

@@ -18,7 +18,7 @@ CHECK LINES
 */
 
 actions.checkLines = async function(){
-  let lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
+  lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
   if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) check0 = true;
 }
 
