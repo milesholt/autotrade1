@@ -98,6 +98,7 @@ actions.setDefaults = async function(){
   dealId = '';
   pricedatacount = 0;
   previousTrend = 'ranging';
+  bRD = {};
 
   //Other variables
   tradedbefore = false;

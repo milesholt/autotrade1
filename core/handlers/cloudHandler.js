@@ -4,7 +4,6 @@ const github = require('../services/github.js');
 
 var actions = {};
 var core = require.main.exports;
-var github = core.github;
 
 
 /*
@@ -31,7 +30,7 @@ actions.getFiles = async function(){
   pricesSha = github.sha;
   beforeRangeData = await github.actions.getFile(beforeRangeDir);
   beforeRangeSha = github.sha;
-  let bRD = beforeRangeData;
+  bRD = beforeRangeData;
 }
 
 module.exports = {

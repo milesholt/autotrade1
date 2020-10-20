@@ -1,6 +1,7 @@
 var actions = {};
 var core = require.main.exports;
 var loop = core.loopHandler.actions;
+var api = core.api;
 
 /*
 
@@ -31,7 +32,7 @@ Method for handling API's invalid security token
 
 actions.handleInvalidSecurityToken = async function(e){
     console.log('Invalid security token. Clearing tokens and logging in again.');
-    await core.api.logout(true).then(r => {
+    await api.logout(true).then(r => {
     }).catch(e => console.log(e));
     //Once logged out and tokens cleared, try again in 2 seconds
     setTimeout(async()=>{

@@ -63,6 +63,7 @@ currenttrend = '';
 dealId = '';
 pricedatacount = 0;
 previousTrend = 'ranging';
+bRD = {};
 
 //Dates
 resolution = 'HOUR';
