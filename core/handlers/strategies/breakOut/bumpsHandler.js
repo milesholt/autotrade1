@@ -1,5 +1,21 @@
 var actions = {};
-var core = require.main.exports;
+var core;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+}
+
+/*
+
+DETERMINE BUMPS
+
+*/
 
 actions.determineBumps = async function(){
   //this checks that if some price bars are ignored within the range area, and they are greater or smaller than the beforerangefirstclose, then

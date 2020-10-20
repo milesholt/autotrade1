@@ -1,5 +1,21 @@
 var actions = {};
-var core = require.main.exports;
+var core;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+}
+
+/*
+
+FINAL ANALYSIS
+
+*/
 
 actions.finalAnalysis = async function(){
   let analysis = {

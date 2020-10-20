@@ -1,6 +1,17 @@
 var actions = {};
-var core = require.main.exports;
-var api = core.api;
+var core;
+var api;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  api = core.api;
+}
 
 /*
 

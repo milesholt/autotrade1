@@ -1,5 +1,21 @@
 var actions = {};
-var core = require.main.exports;
+var core;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+}
+
+/*
+
+DETERMINE RECENT TREND
+
+*/
 
 actions.determineRecentTrend = async function(){
   //loop through recent price bars and determine movement

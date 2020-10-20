@@ -1,6 +1,17 @@
 var actions = {};
-var core = require.main.exports;
-var moment =  core.moment;
+var core;
+var moment;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  moment = core.moment;
+}
 
 /*
 

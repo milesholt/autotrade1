@@ -1,9 +1,23 @@
 var actions = {};
-var core = require.main.exports;
-var cloud = core.cloudHandler.actions;
+var core;
+var cloud;
 
-actions.setBeforeRangeData = function(){
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  cloud = core.cloudHandler.actions;
 }
+
+/*
+
+DETERMINE BEFORE RANGE DATA
+
+*/
 
 actions.determineBeforeRangeData = function(){
   beforeRangeFirstCloseData = pricedata3.support[0];

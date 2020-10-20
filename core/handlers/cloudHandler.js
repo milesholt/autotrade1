@@ -3,7 +3,18 @@
 const github = require('../services/github.js');
 
 var actions = {};
-var core = require.main.exports;
+var core;
+
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+}
 
 
 /*

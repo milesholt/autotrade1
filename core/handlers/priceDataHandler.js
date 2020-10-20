@@ -1,10 +1,24 @@
 
 var actions = {};
-var core = require.main.exports;
-var loop = core.loopHandler.actions.loop;
-var cloud = core.cloudHandler.actions;
-var error = core.errorHandler.actions;
-var api = core.api;
+var core;
+var loop;
+var cloud;
+var error;
+var api;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  loop = core.loopHandler.actions.loop;
+  cloud = core.cloudHandler.actions;
+  error = core.errorHandler.actions;
+  api = core.api;
+}
 
 /*
 

@@ -1,5 +1,22 @@
 var actions = {};
-var core = require.main.exports;
+var core;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+}
+
+
+/*
+
+DETERMINE TREND
+
+*/
 
 actions.determineTrend = async function(){
   trendDiff = parseFloat(Math.abs(firstClose - lastClose).toFixed(2));

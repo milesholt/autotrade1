@@ -12,17 +12,52 @@ const util=require('util');
 const moment=require('moment');
 const fs = require('fs');
 const path = require('path');
-moment().format();
 var actions = {};
 
-module.exports = {
-  actions:actions,
-  moment:moment,
-  api:api,
-  path:path,
-  fs:fs,
-  util:util
-}
+/*
+
+Core services
+
+*/
+
+const strategy = require('./strategies/breakoutStrategy.js');
+const analytics = require('./services/analytics.js');
+const mailer = require('./services/mailer.js');
+const testmailer = require('./tests/mailer.js');
+const stream = require('./services/stream.js');
+const monitor = require('./services/monitor.js');
+const library = require('./services/library.js');
+
+/*
+
+Core handlers
+
+*/
+
+
+//Strategy handlers
+//Todo - for each strategy to have its own module that includes child modules to core
+
+/* Breakout strategy */
+
+const checkHandler = require('./handlers/strategies/breakOut/checkHandler.js');
+const beforeRangeHandler = require('./handlers/strategies/breakOut/beforeRangeHandler.js');
+const recentTrendHandler = require('./handlers/strategies/breakOut/recentTrendHandler.js');
+const missingHoursHandler = require('./handlers/strategies/breakOut/missingHoursHandler.js');
+const bumpsHandler = require('./handlers/strategies/breakOut/bumpsHandler.js');
+const analysisHandler = require('./handlers/strategies/breakOut/analysisHandler.js');
+
+//Generic handlers
+
+const cloudHandler = require('./handlers/cloudHandler.js');
+const loopHandler = require('./handlers/loopHandler.js');
+const notificationHandler = require('./handlers/notificationHandler.js');
+const errorHandler = require('./handlers/errorHandler.js');
+const trendHandler = require('./handlers/trendHandler.js');
+const priceDataHandler = require('./handlers/priceDataHandler.js');
+const tradeHandler = require('./handlers/tradeHandler.js');
+
+
 
 /*
 
@@ -203,44 +238,8 @@ actions.exec = async function(){
 
 }
 
-/*
 
-Core services
-
-*/
-
-const strategy = require('./strategies/breakoutStrategy.js');
-const analytics = require('./services/analytics.js');
-const mailer = require('./services/mailer.js');
-const testmailer = require('./tests/mailer.js');
-const stream = require('./services/stream.js');
-const monitor = require('./services/monitor.js');
-const library = require('./services/library.js');
-
-module.exports = {
-  strategy:strategy,
-  analytics:analytics,
-  mailer:mailer,
-  testmailer:testmailer,
-  stream:stream,
-  monitor:monitor,
-  lib:library
-}
-
-/*
-
-Core handlers
-
-*/
-
-
-//Handlers that are colled by other handlers
-//These need to be exported before use
-
-const cloudHandler = require('./handlers/cloudHandler.js');
-const loopHandler = require('./handlers/loopHandler.js');
-const notificationHandler = require('./handlers/notificationHandler.js');
-const errorHandler = require('./handlers/errorHandler.js');
+//Core export
 
 module.exports = {
   actions:actions,
@@ -263,25 +262,22 @@ module.exports = {
 }
 
 
-//Strategy handlers
-//Todo - for each strategy to have its own module that includes child modules to core
+//After export, call child module requirements
 
-/* Breakout strategy */
+analysisHandler.actions.require();
+beforeRangeHandler.actions.require();
+bumpsHandler.actions.require();
+checkHandler.actions.require();
+missingHoursHandler.actions.require();
+recentTrendHandler.actions.require();
 
-const checkHandler = require('./handlers/strategies/breakOut/checkHandler.js');
-const beforeRangeHandler = require('./handlers/strategies/breakOut/beforeRangeHandler.js');
-const recentTrendHandler = require('./handlers/strategies/breakOut/recentTrendHandler.js');
-const missingHoursHandler = require('./handlers/strategies/breakOut/missingHoursHandler.js');
-const bumpsHandler = require('./handlers/strategies/breakOut/bumpsHandler.js');
-const analysisHandler = require('./handlers/strategies/breakOut/analysisHandler.js');
-
-//Generic handlers
-
-const trendHandler = require('./handlers/trendHandler.js');
-const priceDataHandler = require('./handlers/priceDataHandler.js');
-const tradeHandler = require('./handlers/tradeHandler.js');
-
-
+tradeHandler.actions.require();
+priceDataHandler.actions.require();
+trendHandler.actions.require();
+cloudHandler.actions.require();
+loopHandler.actions.require();
+notificationHandler.actions.require();
+errorHandler.actions.require();
 
 
 

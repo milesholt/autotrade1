@@ -1,7 +1,20 @@
 var actions = {};
-var core = require.main.exports;
-var mailer = core.mailer.actions;
-var testmailer = core.testmailer.actions;
+var core;
+var mailer;
+var testmailer;
+
+/*
+
+REQUIRE 
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  mailer = core.mailer.actions;
+  testmailer = core.testmailer.actions;
+}
+
 
 /*
 

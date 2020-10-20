@@ -1,6 +1,23 @@
 var actions = {};
-var core = require.main.exports;
-var moment =  core.moment;
+var core;
+var moment;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  moment =  core.moment;
+}
+
+/*
+
+DETERMINE MISSING HOURS
+
+*/
 
 actions.determineMissingHours = async function(){
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)

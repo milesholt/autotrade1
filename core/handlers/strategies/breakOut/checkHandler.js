@@ -1,15 +1,43 @@
 var actions = {};
-var core = require.main.exports;
+var core;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+}
+
+/*
+
+CHECK LINES
+
+*/
 
 actions.checkLines = async function(){
   let lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
   if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) check0 = true;
 }
 
+/*
+
+CHECK RANGE
+
+*/
+
 actions.checkRangeConfirmations = async function(){
   let rangeConfirmations = rangedata.support.prices_idx.length;
   if(rangeConfirmations >= rangeConfirmationLimit) check2 = true;
 }
+
+/*
+
+FINAL CHECKS
+
+*/
 
 actions.finalChecks = async function(){
   if(lastDiff > 0.2) check1 = true;

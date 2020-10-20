@@ -1,9 +1,29 @@
 var actions = {};
-var core = require.main.exports;
-var loop = core.loopHandler.actions.loop;
-var notification = core.notificationHandler.actions;
-var api = core.api;
-var monitor = core.monitor.actions;
+var core;
+var loop;
+var notification;
+var api;
+var monitor;
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  loop = core.loopHandler.actions.loop;
+  notification = core.notificationHandler.actions;
+  api = core.api;
+  monitor = core.monitor.actions;
+}
+
+/*
+
+DETERMINE TRADE
+
+*/
 
 actions.determineTrade = async function(){
   //If all checks pass, begin trade
