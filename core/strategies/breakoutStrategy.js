@@ -50,21 +50,21 @@ actions.calcResistSupport = async function(pricedata,type){
   matches.sort(sortbyRangeCluster);
 
   // The one with the largest cluster (the last one in the order) is the data used to determine midrange line
-  rangedata[type] = matches[matches.length-1];
+  rangeData[type] = matches[matches.length-1];
 
   // Get low/highest point depending on line type
-  let midrangeprices = deepCopy(rangedata[type].prices).sort(sortNumber);
+  let midrangeprices = deepCopy(rangeData[type].prices).sort(sortNumber);
   let lowestprice = midrangeprices[0];
   let highestprice = midrangeprices[midrangeprices.length-1];
   // Get the midrange line by getting the average of those prices
   let midrangeprice = (highestprice + lowestprice) / 2;
 
-  linedata.midrange = midrangeprice;
+  lineData.midrange = midrangeprice;
 
   //BEGIN SECOND ROUND USING MID AREA PRICE
 
   // Loop through prices again
-  rangedata[type].prices.forEach((price,idx) => {
+  rangeData[type].prices.forEach((price,idx) => {
     price = parseFloat(price);
     let match = false
     let m = [];

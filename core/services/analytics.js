@@ -19,11 +19,11 @@ var actions = {};
 const moment=require('moment');
 moment().format();
 
-actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
+actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   let times = [], customdata = [], shapes = [], closes = [], opens = [], highs = [], lows = [], range = [];
 
-  pricedata.forEach(price =>{
+  priceData.forEach(price =>{
     times.push(price.time);
     closes.push(price.close);
     opens.push(price.open);
@@ -43,16 +43,16 @@ actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
   console.log('circleheight: ' + circleheight);
 
   //skip first 12 hours
-  let pricedata2 = pricedata.slice(12, pricedata.length);
-  let midprices = pricedata2.map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
+  let priceData2 = priceData.slice(12, priceData.length);
+  let midprices = priceData2.map(r => (parseInt((r.open+r.close)/2).toFixed(2)));
 
-  pricedata2.forEach((price, i) =>{
+  priceData2.forEach((price, i) =>{
   //skip first 12 hours
 //   if(i < 11){
 //     continue;
 //   }
-    //for(let i = 11, len = pricedata.length; i<len; i++){
-      //let price = pricedata[i];
+    //for(let i = 11, len = priceData.length; i<len; i++){
+      //let price = priceData[i];
       let range_col = 'rgba(217, 14, 87, 0.7)';
       let bump_col = 'rgba(92, 123, 207, 0.7)';
 
@@ -60,14 +60,14 @@ actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
       let midplus = parseFloat(midprice+circleheight).toFixed(2);
       let midminus = parseFloat(midprice-circleheight).toFixed(2);
 
-      rangedata.support.prices_idx.forEach((pidx,ridx) => {
+      rangeData.support.prices_idx.forEach((pidx,ridx) => {
         //console.log(pidx);
 
-        //let y0 = parseFloat(rangedata.support.prices[ridx]-circleheight).toFixed(2);
-        //let y1 = parseFloat(rangedata.support.prices[ridx]+circleheight).toFixed(2);
+        //let y0 = parseFloat(rangeData.support.prices[ridx]-circleheight).toFixed(2);
+        //let y1 = parseFloat(rangeData.support.prices[ridx]+circleheight).toFixed(2);
 
-        //console.log('yo: ' + rangedata.support.prices[ridx]);
-        //console.log('y1: ' + rangedata.support.prices[ridx]);
+        //console.log('yo: ' + rangeData.support.prices[ridx]);
+        //console.log('y1: ' + rangeData.support.prices[ridx]);
         //console.log('yo: ' + y0);
         //console.log('y1: ' + y1);
 
@@ -77,7 +77,7 @@ actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
             type: 'circle',
             xref: 'x',
             yref: 'y',
-            //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
+            //fillcolor: rangeData.bumps[ridx].idx == i ? bump_col : range_col,
             fillcolor: range_col,
             line: {
               width: 0,
@@ -100,16 +100,16 @@ actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
       //console.log('midprice plus circleheight:' + midplus);
       //console.log('midprice minus circleheight:' + midminus);
 
-      rangedata.bumps.forEach((bump,bidx) => {
+      rangeData.bumps.forEach((bump,bidx) => {
           //console.log(pidx);
-          //console.log(rangedata.support.prices[ridx]);
+          //console.log(rangeData.support.prices[ridx]);
           if(bump.idx == i){
             let j = i+1;
             let circle = {
               type: 'circle',
               xref: 'x',
               yref: 'y',
-              //fillcolor: rangedata.bumps[ridx].idx == i ? bump_col : range_col,
+              //fillcolor: rangeData.bumps[ridx].idx == i ? bump_col : range_col,
               fillcolor: bump_col,
               line: {
                 width: 0,
@@ -202,8 +202,8 @@ actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
 
   var supportline = {
       type: 'line',
-      y0: linedata.support,
-      y1: linedata.support,
+      y0: lineData.support,
+      y1: lineData.support,
       x0: starttime2,
       x1: endtime,
       line: {
@@ -219,8 +219,8 @@ actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
 
   var resistanceline = {
         type: 'line',
-        y0: linedata.resistance,
-        y1: linedata.resistance,
+        y0: lineData.resistance,
+        y1: lineData.resistance,
         x0: starttime2,
         x1: endtime,
         line: {
@@ -236,8 +236,8 @@ actions.drawChart = async function(pricedata, linedata, analysis, rangedata){
 
   var midrangeline = {
         type: 'line',
-        y0: linedata.midrange,
-        y1: linedata.midrange,
+        y0: lineData.midrange,
+        y1: lineData.midrange,
         x0: starttime2,
         x1: endtime,
         line: {
