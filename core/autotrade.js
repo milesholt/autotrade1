@@ -240,17 +240,15 @@ Core handlers
 const cloudHandler = require('./handlers/cloudHandler.js');
 const loopHandler = require('./handlers/loopHandler.js');
 const notificationHandler = require('./handlers/notificationHandler.js');
+const errorHandler = require('./handlers/errorHandler.js');
 
 module.exports = {
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
-  notificationHandler:notificationHandler
-}
-
-const errorHandler = require('./handlers/errorHandler.js');
-module.exports = {
+  notificationHandler:notificationHandler,
   errorHandler:errorHandler
 }
+
 
 //Strategy handlers
 //Todo - for each strategy to have its own module that includes child modules to core
