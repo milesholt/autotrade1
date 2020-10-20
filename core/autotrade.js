@@ -115,7 +115,6 @@ actions.setDefaults = async function(){
   beforeRangeFirstCloseData = {};
   beforeRangeTrendDiff = 0;
   beforeRangeOveridden = false;
-  lastBeforeRangeTrendMovementDiff = 0;
   recenttrendArr = [];
   recenttrend = '';
   recentrange = [];

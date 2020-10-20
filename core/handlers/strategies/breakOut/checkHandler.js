@@ -60,8 +60,8 @@ actions.finalChecks = async function(){
   //lastBeforeRangeMovement only holds 'bullish' or 'bearish' when last recorded as beforeRangeTrend
   //this is to capture longer ranging staircase patterns, where the beforeRangeTrend might be outside number of hours we set as parameter
   beforeRangeOveridden = false;
-  lastBeforeRangeTrendMovementDiff = parseFloat(Math.abs(bRD.lastBeforeRangeTrendMovementClose - lastClose).toFixed(2));
-  if(beforeRangeTrend == 'ranging' && trend == bRD.lastBeforeRangeTrendMovement && check8 == true && check5 == true && lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
+  bRD.lastBeforeRangeTrendMovementDiff = parseFloat(Math.abs(bRD.lastBeforeRangeTrendMovementClose - lastClose).toFixed(2));
+  if(beforeRangeTrend == 'ranging' && trend == bRD.lastBeforeRangeTrendMovement && check8 == true && check5 == true && bRD.lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
     check7 = true;
     beforeRangeOveridden = true;
   }
