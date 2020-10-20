@@ -66,6 +66,7 @@ previousTrend = 'ranging';
 bRD = {};
 bumpgroupcount = 0;
 lineDistance = 0;
+rangeConfirmations = 0;
 
 //Dates
 resolution = 'HOUR';
