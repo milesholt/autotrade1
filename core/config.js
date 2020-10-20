@@ -82,3 +82,4 @@ to2 = '';
 //Other variables
 tradedbefore = false;
 noError = true;
+isHoursCorrect = true;

@@ -134,6 +134,7 @@ actions.setDefaults = async function(){
   //Other variables
   tradedbefore = false;
   noError = true;
+  isHoursCorrect = true;
 }
 
 /*
