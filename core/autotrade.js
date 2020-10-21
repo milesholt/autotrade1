@@ -202,6 +202,8 @@ actions.exec = async function(){
   //Setup lines
   supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
   resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+  linedata.support = supportline;
+  linedata.resistance = resistanceline;
 
   //Check lines
   await checkHandler.actions.checkLines();

@@ -73,6 +73,8 @@ actions.finalAnalysis = async function(){
     'ticket': {}
   };
 
+  console.log(analysis);
+
   //set previous trend after everything else (using currenttrend to catch 'ranging' otherwise isBreakingThroughRange is false)
   previousTrend = currenttrend;
   //Draw analytics
