@@ -52,15 +52,6 @@ actions.determineRecentRange = async function(){
   rangeData.support.prices_idx.forEach(pid => {
     if(pid > 12) recentrange.push(pid);
   });
-  //if number of range confirmations is over limit
-  //if price bar is within horizontal lines
-  //if range confirmations are recent and over count limit
-  //then trend and recenttrend should overidden to be ranging
-  if(check5 == false && check2 == true && recentrange.length >= recentrangelimit){
-    trend = 'ranging';
-    recenttrend = 'ranging';
-    isRecentTrendBreaking = false;
-  }
 }
 
 module.exports = {

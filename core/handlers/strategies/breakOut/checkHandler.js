@@ -46,6 +46,17 @@ actions.finalChecks = async function(){
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
   if(lastClose < supportline && lastClose < resistanceline) check5 = true;
   if(lastClose > supportline && lastClose > resistanceline) check5 = true;
+
+  //if number of range confirmations is over limit
+  //if price bar is within horizontal lines
+  //if range confirmations are recent and over count limit
+  //then trend and recenttrend should overidden to be ranging
+  if(check5 == false && check2 == true && recentrange.length >= recentrangelimit){
+    trend = 'ranging';
+    recenttrend = 'ranging';
+    isRecentTrendBreaking = false;
+  }
+
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
   if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
