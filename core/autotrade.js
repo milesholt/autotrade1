@@ -223,6 +223,9 @@ actions.exec = async function(){
   //Handle recent trend
   await recentTrendHandler.actions.determineRecentTrend();
 
+  //Handle recent range
+  await recentTrendHandler.actions.determineRecentRange();
+
   //Handle missing hours
   await missingHoursHandler.actions.determineMissingHours();
 
