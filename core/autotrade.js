@@ -265,12 +265,12 @@ module.exports = {
   testmailer:testmailer,
   stream:stream,
   monitor:monitor,
-  lib:library,  
+  lib:library,
+  finalise:finalise,
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
   notificationHandler:notificationHandler,
   errorHandler:errorHandler,
-  finalise:finalise
 }
 
 
@@ -290,6 +290,8 @@ cloudHandler.actions.require();
 loopHandler.actions.require();
 notificationHandler.actions.require();
 errorHandler.actions.require();
+
+finalise.actions.require();
 
 
 

@@ -1,8 +1,19 @@
 
 var actions = {};
-var core = core = require.main.exports;
-var cloud =  core.cloudHandler.actions;
+var core;
+var cloud;
 //const cloud = require('../handlers/cloudHandler.js');
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function(){
+  core = require.main.exports;
+  cloud = core.cloudHandler.actions;
+}
 
 actions.log = async function(epic, closeAnalysis){
 
