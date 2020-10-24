@@ -265,12 +265,12 @@ module.exports = {
   testmailer:testmailer,
   stream:stream,
   monitor:monitor,
-  lib:library,
-  finalise:finalise,
+  lib:library,  
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
   notificationHandler:notificationHandler,
-  errorHandler:errorHandler
+  errorHandler:errorHandler,
+  finalise:finalise
 }
 
 
