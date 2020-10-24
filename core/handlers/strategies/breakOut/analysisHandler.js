@@ -73,7 +73,9 @@ actions.finalAnalysis = async function(){
     'ticket': {}
   };
 
-  console.log(analysis);
+  markets[i].data = core.lib.deepCopy(analysis);
+
+  console.log(markets[i].data);
 
   //set previous trend after everything else (using currenttrend to catch 'ranging' otherwise isBreakingThroughRange is false)
   previousTrend = currenttrend;

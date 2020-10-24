@@ -33,12 +33,35 @@ actions.loop = async function(msg = ''){
   var offset = '10' //10 seconds offset
   if((min == '00') && (sec == offset)){
     let timestamp  = moment().format('LLL');
-    core.actions.exec();
+    await actions.loopMarkets();
   } else {
-    setTimeout(core.actions.exec,(60*(60-min)+(70-sec))*1000);
+    setTimeout(actions.loopMarkets,(60*(60-min)+(70-sec))*1000);
   }
 
 }
+
+/*
+
+LOOP THROUGH MARKETS
+Loop through and prepare epics before running exec()
+
+*/
+
+actions.loopMarkets = async function(){
+  //Loop through each market and prepare variables
+  markets.forEach(async (m,i) => {
+    mid = i;
+    market = m;
+    epic = m.epic;
+    dealId = m.dealId;
+
+    await core.actions.exec();
+  });
+}
+
+
+
+
 
 /*
 

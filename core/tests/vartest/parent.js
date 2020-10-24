@@ -36,5 +36,11 @@ child1.actions.require();
 child2.actions.require();
 
 //run
+market.dealId = 'test_delaId';
+
+dealId = market.dealId;
+let dealId2 = 'TEST';
+
+console.log(dealId);
 
 actions.run();

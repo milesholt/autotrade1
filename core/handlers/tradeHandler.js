@@ -26,6 +26,8 @@ DETERMINE TRADE
 */
 
 actions.determineTrade = async function(){
+
+
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
   const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
@@ -163,12 +165,22 @@ actions.determineTrade = async function(){
                 ticketError = true;
               });
 
+              markets[mid].dealId = dealId;
+
               if(ticketError == false){
                   //Handle trade made successfully
                   //Send notification
                   notification.notify('deal-success', analysis);
                   //Begin monitoring
-                  monitor.beginMonitor();
+                  //monitor.beginMonitor();
+
+                  /*
+                  when monitoring, because we are doing more than one
+                  we have to assign the epic and dealId to the correct stream / monitor
+                  So each monitor has to be associated with an ID or object, that contains the epic and dealId it is assigned with
+                  There could be a monitors array, which contains the MID of whichever market is being monitored
+                  */
+                  actions.iniMonitor(dealId,epic);
                   tradedbefore = true;
                   loop('Checks passed and trade has been made. Will go again in 1 hour.');
                   return false;

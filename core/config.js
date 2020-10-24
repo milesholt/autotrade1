@@ -14,14 +14,20 @@ missingHoursLimit = 3;
 bumpgrouplimit = 5;
 
 //Main parameters
-epic = 'CS.D.XLMUSD.TODAY.IP';
+markets = [{'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'dealId': '', 'data': {}, 'trades': []}];
+market = {};
+mid = 0;
+epic = '';
+dealIds = [];
+dealId = '';
+
 rangeData = {'resistance': {}, 'support': {}, 'bumps': []};
 lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
 confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
 //Data files
-pricedataDir = 'core/data/pricedata.json';
-beforeRangeDir = 'core/data/beforerangedata.json';
+pricedataDir = 'core/data/';
+beforeRangeDir = 'core/data/';
 
 //Price data variables
 prices = [];
@@ -59,7 +65,6 @@ movementValueDiff = 0;
 movementValueDiffPerc = 0;
 isRecentTrendBreaking = false;
 currenttrend = '';
-dealId = '';
 pricedatacount = 0;
 previousTrend = 'ranging';
 bRD = {};

@@ -39,28 +39,27 @@ actions.isConnected = async function(){
   return api.isConnectedToLightStreamer();
 }
 
-actions.startStream = async function(epic,check = false){
-  let items = ['CHART:'+epic+':HOUR'];
+actions.startStream = async function(check = false){
   await actions.connectStream(check).then(r =>{
     if(api.isConnectedToLightStreamer()) {
       console.log('streamer should be connected.');
-      api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
+      api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir);
     }
   }).catch(e => {
     setTimeout(() => {
         console.log('stream not connected, trying again in 2 secs..');
-        actions.startStream(epic,true);
+        actions.startStream(true);
     }, 2000);
   });
 }
 
-actions.endStream = function(epic){
-  api.unsubscribeToLightstreamer(epic);
+actions.endStream = function(){
+  api.unsubscribeToLightstreamer();
   api.disconnectToLightstreamer();
   destroyStream = true;
 }
 
-actions.readStream = function(streamLogDir,single){
+actions.readStream = function(single){
   return new Promise((resolve, reject) => {
     setTimeout(()=>{
 
@@ -87,7 +86,7 @@ actions.readStream = function(streamLogDir,single){
 
         });
 
-        readerStream.on('end',function() {
+        readerStream.on('end',function() {         
           if(destroyStream){
             console.log('destroyStream is true, stream should be destroyed.');
             readerStream.destroy();
@@ -122,10 +121,10 @@ actions.readStream = function(streamLogDir,single){
                   'lastTraded': null
                 },
                 'lastTradedVolume': parseFloat(data[3])
-              }
+              }            
             }
             resolve(d);
-          }
+          }     
         });
 
         readerStream.on('error', function(err) {
@@ -134,8 +133,8 @@ actions.readStream = function(streamLogDir,single){
 
         if(!single){
           if(!destroyStream){
-            actions.readStream(streamLogDir,single);
-          }
+            actions.readStream(single);
+          }          
         }
 
     },3000);
