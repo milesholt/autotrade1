@@ -13,7 +13,7 @@ actions.log = async function(epic, closeAnalysis){
   });
 
   //update marketdata file
-  cloud.actions.updateFile(markets,marketDataDir);
+  cloud.updateFile(markets,marketDataDir);
 }
 
 module.exports = {
