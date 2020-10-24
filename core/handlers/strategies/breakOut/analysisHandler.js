@@ -73,7 +73,7 @@ actions.finalAnalysis = async function(){
     'ticket': {}
   };
 
-  markets[mid].data = core.lib.deepCopy(analysis);
+  markets[mid].data = core.lib.actions.deepCopy(analysis);
 
   console.log(markets[mid].data);
 
