@@ -17,6 +17,7 @@ let dealId = '';
 const stream = require('./stream.js');
 //Require mailer
 const mailer = require('./mailer.js');
+const finalise = require('./finalise.js');
 const testmailer = require('../tests/mailer.js');
 //Stream log
 //var streamLogDir = path.join(__dirname, './stream.json');
@@ -176,6 +177,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     stream.actions.endStream(ep);
 
                                     let closeAnalysis = {
+                                      timestamp: Date.now(),
+                                      date: moment().format('LLL'),
                                       limitLevel: p.limitLevel,
                                       stopLevel: p.stopLevel,
                                       newLimit: newlimit,
@@ -195,7 +198,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     mailer.actions.sendMail(mailOptions);
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
-                                    //finalise.log(ep,closeAnalysis);
+                                    finalise.actions.log(ep,closeAnalysis);
                                   }
 
                                   if(closeloss){
@@ -210,6 +213,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     stream.actions.endStream(ep);
 
                                     let closeAnalysis = {
+                                      timestamp: Date.now(),
+                                      date: moment().format('LLL'),
                                       limitLevel: p.limitLevel,
                                       stopLevel: p.stopLevel,
                                       lastClose: closePrice,
@@ -226,7 +231,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     mailer.actions.sendMail(mailOptions);
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
-                                    //finalise.log(ep,closeAnalysis);
+                                    finalise.actions.log(ep,closeAnalysis);
 
                                   }
 

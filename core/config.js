@@ -28,6 +28,7 @@ confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support
 //Data files
 pricedataDir = 'core/data/';
 beforeRangeDir = 'core/data/';
+marketDataDir = 'core/data/marketdata.json';
 
 //Price data variables
 prices = [];

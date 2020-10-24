@@ -27,6 +27,7 @@ const testmailer = require('./tests/mailer.js');
 const stream = require('./services/stream.js');
 const monitor = require('./services/monitor.js');
 const library = require('./services/library.js');
+const finalise = require('./services/finalise.js');
 
 /*
 
@@ -265,6 +266,7 @@ module.exports = {
   stream:stream,
   monitor:monitor,
   lib:library,
+  finalise:finalise,
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
   notificationHandler:notificationHandler,
