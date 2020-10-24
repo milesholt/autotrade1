@@ -58,7 +58,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
     if(positionsData.positions.length){
 
-      positionsData.positions.forEach((position,i) => {
+      positionsData.positions.forEach(async (position,i) => {
           if(position.dealId = dealId){
 
                     const p = position;
