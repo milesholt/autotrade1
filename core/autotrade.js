@@ -89,6 +89,10 @@ actions.setDefaults = async function(){
   from2 = today+'%20'+lasthour+':30:00';
   to2 = today+'%20'+currenthour+':00:00';
 
+  //Data files
+  pricedataDir = 'core/data/'+epic+'_pricedata.json';
+  beforeRangeDir = 'core/data/'+epic+'_beforerangedata.json';
+
   //Price variables
   prices = [];
   pricedata = {'support': [], 'resistance': []};
