@@ -87,7 +87,7 @@ actions.setDefaults = async function(){
   from = date2+'%20'+'00:00:00';
   to = today+'%20'+currenthour+':00:00';
   //last hour date range
-  from2 = today+'%20'+lasthour+':30:00';
+  from2 = today+'%20'+lasthour+':00:00';
   to2 = today+'%20'+currenthour+':00:00';
 
   //Data files
