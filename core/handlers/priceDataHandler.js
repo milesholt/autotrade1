@@ -43,6 +43,8 @@ actions.getPriceData = async function(){
           //Check price bar doesn't already exist on pricedata
           if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
             //If it does, push new price and remove first hour
+            console.log('New price data: --------');
+            console.log(r.prices[0]);
             prices.push(r.prices[0]);
             prices.shift();
             cloud.updateFile(prices,pricedataDir);
