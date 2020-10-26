@@ -35,13 +35,6 @@ actions.determineRecentTrend = async function(){
   if((movementValue > 0) && (movementValueDiff >= parseFloat((rangelimit/2).toFixed(2)) )) recenttrend = 'bullish';
   if((movementValue < 0) && (downs > ups)) recenttrend = 'bearish';
   if((movementValue > 0) && (ups > downs)) recenttrend = 'bullish';
-  //if trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
-  isRecentTrendBreaking = false;
-  currenttrend = trend; //store a copy of trend before (if) changing it for analysis
-  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2)) && trend == 'ranging'){
-    trend = recenttrend;
-    isRecentTrendBreaking = true;
-  }
 }
 
 actions.determineRecentRange = async function(){
