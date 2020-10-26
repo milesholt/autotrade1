@@ -24,6 +24,7 @@ actions.finalAnalysis = async function(){
     'beforeRangeFirstClose': beforeRangeFirstClose,
     'firstDiff': firstDiff,
     'lastTime': lastTime,
+    'lastOpen' : lastOpen,
     'lastClose': lastClose,
     'lastCloseAsk': lastCloseAsk,
     'lastCloseBid': lastCloseBid,
