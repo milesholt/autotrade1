@@ -41,6 +41,15 @@ FINAL CHECKS
 
 actions.finalChecks = async function(){
   if(lastDiff > 0.2) check1 = true;
+  
+   //if trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
+  isRecentTrendBreaking = false;
+  currenttrend = trend; //store a copy of trend before (if) changing it for analysis
+  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2)) && trend == 'ranging'){
+    trend = recenttrend;
+    isRecentTrendBreaking = true;
+  }
+  
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
