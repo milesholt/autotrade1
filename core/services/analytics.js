@@ -39,7 +39,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   const lowestnum = range[0];
   const highestnum = range[range.length-1];
   const pricediff = highestnum - lowestnum;
-  const circleheight = parseFloat((pricediff * 0.015).toFixed(2)); //get fraction of height, so it's in proportion to data range
+  const circleheight = parseFloat((pricediff * 0.01).toFixed(2)); //get fraction of height, so it's in proportion to data range
   console.log('circleheight: ' + circleheight);
 
   //skip first 12 hours
@@ -61,6 +61,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       let midprice = Math.abs(parseFloat(price.open+price.close)/2);
       let midplus = parseFloat(midprice+circleheight).toFixed(2);
       let midminus = parseFloat(midprice-circleheight).toFixed(2);
+      midprice = parseFloat(midprice).toFixed(2); //round it after setting midplus and minus, otherwise numbers are incorrect
     
       console.log('price open: ' + price.open + ' price close: ' + price.close + ' mid price: ' + midprice + ' midplus: ' + midplus + ' midminus: ' + midminus);
 
