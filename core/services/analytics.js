@@ -45,6 +45,8 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   //skip first 12 hours
   let priceData2 = priceData.slice(12, priceData.length);
   let midprices = priceData2.map(r => (parseFloat((r.open+r.close)/2).toFixed(2)));
+  
+  console.log('SORTING RANGE DATA FOR ANALYTICS-------------------');
 
   priceData2.forEach((price, i) =>{
   //skip first 12 hours
@@ -59,6 +61,8 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       let midprice = Math.abs(parseFloat(price.open+price.close)/2).toFixed(2);
       let midplus = parseFloat(midprice+circleheight).toFixed(2);
       let midminus = parseFloat(midprice-circleheight).toFixed(2);
+    
+      console.log('price open: ' + price.open + ' price close: ' + price.close + ' mid price: ' + midprice + ' midplus: ' + midplus + ' midminus: ' + midminus);
 
       rangeData.support.prices_idx.forEach((pidx,ridx) => {
         //console.log(pidx);
