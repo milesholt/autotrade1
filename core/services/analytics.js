@@ -61,7 +61,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       let midprice = Math.abs(parseFloat(price.open+price.close)/2);
       let midplus = parseFloat(midprice+circleheight).toFixed(2);
       let midminus = parseFloat(midprice-circleheight).toFixed(2);
-      midprice = parseFloat(midprice).toFixed(2); //round it after setting midplus and minus, otherwise numbers are incorrect
+      //midprice = parseFloat(midprice).toFixed(2); //round it after setting midplus and minus, otherwise numbers are incorrect
     
       console.log('price open: ' + price.open + ' price close: ' + price.close + ' mid price: ' + midprice + ' midplus: ' + midplus + ' midminus: ' + midminus);
 
