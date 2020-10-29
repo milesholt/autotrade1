@@ -4,6 +4,7 @@ var loop;
 var notification;
 var api;
 var monitor;
+var util;
 
 /*
 
@@ -17,6 +18,7 @@ actions.require = async function(){
   notification = core.notificationHandler.actions;
   api = core.api;
   monitor = core.monitor.actions;
+  util =  core.util;
 }
 
 /*
@@ -32,6 +34,9 @@ actions.determineTrade = async function(){
   //TODO: Move checks to specific strategy
   const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
   if(checks.indexOf(false) == -1){
+    
+      console.log('All checks passed. Beginning trade...');
+    
       //Check if we already have a position
       let positionOpen = false;
       if(dealId !== ''){
