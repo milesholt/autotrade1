@@ -22,6 +22,7 @@ epic = '';
 analysis = {};
 dealIds = [];
 dealId = '';
+finalMessage = '';
 
 rangeData = {'resistance': {}, 'support': {}, 'bumps': []};
 lineData = {'support': 0, 'resistance': 0, 'midrange': 0};

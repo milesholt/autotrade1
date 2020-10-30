@@ -27,7 +27,7 @@ const testmailer = require('./tests/mailer.js');
 const stream = require('./services/stream.js');
 const monitor = require('./services/monitor.js');
 const library = require('./services/library.js');
-const finalise = require('./services/finalise.js');
+const log = require('./services/log.js');
 
 /*
 
