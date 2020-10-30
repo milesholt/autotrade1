@@ -17,7 +17,7 @@ let dealId = '';
 const stream = require('./stream.js');
 //Require mailer
 const mailer = require('./mailer.js');
-const finalise = require('./finalise.js');
+const log = require('./log.js');
 const testmailer = require('../tests/mailer.js');
 //Stream log
 //var streamLogDir = path.join(__dirname, './stream.json');
@@ -198,7 +198,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     mailer.actions.sendMail(mailOptions);
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
-                                    finalise.actions.log(ep,closeAnalysis);
+                                    log.actions.closeLog(ep,closeAnalysis);
                                   }
 
                                   if(closeloss){
@@ -231,7 +231,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     mailer.actions.sendMail(mailOptions);
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
-                                    finalise.actions.log(ep,closeAnalysis);
+                                    log.actions.closeLog(ep,closeAnalysis);
 
                                   }
 

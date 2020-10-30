@@ -1,5 +1,6 @@
 var actions = {};
 var core;
+var log;
 
 /*
 
@@ -9,6 +10,7 @@ REQUIRE
 
 actions.require = async function(){
   core = require.main.exports;
+  log = core.log.actions;
 }
 
 /*
@@ -18,7 +20,7 @@ FINAL ANALYSIS
 */
 
 actions.finalAnalysis = async function(){
-  let analysis = {
+  analysis = {
     'pricedata':pricedata,
     'firstClose': firstClose,
     'beforeRangeFirstClose': beforeRangeFirstClose,
@@ -74,7 +76,7 @@ actions.finalAnalysis = async function(){
     'ticket': {}
   };
 
-  markets[mid].data = core.lib.actions.deepCopy(analysis);
+  log.dataLog(analysis);
 
   console.log(markets[mid].data);
 

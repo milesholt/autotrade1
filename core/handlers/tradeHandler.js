@@ -5,6 +5,7 @@ var notification;
 var api;
 var monitor;
 var util;
+var log;
 
 /*
 
@@ -16,6 +17,7 @@ actions.require = async function(){
   core = require.main.exports;
   loop = core.loopHandler.actions.loop;
   notification = core.notificationHandler.actions;
+  log = core.log.actions;
   api = core.api;
   monitor = core.monitor.actions;
   util =  core.util;
@@ -34,9 +36,9 @@ actions.determineTrade = async function(){
   //TODO: Move checks to specific strategy
   const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
   if(checks.indexOf(false) == -1){
-    
+
       console.log('All checks passed. Beginning trade...');
-    
+
       //Check if we already have a position
       let positionOpen = false;
       if(dealId !== ''){
@@ -144,7 +146,7 @@ actions.determineTrade = async function(){
                     //Send email
                     //Handle ticket error
                     analysis.errorInformation = rc;
-                    notification.notify('deal-ticket-error', analysis);
+                    await notification.notify('deal-ticket-error', analysis);
                   }
                 } else {
                   //There can be a deal id but also an error, so check for errors again
@@ -159,7 +161,7 @@ actions.determineTrade = async function(){
                       //Handle deal being rejected
                       //Send notification
                       analysis.errorInformation = rc;
-                      notification.notify('deal-rejected', analysis);
+                      await notification.notify('deal-rejected', analysis);
                      }
                   });
                 }
@@ -170,12 +172,11 @@ actions.determineTrade = async function(){
                 ticketError = true;
               });
 
-              markets[mid].dealId = dealId;
 
               if(ticketError == false){
                   //Handle trade made successfully
                   //Send notification
-                  notification.notify('deal-success', analysis);
+                  await notification.notify('deal-success', analysis);
                   //Begin monitoring
                   //monitor.beginMonitor();
 
@@ -185,26 +186,30 @@ actions.determineTrade = async function(){
                   So each monitor has to be associated with an ID or object, that contains the epic and dealId it is assigned with
                   There could be a monitors array, which contains the MID of whichever market is being monitored
                   */
-                  actions.iniMonitor(dealId,epic);
+                  await actions.iniMonitor(dealId,epic);
                   tradedbefore = true;
-                  loop('Checks passed and trade has been made. Will go again in 1 hour.');
-                  return false;
+
+                  await log.startLog(epic, analysis, dealId);
+                  finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';
+
                } else {
-                  loop('Tried to make a trade, but it failed. Will go again in 1 hour.');
-                  return false;
+
+                  await log.errorLog(analysis.errorInformation);
+                  finalMessage = 'Tried to make a trade, but it failed. Will go again in 1 hour.';
+
                }
 
         } else {
           //Handle already trading on position
-          loop('You are already trading on this epic. Waiting 1 hour.');
-          return false;
+          finalMessage = 'You are already trading on this epic. Waiting 1 hour.';
+
         };
       }).catch(e => console.log(e));
   } else {
       //No trade, wait another hour
       tradedbefore = false;
-      loop('Checks not passed. No trade. Waiting 1 hour.');
-      return false;
+      finalMessage = 'Checks not passed. No trade. Waiting 1 hour.'
+
   }
 
 }

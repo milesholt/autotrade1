@@ -144,6 +144,8 @@ actions.setDefaults = async function(){
   noError = true;
   isHoursCorrect = true;
   totalMissingHours = 0;
+  finalMessage = '';
+  analysis = {};
 }
 
 /*
@@ -246,6 +248,13 @@ actions.exec = async function(){
   //Determine trade
   await tradeHandler.actions.determineTrade();
 
+  //Final logs
+  await cloudHandler.actions.updateFile(markets,marketDataDir);
+
+  //Finish and loop again
+  loopHandler.actions.loop(finalMessage);
+  return false;
+
 
 }
 
@@ -266,7 +275,7 @@ module.exports = {
   stream:stream,
   monitor:monitor,
   lib:library,
-  finalise:finalise,
+  log:log,
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
   notificationHandler:notificationHandler,
@@ -291,7 +300,7 @@ loopHandler.actions.require();
 notificationHandler.actions.require();
 errorHandler.actions.require();
 
-finalise.actions.require();
+log.actions.require();
 
 
 
