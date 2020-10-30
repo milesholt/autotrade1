@@ -249,6 +249,8 @@ actions.exec = async function(){
   await tradeHandler.actions.determineTrade();
 
   //Final logs
+  console.log('Updating market log...');
+
   await cloudHandler.actions.updateFile(markets,marketDataDir);
 
   //Finish and loop again
