@@ -2,7 +2,6 @@
 var actions = {};
 var core;
 var cloud;
-//const cloud = require('../handlers/cloudHandler.js');
 
 /*
 

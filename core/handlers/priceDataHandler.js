@@ -33,7 +33,7 @@ actions.getPriceData = async function(){
             prices = r.prices;
             cloud.updateFile(prices,pricedataDir);
     }).catch(async e => {
-      error.handleError(e);
+      error.handleErrors(e);
     });
   } else {
     await api.histPrc(epic, resolution, from2, to2).then(r => {
@@ -51,7 +51,7 @@ actions.getPriceData = async function(){
           }
       }
     }).catch(async e => {
-       error.handleError(e);
+       error.handleErrors(e);
     });
   }
 }
