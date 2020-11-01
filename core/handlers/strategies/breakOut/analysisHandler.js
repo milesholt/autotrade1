@@ -76,7 +76,7 @@ actions.finalAnalysis = async function(){
     'ticket': {}
   };
 
-  log.dataLog(analysis);
+  //log.dataLog(analysis);
 
   console.log(markets[mid].data);
 
