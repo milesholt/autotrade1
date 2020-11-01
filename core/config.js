@@ -14,7 +14,8 @@ missingHoursLimit = 3;
 bumpgrouplimit = 5;
 
 //Main parameters
-markets = [{'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'dealId': '', 'data': {}, 'trades': [], 'errors':[]}];
+//markets = [{'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'trades': [], 'errors':[]}];
+markets = [];
 market = {};
 trade = { 'dealId': '', 'startAnalysis': '', 'closeAnalysis': '', 'start_timestamp': '', 'start_date':'', 'end_timestamp': '', 'end_date': '' };
 mid = 0;
