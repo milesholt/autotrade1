@@ -251,6 +251,8 @@ actions.exec = async function(){
   //Final logs
   console.log('Updating market log...');
 
+  console.log(markets);
+
   await cloudHandler.actions.updateFile(markets,marketDataDir);
 
   //Finish and loop again
