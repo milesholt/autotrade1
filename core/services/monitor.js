@@ -72,7 +72,15 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                       let closeprofit = false;
                       let closeloss = false;
+                       
+                      console.log('position data:');
+                      console.log(p);
+                      
+                      
                       let limitDiff = (Math.abs(p.openLevel - p.limitLevel) / 2);
+                      
+                      console.log(limitDiff);
+                      
                       let newlimitBuy = p.openLevel + limitDiff;
                       let newlimitSell = p.openLevel - limitDiff;
                       let newlimit = direction == 'BUY' ? newlimitBuy : newlimitSell;
@@ -106,9 +114,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                             return console.error(err);
                           }
                           
-                          console.log('Reading data from streamLogDir');
-                          console.log(data);
-
                           if (/^[\],:{}\s]*$/.test(data.toString().replace(/\\["\\\/bfnrtu]/g, '@').
                            replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
                            replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
