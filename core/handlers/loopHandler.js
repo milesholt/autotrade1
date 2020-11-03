@@ -53,7 +53,7 @@ actions.loopMarkets = async function(){
     mid = i;
     market = m;
     epic = m.epic;
-    dealId = m.dealId;
+    //dealId = m.dealId;
 
     await core.actions.exec();
   });
