@@ -59,10 +59,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
     if(positionsData.positions.length){
 
-      positionsData.positions.forEach(async (position,i) => {
-          if(position.dealId = dealId){
+      positionsData.positions.forEach(async (trade,i) => {
+          if(trade.position.dealId == dealId){
 
-                    const p = position;
+                    const p = trade.position;
 
                     //start stream
                     //use real-time streaming to get latest hour
