@@ -33,7 +33,7 @@ actions.iniMonitor = async function(dealId,epic){
     if (err) throw err;
   });
   //begin monitoring
-  actions.beginMonitor(dealId,epic);
+  actions.beginMonitor(dealId,epic,streamLogDir);
 }
 
 actions.beginMonitor = async function(dealId,epic,streamLogDir){
