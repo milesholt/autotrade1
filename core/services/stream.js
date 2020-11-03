@@ -39,7 +39,13 @@ actions.isConnected = async function(){
   return api.isConnectedToLightStreamer();
 }
 
-actions.startStream = async function(epic,check = false){
+actions.startStream = async function(epic,streamLogDir = false,check = false){
+  
+  if(!streamLogDir){
+    console.log('stream path not set');
+    return false;
+  }
+  
   let items = ['CHART:'+epic+':HOUR'];
   await actions.connectStream(check).then(r =>{
     if(api.isConnectedToLightStreamer()) {
@@ -49,7 +55,7 @@ actions.startStream = async function(epic,check = false){
   }).catch(e => {
     setTimeout(() => {
         console.log('stream not connected, trying again in 2 secs..');
-        actions.startStream(epic,true);
+        actions.startStream(epic,streamLogDir,true);
     }, 2000);
   });
 }
