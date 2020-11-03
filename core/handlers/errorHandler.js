@@ -27,6 +27,9 @@ actions.handleErrors = async function(e){
       case 'error.security.client-token-invalid':
         await actions.handleInvalidSecurityToken(e);
       break;
+      case 'error.invalid.daterange':
+        await actions.handleInvalidDateRange(e);
+      break;
     }
   }
   //Once handled the error, we loop again
@@ -52,6 +55,20 @@ actions.handleInvalidSecurityToken = async function(e){
       await core.actions.init();
       core.actions.exec();
     },2000);
+    return false;
+}
+
+
+/*
+
+HANDLE INVALID DATE RANGE
+
+*/
+
+actions.handleInvalidDateRange = async function(e){
+  console.log('Handling invalid date range.');
+  noError = false;
+  finalMessage = 'Invalid date range, going again in an hour';
 }
 
 module.exports = {

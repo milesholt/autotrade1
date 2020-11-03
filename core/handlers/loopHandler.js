@@ -72,7 +72,7 @@ Method for resetting a loop, used for error handling
 
 actions.resetLoop = async function(msg = ''){
   actions.loop(msg);
-  noError = false;
+  noError = true;
   return false;
 }
 

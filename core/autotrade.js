@@ -206,57 +206,63 @@ actions.exec = async function(){
   //Handle price data
   await priceDataHandler.actions.getPriceData();
 
-  //Sort price data
-  if(noError) await priceDataHandler.actions.sortPriceData();
+  //Only continue exec if no error getting price data
+  if(noError){
 
-  //Setup lines
-  supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
-  resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
-  lineData.support = supportline;
-  lineData.resistance = resistanceline;
+    //Sort price data
+    await priceDataHandler.actions.sortPriceData();
 
-  //Check lines
-  await checkHandler.actions.checkLines();
+    //Setup lines
+    supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
+    resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+    lineData.support = supportline;
+    lineData.resistance = resistanceline;
 
-  //Check range confirmations
-  await checkHandler.actions.checkRangeConfirmations();
+    //Check lines
+    await checkHandler.actions.checkLines();
 
-  //Set price data variables
-  await priceDataHandler.actions.setPriceData();
+    //Check range confirmations
+    await checkHandler.actions.checkRangeConfirmations();
 
-  //Handle trend
-  await trendHandler.actions.determineTrend();
+    //Set price data variables
+    await priceDataHandler.actions.setPriceData();
 
-  //Handle beforeRangeData
-  await beforeRangeHandler.actions.determineBeforeRangeData();
+    //Handle trend
+    await trendHandler.actions.determineTrend();
 
-  //Handle recent trend
-  await recentTrendHandler.actions.determineRecentTrend();
+    //Handle beforeRangeData
+    await beforeRangeHandler.actions.determineBeforeRangeData();
 
-  //Handle recent range
-  await recentTrendHandler.actions.determineRecentRange();
+    //Handle recent trend
+    await recentTrendHandler.actions.determineRecentTrend();
 
-  //Handle missing hours
-  await missingHoursHandler.actions.determineMissingHours();
+    //Handle recent range
+    await recentTrendHandler.actions.determineRecentRange();
 
-  //Handle bumps
-  await bumpsHandler.actions.determineBumps();
+    //Handle missing hours
+    await missingHoursHandler.actions.determineMissingHours();
 
-  //Final checks
-  await checkHandler.actions.finalChecks();
+    //Handle bumps
+    await bumpsHandler.actions.determineBumps();
 
-  //Final analysis
-  await analysisHandler.actions.finalAnalysis();
+    //Final checks
+    await checkHandler.actions.finalChecks();
 
-  //Determine trade
-  await tradeHandler.actions.determineTrade();
+    //Final analysis
+    await analysisHandler.actions.finalAnalysis();
 
-  //Final logs
-  console.log('Updating market log...');
+    //Determine trade
+    await tradeHandler.actions.determineTrade();
 
-  console.log(markets);
+    //Final logs
+    console.log('Updating market log...');
 
-  await cloudHandler.actions.updateFile(markets,marketDataDir);
+    console.log(markets);
+
+    await cloudHandler.actions.updateFile(markets,marketDataDir);
+
+  }
+
 
   //Finish and loop again
   loopHandler.actions.loop(finalMessage);
