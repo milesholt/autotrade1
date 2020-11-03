@@ -66,7 +66,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                     //start stream
                     //use real-time streaming to get latest hour
-                    await stream.actions.startStream(epic);
+                    await stream.actions.startStream(epic,streamLogDir);
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(streamLogDir,false).then(r => {
 
