@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 var data = [];
-var streamLogDir = path.join(__dirname, 'stream.json');
+//var streamLogDir = path.join(__dirname, 'stream.json');
 //const epic = 'CS.D.BITCOIN.TODAY.IP';
 var subscriptionMode = 'MERGE';
 // var items = ['L1:'+epic];
