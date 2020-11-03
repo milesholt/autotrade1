@@ -83,7 +83,7 @@ actions.updateFile = async function(data,path){
   if(isRunning){
         //Wait 2 seconds
         await actions.wait(2000)
-          .then(r => {
+          .then(async r => {
            //Then go again
            await actions.updateFile(data,path);
         })
