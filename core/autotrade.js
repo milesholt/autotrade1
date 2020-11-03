@@ -183,7 +183,9 @@ actions.init = async function(){
   await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
         if(positionsData.positions.length > 0){
-          monitor.actions.beginMonitor();
+          dealId = positionsData.positions[0].position.dealId;
+          
+          monitor.actions.iniMonitor(dealId, epic);
         }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }
