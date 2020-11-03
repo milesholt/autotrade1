@@ -13,6 +13,7 @@ const owner = 'milesholt';
 const branch = 'version2';
 let shas = [];
 let sha = 0;
+let isRunning = false;
 const repo = 'autotrade1';
 
 //Ini
@@ -21,8 +22,14 @@ actions.iniGitub = async function(path){
   sha = 0;
 }
 
+//Is Github operations running - prevent 409 conflict when there are multiple operations at once
+actions.wait = async function(ms){
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 //Get file
 actions.getFile = async function(path){
+  isRunning = true;
   console.log('Getting file from github');
   console.log(path);
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
@@ -49,6 +56,7 @@ actions.getFile = async function(path){
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
   let obj = JSON.parse(string);
+  isRunning = false;
   return obj;
 }
 
@@ -58,6 +66,7 @@ actions.updateFile = async function(data,path){
   //encode data to base64 string
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
+  
   //update SHA
   //console.log(shas);
   /*
@@ -69,21 +78,41 @@ actions.updateFile = async function(data,path){
     }
   });
   */
-  await actions.getFile(path);
-  console.log('updating file with sha: ' + sha + ' and path:' + path);
-  //write data
-  const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-    owner: owner,
-    repo: repo,
-    path: path,
-    message: 'File updated - ' + moment(timestamp).format('LLL'),
-    content: dataTo64,
-    branch: branch,
-    sha: sha
-  }).catch(e => {
-    console.log(e);
-  });
-  //console.log(result);
+  
+  //Github is already running
+  if(isRunning){
+        //Wait 2 seconds
+        await actions.wait(2000)
+          .then(r => {
+           //Then go again
+           await actions.updateFile(data,path);
+        })
+          .catch(e => {
+            console.log('error waiting for Github operations');
+        });
+  } else {
+        
+        //If nothing is running, begin operation and get file with sha before updating it
+        await actions.getFile(path);
+        isRunning = true;
+        console.log('updating file with sha: ' + sha + ' and path:' + path);
+        
+        //Write data
+        const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+          owner: owner,
+          repo: repo,
+          path: path,
+          message: 'File updated - ' + moment(timestamp).format('LLL'),
+          content: dataTo64,
+          branch: branch,
+          sha: sha
+        }).catch(e => {
+          console.log(e);
+        });
+
+        //End operation
+        isRunning = false;        
+  }
 }
 
 module.exports = {
