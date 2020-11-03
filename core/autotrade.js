@@ -183,9 +183,13 @@ actions.init = async function(){
   await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
         if(positionsData.positions.length > 0){
-          dealId = positionsData.positions[0].position.dealId;
-          
-          monitor.actions.iniMonitor(dealId, epic);
+         //Loop through any open trades and begin monitoring
+         positionsData.positions.forEach(trade => {
+           dealId = trade.position.dealId;
+           epic = trade.market.epic;
+           monitor.actions.iniMonitor(dealId, epic);
+         });
+         
         }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }
