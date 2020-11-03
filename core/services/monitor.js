@@ -105,6 +105,9 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                             stream.actions.endStream();
                             return console.error(err);
                           }
+                          
+                          console.log('Reading data from streamLogDir');
+                          console.log(data);
 
                           if (/^[\],:{}\s]*$/.test(data.toString().replace(/\\["\\\/bfnrtu]/g, '@').
                            replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
