@@ -25,6 +25,7 @@ CHECK OPEN TRADES
 
 actions.checkOpenTrades = async function(){
   let t = {};
+  let l = true;
   await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
         if(positionsData.positions.length > 0){
