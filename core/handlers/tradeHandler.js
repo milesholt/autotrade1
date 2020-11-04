@@ -129,6 +129,7 @@ actions.determineTrade = async function(){
               await api.deal(ticket).then(async r => {
                 console.log(util.inspect(r, false, null));
                 let ref = r.positions.dealReference;
+                analysis.dealReference = ref;
                 if(!r.confirms.dealId){
                   console.log('Error: ' + r.confirms.errorCode);
                   //Get status of position if error
@@ -189,12 +190,12 @@ actions.determineTrade = async function(){
                   await actions.iniMonitor(dealId,epic);
                   tradedbefore = true;
 
-                  await log.startLog(epic, analysis, dealId);
+                  await log.startTradeLog(epic, analysis, dealId);
                   finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';
 
                } else {
 
-                  await log.errorLog(analysis.errorInformation);
+                  await log.errorTradeLog(analysis.errorInformation, analysis.dealReference);
                   finalMessage = 'Tried to make a trade, but it failed. Will go again in 1 hour.';
 
                }

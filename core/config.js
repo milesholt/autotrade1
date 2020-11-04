@@ -14,9 +14,10 @@ missingHoursLimit = 3;
 bumpgrouplimit = 5;
 
 //Main parameters
-markets = [{'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'trades': [], 'errors':[]}];
+markets = [{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {} }];
 market = {};
-trade = { 'dealId': '', 'startAnalysis': '', 'closeAnalysis': '', 'start_timestamp': '', 'start_date':'', 'end_timestamp': '', 'end_date': '' };
+trades = [];
+trade = { 'marketId' : 0, 'epic':'', 'dealId': '', 'dealRef': '', 'startAnalysis': '', 'closeAnalysis': '', 'start_timestamp': '', 'start_date':'', 'end_timestamp': '', 'end_date': '', 'error': {} };
 mid = 0;
 epic = '';
 analysis = {};
@@ -32,6 +33,7 @@ confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support
 pricedataDir = 'core/data/';
 beforeRangeDir = 'core/data/';
 marketDataDir = 'core/data/marketdata.json';
+tradeDataDir = 'core/data/';
 
 //Price data variables
 prices = [];
@@ -55,6 +57,7 @@ beforeRangeData = {};
 beforeRangeSha = '';
 pricesSha = '';
 marketDataSha = '';
+tradeDataSha = '';
 // shas = [];
 // sha = 0;
 beforeRangeFirstClose = 0;

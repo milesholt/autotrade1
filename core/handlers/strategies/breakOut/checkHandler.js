@@ -1,5 +1,7 @@
 var actions = {};
 var core;
+var api;
+var monitor;
 
 /*
 
@@ -9,7 +11,33 @@ REQUIRE
 
 actions.require = async function(){
   core = require.main.exports;
+  api = core.api;
+  monitor = core.monitor.actions;
 }
+
+/*
+
+CHECK OPEN TRADES
+
+*/
+
+actions.checkOpenTrades = async function(){
+  let t = {};
+  await api.showOpenPositions().then(async positionsData => {
+        console.log(util.inspect(positionsData, false, null));
+        if(positionsData.positions.length > 0){
+         //Loop through any open trades and begin monitoring
+         positionsData.positions.forEach(trade => {
+           dealId = trade.position.dealId;
+           epic = trade.market.epic;
+           t = trade;
+           monitor.iniMonitor(dealId, epic);
+         });
+
+        }
+  }).catch(e => console.log('catch error: showOpenPositions: ' + e));
+}
+
 
 /*
 
@@ -41,7 +69,7 @@ FINAL CHECKS
 
 actions.finalChecks = async function(){
   if(lastDiff > 0.2) check1 = true;
-  
+
    //if trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   isRecentTrendBreaking = false;
   currenttrend = trend; //store a copy of trend before (if) changing it for analysis
@@ -49,7 +77,7 @@ actions.finalChecks = async function(){
     trend = recenttrend;
     isRecentTrendBreaking = true;
   }
-  
+
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall

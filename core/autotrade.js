@@ -91,8 +91,10 @@ actions.setDefaults = async function(){
   to2 = today+'%20'+currenthour+':00:00';
 
   //Data files
-  pricedataDir = 'core/data/'+epic+'_pricedata.json';
-  beforeRangeDir = 'core/data/'+epic+'_beforerangedata.json';
+  pricedataDir = 'core/data/'+epic+'/'+epic+'_pricedata.json';
+  beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
+  tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
+  streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
 
   //Price variables
   prices = [];
@@ -179,19 +181,9 @@ actions.init = async function(){
   await api.login(true).then(r => {
   }).catch(e => console.log(e));
 
-  //Check for open positions
-  await api.showOpenPositions().then(async positionsData => {
-        console.log(util.inspect(positionsData, false, null));
-        if(positionsData.positions.length > 0){
-         //Loop through any open trades and begin monitoring
-         positionsData.positions.forEach(trade => {
-           dealId = trade.position.dealId;
-           epic = trade.market.epic;
-           monitor.actions.iniMonitor(dealId, epic);
-         });
-         
-        }
-  }).catch(e => console.log('catch error: showOpenPositions: ' + e));
+  //Check for any trades
+  await checkHandler.actions.checkOpenTrades();
+
 }
 
 /*

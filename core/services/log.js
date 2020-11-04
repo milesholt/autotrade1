@@ -20,50 +20,59 @@ actions.require = async function(){
 
 /*
 
-START LOG
+START TRADE LOG
 
 Log the start of a trade
 
 */
 
-actions.startLog = async function(epic, analysis, dealId){
+actions.startTradeLog = async function(epic, analysis, dealId){
+
+  trades = await github.actions.getFile(tradeDataDir);
 
   markets.forEach((market,i) => {
     if(market.epic == epic){
       let t = lib.deepCopy(trade);
+      t.marketId = market.id;
+      t.epic = epic;
       t.startAnalysis = analysis;
       t.start_timestamp = Date.now();
       t.start_date = moment().format('LLL');
       t.dealId = dealId;
-      market.trades.push(t);
+      trades.push(t);
+      market.deal = t;
     }
   });
+
+  //update marketdata file
+  cloud.updateFile(trades,tradeDataDir);
 
 }
 
 
 /*
 
-CLOSE LOG
+CLOSE TRADE LOG
 
 Log the end of a trade
 
 */
 
-actions.closeLog = async function(epic, closeAnalysis){
+actions.closeTradeLog = async function(epic, closeAnalysis){
 
   markets.forEach((market,i) => {
     if(market.epic == epic){
-      let t = market.trades[market.trades.length-1];
+      let t = trades[market.tradeId];
       t.closeAnalysis = closeAnalysis;
       t.end_timestamp = Date.now();
       t.end_date = moment().format('LLL');
+      market.deal = {};
     }
   });
 
 
   //update marketdata file
-  cloud.updateFile(markets,marketDataDir);
+  cloud.updateFile(trades,tradeDataDir);
 
 }
 
@@ -87,18 +96,32 @@ actions.dataLog = async function(analysis){
 
 /*
 
-ERROR LOG
+ERROR TRADE LOG
 
-Log hourly analysis for market
+Record error log when making trade
 
 */
 
-actions.errorLog = async function(error){
+actions.errorTradeLog = async function(error,ref){
+
+  trades = await github.actions.getFile(tradeDataDir);
+
   markets.forEach((market,i) => {
     if(market.epic == epic){
-      market.errors.push(error);
+      let t = lib.deepCopy(trade);
+      t.marketId = market.id;
+      t.epic = epic;
+      t.startAnalysis = analysis;
+      t.start_timestamp = Date.now();
+      t.start_date = moment().format('LLL');
+      t.dealRef = ref;
+      t.error = error;
+      trades.push(t);
     }
   });
+
+  //update marketdata file
+  cloud.updateFile(trades,tradeDataDir);
 
 }
 
