@@ -81,6 +81,7 @@ actions.updateFile = async function(data,path){
   
   //Github is already running
   if(isRunning){
+        console.log('Cannot update file. Github service is in operation. Waiting 2 seconds..');
         //Wait 2 seconds
         await actions.wait(2000)
           .then(async r => {
