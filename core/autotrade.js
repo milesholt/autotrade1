@@ -59,6 +59,20 @@ const priceDataHandler = require('./handlers/priceDataHandler.js');
 const tradeHandler = require('./handlers/tradeHandler.js');
 
 
+/*
+
+SET PATHS
+Set main paths for storing data
+
+*/
+
+actions.setPaths = async functions(){
+  pricedataDir = 'core/data/'+epic+'/'+epic+'_pricedata.json';
+  beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
+  tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
+  streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
+}
+
 
 /*
 
@@ -89,17 +103,6 @@ actions.setDefaults = async function(){
   //last hour date range
   from2 = today+'%20'+lasthour+':00:00';
   to2 = today+'%20'+currenthour+':00:00';
-
-  //Data files
-
-  console.log('setting defaults: ' + epic);
-
-  pricedataDir = 'core/data/'+epic+'/'+epic+'_pricedata.json';
-  beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
-  tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
-  streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
-
-  console.log(streamLogDir);
 
   //Price variables
   prices = [];
@@ -200,8 +203,11 @@ This is the main function that executes all the handlers in the loop
 
 actions.exec = async function(){
 
-  //Reset defaults
+  //Reset default variables
   await actions.setDefaults();
+
+  //Set paths
+  await actions.setPaths();
 
   //Get hosted data files
   await cloudHandler.actions.getFiles();
@@ -326,5 +332,4 @@ Begin core process
 
 */
 
-actions.setDefaults();
 actions.begin();

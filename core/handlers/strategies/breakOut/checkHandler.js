@@ -33,6 +33,7 @@ actions.checkOpenTrades = async function(){
            dealId = trade.position.dealId;
            epic = trade.market.epic;
            t = trade;
+           core.actions.setPaths();
            monitor.iniMonitor(dealId, epic);
          });
 
