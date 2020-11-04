@@ -54,6 +54,7 @@ actions.loopMarkets = async function(){
     market = m;
     epic = m.epic;
     //dealId = m.dealId;
+    console.log('looping markets: ' + epic);
 
     await core.actions.exec();
   });

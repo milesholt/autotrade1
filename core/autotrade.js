@@ -91,10 +91,15 @@ actions.setDefaults = async function(){
   to2 = today+'%20'+currenthour+':00:00';
 
   //Data files
+
+  console.log('setting defaults: ' + epic);
+
   pricedataDir = 'core/data/'+epic+'/'+epic+'_pricedata.json';
   beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
   tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
+
+  console.log(streamLogDir);
 
   //Price variables
   prices = [];
