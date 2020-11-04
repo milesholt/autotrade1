@@ -2,6 +2,7 @@ var actions = {};
 var core;
 var api;
 var monitor;
+var util;
 
 /*
 
@@ -12,6 +13,7 @@ REQUIRE
 actions.require = async function(){
   core = require.main.exports;
   api = core.api;
+  util = core.util;
   monitor = core.monitor.actions;
 }
 
