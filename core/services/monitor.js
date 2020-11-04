@@ -21,12 +21,12 @@ const log = require('./log.js');
 const testmailer = require('../tests/mailer.js');
 //Stream log
 //var streamLogDir = path.join(__dirname, './stream.json');
-var streamLogDir = '';
+//var streamLogDir = '';
 
 
 actions.iniMonitor = async function(dealId,epic){
 
-  streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
+  //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
   //if stream file doesn't exist, create it (w flag)
   await fs.writeFile(streamLogDir, data, { flag: 'w' }, function (err) {
