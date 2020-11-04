@@ -66,7 +66,7 @@ Set main paths for storing data
 
 */
 
-actions.setPaths = async functions(){
+actions.setPaths = async function(){
   pricedataDir = 'core/data/'+epic+'/'+epic+'_pricedata.json';
   beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
   tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
