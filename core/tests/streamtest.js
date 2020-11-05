@@ -26,8 +26,12 @@ ini();
 async function ini(){
   //First read the file and update SHA value
   await getFile();
-  //Then update existing file with the new SHA
-  updateFile(objJsonB64);
+            
+  setInterval(() => {
+            //Update file every three seconds
+            updateFile(objJsonB64);
+  },3000);
+
 }
 
 //Get file
