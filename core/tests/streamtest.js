@@ -6,13 +6,14 @@ const moment=require('moment');
 moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
 const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
+let time = Date.now();
 const obj = {
             epic : 'EPIC',
             closeAsk: 1.23,
             closeBid: 1.23,
             newlimit: 1.23,
             stoplevel: 1.23,
-            updated: Date.now(); 
+            updated: time
           }
 let objJsonStr = JSON.stringify(obj);
 let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
