@@ -61,7 +61,6 @@ async function updateFile(content){
   }).catch(e => {
     console.log(e);
   });
-  console.log(result);
 }
 
 
