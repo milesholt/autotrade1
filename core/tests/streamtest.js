@@ -39,6 +39,7 @@ async function getFile(){
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
   owner: 'milesholt',
   repo: 'autotrade1',
+  branch: 'version2',
   path: path
 }).catch(e => {
   console.log(e);
@@ -56,7 +57,7 @@ async function updateFile(content){
     path: path,
     message: 'streamdata updated - ' + moment(timestamp).format('LLL'),
     content: content,
-    branch: 'master',
+    branch: 'version2',
     sha: sha
   }).catch(e => {
     console.log(e);
