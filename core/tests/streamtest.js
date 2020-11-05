@@ -27,10 +27,12 @@ ini();
 
 //Initiate
 async function ini(){
-  //First read the file and update SHA value
-  await getFile();
+
             
   setInterval(() => {
+            //First read the file and update SHA value
+            await getFile();
+              
             //Update file every 10 seconds
             updateFile(objJsonB64);
   },10000);
