@@ -1,5 +1,4 @@
 
-const require = createRequire(import.meta.url);
 const GitHub = require('github-api');
 const { Octokit } = require("@octokit/core");
 const moment=require('moment');
