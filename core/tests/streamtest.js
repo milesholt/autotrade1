@@ -1,4 +1,4 @@
-import { createRequire } from 'module';
+#import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const GitHub = require('github-api');
 const { Octokit } = require("@octokit/core");
