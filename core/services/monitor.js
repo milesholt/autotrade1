@@ -18,6 +18,7 @@ const stream = require('./stream.js');
 //Require mailer
 const mailer = require('./mailer.js');
 const log = require('./log.js');
+const cloud = require('./cloud.js');
 const testmailer = require('../tests/mailer.js');
 //Stream log
 //var streamLogDir = path.join(__dirname, './stream.json');
@@ -250,7 +251,18 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
                                   console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
-
+                                   
+                                  let streamdata = {
+                                    epic : ep,
+                                    closeAsk: d.closePrice.ask,
+                                    closeBid: d.closePrice.bid,
+                                    newlimit: newlimit,
+                                    stoplevel: p.stopLevel,
+                                    updated: modtime  
+                                  }
+                            
+                                   //update stream data
+                                   cloud.actions.updateFile(streamdata, streamDataDir);
 
 
                           } else{
