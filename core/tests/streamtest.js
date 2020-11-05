@@ -52,7 +52,9 @@ async function getFile(){
 }
 
 //Update file
-async function updateFile(content){
+async function updateFile(data){
+  let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
+  let dataTo64 = Buffer.from(dataToStr).toString("base64");
   const timestamp = Date.now();
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
             owner: owner,
