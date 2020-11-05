@@ -43,6 +43,8 @@ async function go(){
     await wait(10000).then(async r => {
        //Then go again
        await go();
+    }).catch(e =>{
+      console.log(e);
     })
 
 }
@@ -55,9 +57,10 @@ async function getFile(){
   path: path,
   ref: branch
 }).catch(e => {
-  console.log(e);
+  console.log(e.status);
 });
-  console.log(result);
+
+  console.log(result.data.sha);
   sha = result.data.sha;
 }
 
@@ -75,6 +78,6 @@ async function updateFile(data){
             branch: branch,
             sha: sha
   }).catch(e => {
-    console.log(e);
+    console.log(e.status);
   });
 }
