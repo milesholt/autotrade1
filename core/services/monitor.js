@@ -18,7 +18,7 @@ const stream = require('./stream.js');
 //Require mailer
 const mailer = require('./mailer.js');
 const log = require('./log.js');
-const cloud = require('./cloud.js');
+const github = require('./github.js');
 const testmailer = require('../tests/mailer.js');
 //Stream log
 //var streamLogDir = path.join(__dirname, './stream.json');
@@ -262,7 +262,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   }
                             
                                    //update stream data
-                                   cloud.actions.updateFile(streamdata, streamDataDir);
+                                   github.actions.updateFile(streamdata, streamLogDir);
 
 
                           } else{
