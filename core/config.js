@@ -34,6 +34,7 @@ pricedataDir = 'core/data/';
 beforeRangeDir = 'core/data/';
 marketDataDir = 'core/data/marketdata.json';
 tradeDataDir = 'core/data/';
+streamLogDir = 'core/data/';
 
 //Price data variables
 prices = [];
