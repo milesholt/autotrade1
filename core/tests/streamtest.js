@@ -54,7 +54,7 @@ async function updateFile(content){
     owner: 'milesholt',
     repo: 'autotrade1',
     path: path,
-    message: 'beforerange updated - ' + moment(timestamp).format('LLL'),
+    message: 'streamdata updated - ' + moment(timestamp).format('LLL'),
     content: content,
     branch: 'master',
     sha: sha
