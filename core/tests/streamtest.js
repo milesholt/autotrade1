@@ -7,16 +7,18 @@ const moment=require('moment');
 moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
 const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
-const obj =
-      {
-      "lastBeforeRangeTrendMovement" : "bearish",
-      "lastBeforeRangeTrendMovementClose" : 9245.03,
-      "lastBeforeRangeTrendMovementTime" : "2020-07-14 22:00:00"
-      }
+const obj = {
+            epic : 'EPIC',
+            closeAsk: 1.23,
+            closeBid: 1.23,
+            newlimit: 1.23,
+            stoplevel: 1.23,
+            updated: Date.now(); 
+          }
 let objJsonStr = JSON.stringify(obj);
 let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
 let sha = 0;
-const path = 'beforerangedata.json';
+const path = 'core/data/CS.D.XLMUSD.TODAY.IP/CS.D.XLMUSD.TODAY.IP_streamdata.json';
 
 ini();
 
@@ -58,17 +60,4 @@ async function updateFile(content){
   console.log(result);
 }
 
-//Delete file
-async function deleteFile(){
-  const result =  await octokit.request('DELETE /repos/{owner}/{repo}/contents/{path}', {
-    owner: 'milesholt',
-    repo: 'autotrade1',
-    path: path,
-    message: 'file deleted',
-    branch: 'master',
-    sha: sha
-  }).catch(e => {
-    console.log(e);
-  });
-  console.log(result);
-}
+
