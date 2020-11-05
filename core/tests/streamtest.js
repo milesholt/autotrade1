@@ -31,9 +31,9 @@ async function ini(){
   await getFile();
             
   setInterval(() => {
-            //Update file every three seconds
+            //Update file every 10 seconds
             updateFile(objJsonB64);
-  },3000);
+  },10000);
 
 }
 
