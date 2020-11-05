@@ -23,19 +23,27 @@ const repo = 'autotrade1';
 const branch = 'version2';
 const path = 'core/data/CS.D.XLMUSD.TODAY.IP/CS.D.XLMUSD.TODAY.IP_streamdata.json';
 
-ini();
+go();
+
+//Delay operations
+async function wait(ms){
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 //Initiate
-async function ini(){
+async function go(){
 
-            
-  setInterval(() => {
-            //First read the file and update SHA value
-            await getFile();
-              
-            //Update file every 10 seconds
-            updateFile(objJsonB64);
-  },10000);
+    //First read the file and update SHA value
+    await getFile();
+
+    //Update file every 10 seconds
+    await updateFile(objJsonB64);
+
+    //wait 10 seconds then go again
+    await wait(10000).then(async r => {
+       //Then go again
+       await go();
+    })
 
 }
 
@@ -70,5 +78,3 @@ async function updateFile(data){
     console.log(e);
   });
 }
-
-
