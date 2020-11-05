@@ -18,6 +18,7 @@ const obj = {
 let objJsonStr = JSON.stringify(obj);
 let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
 let sha = 0;
+const branch = 'version2';
 const path = 'core/data/CS.D.XLMUSD.TODAY.IP/CS.D.XLMUSD.TODAY.IP_streamdata.json';
 
 ini();
@@ -39,7 +40,7 @@ async function getFile(){
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
   owner: 'milesholt',
   repo: 'autotrade1',
-  branch: 'version2',
+  branch: branch,
   path: path
 }).catch(e => {
   console.log(e);
@@ -57,7 +58,7 @@ async function updateFile(content){
     path: path,
     message: 'streamdata updated - ' + moment(timestamp).format('LLL'),
     content: content,
-    branch: 'version2',
+    ref: branch,
     sha: sha
   }).catch(e => {
     console.log(e);
