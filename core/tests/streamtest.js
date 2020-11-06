@@ -137,7 +137,7 @@ async function go(){
                 timestamp: time,
                 updated: modtime
               }
-    let objJsonStr = JSON.stringify(obj);
+   
     //let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
     //let objJsonB64 = await buff(objJsonStr);
 
@@ -147,9 +147,15 @@ async function go(){
 
     console.log(obj);
 
-    let enc = btoa(objJsonStr);
+    console.log('string...');
+  
+    let objJsonStr = JSON.stringify(obj);
+  
+    console.log(objJsonStr);
 
     console.log('encoded...');
+  
+    let enc = btoa(objJsonStr);
 
     console.log(enc);
 
@@ -161,18 +167,18 @@ async function go(){
 
 
     //First read the file and update SHA value
-    await getFile();
+//     await getFile();
 
-    //Update file every 10 seconds
-    await updateFile(enc);
+//     //Update file every 10 seconds
+//     await updateFile(enc);
 
-    //wait 10 seconds then go again
-    await wait(10000).then(async r => {
-       //Then go again
-       await go();
-    }).catch(e =>{
-      console.log(e);
-    })
+     //wait 10 seconds then go again
+      await wait(10000).then(async r => {
+         //Then go again
+         await go();
+      }).catch(e =>{
+        console.log(e);
+      })
 
 }
 
