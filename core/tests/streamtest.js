@@ -44,7 +44,7 @@ async function go(){
     console.log(objJsonB64);
 
     //First read the file and update SHA value
-    await getFile();
+    await getFile(); 
 
     //Update file every 10 seconds
     await updateFile(objJsonB64);
