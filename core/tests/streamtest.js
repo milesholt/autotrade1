@@ -30,7 +30,8 @@ async function go(){
                 closeBid: 1.23,
                 newlimit: 1.23,
                 stoplevel: 1.23,
-                updated: time
+                timestamp: time,
+                updated: moment().format('LT');
               }
     let objJsonStr = JSON.stringify(obj);
     let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
