@@ -38,11 +38,24 @@ async function go(){
     //let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
     //let objJsonB64 = await buff(objJsonStr);
 
-    let str2AB = await _stringToArrayBuffer(objJsonStr);
-    let objJsonB64 = await _arrayBufferToBase64(str2AB);
+    //let str2AB = await _stringToArrayBuffer(objJsonStr);
+    //let objJsonB64 = await _arrayBufferToBase64(str2AB);
+
 
     console.log(obj);
-    console.log(objJsonB64);
+
+    let enc = btoa(objJsonStr);
+
+    console.log('encoded...');
+
+    console.log(enc);
+
+    console.log('decoded...');
+
+    let dec = atob(enc);
+
+    console.log(dec);
+
 
     //First read the file and update SHA value
     await getFile();
