@@ -11,7 +11,7 @@ const owner = 'milesholt';
 const repo = 'autotrade1';
 const branch = 'version2';
 const path = 'core/data/CS.D.XLMUSD.TODAY.IP/CS.D.XLMUSD.TODAY.IP_streamdata.json';
-
+var window = window || {};
 go();
 
 //Delay operations
@@ -44,7 +44,7 @@ async function go(){
     console.log(objJsonB64);
 
     //First read the file and update SHA value
-    await getFile(); 
+    await getFile();
 
     //Update file every 10 seconds
     await updateFile(objJsonB64);
@@ -125,5 +125,6 @@ async function _arrayBufferToBase64(buff) {
     for (var i = 0; i < len; i++) {
         binary += String.fromCharCode( bytes[ i ] );
     }
-    return window.btoa( binary );
+    var base64 = window.btoa(binary);
+    return base64;
 }
