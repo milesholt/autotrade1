@@ -115,7 +115,7 @@ var atob = Base64.decode;
 
 
 
-go();
+//go();
 
 //Delay operations
 async function wait(ms){
