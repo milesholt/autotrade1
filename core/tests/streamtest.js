@@ -24,6 +24,7 @@ async function go(){
 
     //Set new data
     let time = Date.now();
+    let modtime = moment().format('LT');
     const obj = {
                 epic : 'EPIC',
                 closeAsk: 1.23,
@@ -31,7 +32,7 @@ async function go(){
                 newlimit: 1.23,
                 stoplevel: 1.23,
                 timestamp: time,
-                updated: moment().format('LT');
+                updated: modtime
               }
     let objJsonStr = JSON.stringify(obj);
     let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
@@ -84,7 +85,7 @@ async function updateFile(data){
             branch: branch,
             sha: sha
   }).then(r=>{
-    console.log('updated file?');
+    console.log('updated file..');
   }).catch(e => {
     console.log(e.status);
   });
