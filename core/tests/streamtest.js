@@ -77,6 +77,8 @@ async function updateFile(data){
             content: dataTo64,
             branch: branch,
             sha: sha
+  }).then(r=>{
+    console.log('updated file?');
   }).catch(e => {
     console.log(e.status);
   });
