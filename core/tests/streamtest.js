@@ -164,7 +164,7 @@ async function go(){
     await getFile();
 
     //Update file every 10 seconds
-    await updateFile(objJsonB64);
+    await updateFile(enc);
 
     //wait 10 seconds then go again
     await wait(10000).then(async r => {
