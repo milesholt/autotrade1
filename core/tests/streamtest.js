@@ -37,9 +37,12 @@ async function go(){
     let objJsonStr = JSON.stringify(obj);
     //let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
 
-    let str2AB = await _stringToArrayBuffer(objJsonStr);
-    let objJsonB64 = await _arrayBufferToBase64(str2AB);
+    //let str2AB = await _stringToArrayBuffer(objJsonStr);
+    //let objJsonB64 = await _arrayBufferToBase64(str2AB);
 
+
+    let objJsonB64 = await buff(objJsonStr);
+    
     console.log(obj);
     console.log(objJsonB64);
 
@@ -127,4 +130,8 @@ async function _arrayBufferToBase64(buff) {
     }
     var base64 = window.btoa(binary);
     return base64;
+}
+
+async function buff(str){
+  return await Buffer.from(str).toString("base64");
 }
