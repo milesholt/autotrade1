@@ -262,9 +262,9 @@ var d2Dec = {"epic":"EPIC","closeAsk":1.23,"closeBid":1.23,"newlimit":1.23,"stop
 var d2Enc = 'eyJlcGljIjoiRVBJQyIsImNsb3NlQXNrIjoxLjIzLCJjbG9zZUJpZCI6MS4yMywibmV3bGltaXQiOjEuMjMsInN0b3BsZXZlbCI6MS4yMywidGltZXN0YW1wIjoxNjA0NjU3NzYzOTMwLCJ1cGRhdGVkIjoiMTA6MTYgQU0ifQ==';
 
 console.log(dDec);
-console.log('1 decoded....);
+console.log('1 decoded....');
 console.log( atob(dEnc));
 
 console.log(d2Dec);
-console.log('2 decoded....);
+console.log('2 decoded....');
 console.log( atob(d2Enc));
