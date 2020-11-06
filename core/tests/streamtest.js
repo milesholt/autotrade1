@@ -255,3 +255,16 @@ async function _arrayBufferToBase64(buff) {
 async function buff(str){
   return await Buffer.from(str).toString("base64");
 }
+
+var dDec = {"epic":"EPIC","closeAsk":1.23,"closeBid":1.23,"newlimit":1.23,"stoplevel":1.23,"timestamp":1604657773942,"updated":"10:16 AM"};
+var dEnc = 'eyJlcGljIjoiRVBJQyIsImNsb3NlQXNrIjoxLjIzLCJjbG9zZUJpZCI6MS4yMywibmV3bGltaXQiOjEuMjMsInN0b3BsZXZlbCI6MS4yMywidGltZXN0YW1wIjoxNjA0NjU3NzczOTQyLCJ1cGRhdGVkIjoiMTA6MTYgQU0ifQ==';
+var d2Dec = {"epic":"EPIC","closeAsk":1.23,"closeBid":1.23,"newlimit":1.23,"stoplevel":1.23,"timestamp":1604657763930,"updated":"10:16 AM"};
+var d2Enc = 'eyJlcGljIjoiRVBJQyIsImNsb3NlQXNrIjoxLjIzLCJjbG9zZUJpZCI6MS4yMywibmV3bGltaXQiOjEuMjMsInN0b3BsZXZlbCI6MS4yMywidGltZXN0YW1wIjoxNjA0NjU3NzYzOTMwLCJ1cGRhdGVkIjoiMTA6MTYgQU0ifQ==';
+
+console.log(dDec);
+console.log('1 decoded....);
+console.log( atob(dEnc));
+
+console.log(d2Dec);
+console.log('2 decoded....);
+console.log( atob(d2Enc));
