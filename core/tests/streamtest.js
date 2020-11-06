@@ -128,17 +128,17 @@ async function go(){
     //Set new data
     let time = Date.now();
     let modtime = moment().format('LT');
-//     const obj = {
-//                 epic : 'EPIC',
-//                 closeAsk: 1.23,
-//                 closeBid: 1.23,
-//                 newlimit: 1.23,
-//                 stoplevel: 1.23,
-//                 timestamp: time,
-//                 updated: modtime
-//               }
+    const obj = {
+                epic : 'EPIC',
+                closeAsk: 1.23,
+                closeBid: 1.23,
+                newlimit: 1.23,
+                stoplevel: 1.23,
+                timestamp: time,
+                updated: modtime
+              }
     
-    const obj = { timestamp: time }
+    //const obj = { timestamp: time }
    
     //let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
     //let objJsonB64 = await buff(objJsonStr);
