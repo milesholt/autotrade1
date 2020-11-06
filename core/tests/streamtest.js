@@ -6,17 +6,6 @@ const moment=require('moment');
 moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
 const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
-let time = Date.now();
-const obj = {
-            epic : 'EPIC',
-            closeAsk: 1.23,
-            closeBid: 1.23,
-            newlimit: 1.23,
-            stoplevel: 1.23,
-            updated: time
-          }
-let objJsonStr = JSON.stringify(obj);
-let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
 let sha = 0;
 const owner = 'milesholt';
 const repo = 'autotrade1';
@@ -32,6 +21,22 @@ async function wait(ms){
 
 //Initiate
 async function go(){
+
+    //Set new data
+    let time = Date.now();
+    const obj = {
+                epic : 'EPIC',
+                closeAsk: 1.23,
+                closeBid: 1.23,
+                newlimit: 1.23,
+                stoplevel: 1.23,
+                updated: time
+              }
+    let objJsonStr = JSON.stringify(obj);
+    let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+
+    console.log(obj);
+    console.log(objJsonB64);
 
     //First read the file and update SHA value
     await getFile();
