@@ -36,12 +36,10 @@ async function go(){
               }
     let objJsonStr = JSON.stringify(obj);
     //let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+    //let objJsonB64 = await buff(objJsonStr);
 
-    //let str2AB = await _stringToArrayBuffer(objJsonStr);
-    //let objJsonB64 = await _arrayBufferToBase64(str2AB);
-
-
-    let objJsonB64 = await buff(objJsonStr);
+    let str2AB = await _stringToArrayBuffer(objJsonStr);
+    let objJsonB64 = await _arrayBufferToBase64(str2AB);
 
     console.log(obj);
     console.log(objJsonB64);
@@ -99,7 +97,7 @@ async function updateFile(data){
 
 
 async function _base64ToArrayBuffer(base64) {
- var binary_string = window.atob(base64);
+ var binary_string = atob(base64);
  var len = binary_string.length;
  var bytes = new Uint8Array(len);
  for (var i = 0; i < len; i++) {
@@ -128,7 +126,7 @@ async function _arrayBufferToBase64(buff) {
     for (var i = 0; i < len; i++) {
         binary += String.fromCharCode( bytes[ i ] );
     }
-    var base64 = window.btoa(binary);
+    var base64 = btoa(binary);
     return base64;
 }
 
@@ -237,8 +235,3 @@ var Base64 = new function() {
 
 var btoa = Base64.encode;
 var atob = Base64.decode;
-
-console.log("btoa('A') = " + btoa('A'));
-console.log("btoa('QQ==') = " + atob('QQ=='));
-console.log("btoa('B') = " + btoa('B'));
-console.log("btoa('Qg==') = " + atob('Qg=='));
