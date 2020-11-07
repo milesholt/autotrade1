@@ -31,6 +31,8 @@ actions.getPriceData = async function(){
   if(prices.length == 0){
     await api.histPrc(epic, resolution, from, to).then(r => {
             prices = r.prices;
+            console.log('getting price data for 3 days....');
+            console.log(pricedataDir);
             cloud.updateFile(prices,pricedataDir);
     }).catch(async e => {
       error.handleErrors(e);
