@@ -128,16 +128,18 @@ async function go(){
     //Set new data
     let time = Date.now();
     let modtime = moment().format('LT');
-    const obj = {
-                epic : 'EPIC',
-                closeAsk: 1.23,
-                closeBid: 1.23,
-                newlimit: 1.23,
-                stoplevel: 1.23,
-                timestamp: time,
-                updated: modtime
-              }
-    let objJsonStr = JSON.stringify(obj);
+     const obj = {
+                 epic : 'EPIC',
+                 closeAsk: 1.23,
+                 closeBid: 1.23,
+                 newlimit: 1.23,
+                 stoplevel: 1.23,
+                 timestamp: time,
+                 updated: modtime
+               }
+    
+    //const obj = { timestamp: time }
+   
     //let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
     //let objJsonB64 = await buff(objJsonStr);
 
@@ -147,9 +149,15 @@ async function go(){
 
     console.log(obj);
 
-    let enc = btoa(objJsonStr);
+    console.log('string...');
+  
+    let objJsonStr = JSON.stringify(obj);
+  
+    console.log(objJsonStr);
 
     console.log('encoded...');
+  
+    let enc = btoa(objJsonStr);
 
     console.log(enc);
 
@@ -161,18 +169,18 @@ async function go(){
 
 
     //First read the file and update SHA value
-    await getFile();
+     await getFile();
 
-    //Update file every 10 seconds
-    await updateFile(enc);
+     //Update file every 10 seconds
+     await updateFile(enc);
 
-    //wait 10 seconds then go again
-    await wait(10000).then(async r => {
-       //Then go again
-       await go();
-    }).catch(e =>{
-      console.log(e);
-    })
+     //wait 10 seconds then go again
+      await wait(10000).then(async r => {
+         //Then go again
+         await go();
+      }).catch(e =>{
+        console.log(e);
+      })
 
 }
 
@@ -249,3 +257,5 @@ async function _arrayBufferToBase64(buff) {
 async function buff(str){
   return await Buffer.from(str).toString("base64");
 }
+
+
