@@ -253,6 +253,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   //get modification time of file
                                   const stats = fs.statSync(streamLogDir);
                                   const modtime = moment(stats.mtime).format('LT');
+                                  let timestamp = Date.now();
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
                                   //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
@@ -263,7 +264,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     closeBid: d.closePrice.bid,
                                     newlimit: newlimit,
                                     stoplevel: p.stopLevel,
-                                    updated: modtime
+                                    updated: modtime,
+                                    timestamp: timestamp
                                   }
 
                                   console.log(streamdata);
