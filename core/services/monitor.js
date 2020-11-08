@@ -209,6 +209,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
                                     log.actions.closeTradeLog(ep,closeAnalysis);
+                                    github.actions.updateFile({}, streamLogDir);
+                                    return false;
                                   }
 
                                   if(closeloss){
@@ -242,6 +244,9 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
                                     log.actions.closeTradeLog(ep,closeAnalysis);
+                                    //update stream data
+                                    github.actions.updateFile({}, streamLogDir);
+                                    return false;
 
                                   }
 
@@ -251,16 +256,16 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
                                   console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
-                                   
+
                                   let streamdata = {
                                     epic : ep,
                                     closeAsk: d.closePrice.ask,
                                     closeBid: d.closePrice.bid,
                                     newlimit: newlimit,
                                     stoplevel: p.stopLevel,
-                                    updated: modtime  
+                                    updated: modtime
                                   }
-                            
+
                                    //update stream data
                                    github.actions.updateFile(streamdata, streamLogDir);
 

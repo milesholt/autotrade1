@@ -110,7 +110,7 @@ actions.determineTrade = async function(){
           	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
           	'epic': epic,
           	'expiry': 'DFB',
-          	'size': 50,
+          	'size': size,
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
@@ -187,7 +187,7 @@ actions.determineTrade = async function(){
                   So each monitor has to be associated with an ID or object, that contains the epic and dealId it is assigned with
                   There could be a monitors array, which contains the MID of whichever market is being monitored
                   */
-                  await actions.iniMonitor(dealId,epic);
+                  await monitor.iniMonitor(dealId,epic);
                   tradedbefore = true;
 
                   await log.startTradeLog(epic, analysis, dealId);

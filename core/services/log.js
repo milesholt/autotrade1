@@ -28,7 +28,7 @@ Log the start of a trade
 
 actions.startTradeLog = async function(epic, analysis, dealId){
 
-  trades = await github.actions.getFile(tradeDataDir);
+  trades = await cloud.getFile(tradeDataDir);
 
   markets.forEach((market,i) => {
     if(market.epic == epic){
@@ -70,9 +70,14 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
     }
   });
 
+  //accounts.push(closeAnlaysis);
+
 
   //update marketdata file
   cloud.updateFile(trades,tradeDataDir);
+
+  //update account file
+  //cloud.updateFile(accounts,closeAnalysis);
 
 }
 
@@ -104,7 +109,7 @@ Record error log when making trade
 
 actions.errorTradeLog = async function(error,ref){
 
-  trades = await github.actions.getFile(tradeDataDir);
+  trades = await cloud.getFile(tradeDataDir);
 
   markets.forEach((market,i) => {
     if(market.epic == epic){

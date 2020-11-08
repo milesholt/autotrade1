@@ -12,6 +12,7 @@ stopDistanceFluctuation = 0.1;
 confirmationlimit = 3;
 missingHoursLimit = 3;
 bumpgrouplimit = 5;
+size = 50;
 
 //Main parameters
 markets = [{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {} }];
@@ -33,6 +34,7 @@ confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support
 pricedataDir = 'core/data/';
 beforeRangeDir = 'core/data/';
 marketDataDir = 'core/data/marketdata.json';
+accountDataDir = 'core/data/accountdata.json';
 tradeDataDir = 'core/data/';
 streamLogDir = 'core/data/';
 
