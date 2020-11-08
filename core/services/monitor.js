@@ -255,7 +255,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   const modtime = moment(stats.mtime).format('LT');
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
-                                  console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
+                                  //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
 
                                   let streamdata = {
                                     epic : ep,
@@ -265,6 +265,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     stoplevel: p.stopLevel,
                                     updated: modtime
                                   }
+
+                                  console.log(streamdata);
+
+                                  console.log(streamLogDir);
 
                                    //update stream data
                                    github.actions.updateFile(streamdata, streamLogDir);
