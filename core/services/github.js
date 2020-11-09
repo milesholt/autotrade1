@@ -31,7 +31,7 @@ actions.wait = async function(ms){
 actions.getFile = async function(path){
   isRunning = true;
   console.log('Getting file from github');
-  console.log(path);
+  //console.log(path);
 
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
   owner: owner,
@@ -52,7 +52,7 @@ actions.getFile = async function(path){
   });*/
 
   sha = result.data.sha;
-  console.log('got file: ' + path + ', sha is now:' + sha);
+  //console.log('got file: ' + path + ', sha is now:' + sha);
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
@@ -97,7 +97,7 @@ actions.updateFile = async function(data,path){
         //If nothing is running, begin operation and get file with sha before updating it
         await actions.getFile(path);
         isRunning = true;
-        console.log('updating file with sha: ' + sha + ' and path:' + path);
+        //console.log('updating file with sha: ' + sha + ' and path:' + path);
 
         //Write data
         const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {

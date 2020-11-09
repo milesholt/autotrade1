@@ -268,10 +268,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     timestamp: timestamp
                                   }
 
-                                  console.log(streamdata);
-
-                                  console.log(streamLogDir);
-
                                    //update stream data
                                    github.actions.updateFile(streamdata, streamLogDir);
 
