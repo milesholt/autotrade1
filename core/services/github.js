@@ -32,6 +32,7 @@ actions.getFile = async function(path){
   isRunning = true;
   console.log('Getting file from github');
   console.log(path);
+
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
   owner: owner,
   repo: repo,
@@ -66,7 +67,7 @@ actions.updateFile = async function(data,path){
   //encode data to base64 string
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
-  
+
   //update SHA
   //console.log(shas);
   /*
@@ -78,12 +79,12 @@ actions.updateFile = async function(data,path){
     }
   });
   */
-  
+
   //Github is already running
   if(isRunning){
-        console.log('Cannot update file. Github service is in operation. Waiting 2 seconds..');
-        //Wait 2 seconds
-        await actions.wait(2000)
+        //console.log('Cannot update file. Github service is in operation. Waiting 10 seconds..');
+        //Wait 10 seconds
+        await actions.wait(10000)
           .then(async r => {
            //Then go again
            await actions.updateFile(data,path);
@@ -92,12 +93,12 @@ actions.updateFile = async function(data,path){
             console.log('error waiting for Github operations');
         });
   } else {
-        
+
         //If nothing is running, begin operation and get file with sha before updating it
         await actions.getFile(path);
         isRunning = true;
         console.log('updating file with sha: ' + sha + ' and path:' + path);
-        
+
         //Write data
         const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
           owner: owner,
@@ -112,7 +113,7 @@ actions.updateFile = async function(data,path){
         });
 
         //End operation
-        isRunning = false;        
+        isRunning = false;
   }
 }
 

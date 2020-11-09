@@ -12,6 +12,7 @@ stopDistanceFluctuation = 0.1;
 confirmationlimit = 3;
 missingHoursLimit = 3;
 bumpgrouplimit = 5;
+size = 50;
 
 //Main parameters
 markets = [{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {} }];
