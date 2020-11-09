@@ -124,7 +124,11 @@ actions.startMonitorLog = async function(){
   m.dealRef = dealRef;
   m.streamLogDir = streamLogDir;
   monitors = await cloud.getFile(monitorDataDir);
-  monitors.push(m);
+  let exists = false;
+  monitors.forEach((monitor,i) => {
+    if(monitor.epic == epic) exists = true;
+  });
+  if(!!exists) monitors.push(m);
   cloud.updateFile(monitors,monitorDataDir);
 }
 
