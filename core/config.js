@@ -33,8 +33,10 @@ confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support
 pricedataDir = 'core/data/';
 beforeRangeDir = 'core/data/';
 marketDataDir = 'core/data/marketdata.json';
+accountDataDir = 'core/data/accountdata.json';
 tradeDataDir = 'core/data/';
 streamLogDir = 'core/data/';
+
 
 //Price data variables
 prices = [];

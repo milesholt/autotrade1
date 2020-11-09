@@ -1,7 +1,0 @@
-{
-  "name": "autotrade",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
