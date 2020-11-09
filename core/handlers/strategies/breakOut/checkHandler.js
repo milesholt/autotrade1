@@ -33,6 +33,7 @@ actions.checkOpenTrades = async function(){
          positionsData.positions.forEach(trade => {
            dealId = trade.position.dealId;
            epic = trade.market.epic;
+           dealRef = trade.market.dealRef;
            t = trade;
            core.actions.setPaths();
            monitor.iniMonitor(dealId, epic);
