@@ -44,6 +44,8 @@ actions.getFiles = async function(){
   bRD = beforeRangeData;
   trades = await github.actions.getFile(tradeDataDir);
   tradeDataSha = github.sha;
+  accounts = await github.actions.getFile(accountDataDir);
+  accountDataSha =  github.sha;
 }
 
 module.exports = {

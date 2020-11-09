@@ -195,7 +195,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       lastClose: closePrice,
                                       direction: p.direction,
                                       openLevel: p.openLevel,
-                                      data: d
+                                      data: d,
+                                      dealId: dealId
                                     }
 
                                     api.closePosition(dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
@@ -232,7 +233,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       lastClose: closePrice,
                                       direction: p.direction,
                                       openLevel: p.openLevel,
-                                      data: d
+                                      data: d,
+                                      dealId: dealId
                                     }
                                     var mailOptions = {
                                       from: 'contact@milesholt.co.uk',

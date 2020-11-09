@@ -62,6 +62,7 @@ beforeRangeSha = '';
 pricesSha = '';
 marketDataSha = '';
 tradeDataSha = '';
+accountDataSha = '';
 // shas = [];
 // sha = 0;
 beforeRangeFirstClose = 0;
