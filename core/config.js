@@ -18,6 +18,7 @@ size = 50;
 markets = [{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {} }];
 market = {};
 trades = [];
+accounts = [];
 trade = { 'marketId' : 0, 'epic':'', 'dealId': '', 'dealRef': '', 'startAnalysis': '', 'closeAnalysis': '', 'start_timestamp': '', 'start_date':'', 'end_timestamp': '', 'end_date': '', 'error': {} };
 mid = 0;
 epic = '';
