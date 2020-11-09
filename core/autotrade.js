@@ -127,6 +127,7 @@ actions.setDefaults = async function(){
   pricesSha = '';
   marketDataSha = '';
   accountDataSha = '';
+  monitorDataSha = '';
   // shas = [];
   // sha = 0;
   beforeRangeFirstClose = 0;

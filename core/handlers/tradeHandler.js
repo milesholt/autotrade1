@@ -130,6 +130,7 @@ actions.determineTrade = async function(){
                 console.log(util.inspect(r, false, null));
                 let ref = r.positions.dealReference;
                 analysis.dealReference = ref;
+                dealRef = ref;
                 if(!r.confirms.dealId){
                   console.log('Error: ' + r.confirms.errorCode);
                   //Get status of position if error

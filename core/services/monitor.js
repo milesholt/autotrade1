@@ -65,6 +65,9 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                     const p = trade.position;
 
+                    //log monitor
+                    log.actions.startMonitorLog();
+
                     //start stream
                     //use real-time streaming to get latest hour
                     await stream.actions.startStream(epic,streamLogDir);
@@ -177,6 +180,15 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                                   if(closeprofit){
 
+                                    log.actions.getMonitorLog(ep).then(r =>{
+                                      let m = {
+                                        epic : r.epic,
+                                        dealId: r.dealId,
+                                        dealRef: r.dealRef,
+                                        streamLogDir: r.streamLogDir
+                                      }
+                                    }).catch(e => { console.log(e) });
+
                                     console.log('New limit level reached. Closing position.');
                                     console.log('new limit was: ' + newlimit);
                                     console.log('closing price was: ' + closePrice);
@@ -184,7 +196,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     console.log('closing price (bid) was: ' + d.closePrice.bid);
 
                                     console.log('PROFIT - Finished monitoring, positions should be closed. Ending stream.');
-                                    stream.actions.endStream(ep);
+                                    stream.actions.endStream(m.epic);
 
                                     let closeAnalysis = {
                                       timestamp: Date.now(),
@@ -196,10 +208,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       direction: p.direction,
                                       openLevel: p.openLevel,
                                       data: d,
-                                      dealId: dealId
+                                      dealId: m.dealId
                                     }
 
-                                    api.closePosition(dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
+                                    api.closePosition(m.dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
                                     var mailOptions = {
                                       from: 'contact@milesholt.co.uk',
                                       to: 'miles_holt@hotmail.com',
@@ -209,12 +221,23 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     mailer.actions.sendMail(mailOptions);
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
-                                    log.actions.closeTradeLog(ep,closeAnalysis);
-                                    github.actions.updateFile({}, streamLogDir);
+                                    log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                    log.actions.closeMonitorLog(m.epic);
+                                    github.actions.updateFile({}, m.streamLogDir);
+
                                     return false;
                                   }
 
                                   if(closeloss){
+
+                                    log.actions.getMonitorLog(ep).then(r =>{
+                                      let m = {
+                                        epic : r.epic,
+                                        dealId: r.dealId,
+                                        dealRef: r.dealRef,
+                                        streamLogDir: r.streamLogDir
+                                      }
+                                    }).catch(e => { console.log(e) });
 
                                     console.log('Stop level reached. Closing position.');
                                     console.log('stop level was: ' + p.stopLevel);
@@ -223,7 +246,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     console.log('closing price (bid) was: ' + d.closePrice.bid);
 
                                     console.log('LOSS - Finished monitoring, positions should be closed. Ending stream.');
-                                    stream.actions.endStream(ep);
+                                    stream.actions.endStream(m.epic);
 
                                     let closeAnalysis = {
                                       timestamp: Date.now(),
@@ -234,7 +257,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       direction: p.direction,
                                       openLevel: p.openLevel,
                                       data: d,
-                                      dealId: dealId
+                                      dealId: m.dealId
                                     }
                                     var mailOptions = {
                                       from: 'contact@milesholt.co.uk',
@@ -245,9 +268,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     mailer.actions.sendMail(mailOptions);
                                     testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
-                                    log.actions.closeTradeLog(ep,closeAnalysis);
+                                    log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                    log.actions.closeMonitorLog(m.epic);
                                     //update stream data
-                                    github.actions.updateFile({}, streamLogDir);
+                                    github.actions.updateFile({}, m.streamLogDir);
                                     return false;
 
                                   }

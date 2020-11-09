@@ -106,8 +106,70 @@ actions.dataLog = async function(analysis){
       market.data = analysis;
     }
   });
-
 }
+
+
+/*
+
+START MONITOR LOG
+
+Log new monitor
+
+*/
+
+actions.startMonitorLog = async function(){
+  let m = lib.actions.deepCopy(monitor);
+  m.epic = epic;
+  m.dealId =  dealId;
+  m.dealRef = dealRef;
+  m.streamLogDir = streamLogDir;
+  monitors = await cloud.getFile(monitorDataDir);
+  monitors.push(m);
+  cloud.updateFile(monitors,monitorDataDir);
+}
+
+/*
+
+GET MONITOR LOG
+
+Get monitor log
+
+*/
+
+actions.getMonitorLog = async function(epic){
+  monitors = await cloud.getFile(monitorDataDir);
+  let r = false;
+  return new Promise((resolve, reject) => {
+      monitors.forEach((monitor,i) => {
+        if(monitor.epic == epic) r = epic;
+      });
+      if(!!r){
+        resolve(r);
+      } else{
+        reject('Could not find monitor');
+      }
+    });
+}
+
+
+/*
+
+CLOSE MONITOR LOG
+
+Log new monitor
+
+*/
+
+actions.closeMonitorLog = async function(epic){
+  monitors = await cloud.getFile(monitorDataDir);
+  monitors.forEach((monitor,i) => {
+    if(monitor.epic == epic){
+      monitors.splice(i,1);
+    }
+  });
+  cloud.updateFile(monitors,monitorDataDir);
+}
+
 
 /*
 
