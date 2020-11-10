@@ -302,6 +302,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   }
 
                                    //update stream data every 60 seconds
+                                   //this is to not exceed github api limit
                                   if(counter == 60){
                                     //console.log('resetting counter');
                                     counter = 0;
