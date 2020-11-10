@@ -30,8 +30,8 @@ actions.wait = async function(ms){
 //Get file
 actions.getFile = async function(path){
   isRunning = true;
-  console.log('Getting file from github');
-  console.log(path);
+  console.log('Getting file from github: ' + path);
+
 
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
   owner: owner,
@@ -52,7 +52,8 @@ actions.getFile = async function(path){
   });*/
 
   sha = result.data.sha;
-  //console.log('got file: ' + path + ', sha is now:' + sha);
+  console.log('got file: ' + path + ', sha is now:' + sha);
+  console.log(result.data.content);
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
