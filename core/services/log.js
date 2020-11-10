@@ -118,7 +118,7 @@ Log new monitor
 */
 
 actions.startMonitorLog = async function(){
-  let m = lib.actions.deepCopy(monitor);
+  let m = lib.deepCopy(monitor);
   m.epic = epic;
   m.dealId =  dealId;
   m.dealRef = dealRef;
