@@ -52,14 +52,14 @@ actions.getFile = async function(path){
   });*/
 
   sha = result.data.sha;
-  console.log('got file: ' + path + ', sha is now:' + sha);
+  //console.log('got file: ' + path + ', sha is now:' + sha);
 
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
   let obj = JSON.parse(string);
   isRunning = false;
-  console.log(obj);
+  //console.log(obj);
   return obj;
 }
 

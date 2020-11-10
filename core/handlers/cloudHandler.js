@@ -24,7 +24,7 @@ This gets a file hosted on cloud server
 */
 
 actions.getFile = async function(dir){
-  await github.actions.getFile(dir);
+  return await github.actions.getFile(dir);
 }
 
 
