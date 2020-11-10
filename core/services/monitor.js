@@ -29,6 +29,10 @@ actions.iniMonitor = async function(dealId,epic){
 
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
+
+  console.log(process.env.HOME);
+  console.log(__dirname);
+
   //if stream file doesn't exist, create it (w flag)
   await fs.writeFile(streamLogDir, data, { flag: 'w' }, function (err) {
     if (err) throw err;
