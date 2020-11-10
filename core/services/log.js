@@ -125,12 +125,10 @@ actions.startMonitorLog = async function(){
   m.streamLogDir = streamLogDir;
   monitors = await cloud.getFile(monitorDataDir);
   let exists = false;
-  console.log('monitors:');
-  console.log(monitors);
   monitors.forEach((monitor,i) => {
     if(monitor.epic == epic) exists = true;
   });
-  if(!!exists) monitors.push(m);
+  if(!exists) monitors.push(m);
   cloud.updateFile(monitors,monitorDataDir);
 }
 
