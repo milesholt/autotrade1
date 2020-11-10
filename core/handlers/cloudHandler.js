@@ -16,6 +16,17 @@ actions.require = async function(){
   core = require.main.exports;
 }
 
+/*
+
+GET FILE
+This gets a file hosted on cloud server
+
+*/
+
+actions.getFile = async function(dir){
+  await github.actions.updateFile(dir);
+}
+
 
 /*
 
@@ -32,7 +43,7 @@ actions.updateFile = async function(data,dir){
 /*
 
 GET FILES
-This gets the data files from the cloud server
+This gets required data files from the cloud server
 */
 
 actions.getFiles = async function(){
