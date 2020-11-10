@@ -299,7 +299,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   }
 
                                    //update stream data
-                                   github.actions.updateFile(streamdata, streamLogDir);
+                                  // github.actions.updateFile(streamdata, streamLogDir);
 
 
                           } else{
