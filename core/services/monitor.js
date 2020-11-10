@@ -114,7 +114,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                       console.log('Stream response:');
 
+                      var counter = 0;
                       var timer = setInterval(()=>{
+
+                        counter += 3;
 
                         fs.readFile(streamLogDir, function (err, data) {
                           if (err) {
@@ -298,8 +301,12 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     timestamp: timestamp
                                   }
 
-                                   //update stream data
-                                  // github.actions.updateFile(streamdata, streamLogDir);
+                                   //update stream data every 60 seconds
+                                  if(counter == 60){
+                                    //console.log('resetting counter');
+                                    counter = 0;
+                                    github.actions.updateFile(streamdata, streamLogDir);
+                                  }
 
 
                           } else{
