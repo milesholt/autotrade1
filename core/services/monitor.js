@@ -297,6 +297,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     closeBid: d.closePrice.bid,
                                     newlimit: newlimit,
                                     stoplevel: p.stopLevel,
+                                    direction: p.direction,
+                                    openLevel: p.openLevel,
                                     updated: modtime,
                                     timestamp: timestamp
                                   }
