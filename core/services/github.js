@@ -30,7 +30,7 @@ actions.wait = async function(ms){
 //Get file
 actions.getFile = async function(path){
   isRunning = true;
-  console.log('Getting file from github: ' + path);
+  //console.log('Getting file from github: ' + path);
 
 
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
