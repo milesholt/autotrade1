@@ -113,9 +113,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                         text: JSON.stringify(monitorAnalysis)
                       };
                       mailer.actions.sendMail(mailOptions);
-                      testmailer.actions.testMail();
-
-                      console.log('Stream response:');
 
                       var counter = 0;
                       timer = setInterval(()=>{
@@ -168,6 +165,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                 if (isNaN(d.closePrice.ask) || isNaN(d.closePrice.bid)) {
                                   console.log('price data is returning NaN, market has potentially closed while monitoring. Stopping monitoring...');
                                   actions.stopMonitor();
+                                } else {
+                                  console.log('Stream response good, should be updating.');
                                 }
 
                                 //if stream price goes beyond settings, take action
