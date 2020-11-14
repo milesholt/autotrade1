@@ -72,6 +72,9 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                     //log monitor
                     log.actions.startMonitorLog();
 
+                    //declare time before reading stream
+                    var timer;
+
                     //start stream
                     //use real-time streaming to get latest hour
                     await stream.actions.startStream(epic,streamLogDir);
@@ -115,7 +118,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                       console.log('Stream response:');
 
                       var counter = 0;
-                      var timer = setInterval(()=>{
+                      timer = setInterval(()=>{
 
                         counter += 3;
 
@@ -348,6 +351,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 actions.stopMonitor = async function(timer){
   console.log('stopping monitor');
   clearInterval(timer);
+  return false;
 }
 
 module.exports = {
