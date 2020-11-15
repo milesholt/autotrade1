@@ -25,6 +25,11 @@ actions.loop = async function(msg = ''){
   let timestamp  = moment().format('LLL');
   console.log('Time is:' + timestamp);
 
+
+  //return if loop is already running otherwise set true and continue
+  if(isLoopRunning) return false;
+  isLoopRunning = true;
+
   //executes at every full hour with additional offset
   //to collect data from the previous hour that's just past
   var d = new Date();

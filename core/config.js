@@ -112,3 +112,4 @@ tradedbefore = false;
 noError = true;
 isHoursCorrect = true;
 totalMissingHours = 0;
+isLoopRunning = false;
