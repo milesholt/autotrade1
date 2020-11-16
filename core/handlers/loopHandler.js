@@ -27,21 +27,23 @@ actions.loop = async function(msg = ''){
 
 
   //return if loop is already running otherwise set true and continue
-  if(isLoopRunning) return false;
-  isLoopRunning = true;
+  if(!!isLoopRunning){
+    isLoopRunning = true;
 
-  //executes at every full hour with additional offset
-  //to collect data from the previous hour that's just past
-  var d = new Date();
-  var min = d.getMinutes();
-  var sec = d.getSeconds();
-  var offset = '10' //10 seconds offset
-  if((min == '00') && (sec == offset)){
-    let timestamp  = moment().format('LLL');
-    await actions.loopMarkets();
-  } else {
-    setTimeout(actions.loopMarkets,(60*(60-min)+(70-sec))*1000);
+    //executes at every full hour with additional offset
+    //to collect data from the previous hour that's just past
+    var d = new Date();
+    var min = d.getMinutes();
+    var sec = d.getSeconds();
+    var offset = '10' //10 seconds offset
+    if((min == '00') && (sec == offset)){
+      let timestamp  = moment().format('LLL');
+      await actions.loopMarkets();
+    } else {
+      setTimeout(actions.loopMarkets,(60*(60-min)+(70-sec))*1000);
+    }
   }
+
 
 }
 
