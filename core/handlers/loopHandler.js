@@ -40,6 +40,7 @@ actions.loop = async function(msg = ''){
       let timestamp  = moment().format('LLL');
       await actions.loopMarkets();
     } else {
+      console.log('waiting...');
       setTimeout(actions.loopMarkets,(60*(60-min)+(70-sec))*1000);
     }
   //}
