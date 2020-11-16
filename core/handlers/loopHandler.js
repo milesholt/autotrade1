@@ -26,7 +26,7 @@ actions.loop = async function(msg = ''){
   console.log('Time is:' + timestamp);
 
 
-  //return if loop is already running otherwise set true and continue
+  //check loop isn't already running
   if(!!isLoopRunning){
     isLoopRunning = true;
 
