@@ -161,6 +161,7 @@ actions.setDefaults = async function(){
   totalMissingHours = 0;
   finalMessage = '';
   analysis = {};
+  isLoopRunning = false;
 }
 
 /*
