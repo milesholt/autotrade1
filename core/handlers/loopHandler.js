@@ -27,8 +27,8 @@ actions.loop = async function(msg = ''){
 
 
   //check loop isn't already running
-  if(!!isLoopRunning){
-    isLoopRunning = true;
+  // if(!!isLoopRunning){
+  //   isLoopRunning = true;
 
     //executes at every full hour with additional offset
     //to collect data from the previous hour that's just past
@@ -42,8 +42,7 @@ actions.loop = async function(msg = ''){
     } else {
       setTimeout(actions.loopMarkets,(60*(60-min)+(70-sec))*1000);
     }
-  }
-
+  //}
 
 }
 
@@ -55,6 +54,10 @@ Loop through and prepare epics before running exec()
 */
 
 actions.loopMarkets = async function(){
+  //First make sure loop isn't already running
+  if(isLoopRunning) return false;
+  isLoopRunning = true;
+
   //Loop through each market and prepare variables
   markets.forEach(async (m,i) => {
     mid = i;

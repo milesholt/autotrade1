@@ -28,7 +28,7 @@ actions.notify = async function(notification, msg = ''){
   //main structure of notification
   let options = {
     title: '',
-    content: core.lib.toString(msg)
+    content: msg
   }
 
   switch(notification){
@@ -61,7 +61,7 @@ actions.sendNotification = async function(options, method = 'mail'){
   if(method == 'mail'){
     var mailOptions = {
       subject: options.title,
-      text: options.content
+      text: core.lib.toString(options.content)
     };
     await mailer.sendMail(mailOptions);
     await testmailer.testMail();
