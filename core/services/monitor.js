@@ -29,6 +29,7 @@ actions.iniMonitor = async function(dealId,epic){
 
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
+  direction = analysis.ticket.direction;
 
   console.log(process.env.HOME);
   console.log(__dirname);
@@ -48,6 +49,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
   // }).catch(e => console.log(e));
 
   console.log('Beginning monitoring, getting open positions..');
+  console.log('direction: ' + direction);
 
   //get open position information
 
@@ -187,6 +189,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                                   if(closeprofit){
 
+                                    console.log('close profit')
+
                                     log.actions.getMonitorLog(ep).then(r =>{
                                       let m = {
                                         epic : r.epic,
@@ -236,6 +240,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   }
 
                                   if(closeloss){
+
+                                    console.log('close loss');
 
                                     log.actions.getMonitorLog(ep).then(r =>{
                                       let m = {
