@@ -73,7 +73,7 @@ FINAL CHECKS
 */
 
 actions.finalChecks = async function(){
-  if(lastDiff > 0.2) check1 = true;
+  if(lastDiff > momentumLimit) check1 = true;
 
    //if trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   isRecentTrendBreaking = false;
