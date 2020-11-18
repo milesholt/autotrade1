@@ -72,7 +72,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                     const p = trade.position;
 
                     //log monitor
-                    log.actions.startMonitorLog();
+                    await log.actions.startMonitorLog();
 
                     //declare time before reading stream
                     var timer;
