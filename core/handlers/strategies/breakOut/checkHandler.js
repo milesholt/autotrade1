@@ -16,7 +16,7 @@ actions.require = async function(){
   api = core.api;
   util = core.util;
   monitor = core.monitor.actions;
-  cloud = core.cloud.actions;
+  cloud = core.cloudHandler.actions;
 }
 
 /*
