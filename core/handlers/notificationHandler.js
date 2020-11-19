@@ -12,7 +12,6 @@ REQUIRE
 actions.require = async function(){
   core = require.main.exports;
   mailer = core.mailer.actions;
-  testmailer = core.testmailer.actions;
 }
 
 
@@ -67,7 +66,6 @@ actions.sendNotification = async function(options, method = 'mail'){
       text: options.content
     };
     await mailer.sendMail(mailOptions);
-    await testmailer.testMail();
   }
 
 }
