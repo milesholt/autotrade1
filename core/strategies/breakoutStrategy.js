@@ -27,8 +27,12 @@ actions.calcResistSupport = async function(pricedata,type){
   //let margin1 = 0.05;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
   //let margin2 = 0.8; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
 
+  //18/11/20 amendment
+  //let margin1 = 0.06;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  //let margin2 = 0.8; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
 
-  let margin1 = 0.06;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+
+  let margin1 = 0.07;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
   let margin2 = 0.8; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
   let matches = []; // Matches for midrange line
   let matches2 = []; // Matches for support and resistance lines
