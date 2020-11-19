@@ -3,6 +3,7 @@ var core;
 var api;
 var monitor;
 var util;
+var cloud;
 
 /*
 
@@ -15,6 +16,7 @@ actions.require = async function(){
   api = core.api;
   util = core.util;
   monitor = core.monitor.actions;
+  cloud = core.cloud.actions;
 }
 
 /*
@@ -39,7 +41,10 @@ actions.checkOpenTrades = async function(){
            monitor.iniMonitor(dealId, epic);
          });
 
-        }
+       } else {
+         //clean up logs if no trade
+         cloud.updateFile([],streamLogDir);
+       }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }
 
