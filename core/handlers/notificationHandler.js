@@ -58,10 +58,13 @@ actions.sendNotification = async function(options, method = 'mail'){
   //Default method is mail
   //Other methods by which to notify will go here
 
+  console.log('sending notification:');
+  console.log(options.content);
+
   if(method == 'mail'){
     var mailOptions = {
       subject: options.title,
-      text: core.lib.toString(options.content)
+      text: options.content
     };
     await mailer.sendMail(mailOptions);
     await testmailer.testMail();
