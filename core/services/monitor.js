@@ -49,6 +49,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
   console.log('Beginning monitoring, getting open positions..');
   console.log('direction: ' + direction);
+  console.log('dealRef: ' + dealRef);
 
   //get open position information
 

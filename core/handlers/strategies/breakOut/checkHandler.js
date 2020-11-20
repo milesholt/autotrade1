@@ -35,8 +35,8 @@ actions.checkOpenTrades = async function(){
          positionsData.positions.forEach(trade => {
            console.log(trade);
            epic = trade.market.epic;
-           dealId = trade.position.dealId;       
-           dealRef = trade.position.dealRef;
+           dealId = trade.position.dealId;
+           dealRef = trade.position.dealReference;
            direction = trade.position.direction;
            t = trade;
            core.actions.setPaths();
