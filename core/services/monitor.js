@@ -29,7 +29,7 @@ actions.iniMonitor = async function(dealId,epic){
 
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
-  direction = analysis.ticket.direction;
+  let direction = analysis.ticket.direction;
 
   console.log(process.env.HOME);
   console.log(__dirname);
