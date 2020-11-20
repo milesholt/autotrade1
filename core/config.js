@@ -29,6 +29,7 @@ analysis = {};
 dealIds = [];
 dealId = '';
 dealRef = '';
+direction = '';
 finalMessage = '';
 
 rangeData = {'resistance': {}, 'support': {}, 'bumps': []};

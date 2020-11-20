@@ -33,9 +33,11 @@ actions.checkOpenTrades = async function(){
         if(positionsData.positions.length > 0){
          //Loop through any open trades and begin monitoring
          positionsData.positions.forEach(trade => {
+           console.log(trade);
            dealId = trade.position.dealId;
            epic = trade.market.epic;
            dealRef = trade.market.dealRef;
+           direction = trade.market.direction;
            t = trade;
            core.actions.setPaths();
            monitor.iniMonitor(dealId, epic);

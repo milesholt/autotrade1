@@ -10,7 +10,6 @@ moment().format();
 let openLevel = 0;
 let limitLevel = 0;
 let stopLevel = 0;
-let direction = '';
 let dealId = '';
 
 //Require stream
@@ -29,7 +28,7 @@ actions.iniMonitor = async function(dealId,epic){
 
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
-  let direction = analysis.ticket.direction;
+
 
   console.log(process.env.HOME);
   console.log(__dirname);
