@@ -8,7 +8,7 @@ moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
 const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
 const obj = {};
-const path = '';
+//const path = '';
 const owner = 'milesholt';
 const branch = 'version2';
 let shas = [];
