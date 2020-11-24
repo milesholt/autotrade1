@@ -42,10 +42,6 @@ actions.checkOpenTrades = async function(){
            core.actions.setPaths();
            monitor.iniMonitor(dealId, epic);
          });
-
-       } else {
-         //clean up logs if no trade
-         cloud.updateFile([],streamLogDir);
        }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }

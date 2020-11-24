@@ -67,16 +67,10 @@ Set main paths for storing data
 */
 
 actions.setPaths = async function(){
-  console.log('setting paths..');
   pricedataDir = 'core/data/'+epic+'/'+epic+'_pricedata.json';
   beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
   tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
-
-  console.log(pricedataDir);
-  console.log(beforeRangeDir);
-  console.log(tradeDataDir);
-  console.log(streamLogDir);
 }
 
 
