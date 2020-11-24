@@ -47,6 +47,13 @@ This gets required data files from the cloud server
 */
 
 actions.getFiles = async function(){
+
+  console.log('getting files from cloud...');
+
+  console.log(pricedataDir);
+  console.log(beforeRangeDir);
+  console.log(tradeDataDir);
+
   github.shas = [];
   prices = await github.actions.getFile(pricedataDir);
   pricesSha = github.sha;
@@ -59,6 +66,8 @@ actions.getFiles = async function(){
   accountDataSha =  github.sha;
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
+
+
 }
 
 module.exports = {
