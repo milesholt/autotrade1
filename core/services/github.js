@@ -39,12 +39,11 @@ actions.getFile = async function(path){
   path: path,
   ref: branch
 }).catch(e => {
-  console.log(typeof e);
-  // if(!e.includes('HttpError')){
-  //   console.log(e);
-  // } else {
-  //   console.log('error getting file: ' +path+ '  from GitHub - HttpError');
-  // }
+  if(!JSON.stringify(e).includes('HttpError')){
+    console.log(e);
+  } else {
+    console.log('error getting file: ' +path+ '  from GitHub - HttpError');
+  }
 });
 
   //shas.push({'path': path, 'sha':result.data.sha});
@@ -116,12 +115,11 @@ actions.updateFile = async function(data,path){
           branch: branch,
           sha: sha
         }).catch(e => {
-          // if(!e.includes('HttpError')){
-          //   console.log(e);
-          // } else {
-          //   console.log('error updating file: ' +path+ '  from GitHub - HttpError');
-          // }
-          console.log(typeof e);
+          if(!JSON.stringify(e).includes('HttpError')){
+            console.log(e);
+          } else {
+            console.log('error updating file: ' +path+ '  from GitHub - HttpError');
+          }
         });
 
         //End operation
