@@ -11,23 +11,29 @@ actions.calcResistSupport = async function(pricedata,type){
   //4) We then order those prices, and select the lowest for support, and the highest for resistance
 
   let prices = pricedata[type].map(r => parseFloat((r.open+r.close)/2).toFixed(2) );
-  let range = [];
+  //Margins used for bitcoin
+  //let margin1 = 50;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  //let margin2 = 250; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
 
-  pricedata[type].forEach(price =>{
-    range.push(price.low);
-    range.push(price.high);
-  });
-  range.sort(sortNumber);
-  const lowestnum = range[0];
-  const highestnum = range[range.length-1];
+  //TODO: Need to set margins as percentages of price data rather than fixed values
+  //let margin1 = 0.2;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  //let margin2 = 1; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
 
-  let rangediff = highestnum - lowestnum;
+  //Used as of 18/11/20
+  //let margin1 = 0.1;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  //let margin2 = 0.8; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
 
-  let rangediff_m1 = parseFloat(rangediff * 0.08).toFixed(2);  //8% of range
-  let rangediff_m2 = parseFloat(rangediff * 0.2).toFixed(2); //20% of range
+  //New settings as of 18/11/20, a narrower margin for more accuracy
+  //let margin1 = 0.05;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  //let margin2 = 0.8; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
 
-  let margin1 = rangediff_m1;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
-  let margin2 = rangediff_m2; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
+  //18/11/20 amendment
+  //let margin1 = 0.06;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  //let margin2 = 0.8; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
+
+
+  let margin1 = 0.07;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  let margin2 = 0.8; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
   let matches = []; // Matches for midrange line
   let matches2 = []; // Matches for support and resistance lines
   let line = 0;

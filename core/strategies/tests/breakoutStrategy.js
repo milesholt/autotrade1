@@ -10,9 +10,34 @@ actions.calcResistSupport = async function(pricedata,type){
   //3) We then use midrange line and loop through prices again, collecting only prices that are within margin2 from the midrange line
   //4) We then order those prices, and select the lowest for support, and the highest for resistance
 
-  let prices = pricedata[type].map(r => (parseInt((r.high+r.low)/2).toFixed(2)));
-  let margin1 = 50;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
-  let margin2 = 200; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
+  let prices = pricedata[type].map(r => parseFloat((r.open+r.close)/2).toFixed(2) );
+  let range = [];
+
+  pricedata[type].forEach(price =>{
+    //console.log(price);
+    range.push(price.low);
+    range.push(price.high);
+  });
+
+  range.sort(sortNumber);
+  const lowestnum = range[0];
+  const highestnum = range[range.length-1];
+
+  console.log('type: ' + type +  ' lowest: ' + lowestnum);
+  console.log('type: ' + type +  ' highest: ' + highestnum);
+
+  let rangediff = highestnum - lowestnum;
+
+  console.log('range difference: ' + rangediff);
+
+  let rangediff_m1 = parseFloat(rangediff * 0.08).toFixed(2);  //8% of range
+  let rangediff_m2 = parseFloat(rangediff * 0.2).toFixed(2); //20% of range
+
+  console.log('margin1 - 8% of range difference: ' + rangediff_m1);
+  console.log('margin2 - 20% of range difference: ' + rangediff_m2);
+
+  let margin1 = rangediff_m1;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
+  let margin2 = rangediff_m2; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
   let matches = []; // Matches for midrange line
   let matches2 = []; // Matches for support and resistance lines
   let line = 0;
@@ -42,23 +67,21 @@ actions.calcResistSupport = async function(pricedata,type){
   matches.sort(sortbyRangeCluster);
 
   // The one with the largest cluster (the last one in the order) is the data used to determine midrange line
-  rangedata[type] = matches[matches.length-1];
-
-  //console.log(rangedata[type].prices);
+  rangeData[type] = matches[matches.length-1];
 
   // Get low/highest point depending on line type
-  let midrangeprices = deepCopy(rangedata[type].prices).sort(sortNumber);
+  let midrangeprices = deepCopy(rangeData[type].prices).sort(sortNumber);
   let lowestprice = midrangeprices[0];
   let highestprice = midrangeprices[midrangeprices.length-1];
   // Get the midrange line by getting the average of those prices
   let midrangeprice = (highestprice + lowestprice) / 2;
 
-  linedata.midrange = midrangeprice;
+  lineData.midrange = midrangeprice;
 
   //BEGIN SECOND ROUND USING MID AREA PRICE
 
   // Loop through prices again
-  rangedata[type].prices.forEach((price,idx) => {
+  rangeData[type].prices.forEach((price,idx) => {
     price = parseFloat(price);
     let match = false
     let m = [];
@@ -88,73 +111,19 @@ actions.calcResistSupport = async function(pricedata,type){
 
 }
 
-actions.calcWicks_old = async function(pricedata){
-
-  //set how many wicks to check
-  let wicklimit = 3;
-  let strengthlimit = 30;
-  let wickdata = [];
-  let beardir = bulldir = 0;
-  let dir = '';
-  let strength = false;
-  let confirmation1 = false;
-  let confirmation2 = false;
-
-  for(let i = (pricedata.support.length-wicklimit) , len = pricedata.support.length-1; i <= len; i++){
-
-    let pricebar = pricedata.support[i];
-    let open = pricebar.open;
-    let close = pricebar.close;
-    let highest = pricebar.high;
-    let lowest = pricebar.low;
-
-    //get total difference of price bar
-    let pricediff = Math.round(highest - lowest);
-
-    //get percentage of bearish resistance (top wick)
-    let topwick = ((highest - (open > close ? open : close)) /  pricediff) * 100;
-
-    //get percentage of bullish resistance (bottom wick)
-    let botwick = (((open < close ? open : close) - lowest) /  pricediff) * 100;
-
-    //get difference in percentage between wick and non-wick to determine wick strength
-    let wickstrength = 100 - ((Math.abs(open - close) / pricediff) * 100);
-
-    topwick > botwick ? beardir++ : bulldir++;
-
-    wickdata.push({'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
-
-  }
-
-  resistance = bulldir > beardir ? 'bullish' : 'bearish';
-  strength = Math.abs(wickdata[0].wickstrength - wickdata[2].wickstrength);
-
-  //is wicks percentage change of strength greater than 50%?
-  if (strength >= strengthlimit) confirmation1 = true;
-
-  //is wick resistance growing?
-  if (wickdata[0].wickstrength < wickdata[2].wickstrength) confirmation2 = true;
-
-  wickdata.push({'resistance': resistance, 'strength': strength, 'confirmation1': confirmation1, 'confirmation2': confirmation2});
-
-  //wickdata.push({'resistance': resistance, 'strength': strength, 'confirmation1': true, 'confirmation2': true});
-
-  return wickdata;
-
-}
-
 
 actions.calcWicks = async function(pricedata){
 
   //set how many wicks to check
   let wicklimit = 3;
-  let strengthlimit = 30;
+  let strengthlimit = 25;
   let wickdata = [];
   let beardir = bulldir = 0;
   let dir = '';
   let strength = false;
   let topstrength = 0;
   let botstrength = 0;
+  let wickstrength = 0;
   let resistance = 'none';
   let confirmation1 = false;
   let confirmation2 = false;
@@ -166,6 +135,8 @@ actions.calcWicks = async function(pricedata){
     let close = pricebar.close;
     let highest = pricebar.high;
     let lowest = pricebar.low;
+    let time = pricebar.time;
+    let closeAsk = pricebar.closeAsk;
 
     //get total difference of price bar
     let pricediff = Math.round(highest - lowest);
@@ -181,7 +152,7 @@ actions.calcWicks = async function(pricedata){
 
     //topwick > botwick ? beardir++ : bulldir++;
 
-    wickdata.push({'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
+    wickdata.push({'time': time, 'closeAsk': closeAsk, 'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
 
   }
 
@@ -193,20 +164,25 @@ actions.calcWicks = async function(pricedata){
   //updated method builds an array of all the top/bot wick values, and selects the largest using Max
   //this method selects the strongest wickend of the three, which includes the second wick
 
-  let toparr = [], botarr = [];
+  let toparr = [], botarr = [], strengtharr = [];
   from(wickdata).pipe(map(val => val.topwick)).subscribe(val => toparr.push(val));
   from(wickdata).pipe(map(val => val.botwick)).subscribe(val => botarr.push(val));
+  from(wickdata).pipe(map(val => val.wickstrength)).subscribe(val => strengtharr.push(val));
 
   topstrength = Math.max.apply( Math, toparr );
   botstrength = Math.max.apply( Math, botarr );
+  wickstrength = Math.max.apply( Math, strengtharr );
 
   //depending on which wick end is greater, and if over strengthlimit, determines trend
 
-  if((topstrength > botstrength) && (topstrength > strengthlimit)) resistance = 'bullish';
-  if((botstrength > topstrength) && (botstrength > strengthlimit)) resistance = 'bearish';
+  if((topstrength > botstrength) && (topstrength >= strengthlimit)) resistance = 'bearish';
+  if((botstrength > topstrength) && (botstrength >= strengthlimit)) resistance = 'bullish';
 
   //strength is now only the strength of the latest wick
-  strength = wickdata[(wicklimit-1)].wickstrength;
+  //strength = wickdata[(wicklimit-1)].wickstrength;
+
+  //update: we now choose wick with highest strength
+  strength = wickstrength;
 
   //is wicks percentage change of strength greater than 50%?
   if (strength >= strengthlimit) confirmation1 = true;
@@ -221,6 +197,8 @@ actions.calcWicks = async function(pricedata){
   return wickdata;
 
 }
+
+
 
 function sortNumber(a, b) {
   return a - b;
