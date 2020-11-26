@@ -1,6 +1,7 @@
 var actions = {};
 var core;
 var log;
+var lib;
 
 /*
 
@@ -11,6 +12,7 @@ REQUIRE
 actions.require = async function(){
   core = require.main.exports;
   log = core.log.actions;
+  lib = core.lib.actions;
 }
 
 /*
@@ -28,14 +30,14 @@ actions.analysePriceData = async function(){
     opens.push(price.open);
     highs.push(price.high);
     lows.push(price.low);
-    range.push(price.low);
-    range.push(price.high);
+    rangeAnalysis.push(price.low);
+    rangeAnalysis.push(price.high);
   });
 
-  range.sort(sortNumber);
+  rangeAnalysis.sort(sortNumber);
 
-  lowestPrice = range[0];
-  highestPrice = range[range.length-1];
+  lowestPrice = rangeAnalysis[0];
+  highestPrice = rangeAnalysis[range.length-1];
   priceDiff = highestPrice - lowestPrice;
 
   console.log('lowestPrice: ' + lowestPrice);
