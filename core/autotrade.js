@@ -153,6 +153,17 @@ actions.setDefaults = async function(){
   lineDistance = 0;
   rangeConfirmations = 0;
 
+  //Analysis data
+  closes = [];
+  times = [];
+  range = [];
+  highs = [];
+  lows = [];
+  opens = [];
+  lowestPrice = 0;
+  highestPrice = 0;
+  priceDiff = 0;
+
 
   //Other variables
   tradedbefore = false;
