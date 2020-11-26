@@ -30,11 +30,12 @@ actions.calcResistSupport = async function(pricedata,type){
 
   console.log('range difference: ' + rangediff);
 
-  let rangediff_m1 = parseFloat(rangediff * 0.08).toFixed(2);  //8% of range
-  let rangediff_m2 = parseFloat(rangediff * 0.2).toFixed(2); //20% of range
+  let rangediff_m1 = parseFloat(rangediff * 0.15).toFixed(2);  //8% of range
+  let rangediff_m2 = parseFloat(rangediff * 0.3).toFixed(2); //20% of range
 
   console.log('margin1 - 8% of range difference: ' + rangediff_m1);
   console.log('margin2 - 20% of range difference: ' + rangediff_m2);
+
 
   let margin1 = rangediff_m1;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
   let margin2 = rangediff_m2; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines

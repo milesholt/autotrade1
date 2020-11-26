@@ -2,14 +2,19 @@
 check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
 
 //Main limits
+momentLimitPerc = 0.1;  //same as range limit
+tradeLimitPerc = 0.15;
+lineDistanceLimitPerc = 0.05;
+
 momentumLimit = 0.25;
 rangelimit = 0.25;
 tradelimit = 0.4;
+linedistancelimit =  0.05;
+
+stopDistanceFluctuation = 0.1;
 recentlimit = 4;
 recentrangelimit =  5;
-linedistancelimit =  0.05;
 rangeConfirmationLimit = 12;
-stopDistanceFluctuation = 0.1;
 confirmationlimit = 3;
 missingHoursLimit = 3;
 bumpgrouplimit = 5;
@@ -94,6 +99,17 @@ bRD = {};
 bumpgroupcount = 0;
 lineDistance = 0;
 rangeConfirmations = 0;
+
+//Analysis data
+closes = [];
+times = [];
+range = [];
+highs = [];
+lows = [];
+opens = [];
+lowestPrice = 0;
+highestPrice = 0;
+priceDiff = 0;
 
 //Dates
 resolution = 'HOUR';

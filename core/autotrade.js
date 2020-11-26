@@ -301,7 +301,9 @@ module.exports = {
   cloudHandler:cloudHandler,
   loopHandler:loopHandler,
   notificationHandler:notificationHandler,
+  analysisHandler:analysisHandler,
   errorHandler:errorHandler,
+
 }
 
 

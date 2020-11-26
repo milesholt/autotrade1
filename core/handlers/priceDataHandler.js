@@ -5,6 +5,7 @@ var loop;
 var cloud;
 var error;
 var api;
+var analysis;
 
 /*
 
@@ -17,6 +18,7 @@ actions.require = async function(){
   loop = core.loopHandler.actions.loop;
   cloud = core.cloudHandler.actions;
   error = core.errorHandler.actions;
+  analysis = core.analysisHandler.actions;
   api = core.api;
 }
 
@@ -93,6 +95,10 @@ actions.sortPriceData = async function(){
         let start2 = (pricedata.support.length - 37);
         pricedata3.support = pricedata.support.filter((price,i) => i > start2);
         pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
+
+        //Sort analysis of data
+        await analysis.analysePriceData();
+
       }else{
         loop('Price undefined? Waiting an hour and trying again');
         return false;

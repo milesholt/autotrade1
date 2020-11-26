@@ -15,6 +15,36 @@ actions.require = async function(){
 
 /*
 
+PRICE DATA ANALYSIS
+
+*/
+
+actions.analysePriceData = async function(){
+  console.log('analysing price data...');
+
+  pricedata3.support.forEach(price =>{
+    times.push(price.time);
+    closes.push(price.close);
+    opens.push(price.open);
+    highs.push(price.high);
+    lows.push(price.low);
+    range.push(price.low);
+    range.push(price.high);
+  });
+
+  range.sort(sortNumber);
+
+  lowestPrice = range[0];
+  highestPrice = range[range.length-1];
+  priceDiff = highestPrice - lowestPrice;
+
+  console.log('lowestPrice: ' + lowestPrice);
+  console.log('highestPrice: ' + highestPrice);
+  console.log('priceDiff: ' + priceDiff);
+}
+
+/*
+
 FINAL ANALYSIS
 
 */

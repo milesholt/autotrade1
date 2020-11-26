@@ -46,6 +46,21 @@ actions.checkOpenTrades = async function(){
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }
 
+/*
+
+CONFIG LIMITS
+
+*/
+
+actions.configLimits = async function(){
+  momentumLimit = parseFloat(priceDiff * momentLimitPerc).toFixed(2);
+  tradeLimit = parseFloat(priceDiff * tradeLimitPerc).toFixed(2);
+  lineDistanceLimit = parseFloat(priceDiff * lineDistanceLimitPerc).toFixed(2);
+  console.log('momentumLimit: ' + momentumLimit);
+  console.log('tradeLimit: ' + momentumLimit);
+  console.log('lineDistanceLimit: ' + lineDistanceLimit);
+}
+
 
 /*
 
