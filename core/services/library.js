@@ -19,6 +19,10 @@ actions.toString = function(val){
   return val.toString();
 }
 
+actions.sortNumber = function(a, b) {
+  return a - b;
+}
+
 actions.isJSON = function(val){
   try {
        JSON.parse(str);
