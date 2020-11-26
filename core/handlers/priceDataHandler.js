@@ -70,7 +70,7 @@ Method for sorting pricedata
 
 actions.sortPriceData = async function(){
   if(prices.length > 0){
-    prices.forEach((price,idx) =>{
+    prices.forEach(async (price,idx) =>{
       if(price !== null){
         let time =  price.snapshotTime.replace(/\//g, '-');
         let midOpen = parseFloat(parseFloat(price.openPrice.ask - ((price.openPrice.ask - price.openPrice.bid)/2) ).toFixed(2));
