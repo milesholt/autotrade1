@@ -156,7 +156,7 @@ actions.setDefaults = async function(){
   //Analysis data
   closes = [];
   times = [];
-  range = [];
+  rangeAnalysis = [];
   highs = [];
   lows = [];
   opens = [];
