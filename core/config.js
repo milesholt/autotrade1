@@ -103,7 +103,7 @@ rangeConfirmations = 0;
 //Analysis data
 closes = [];
 times = [];
-range = [];
+rangeAnalysis = [];
 highs = [];
 lows = [];
 opens = [];
