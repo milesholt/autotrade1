@@ -34,7 +34,7 @@ actions.analysePriceData = async function(){
     rangeAnalysis.push(price.high);
   });
 
-  rangeAnalysis.sort(sortNumber);
+  rangeAnalysis.sort(lib.sortNumber);
 
   lowestPrice = rangeAnalysis[0];
   highestPrice = rangeAnalysis[range.length-1];
