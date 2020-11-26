@@ -223,6 +223,9 @@ actions.exec = async function(){
     //Sort price data
     await priceDataHandler.actions.sortPriceData();
 
+    //Sort dynamic limits
+    await checkHandler.actions.configLimits();
+
     //Setup lines
     supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
     resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
