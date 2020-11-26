@@ -37,7 +37,7 @@ actions.analysePriceData = async function(){
   rangeAnalysis.sort(lib.sortNumber);
 
   lowestPrice = rangeAnalysis[0];
-  highestPrice = rangeAnalysis[range.length-1];
+  highestPrice = rangeAnalysis[rangeAnalysis.length-1];
   priceDiff = highestPrice - lowestPrice;
 
   console.log('lowestPrice: ' + lowestPrice);
