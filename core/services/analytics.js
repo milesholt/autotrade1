@@ -49,7 +49,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   let endtime = times[times.length-1];
 
   //let lastClose =  parseFloat(closes[closes.length-1]);
-  let lastRangeIndex = rangedata.support.prices_idx[rangedata.support.prices_idx.length-1];
+  let lastRangeIndex = rangeData.support.prices_idx[rangeData.support.prices_idx.length-1];
   console.log(lastRangeIndex);
   let lastData = pricedata2[lastRangeIndex];
 
