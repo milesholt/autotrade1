@@ -1,10 +1,11 @@
-var actions = {};
-var core;
-var lib;
-var moment;
+//Plotly Chart Studio API
+//API - WGIhp2vCZ9C86KEkjEJf
+//Username - miles_holt
+//Streaming token - vbey2uqiwm
 
 const { from, range } = require('rxjs');
 const { map, filter } = require('rxjs/operators');
+
 const username = 'miles_holt';
 const apikey = 'WGIhp2vCZ9C86KEkjEJf';
 const streamtoken = 'vbey2uqiwm';
@@ -14,68 +15,46 @@ const userdetails = {
   host: 'chart-studio.plotly.com'
 };
 var plotly = require('plotly')(userdetails,apikey);
-
-/*
-
-REQUIRE
-
-*/
-
-actions.require = async function(){
-  core = require.main.exports;
-  lib = core.lib.actions;
-  moment = core.moment;
-}
-
-/*
-
-DRAW CHART
-
-*/
+var actions = {};
+const moment=require('moment');
+moment().format();
 
 actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
-  const circleheight = parseFloat((priceDiff * 0.013).toFixed(3)); //get fraction of height, so it's in proportion to data range
+  let times = [], customdata = [], shapes = [], closes = [], opens = [], highs = [], lows = [], range = [];
+
+  priceData.forEach(price =>{
+    times.push(price.time);
+    closes.push(price.close);
+    opens.push(price.open);
+    highs.push(price.high);
+    lows.push(price.low);
+    customdata.push({});
+    range.push(price.low);
+    range.push(price.high);
+  });
+
+  range.sort(sortNumber);
+
+  const lowestnum = range[0];
+  const highestnum = range[range.length-1];
+  const pricediff = highestnum - lowestnum;
+  const circleheight = parseFloat((pricediff * 0.013).toFixed(3)); //get fraction of height, so it's in proportion to data range
   console.log('circleheight: ' + circleheight);
 
   //skip first 12 hours
   let priceData2 = priceData.slice(12, priceData.length);
   let midprices = priceData2.map(r => (parseFloat((r.open+r.close)/2).toFixed(2)));
-
-  //customdata[customdata.length-1] = analysis;
-
-  let starttime =  times[0];
-  let starttime2 = times[11]; //12 hours ahead (range area needs to be 24 hours not 36)
-  let endtime = times[times.length-1];
-
-  //let lastClose =  parseFloat(closes[closes.length-1]);
-  let lastRangeIndex = rangedata.support.prices_idx[rangedata.support.prices_idx.length-1];
-  console.log(lastRangeIndex);
-  let lastData = pricedata2[lastRangeIndex];
-
-  let lastTimeStart = moment(lastTime).subtract(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
-  let lastTimeEnd = moment(lastTime).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
-
-  console.log('lastTime: ' + lastTime);
-  console.log('lastClose: ' + lastClose);
-
-  //Momentum area
-  let momentumLimitArea0 = parseFloat(lastClose + parseFloat(momentumLimit)).toFixed(2);
-  let momentumLimitArea1 = parseFloat(lastClose - parseFloat(momentumLimit)).toFixed(2);
-
-  //Trade limit area
-  let tradeLimitArea0 = parseFloat(lastClose + parseFloat(tradelimit)).toFixed(2);
-  let tradeLimitArea1 = parseFloat(lastClose - parseFloat(tradelimit)).toFixed(2);
-
-  //line distance limit area
-  let lineDistanceLimitArea0 = parseFloat(linedata.midrange + parseFloat(linedistancelimit/2)).toFixed(2);
-  let lineDistanceLimitArea1 = parseFloat(linedata.midrange - parseFloat(linedistancelimit/2)).toFixed(2);
-
-
+  
   console.log('SORTING RANGE DATA FOR ANALYTICS-------------------');
 
   priceData2.forEach((price, i) =>{
-
+  //skip first 12 hours
+//   if(i < 11){
+//     continue;
+//   }
+    //for(let i = 11, len = priceData.length; i<len; i++){
+      //let price = priceData[i];
       let range_col = 'rgba(217, 14, 87, 0.7)';
       let bump_col = 'rgba(92, 123, 207, 0.7)';
 
@@ -83,8 +62,19 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       let midplus = parseFloat(midprice+circleheight).toFixed(3);
       let midminus = parseFloat(midprice-circleheight).toFixed(3);
       midprice = parseFloat(midprice).toFixed(2); //round it after setting midplus and minus, otherwise numbers are incorrect
+    
+      //console.log('price open: ' + price.open + ' price close: ' + price.close + ' mid price: ' + midprice + ' midplus: ' + midplus + ' midminus: ' + midminus);
 
       rangeData.support.prices_idx.forEach((pidx,ridx) => {
+        //console.log(pidx);
+
+        //let y0 = parseFloat(rangeData.support.prices[ridx]-circleheight).toFixed(2);
+        //let y1 = parseFloat(rangeData.support.prices[ridx]+circleheight).toFixed(2);
+
+        //console.log('yo: ' + rangeData.support.prices[ridx]);
+        //console.log('y1: ' + rangeData.support.prices[ridx]);
+        //console.log('yo: ' + y0);
+        //console.log('y1: ' + y1);
 
         if(pidx == i){
           let j = i+1;
@@ -108,6 +98,12 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
           shapes.push(circle);
         }
       });
+
+      //console.log('openprice:' + price.open);
+      //console.log('closeprice:' + price.close);
+      //console.log('midprice:' + midprice);
+      //console.log('midprice plus circleheight:' + midplus);
+      //console.log('midprice minus circleheight:' + midminus);
 
       rangeData.bumps.forEach((bump,bidx) => {
           //console.log(pidx);
@@ -134,7 +130,65 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
             shapes.push(circle);
           }
       });
+
+
+    // confirmations.support_index.forEach(sidx => {
+    //   if(sidx == i){
+    //     let j = i+1;
+    //     let circle = {
+    //       type: 'circle',
+    //       xref: 'x',
+    //       yref: 'y',
+    //       fillcolor: 'rgba(217, 14, 87, 0.7)',
+    //       line: {
+    //         width: 0,
+    //         dash:'solid'
+    //       },
+    //       x0: price.time,
+    //       y0: price.price,
+    //       x1: moment(price.time).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+    //       y1: price.price+10
+    //     }
+    //     shapes.push(circle);
+    //   }
+    // });
+    //
+    // confirmations.resistance_index.forEach(ridx => {
+    //   if(ridx == i){
+    //     console.log(ridx);
+    //     let j = i+1;
+    //     let circle = {
+    //       type: 'circle',
+    //       xref: 'x',
+    //       yref: 'y',
+    //       fillcolor: 'rgba(29, 199, 201, 0.7)',
+    //       line: {
+    //         width: 0,
+    //         dash:'solid'
+    //       },
+    //       x0: price.time,
+    //       y0: price.price,
+    //       x1: moment(price.time).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+    //       y1: price.price+10
+    //     }
+    //     shapes.push(circle);
+    //   }
+    // });
+
+    //console.log(shapes);
+  //}
   });
+
+  customdata[customdata.length-1] = analysis;
+
+  range.sort(sortNumber);
+
+  let lowest = range[0];
+  let highest = range[range.length-1];
+  let starttime =  times[0];
+  let starttime2 = times[11]; //12 hours ahead (range area needs to be 24 hours not 36)
+  let endtime = times[times.length-1];
+
 
   var trace1 = {
       x: times,
@@ -148,7 +202,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       type: 'candlestick',
       xaxis: 'x',
       yaxis: 'y',
-      customdata: analysis
+      customdata: customdata
   };
 
   var supportline = {
@@ -202,65 +256,9 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
         layer: 'above'
   }
 
-  var momentumarea = {
-        type: 'rect',
-        y0: momentumLimitArea0,
-        y1: momentumLimitArea1,
-        x0: lastTimeStart,
-        x1: lastTimeEnd,
-        line: {
-          color: '#530EE0', //dark purple
-          width: 0,
-          dash: 'solid'
-        },
-        fillcolor: '#48c27a',
-        xref: 'x',
-        yref: 'y',
-        opacity: 0.15,
-        layer: 'above'
-  }
-
-  var tradearea = {
-        type: 'rect',
-        y0: tradeLimitArea0,
-        y1: tradeLimitArea1,
-        x0: lastTimeStart,
-        x1: lastTimeEnd,
-        line: {
-          color: '#48c27a', //green
-          width: 0,
-          dash: 'solid'
-        },
-        fillcolor: '#48c27a',
-        xref: 'x',
-        yref: 'y',
-        opacity: 0.17,
-        layer: 'above'
-  }
-
-  var minimumarea = {
-        type: 'rect',
-        y0: lineDistanceLimitArea0,
-        y1: lineDistanceLimitArea1,
-        x0: starttime,
-        x1: endtime,
-        line: {
-          color: '#F6A900', //orange
-          width: 0,
-          dash: 'solid'
-        },
-        fillcolor: '#F6A900',
-        xref: 'x',
-        yref: 'y',
-        opacity: 0.26,
-        layer: 'above'
-  }
-
-
-
   var data = [trace1];
 
-  shapes.push(supportline, resistanceline, midrangeline, momentumarea, tradearea, minimumarea);
+  shapes.push(supportline, resistanceline, midrangeline);
 
   var layout = {
     dragmode: 'zoom',
@@ -282,7 +280,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
     yaxis: {
       autorange: true,
       domain: [0, 1],
-      range:[lowestPrice,highestPrice],
+      range:[lowest,highest],
       type: 'linear'
     },
     shapes:shapes

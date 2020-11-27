@@ -339,6 +339,7 @@ notificationHandler.actions.require();
 errorHandler.actions.require();
 
 log.actions.require();
+analytics.actions.require();
 
 
 

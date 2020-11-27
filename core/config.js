@@ -30,7 +30,6 @@ monitor = { 'epic': '', 'dealId': '', 'dealRef': '', 'streamLogDir' : '' }
 trade = { 'marketId' : 0, 'epic':'', 'dealId': '', 'dealRef': '', 'startAnalysis': '', 'closeAnalysis': '', 'start_timestamp': '', 'start_date':'', 'end_timestamp': '', 'end_date': '', 'error': {} };
 mid = 0;
 epic = '';
-analysis = {};
 dealIds = [];
 dealId = '';
 dealRef = '';
@@ -101,6 +100,7 @@ lineDistance = 0;
 rangeConfirmations = 0;
 
 //Analysis data
+analysis = {};
 closes = [];
 times = [];
 rangeAnalysis = [];
