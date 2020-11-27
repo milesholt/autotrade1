@@ -35,6 +35,8 @@ DRAW CHART
 
 actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
+  let shapes = [];
+
   const circleheight = parseFloat((priceDiff * 0.013).toFixed(3)); //get fraction of height, so it's in proportion to data range
   console.log('circleheight: ' + circleheight);
 
