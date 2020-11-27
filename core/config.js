@@ -6,10 +6,10 @@ momentLimitPerc = 0.1;  //same as range limit
 tradeLimitPerc = 0.15;
 lineDistanceLimitPerc = 0.05;
 
-momentumLimit = 0.25;
-rangelimit = 0.25;
-tradelimit = 0.4;
-linedistancelimit =  0.05;
+momentumLimit = 0;
+rangelimit = 0;
+tradelimit = 0;
+linedistancelimit =  0;
 
 stopDistanceFluctuation = 0.1;
 recentlimit = 4;
