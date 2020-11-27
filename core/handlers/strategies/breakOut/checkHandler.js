@@ -59,7 +59,7 @@ actions.configLimits = async function(){
   linedistancelimit = parseFloat(priceDiff * lineDistanceLimitPerc).toFixed(2);
   console.log('momentumLimit: ' + momentumLimit);
   console.log('tradeLimit: ' + momentumLimit);
-  console.log('lineDistanceLimit: ' + lineDistanceLimit);
+  console.log('lineDistanceLimit: ' + linedistancelimit);
 }
 
 
