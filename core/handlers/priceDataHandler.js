@@ -86,24 +86,25 @@ actions.sortPriceData = async function(){
         pricedata.support.push({'price': supportprice, 'open':midOpen, 'close': midClose, 'high': midHigh, 'low': midLow, 'diff': Math.round(Math.abs(midOpen - midClose)), 'time': time, 'closeAsk': askClose, 'closeBid': bidClose });
         pricedata.resistance.push({'price': resistprice, 'open':midOpen, 'close': midClose, 'high': midHigh, 'low': midLow, 'diff': Math.round(Math.abs(midOpen - midClose)), 'time': time, 'closeAsk': askClose, 'closeBid': bidClose });
 
-        //Second pricedata (24 hour range)
-        let start = (pricedata.support.length - 25);
-        pricedata2.support = pricedata.support.filter((price,i) => i > start);
-        pricedata2.resistance = pricedata.resistance.filter((price,i) => i > start);
-
-        //Third pricedata (36 hour range)
-        let start2 = (pricedata.support.length - 37);
-        pricedata3.support = pricedata.support.filter((price,i) => i > start2);
-        pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
-
-        //Sort analysis of data
-        await analysis.analysePriceData();
-
       }else{
         loop('Price undefined? Waiting an hour and trying again');
         return false;
       }
     });
+
+    //Second pricedata (24 hour range)
+    let start = (pricedata.support.length - 25);
+    pricedata2.support = pricedata.support.filter((price,i) => i > start);
+    pricedata2.resistance = pricedata.resistance.filter((price,i) => i > start);
+
+    //Third pricedata (36 hour range)
+    let start2 = (pricedata.support.length - 37);
+    pricedata3.support = pricedata.support.filter((price,i) => i > start2);
+    pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
+
+    //Sort analysis of data
+    await analysis.analysePriceData();
+    
   } else {
     return false;
   }
