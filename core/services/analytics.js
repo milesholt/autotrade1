@@ -68,8 +68,8 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   let tradeLimitArea1 = parseFloat(lastClose - parseFloat(tradelimit)).toFixed(2);
 
   //line distance limit area
-  let lineDistanceLimitArea0 = parseFloat(linedata.midrange + parseFloat(linedistancelimit/2)).toFixed(2);
-  let lineDistanceLimitArea1 = parseFloat(linedata.midrange - parseFloat(linedistancelimit/2)).toFixed(2);
+  let lineDistanceLimitArea0 = parseFloat(lineData.midrange + parseFloat(linedistancelimit/2)).toFixed(2);
+  let lineDistanceLimitArea1 = parseFloat(lineData.midrange - parseFloat(linedistancelimit/2)).toFixed(2);
 
 
   console.log('SORTING RANGE DATA FOR ANALYTICS-------------------');
