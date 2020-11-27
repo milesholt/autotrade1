@@ -2,7 +2,8 @@
 check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
 
 //Main limits
-momentLimitPerc = 0.1;  //same as range limit
+momentLimitPerc = 0.1; 
+rangeLimitPerc = 0.1;
 tradeLimitPerc = 0.15;
 lineDistanceLimitPerc = 0.05;
 

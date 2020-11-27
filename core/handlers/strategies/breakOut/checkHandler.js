@@ -54,7 +54,7 @@ CONFIG LIMITS
 
 actions.configLimits = async function(){
   momentumLimit = parseFloat(priceDiff * momentLimitPerc).toFixed(2);
-  rangelimit = momentumLimit;
+  rangelimit = parseFloat(priceDiff * rangeLimitPerc).toFixed(2);
   tradelimit = parseFloat(priceDiff * tradeLimitPerc).toFixed(2);
   linedistancelimit = parseFloat(priceDiff * lineDistanceLimitPerc).toFixed(2);
   console.log('momentumLimit: ' + momentumLimit);
