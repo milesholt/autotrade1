@@ -9,7 +9,7 @@ moment().format();
 
 //This will convert a string to a number rounded to decimal points, default is 2
 //Also has the option of getting the absolute value (non negative)
-actions.toNumber = function(val,abs=true,points=2){
+actions.toNumber = function(val,abs=false,points=2){
   if(abs) return parseFloat(Math.abs(val).toFixed(points));
   if(!abs) return parseFloat(val.toFixed(points));
 }
