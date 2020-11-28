@@ -4,6 +4,7 @@ var api;
 var monitor;
 var util;
 var cloud;
+var lib;
 
 /*
 
@@ -17,6 +18,7 @@ actions.require = async function(){
   util = core.util;
   monitor = core.monitor.actions;
   cloud = core.cloudHandler.actions;
+  lib = core.lib.actions;
 }
 
 /*
@@ -53,10 +55,10 @@ CONFIG LIMITS
 */
 
 actions.configLimits = async function(){
-  momentumLimit = parseFloat(priceDiff * momentLimitPerc).toFixed(2);
-  rangelimit = parseFloat(priceDiff * rangeLimitPerc).toFixed(2);
-  tradelimit = parseFloat(priceDiff * tradeLimitPerc).toFixed(2);
-  linedistancelimit = parseFloat(priceDiff * lineDistanceLimitPerc).toFixed(2);
+  momentumLimit = lib.toNumber(priceDiff * momentLimitPerc);
+  rangelimit = lib.toNumber(priceDiff * rangeLimitPerc);
+  tradelimit = lib.toNumber(priceDiff * tradeLimitPerc);
+  linedistancelimit = lib.toNumber(priceDiff * lineDistanceLimitPerc);
   console.log('momentumLimit: ' + momentumLimit);
   console.log('tradeLimit: ' + momentumLimit);
   console.log('lineDistanceLimit: ' + linedistancelimit);
