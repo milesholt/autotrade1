@@ -61,17 +61,17 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   console.log('lastTime: ' + lastTime);
   console.log('lastClose: ' + lastClose);
 
-  //Momentum area - Buy
+  //Momentum area - Buy - threshold passed opens trade
   let momentumLimitBuyArea0 = lineData.resistance;
   let momentumLimitBuyArea1 = parseFloat(lineData.resistance + parseFloat(momentumLimit)).toFixed(2);
 
-  //Momentum area - Buy
+  //Momentum area - SELL - threshold passed opens trade
   let momentumLimitSellArea0 = lineData.support;
   let momentumLimitSellArea1 = parseFloat(lineData.support - parseFloat(momentumLimit)).toFixed(2);
 
-  //Trade limit area
-  let tradeLimitArea0 = parseFloat(lastClose + parseFloat(tradelimit)).toFixed(2);
-  let tradeLimitArea1 = parseFloat(lastClose - parseFloat(tradelimit)).toFixed(2);
+  //Trade limit area - limit that prevents opening a trade if passed
+  let tradeLimitBuyLine = parseFloat(lineData.resistance + parseFloat(tradelimit)).toFixed(2);
+  let tradeLimitSellLine = parseFloat(lineData.support - parseFloat(tradelimit)).toFixed(2);
 
   //line distance limit area
   let lineDistanceLimitArea0 = parseFloat(lineData.midrange + parseFloat(linedistancelimit/2)).toFixed(2);
@@ -244,23 +244,41 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
         layer: 'above'
   }
 
-  var tradearea = {
-        type: 'rect',
-        y0: tradeLimitArea0,
-        y1: tradeLimitArea1,
-        x0: lastTimeStart,
-        x1: lastTimeEnd,
+  var tradelineBuy = {
+        type: 'line',
+        y0: tradeLimitBuyLine,
+        y1:  tradeLimitBuyLine,
+        x0: starttime2,
+        x1: endtime,
         line: {
-          color: '#48c27a', //green
-          width: 0,
-          dash: 'solid'
+          color: '#D90E57', //green
+          width: 4,
+          dash: 'dot'
         },
-        fillcolor: '#48c27a',
         xref: 'x',
         yref: 'y',
         opacity: 0.17,
         layer: 'above'
   }
+
+  var tradelineSell = {
+        type: 'line',
+        y0: tradeLimitSellLine,
+        y1:  tradeLimitSellLine,
+        x0: starttime2,
+        x1: endtime,
+        line: {
+          color: '#D90E57', //green
+          width: 4,
+          dash: 'dot'
+        },
+        xref: 'x',
+        yref: 'y',
+        opacity: 0.17,
+        layer: 'above'
+  }
+
+
 
   var minimumarea = {
         type: 'rect',
@@ -284,7 +302,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   var data = [trace1];
 
-  shapes.push(supportline, resistanceline, midrangeline, momentumareaBuy, momentumareaSell, tradearea, minimumarea);
+  shapes.push(supportline, resistanceline, midrangeline, momentumareaBuy, momentumareaSell, tradelineBuy, tradelineSell, minimumarea);
 
   var layout = {
     dragmode: 'zoom',
