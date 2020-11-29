@@ -61,9 +61,13 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   console.log('lastTime: ' + lastTime);
   console.log('lastClose: ' + lastClose);
 
-  //Momentum area
-  let momentumLimitArea0 = parseFloat(lastClose + parseFloat(momentumLimit)).toFixed(2);
-  let momentumLimitArea1 = parseFloat(lastClose - parseFloat(momentumLimit)).toFixed(2);
+  //Momentum area - Buy
+  let momentumLimitBuyArea0 = lineData.resistance;
+  let momentumLimitBuyArea1 = parseFloat(lineData.resistance + parseFloat(momentumLimit)).toFixed(2);
+
+  //Momentum area - Buy
+  let momentumLimitSellArea0 = lineData.support;
+  let momentumLimitSellArea1 = parseFloat(lineData.support - parseFloat(momentumLimit)).toFixed(2);
 
   //Trade limit area
   let tradeLimitArea0 = parseFloat(lastClose + parseFloat(tradelimit)).toFixed(2);
@@ -204,10 +208,28 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
         layer: 'above'
   }
 
-  var momentumarea = {
+  var momentumareaBuy = {
         type: 'rect',
-        y0: momentumLimitArea0,
-        y1: momentumLimitArea1,
+        y0: momentumLimitBuyArea0,
+        y1: momentumLimitBuyArea1,
+        x0: lastTimeStart,
+        x1: lastTimeEnd,
+        line: {
+          color: '#530EE0', //dark purple
+          width: 0,
+          dash: 'solid'
+        },
+        fillcolor: '#48c27a',
+        xref: 'x',
+        yref: 'y',
+        opacity: 0.15,
+        layer: 'above'
+  }
+
+  var momentumareaSell = {
+        type: 'rect',
+        y0: momentumLimitSellArea0,
+        y1: momentumLimitSellArea1,
         x0: lastTimeStart,
         x1: lastTimeEnd,
         line: {
@@ -262,7 +284,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   var data = [trace1];
 
-  shapes.push(supportline, resistanceline, midrangeline, momentumarea, tradearea, minimumarea);
+  shapes.push(supportline, resistanceline, midrangeline, momentumareaBuy, momentumareaSell, tradearea, minimumarea);
 
   var layout = {
     dragmode: 'zoom',
