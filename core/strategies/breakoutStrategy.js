@@ -23,8 +23,8 @@ actions.calcResistSupport = async function(pricedata,type){
 
   let rangediff = highestnum - lowestnum;
 
-  let rangediff_m1 = parseFloat(rangediff * 0.1).toFixed(2);  //8% of range
-  let rangediff_m2 = parseFloat(rangediff * 0.2).toFixed(2); //20% of range
+  let rangediff_m1 = parseFloat(rangediff * breakoutMargin1).toFixed(2);  //8% of range
+  let rangediff_m2 = parseFloat(rangediff * breakoutMargin2).toFixed(2); //20% of range
 
   let margin1 = rangediff_m1;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
   let margin2 = rangediff_m2; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines

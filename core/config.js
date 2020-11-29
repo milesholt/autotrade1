@@ -2,7 +2,7 @@
 check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true;
 
 //Main limits
-momentLimitPerc = 0.1; 
+momentLimitPerc = 0.1;
 rangeLimitPerc = 0.1;
 tradeLimitPerc = 0.15;
 lineDistanceLimitPerc = 0.05;
@@ -11,6 +11,10 @@ momentumLimit = 0;
 rangelimit = 0;
 tradelimit = 0;
 linedistancelimit =  0;
+
+//Specific Strategy Limits
+breakoutMargin1 = 0.15;
+breakoutMargin2 = 3;
 
 stopDistanceFluctuation = 0.1;
 recentlimit = 4;
