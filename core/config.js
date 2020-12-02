@@ -13,7 +13,7 @@ tradelimit = 0;
 linedistancelimit =  0;
 
 //Specific Strategy Limits
-breakoutMargin1 = 0.2;
+breakoutMargin1 = 0.3;
 breakoutMargin2 = 3;
 
 stopDistanceFluctuation = 0.1;
