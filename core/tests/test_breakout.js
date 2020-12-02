@@ -10,7 +10,7 @@ moment().format();
 const strategy = require('../strategies/tests/breakoutStrategy.js');
 const analytics = require('../services/tests/analytics.js');
 
-var pricesDir = path.join(__dirname, './test_pricedata4.json');
+var pricesDir = path.join(__dirname, './test_pricedata5.json');
 
 //let pricedata = {'support': [], 'resistance': []};
 let pricedata2 = {'support': [], 'resistance': []};
