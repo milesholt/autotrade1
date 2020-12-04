@@ -2,13 +2,9 @@
 let actions = {};
 const { from, range } = require('rxjs');
 const { map, filter } = require('rxjs/operators');
+const util = require('util');
 
 actions.calcResistSupport = async function(pricedata,type){
-
-  //1) Use a small margin (margin1) to locate midrange line - looking for the most number of prices that fit within a small margin
-  //2) Once we have a group of prices within that margin, we find the medium average price which becomes the midrange line
-  //3) We then use midrange line and loop through prices again, collecting only prices that are within margin2 from the midrange line
-  //4) We then order those prices, and select the lowest for support, and the highest for resistance
 
   let prices = pricedata[type].map(r => parseFloat((r.open+r.close)/2).toFixed(2) );
   let range = [];
@@ -17,178 +13,131 @@ actions.calcResistSupport = async function(pricedata,type){
     range.push(price.low);
     range.push(price.high);
   });
+
   range.sort(sortNumber);
+
   const lowestnum = range[0];
   const highestnum = range[range.length-1];
-
   let rangediff = highestnum - lowestnum;
-
-  let rangediff_m1 = parseFloat(rangediff * breakoutMargin1).toFixed(2);  //8% of range
-  let rangediff_m2 = parseFloat(rangediff * breakoutMargin2).toFixed(2); //20% of range
-
-  let margin1 = rangediff_m1;  // Small margin, concentrating on the largest cluster of prices that fit within it, becoming the midrange line
-  let margin2 = rangediff_m2; // High margin, to search for prices stemming from the midrange line, becoming support and resistance lines
-  let matches = []; // Matches for midrange line
-  let matches2 = []; // Matches for support and resistance lines
   let line = 0;
   let midx = 0;
 
-  prices.forEach((price,idx) => {
-    price = parseFloat(price);
-    let match = false
-    let m = [];
-    let pi = []
-    prices.forEach((price2,idx2) => {
-      price2 = parseFloat(price2);
-      let diff = Math.abs(price2 - price);
-      // If the difference is within margin, add it to matches
-      if(diff <= margin1){
-        match = true;
-        m.push(price2);
-        pi.push(idx2);
+  //NEW LOGIC
+  /*
+  loop through margin1, starting from 0.1 to maximum (0.3)
+  If number of pricebars in range is 12 or more, count this as primary (with the smallest margin)
+  Then check for bumps, if bumpgroundcount is over maximum group, go to the next margin
+  As soon as margin with the least amount of bump groups, and smallest at least 12 price bars, this becomes the primary
+  If rangedata is less 12 or too many bump groups, handle this and declare no range
+  */
+
+  let marginPercs = [];
+  let maxmargin = breakoutMaxMargin; //40% of price difference
+  let inc = 0.01;
+
+  for ( var i=0.1, l=(maxmargin+inc); i<=l; i+=inc ){
+    let v = parseFloat(i.toFixed(2));
+    marginPercs.push(v);
+  }
+
+  let rangeOptions = [];
+  marginPercs.forEach(margin => {
+
+    //Get percentage of price range using margin percentages array
+    //let margin = parseFloat(rangediff * marginPerc).toFixed(2);
+    //console.log('margin: ' + margin);
+
+    //do range
+    let mm = [];
+    prices.forEach((price,idx) => {
+      price = parseFloat(price);
+      let match = false
+      let m = [];
+      let pi = []
+      prices.forEach((price2,idx2) => {
+        price2 = parseFloat(price2);
+        let diff = Math.abs(price2 - price);
+        //convert diff into percentage
+        let diffPerc = (diff/rangediff*100);
+        // If the difference is within margin, add it to matches
+        if(diff <= margin){
+          match = true;
+          m.push(price2);
+          pi.push(idx2);
+        }
+      });
+      // Push number of matching prices with matched value
+      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'time': pricedata[type][idx].time});
+      midx++;
+    });
+
+    // Sort matches by order of how many cluster of prices each match has
+    mm.sort(sortbyRangeCluster);
+
+    // The one with the largest cluster (the last one in the order) is the data used to determine midrange line
+    let range = mm[mm.length-1];
+    rangeData[type] = range;
+
+    //do lines
+    let midrangeprices = deepCopy(range.prices).sort(sortNumber);
+    let lowestprice = midrangeprices[0];
+    let highestprice = midrangeprices[midrangeprices.length-1];
+
+
+    //do bumps
+    let rd = range.prices_idx;
+    //console.log(rd);
+
+    let bumps = [];
+    pricedata[type].forEach((price,idx) => {
+      if((price.close >= highestprice || price.close <= lowestprice) && rd.indexOf(idx) === -1 && (idx >= rd[0] && idx <= rd[rd.length-1])) {
+        bumps.push({ 'idx' : idx, 'close' : price.close });
       }
     });
-    // Push number of matching prices with matched value
-    if(match) matches.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'time': pricedata[type][idx].time});
-    midx++;
+    let bidx = 0;
+    let bumpgroupcount = 0;
+    //this makes sure that the bumps are together as a group (not scattered indexes), and must exceed a certain amount
+    bumps.forEach(bump => {
+      if(bump.idx == (bidx+1)) bumpgroupcount++;
+      bidx = bump.idx;
+    });
+
+    //rangeOptions.push({'margin': margin, 'rangeData': range, 'range': range.prices.length, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice});
+
+    rangeOptions.push({'margin': margin, 'range': range, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice});
   });
 
-  // Sort matches by order of how many cluster of prices each match has
-  matches.sort(sortbyRangeCluster);
 
-  // The one with the largest cluster (the last one in the order) is the data used to determine midrange line
-  rangeData[type] = matches[matches.length-1];
+  //console.log(util.inspect(rangeOptions, false, null));
 
-  // Get low/highest point depending on line type
-  let midrangeprices = deepCopy(rangeData[type].prices).sort(sortNumber);
-  let lowestprice = midrangeprices[0];
-  let highestprice = midrangeprices[midrangeprices.length-1];
-  // Get the midrange line by getting the average of those prices
-  let midrangeprice = (highestprice + lowestprice) / 2;
-
-  lineData.midrange = midrangeprice;
-
-  //BEGIN SECOND ROUND USING MID AREA PRICE
-
-  // Loop through prices again
-  rangeData[type].prices.forEach((price,idx) => {
-    price = parseFloat(price);
-    let match = false
-    let m = [];
-    let pi = []
-    // Use midrange and margin2 to collect data
-    let diff = Math.abs(price - midrangeprice);
-    if(diff <= margin2){
-      match = true;
-      m.push(price);
-      pi.push(idx);
+  //console.log('determing range margin: ');
+  let primaries = [];
+  rangeOptions.forEach((r,idx)=>{
+    let rangeCount = r.range.prices.length, bumpCount = r.bumps.length;
+    if( rangeCount > 12){
+      if(bumpCount < 5){
+        primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest});
+      }
     }
-    if(match) matches2.push(price);
-    midx++;
   });
 
-  // Sort newdata by order
-  matches2.sort(sortNumber);
+  if(primaries.length) {
+    primaries = primaries.sort(sortbyRangeBumps);
+    let primary = primaries[0];
+    midrangeprice = (primary.highest + primary.lowest) / 2;
+    lineData.midrange = midrangeprice;
+    console.log(primary);
 
-  // Get lowest and highest prices from secondary matches
-  lowestareaprice = matches2[0];
-  highestareaprice = matches2[matches2.length-1];
+    line = type == 'support' ? primary.lowest : primary.highest;
+  } else{
+    console.log('No range detected');
 
-  // Set support and resistance lines depending on type
-  line = type == 'support' ? lowestareaprice : highestareaprice;
+    line = lowestnum;
+  }
 
   return line;
 
 }
-
-
-actions.calcWicks = async function(pricedata){
-
-  //set how many wicks to check
-  let wicklimit = 3;
-  let strengthlimit = 25;
-  let wickdata = [];
-  let beardir = bulldir = 0;
-  let dir = '';
-  let strength = false;
-  let topstrength = 0;
-  let botstrength = 0;
-  let wickstrength = 0;
-  let resistance = 'none';
-  let confirmation1 = false;
-  let confirmation2 = false;
-
-  for(let i = (pricedata.support.length-wicklimit) , len = pricedata.support.length-1; i <= len; i++){
-
-    let pricebar = pricedata.support[i];
-    let open = pricebar.open;
-    let close = pricebar.close;
-    let highest = pricebar.high;
-    let lowest = pricebar.low;
-    let time = pricebar.time;
-    let closeAsk = pricebar.closeAsk;
-
-    //get total difference of price bar
-    let pricediff = Math.round(highest - lowest);
-
-    //get percentage of bearish resistance (top wick)
-    let topwick = ((highest - (open > close ? open : close)) /  pricediff) * 100;
-
-    //get percentage of bullish resistance (bottom wick)
-    let botwick = (((open < close ? open : close) - lowest) /  pricediff) * 100;
-
-    //get difference in percentage between wick and non-wick to determine wick strength
-    let wickstrength = 100 - ((Math.abs(open - close) / pricediff) * 100);
-
-    //topwick > botwick ? beardir++ : bulldir++;
-
-    wickdata.push({'time': time, 'closeAsk': closeAsk, 'pricediff': pricediff, 'topwick': Math.round(topwick), 'botwick': Math.round(botwick), 'wickstrength': Math.round(wickstrength), 'direction': (topwick > botwick ? 'down' : 'up') });
-
-  }
-
-  //get difference of topwicks (first and last) and botwicks
-
-  //topstrength = Math.abs(wickdata[0].topwick - wickdata[2].topwick);
-  //botstrength = Math.abs(wickdata[0].botwick - wickdata[2].botwick);
-
-  //updated method builds an array of all the top/bot wick values, and selects the largest using Max
-  //this method selects the strongest wickend of the three, which includes the second wick
-
-  let toparr = [], botarr = [], strengtharr = [];
-  from(wickdata).pipe(map(val => val.topwick)).subscribe(val => toparr.push(val));
-  from(wickdata).pipe(map(val => val.botwick)).subscribe(val => botarr.push(val));
-  from(wickdata).pipe(map(val => val.wickstrength)).subscribe(val => strengtharr.push(val));
-
-  topstrength = Math.max.apply( Math, toparr );
-  botstrength = Math.max.apply( Math, botarr );
-  wickstrength = Math.max.apply( Math, strengtharr );
-
-  //depending on which wick end is greater, and if over strengthlimit, determines trend
-
-  if((topstrength > botstrength) && (topstrength >= strengthlimit)) resistance = 'bearish';
-  if((botstrength > topstrength) && (botstrength >= strengthlimit)) resistance = 'bullish';
-
-  //strength is now only the strength of the latest wick
-  //strength = wickdata[(wicklimit-1)].wickstrength;
-
-  //update: we now choose wick with highest strength
-  strength = wickstrength;
-
-  //is wicks percentage change of strength greater than 50%?
-  if (strength >= strengthlimit) confirmation1 = true;
-
-  //is wick resistance growing?
-  if (wickdata[0].wickstrength < wickdata[(wicklimit-1)].wickstrength) confirmation2 = true;
-
-  wickdata.push({'resistance': resistance, 'strength': strength, 'confirmation1': confirmation1, 'confirmation2': confirmation2});
-
-  //wickdata.push({'resistance': resistance, 'strength': strength, 'confirmation1': true, 'confirmation2': true});
-
-  return wickdata;
-
-}
-
-
 
 function sortNumber(a, b) {
   return a - b;
@@ -196,6 +145,10 @@ function sortNumber(a, b) {
 
 function sortbyRangeCluster(a, b) {
   return a.prices.length - b.prices.length;
+}
+
+function sortbyRangeBumps(a, b) {
+  return a.bumps.length - b.bumps.length;
 }
 
 function deepCopy(origObj){
@@ -208,7 +161,6 @@ function deepCopy(origObj){
    }
    return newObj;
 }
-
 
 
 module.exports = {

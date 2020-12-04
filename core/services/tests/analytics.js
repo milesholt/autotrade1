@@ -43,7 +43,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   const pricediff = highestnum - lowestnum;
   const circleheight = pricediff * 0.015; //get fraction of height, so it's in proportion to data range
 
-  console.log(rangedata);
+  //console.log(rangedata);
 
   //skip first 12 hours
   let pricedata2 = pricedata.slice(12, pricedata.length);
@@ -133,14 +133,14 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 
   //let lastClose =  parseFloat(closes[closes.length-1]);
   let lastRangeIndex = rangedata.support.prices_idx[rangedata.support.prices_idx.length-1];
-  console.log(lastRangeIndex);
+  //console.log(lastRangeIndex);
   let lastData = pricedata2[lastRangeIndex];
 
   let lastTime = lastData.time;
   let lastTimeStart = moment(lastTime).subtract(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
   let lastTimeEnd = moment(lastTime).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
 
-  console.log(lastTime);
+  //console.log(lastTime);
   let lastClose = parseFloat(lastData.close);
 
   let momentumLimit = parseFloat(pricediff * momentLimitPerc).toFixed(2);
@@ -155,8 +155,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
   let lineDistanceLimit0 = parseFloat(linedata.midrange + parseFloat(lineDistanceLimit/2)).toFixed(2);
   let lineDistanceLimit1 = parseFloat(linedata.midrange - parseFloat(lineDistanceLimit/2)).toFixed(2);
 
-  console.log('momentumLimit: ' + momentumLimit);
-  console.log('tradeLimit: ' + tradeLimit);
+  //console.log('momentumLimit: ' + momentumLimit);
+  //console.log('tradeLimit: ' + tradeLimit);
   //console.log('lowest (analytics):  ' + lowestnum);
   //console.log('highest (analytics):  ' + highestnum);
 
@@ -167,7 +167,7 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 //  console.log('tradeBuyLimit: ' + tradeBuyLimit);
   //console.log('tradeSellLimit: ' + tradeSellLimit);
 
-  console.log('lineDistanceLimit: ' + lineDistanceLimit);
+  //console.log('lineDistanceLimit: ' + lineDistanceLimit);
 
   customdata[customdata.length-1] = analysis;
 

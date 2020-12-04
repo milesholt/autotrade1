@@ -52,6 +52,7 @@ async function exec(pricedata){
   pricedata3.support = pricedata.support.filter((price,i) => i > start2);
   pricedata3.resistance = pricedata.resistance.filter((price,i) => i > start2);
 
+  //console.log(pricedata2.resistance);
   //console.log(pricedata2.support);
 
   let supportline = 0;
