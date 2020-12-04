@@ -43,10 +43,6 @@ actions.calcResistSupport = async function(pricedata,type){
   let rangeOptions = [];
   marginPercs.forEach(margin => {
 
-    //Get percentage of price range using margin percentages array
-    //let margin = parseFloat(rangediff * marginPerc).toFixed(2);
-    //console.log('margin: ' + margin);
-
     //do range
     let mm = [];
     prices.forEach((price,idx) => {
