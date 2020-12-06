@@ -122,6 +122,7 @@ actions.setDefaults = async function(){
   lastCloseAsk = 0;
   lastCloseBid = 0;
   lastDiff = 0;
+  rangeAreaLimit=0;
   beforeRangeData = {};
   beforeRangeSha = '';
   pricesSha = '';
