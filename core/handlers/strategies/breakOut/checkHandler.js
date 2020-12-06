@@ -73,6 +73,7 @@ CHECK LINES
 
 actions.checkLines = async function(){
   lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
+  console.log('lineDistance: ' + lineDistance);
   if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) check0 = true;
 }
 
