@@ -39,6 +39,7 @@ actions.analysePriceData = async function(){
   lowestPrice = rangeAnalysis[0];
   highestPrice = rangeAnalysis[rangeAnalysis.length-1];
   priceDiff = highestPrice - lowestPrice;
+  rangeAreaLimit = (priceDiff * rangeAreaLimitPerc);
 
   console.log('lowestPrice: ' + lowestPrice);
   console.log('highestPrice: ' + highestPrice);
@@ -109,6 +110,7 @@ actions.finalAnalysis = async function(){
     'rangeLimit':rangelimit,
     'tradeLimit':tradelimit,
     'lineDistanceLimit':linedistancelimit,
+    'rangeAreaLimit': rangeAreaLimit,
     'ticket': {}
   };
 
