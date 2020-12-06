@@ -3,16 +3,14 @@ check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false
 
 //Main limits
 momentLimitPerc = 0.1;
-rangeLimitPerc = 0.1;
+rangeLimitPerc = 0.3;
 tradeLimitPerc = 0.3;
-rangeAreaLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 
 momentumLimit = 0;
 rangelimit = 0;
 tradelimit = 0;
 linedistancelimit =  0;
-rangeAreaLimit = 0;
 
 //Specific Strategy Limits
 breakoutMaxMargin = 0.4;
