@@ -68,7 +68,7 @@ actions.getFile = async function(path){
 }
 
 //Update file
-actions.updateFile = async function(data,path){
+actions.updateFile = async function(data,path,retry=false){
   const timestamp = Date.now();
   //encode data to base64 string
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
@@ -118,7 +118,16 @@ actions.updateFile = async function(data,path){
           if(!JSON.stringify(e).includes('HttpError')){
             console.log(e);
           } else {
-            console.log('error updating file: ' +path+ '  from GitHub - HttpError');
+            console.log('error updating file: ' +path+ '  from GitHub - HttpError, trying again in 10 seconds...');
+            if(retry){
+              console.log('Retry failed, giving up.');
+            } else{
+               await actions.wait(10000)
+                .then(async r => {
+                //Then go again
+                 await actions.updateFile(data,path,true);
+               });
+            }        
           }
         });
 
