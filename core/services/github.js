@@ -114,7 +114,7 @@ actions.updateFile = async function(data,path,retry=false){
           content: dataTo64,
           branch: branch,
           sha: sha
-        }).catch(e => {
+        }).catch(async e => {
           if(!JSON.stringify(e).includes('HttpError')){
             console.log(e);
           } else {
