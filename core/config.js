@@ -3,7 +3,7 @@ check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false
 
 //Main limits
 momentLimitPerc = 0.1;
-rangeLimitPerc = 0.2;
+rangeLimitPerc = 0.45;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 
