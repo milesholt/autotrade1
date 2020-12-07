@@ -130,8 +130,6 @@ actions.updateFile = async function(data,path,retry=false){
             }        
           }
         });
-    
-        console.log('file should be updated:' + path);
 
         //End operation
         isRunning = false;
