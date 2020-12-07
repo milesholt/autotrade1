@@ -137,6 +137,11 @@ actions.startMonitorLog = async function(){
     if(monitor.epic == epic) exists = true;
   });
   if(!exists) monitors.push(m);
+    
+  console.log('Monitor data');
+  console.log(monitors);
+  console.log('monitor path: ' + monitorDataDir);
+  
   cloud.updateFile(monitors,monitorDataDir);
 }
 
