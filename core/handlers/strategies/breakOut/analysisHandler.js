@@ -106,10 +106,11 @@ actions.finalAnalysis = async function(){
     'lastBeforeRangeTrendMovementClose': bRD.lastBeforeRangeTrendMovementClose,
     'lastBeforeRangeTrendMovementTime': bRD.lastBeforeRangeTrendMovementTime,
     'lastBeforeRangeTrendMovementDiff': bRD.lastBeforeRangeTrendMovementDiff,
-    'momentumLimit':momentumLimit,
-    'rangeLimit':rangelimit,
-    'tradeLimit':tradelimit,
-    'lineDistanceLimit':linedistancelimit,
+    'momentumLimit': momentumLimit,
+    'rangeLimit': rangelimit,
+    'tradeLimit': tradelimit,
+    'lineDistanceLimit': linedistancelimit,
+    'priceDiff': priceDiff,
     'ticket': {}
   };
 
