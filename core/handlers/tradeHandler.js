@@ -90,8 +90,9 @@ actions.determineTrade = async function(){
 
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
         let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
-        //limit distance = 1.5% of lastClose price
-        let limitDistance = parseFloat((cp * 0.015).toFixed(2));
+        //WAS limit distance = 1.5% of lastClose price
+        //NOW limit distance = 3% of lastClose price
+        let limitDistance = parseFloat((cp * 0.03).toFixed(2));
         //stop distance = 5% of lastClose price + fluctuation of 10 as prices are changing
         let stopDistance = parseFloat(((cp * 0.05) + stopDistanceFluctuation).toFixed(2));
 
