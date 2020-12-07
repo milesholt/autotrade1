@@ -22,7 +22,6 @@ PRICE DATA ANALYSIS
 */
 
 actions.analysePriceData = async function(){
-  console.log('analysing price data...');
 
   pricedata3.support.forEach(price =>{
     times.push(price.time);
@@ -40,10 +39,6 @@ actions.analysePriceData = async function(){
   highestPrice = rangeAnalysis[rangeAnalysis.length-1];
   priceDiff = highestPrice - lowestPrice;
   rangelimit = (priceDiff * rangeLimitPerc);
-
-  console.log('lowestPrice: ' + lowestPrice);
-  console.log('highestPrice: ' + highestPrice);
-  console.log('priceDiff: ' + priceDiff);
 }
 
 /*
