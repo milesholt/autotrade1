@@ -58,8 +58,8 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   let lastTimeStart = moment(lastTime).subtract(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
   let lastTimeEnd = moment(lastTime).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
 
-  console.log('lastTime: ' + lastTime);
-  console.log('lastClose: ' + lastClose);
+  //console.log('lastTime: ' + lastTime);
+  //console.log('lastClose: ' + lastClose);
 
   //Momentum area - Buy - threshold passed opens trade
   //let momentumLimitBuyArea0 = lineData.resistance;
@@ -82,7 +82,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   let lineDistanceLimitArea1 = parseFloat(lineData.midrange - parseFloat(linedistancelimit/2)).toFixed(2);
 
 
-  console.log('SORTING RANGE DATA FOR ANALYTICS-------------------');
+  //console.log('SORTING RANGE DATA FOR ANALYTICS-------------------');
 
   priceData2.forEach((price, i) =>{
 
