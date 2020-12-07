@@ -110,7 +110,6 @@ actions.finalAnalysis = async function(){
     'rangeLimit':rangelimit,
     'tradeLimit':tradelimit,
     'lineDistanceLimit':linedistancelimit,
-    'rangeAreaLimit': rangeAreaLimit,
     'ticket': {}
   };
 
