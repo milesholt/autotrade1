@@ -53,7 +53,7 @@ function deepCopy(origObj){
          if (origObj && typeof origObj === "object") {
              newObj = Object.prototype.toString.call(origObj) === "[object Array]" ? [] : {};
              for (var i in origObj) {
-                 newObj[i] = this.deepCopy(origObj[i]);
+                 newObj[i] = deepCopy(origObj[i]);
              }
          }
          return newObj;
