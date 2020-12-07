@@ -122,6 +122,8 @@ actions.calcResistSupport = async function(pricedata,type){
     let primary = primaries[0];
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = midrangeprice;
+
+    rangeData[type] = primary.range;
     console.log(primary);
 
     line = type == 'support' ? primary.lowest : primary.highest;
