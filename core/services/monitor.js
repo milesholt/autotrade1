@@ -121,7 +121,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                         counter += 3;
 
-                        fs.readFile(streamLogDir, function (err, data) {
+                        fs.readFile(streamLogDir, async function (err, data) {
                           if (err) {
                             stream.actions.endStream();
                             return console.error(err);
@@ -193,7 +193,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     
                                     let m = {};
 
-                                    log.actions.getMonitorLog(ep).then(r =>{
+                                    await log.actions.getMonitorLog(ep).then(r =>{
                                       m = {
                                         epic : r.epic,
                                         dealId: r.dealId,
@@ -234,7 +234,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       text: JSON.stringify(closeAnalysis)
                                     };
                                     mailer.actions.sendMail(mailOptions);
-                                    testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
                                     log.actions.closeTradeLog(m.epic,closeAnalysis);
                                     log.actions.closeMonitorLog(m.epic);
@@ -249,7 +248,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     
                                     let m = {};
 
-                                    log.actions.getMonitorLog(ep).then(r =>{
+                                    await log.actions.getMonitorLog(ep).then(r =>{
                                       m = {
                                         epic : r.epic,
                                         dealId: r.dealId,
