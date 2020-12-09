@@ -136,6 +136,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
+                                console.log('epic should be: ' + ep);
                                 let d = {
                                   'snapshotTime':time,
                                   'openPrice': {
@@ -190,7 +191,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   if(closeprofit){
 
                                     console.log('close profit');
-                                    
+
                                     let m = {};
 
                                     await log.actions.getMonitorLog(ep).then(r =>{
@@ -201,7 +202,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                         streamLogDir: r.streamLogDir
                                       }
                                     }).catch(e => { console.log(e) });
-                                    
+
                                     console.log(m);
 
                                     console.log('New limit level reached. Closing position.');
@@ -245,7 +246,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   if(closeloss){
 
                                     console.log('close loss');
-                                    
+
                                     let m = {};
 
                                     await log.actions.getMonitorLog(ep).then(r =>{
@@ -256,7 +257,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                         streamLogDir: r.streamLogDir
                                       }
                                     }).catch(e => { console.log(e) });
-                                    
+
                                     console.log(m);
 
                                     console.log('Stop level reached. Closing position.');

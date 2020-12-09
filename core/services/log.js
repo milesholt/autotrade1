@@ -137,7 +137,7 @@ actions.startMonitorLog = async function(){
     if(monitor.epic == epic) exists = true;
   });
   if(!exists) monitors.push(m);
- 
+
   cloud.updateFile(monitors,monitorDataDir);
 }
 
@@ -154,9 +154,11 @@ actions.getMonitorLog = async function(epic){
   let r = false;
   return new Promise((resolve, reject) => {
       monitors.forEach((monitor,i) => {
-        if(monitor.epic == epic) r = epic;
+        if(monitor.epic == epic) r = monitor;
       });
       if(!!r){
+        console.log('found monitor record');
+        console.log(monitor);
         resolve(r);
       } else{
         reject('Could not find monitor');
