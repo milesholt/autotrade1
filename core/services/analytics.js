@@ -34,6 +34,9 @@ DRAW CHART
 */
 
 actions.drawChart = async function(priceData, lineData, analysis, rangeData){
+  
+  let isRange = true; 
+  if(lineData.support == lineData.midrange == lineData.resistance) isRange = false;
 
   let shapes = [];
 
@@ -115,7 +118,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             y1: midminus
           }
-          shapes.push(circle);
+          if(isRange) shapes.push(circle);
         }
       });
 
@@ -141,7 +144,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
               x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
               y1: midminus
             }
-            shapes.push(circle);
+            if(isRange) shapes.push(circle);
           }
       });
   });
@@ -341,7 +344,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   var data = [trace1];
   
   //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
-  if(resistanceline !== midrangeline) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
+  if(isRange) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
 
   var layout = {
     dragmode: 'zoom',
