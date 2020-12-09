@@ -131,6 +131,7 @@ actions.calcResistSupport = async function(pricedata,type){
     console.log('No range detected');
 
     line = lowestnum;
+    lineData.midrange = lowestnum;
   }
 
   return line;
