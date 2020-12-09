@@ -101,8 +101,11 @@ actions.determineTrade = async function(){
         //These calculations arrive to the same values as the logic above
         //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
 
-        let nl = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid + limitDistance)).toFixed(2));
-        let ns = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid - stopDistance)).toFixed(2));
+        //let nl = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid + limitDistance)).toFixed(2));
+        //let ns = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid - stopDistance)).toFixed(2));
+
+        let nl = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistance)),'abs');
+        let ns = lib.toNumber((lastCloseAsk - (lastCloseBid - stopDistance)),'abs');
 
         let ticketError = false;
 
