@@ -42,7 +42,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   console.log(lineData.midrange);
   
   
-  if(lineData.support == lineData.midrange == lineData.resistance) isRange = false;
+  if(lineData.support === lineData.midrange && lineData.midrange === lineData.resistance) isRange = false;
   
   console.log('isRange: ' + isRange);
 
