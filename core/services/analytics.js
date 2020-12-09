@@ -40,9 +40,11 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   console.log(lineData.resistance);
   console.log(lineData.support);
   console.log(lineData.midrange);
-  console.log(isRange);
+  
   
   if(lineData.support == lineData.midrange == lineData.resistance) isRange = false;
+  
+  console.log('isRange: ' + isRange);
 
   let shapes = [];
 
