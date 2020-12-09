@@ -126,7 +126,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
             x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
             y1: midminus
           }
-          if(isRange) shapes.push(circle);
+          if(isRange == true) shapes.push(circle);
         }
       });
 
@@ -152,7 +152,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
               x1: moment(price.time).add(10, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
               y1: midminus
             }
-            if(isRange) shapes.push(circle);
+            if(isRange == true) shapes.push(circle);
           }
       });
   });
@@ -352,7 +352,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   var data = [trace1];
   
   //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
-  if(isRange) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
+  if(isRange == true) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
 
   var layout = {
     dragmode: 'zoom',
