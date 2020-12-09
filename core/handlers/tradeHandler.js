@@ -91,12 +91,15 @@ actions.determineTrade = async function(){
         */
 
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
-        let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
+        //let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
+
+        //UPDATE we get a percentage area of priceDiff for limit and stop rather than using lastClose values
+
         //WAS limit distance = 1.5% of lastClose price
         //NOW limit distance = 3% of lastClose price
-        let limitDistance = parseFloat((cp * 0.03).toFixed(2));
+        let limitDistanceArea = parseFloat((priceDiff * 0.03).toFixed(2));
         //stop distance = 5% of lastClose price + fluctuation of 10 as prices are changing
-        let stopDistance = parseFloat(((cp * 0.05) + stopDistanceFluctuation).toFixed(2));
+        let stopDistanceArea = parseFloat(((priceDiff * 0.05) + stopDistanceFluctuation).toFixed(2));
 
         //These calculations arrive to the same values as the logic above
         //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
@@ -104,8 +107,8 @@ actions.determineTrade = async function(){
         //let nl = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid + limitDistance)).toFixed(2));
         //let ns = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid - stopDistance)).toFixed(2));
 
-        let nl = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistance)),'abs');
-        let ns = lib.toNumber((lastCloseAsk - (lastCloseBid - stopDistance)),'abs');
+        let limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceArea)),'abs');
+        let stopDistance = lib.toNumber((lastCloseAsk - (lastCloseBid - stopDistanceArea)),'abs');
 
         let ticketError = false;
 
@@ -120,9 +123,9 @@ actions.determineTrade = async function(){
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
-          	'limitDistance':nl,
+          	'limitDistance':limitDistance,
           	'limitLevel': null,
-          	'stopDistance': ns,
+          	'stopDistance': stopDistance,
           	'stopLevel': null,
           	'guaranteedStop': false,
           	'timeInForce': 'FILL_OR_KILL',
