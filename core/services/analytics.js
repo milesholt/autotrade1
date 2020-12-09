@@ -339,8 +339,9 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
 
   var data = [trace1];
-
-  shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
+  
+  //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
+  if(resistanceline !== midrangeline) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
 
   var layout = {
     dragmode: 'zoom',
