@@ -37,7 +37,7 @@ actions.analysePriceData = async function(){
 
   lowestPrice = rangeAnalysis[0];
   highestPrice = rangeAnalysis[rangeAnalysis.length-1];
-  priceDiff = highestPrice - lowestPrice;
+  priceDiff = lib.toNumber(highestPrice - lowestPrice);
   rangelimit = (priceDiff * rangeLimitPerc);
 }
 
