@@ -6,6 +6,7 @@ var api;
 var monitor;
 var util;
 var log;
+var lib;
 
 /*
 
@@ -20,6 +21,7 @@ actions.require = async function(){
   log = core.log.actions;
   api = core.api;
   monitor = core.monitor.actions;
+  lib =  core.lib.actions;
   util =  core.util;
 }
 
