@@ -136,7 +136,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
-                                console.log('epic should be: ' + ep);
+                            
                                 let d = {
                                   'snapshotTime':time,
                                   'openPrice': {
