@@ -99,6 +99,7 @@ actions.determineTrade = async function(){
         //NOW limit distance = 3% of lastClose price
         let limitDistanceArea = parseFloat((priceDiff * limitDistancePerc).toFixed(2));
         //stop distance = 8% of lastClose price + fluctuation of 10 as prices are changing
+        let stopDistanceFluctuation = parseFloat((priceDiff * stopDistanceFluctuationPerc).toFixed(2));
         let stopDistanceArea = parseFloat(((priceDiff * stopDistancePerc) + stopDistanceFluctuation).toFixed(2));
 
         //These calculations arrive to the same values as the logic above
