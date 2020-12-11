@@ -61,31 +61,31 @@ Log the end of a trade
 
 actions.closeTradeLog = async function(epic, closeAnalysis){
 
+  let ca = closeAnalysis;
 
+  let amount = (ca.openLevel - ca.lastClose) * size;
+  let result = Math.sign(amount) === 1 ? 'PROFIT' : 'LOSS';
+
+  ca.amount =  amount;
+  ca.result =  result;
 
   markets.forEach((market,i) => {
     if(market.epic == epic){
-      let t = trades[market.tradeId];
-      t.closeAnalysis = closeAnalysis;
+      let t = trades[trades.length-1];
+      t.closeAnalysis = ca;
       t.end_timestamp = Date.now();
       t.end_date = moment().format('LLL');
       market.deal = {};
     }
   });
 
-  let ca = closeAnalysis;
+  accounts.push(ca);
 
-  let amount = (ca.openLevel - ca.lastClose) * size;
-  let result = Math.sign(amount) === 1 ? 'PROFIT' : 'LOSS';
-
-  closeAnalysis.amount =  amount;
-  closeAnalysis.result =  result;
-
-  accounts.push(closeAnalysis);
-
+  //update tradedata file
+  cloud.updateFile(trades,tradeDataDir);
 
   //update marketdata file
-  cloud.updateFile(trades,tradeDataDir);
+  cloud.updateFile(markets,marketDataDir);
 
   //update account file
   cloud.updateFile(accounts,accountDataDir);

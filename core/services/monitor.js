@@ -136,7 +136,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
-                            
+
                                 let d = {
                                   'snapshotTime':time,
                                   'openPrice': {
@@ -287,7 +287,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       text: JSON.stringify(closeAnalysis)
                                     };
                                     mailer.actions.sendMail(mailOptions);
-                                    testmailer.actions.testMail();
                                     actions.stopMonitor(timer);
                                     log.actions.closeTradeLog(m.epic,closeAnalysis);
                                     log.actions.closeMonitorLog(m.epic);
