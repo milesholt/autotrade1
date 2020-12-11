@@ -17,7 +17,7 @@ linedistancelimit =  0;
 //Specific Strategy Limits
 breakoutMaxMargin = 0.4;
 
-stopDistanceFluctuation = 0.1;
+stopDistanceFluctuationPerc = 0.1;
 recentlimit = 4;
 recentrangelimit =  5;
 rangeConfirmationLimit = 12;
