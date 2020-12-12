@@ -127,9 +127,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                             return console.error(err);
                           }
 
+
                           if (/^[\],:{}\s]*$/.test(data.toString().replace(/\\["\\\/bfnrtu]/g, '@').
                            replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
-                           replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+                           replace(/(?:^|:|,)(?:\s*\[)+/g, '')) && typeof data !== null && typeof data !== undefined && data.length > 0) {
                                 //the json is ok
 
                                 data = JSON.parse(data.toString());
@@ -328,15 +329,12 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                           } else{
                                   //the json is not ok
                                   data = {};
+                                  //TO DO: Move to error handling
+                                  console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
+                                  stream.actions.endStream();
+                                  actions.stopMonitor(timer);
                           }
-                        }).catch(error => {
-                          //TO DO: Move to error handling
-                          console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                          stream.actions.endStream();
-                          actions.stopMonitor(timer);
-                          console.error(error);
                         });
-
                       },3000);
                     }).catch(error => console.error(error));
 
