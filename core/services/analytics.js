@@ -381,7 +381,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   };
 
   var options = {
-    "filename": "analytics." + epic,
+    "filename": "analytics-" + markets[mid].alias,
     "fileopt": "overwrite",
     layout,
     "world_readable": true
