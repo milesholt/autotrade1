@@ -24,7 +24,7 @@ actions.toString = function(val){
   return val.toString();
 }
 
-action.isEmpty = function(obj){
+actions.isEmpty = function(obj){
     for(var key in obj) {
         if(obj.hasOwnProperty(key))
             return false;
