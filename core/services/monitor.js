@@ -123,7 +123,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
 
                         fs.readFile(streamLogDir, async function (err, data) {
                           if (err) {
-                            stream.actions.endStream();
+                            actions.stopMonitor(timer);
                             return console.error(err);
                           }
 
@@ -213,7 +213,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     console.log('closing price (bid) was: ' + d.closePrice.bid);
 
                                     console.log('PROFIT - Finished monitoring, positions should be closed. Ending stream.');
-                                    stream.actions.endStream(m.epic);
 
                                     let closeAnalysis = {
                                       timestamp: Date.now(),
@@ -236,9 +235,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       text: JSON.stringify(closeAnalysis)
                                     };
                                     mailer.actions.sendMail(mailOptions);
-                                    actions.stopMonitor(timer);
+                                    actions.stopMonitor(timer, m.epic);
                                     log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                    log.actions.closeMonitorLog(m.epic);
                                     github.actions.updateFile({}, m.streamLogDir);
 
                                     return false;
@@ -268,7 +266,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                     console.log('closing price (bid) was: ' + d.closePrice.bid);
 
                                     console.log('LOSS - Finished monitoring, positions should be closed. Ending stream.');
-                                    stream.actions.endStream(m.epic);
 
                                     let closeAnalysis = {
                                       timestamp: Date.now(),
@@ -288,9 +285,8 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                       text: JSON.stringify(closeAnalysis)
                                     };
                                     mailer.actions.sendMail(mailOptions);
-                                    actions.stopMonitor(timer);
+                                    actions.stopMonitor(timer, m.epic);
                                     log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                    log.actions.closeMonitorLog(m.epic);
                                     //update stream data
                                     github.actions.updateFile({}, m.streamLogDir);
                                     return false;
@@ -331,7 +327,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                                   data = {};
                                   //TO DO: Move to error handling
                                   console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                                  stream.actions.endStream();
                                   actions.stopMonitor(timer);
                           }
                         });
@@ -351,7 +346,6 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
       // let direction = position.direction;
       // let dId = position.dealId;
 
-
     } else{
       console.log('no opens positions found but should be, going again....');
       setTimeout(()=>{
@@ -360,11 +354,17 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
     }
   }).catch(error => console.error(error));
 
-
 }
 
-actions.stopMonitor = async function(timer){
+actions.stopMonitor = async function(timer,epic = false){
   console.log('stopping monitor');
+
+  //if epic parameter, stop stream
+  if(!!epic){
+    stream.actions.endStream(epic);
+    log.actions.closeMonitorLog(epic);
+  }
+
   clearInterval(timer);
   return false;
 }

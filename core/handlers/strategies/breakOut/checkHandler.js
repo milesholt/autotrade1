@@ -48,6 +48,45 @@ actions.checkOpenTrades = async function(){
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }
 
+
+/*
+
+CHECK OPEN TRADES
+
+Checks for an open trade on a specific market.
+This runs every hour and starts monitoring if it wasnt already.
+This is useful if monitoring stops because market is closed. But we need to restart monitoring when market opens, so every hour we check for this.
+
+*/
+
+actions.checkOpenTrade = async function(){
+
+  if(!lib.isEmpty(market.deal)) {
+    //deal is in process for this market, get trade data
+    console.log('deal is in process, getting data:');
+    dealId = deal.dealId;
+    console.log(dealId);
+
+    let isMonitoring = false;
+    await api.getPosition(String(dealId)).then(async positionData => {
+          console.log(util.inspect(positionData, false, null));
+          if(positionData.market.marketStatus !== 'CLOSED'){
+            dealRef = positionData.position.dealReference;
+            direction = positionData.position.direction;
+            monitors.forEach(monitor => {
+              if(monitor.epic == epic) isMonitoring = true;
+            });
+            if(isMonitoring == false){
+              console.log('Open trade wasnt monitoring, starting monitoring. dealId: ' + dealId + ' epic: ' + epic);
+              monitor.iniMonitor(dealId, epic);
+            }
+          }
+    }).catch(e => console.log('catch error: showOpenPositions: ' + e));
+  }
+
+}
+
+
 /*
 
 CONFIG LIMITS

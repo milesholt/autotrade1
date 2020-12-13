@@ -226,6 +226,9 @@ actions.exec = async function(){
   //Get hosted data files
   await cloudHandler.actions.getFiles();
 
+  //Check for an open trade on this market
+  await checkHandler.actions.checkOpenTrade();
+
   //Handle price data
   await priceDataHandler.actions.getPriceData();
 
