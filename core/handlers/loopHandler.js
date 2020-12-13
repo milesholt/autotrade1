@@ -60,7 +60,8 @@ actions.loopMarkets = async function(){
   isLoopRunning = true;
 
   //Loop through each market and prepare variables
-  markets.forEach(async (m,i) => {
+  //markets.forEach(async (m,i) => {
+  for (const [i, m] of markets.entries()) {
     mid = i;
     market = m;
     epic = m.epic;
