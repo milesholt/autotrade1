@@ -66,7 +66,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   let amount = (ca.openLevel - ca.lastClose) * size;
   let result = Math.sign(amount) === 1 ? 'PROFIT' : 'LOSS';
 
-  ca.amount =  amount;
+  ca.amount =  lib.toNumber(amount);
   ca.result =  result;
 
   markets.forEach((market,i) => {
