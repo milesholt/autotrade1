@@ -27,7 +27,10 @@ bumpgrouplimit = 5;
 size = 50;
 
 //Main parameters
-markets = [{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {} }];
+markets = [
+  {'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}},
+  {'id':1, 'alias': 'NEO', 'epic': 'UC.D.NEOSUS.JUN.IP', 'data': {}, 'deal': {}},
+];
 market = {};
 trades = [];
 accounts = [];
