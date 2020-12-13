@@ -34,16 +34,16 @@ DRAW CHART
 */
 
 actions.drawChart = async function(priceData, lineData, analysis, rangeData){
-  
-  let isRange = true; 
-  
+
+  let isRange = true;
+
   console.log(lineData.resistance);
   console.log(lineData.support);
   console.log(lineData.midrange);
-  
-  
+
+
   if(lineData.support === lineData.midrange && lineData.midrange === lineData.resistance) isRange = false;
-  
+
   console.log('isRange: ' + isRange);
 
   let shapes = [];
@@ -350,7 +350,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
 
   var data = [trace1];
-  
+
   //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
   if(isRange == true) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
 
@@ -381,7 +381,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   };
 
   var options = {
-    "filename": "streamSimpleSensor",
+    "filename": "analytics." + epic,
     "fileopt": "overwrite",
     layout,
     "world_readable": true
