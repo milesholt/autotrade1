@@ -69,15 +69,15 @@ actions.loopMarkets = async function(){
     console.log('looping markets: ' + epic);
 
     await core.actions.exec();
-  });
-
+  }
+  
   //another method
   //https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
   // await Promise.all(files.map(async (file) => {
   //   const contents = await fs.readFile(file, 'utf8')
   //   console.log(contents)
   // }));
-  
+
 }
 
 
