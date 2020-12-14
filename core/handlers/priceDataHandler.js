@@ -35,6 +35,7 @@ actions.getPriceData = async function(){
             prices = r.prices;
             console.log('getting price data for 3 days....');
             console.log(pricedataDir);
+            console.log(prices);
             cloud.updateFile(prices,pricedataDir);
     }).catch(async e => {
       error.handleErrors(e);
@@ -42,7 +43,7 @@ actions.getPriceData = async function(){
   } else {
     await api.histPrc(epic, resolution, from2, to2).then(r => {
       console.log('from2: ' + from2);
-      console.log('to2: ' + to2);
+      console.log('day2: ' + to2);
       if(r.prices.length){
           //Check price bar doesn't already exist on pricedata
           if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
