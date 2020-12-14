@@ -30,6 +30,9 @@ actions.handleErrors = async function(e){
       case 'error.invalid.daterange':
         await actions.handleInvalidDateRange(e);
       break;
+      case 'customerror.price-data-empty':
+        await actions.priceDataEmpty(e);
+      break;
     }
   }
   //Once handled the error, we loop again
@@ -69,6 +72,18 @@ actions.handleInvalidDateRange = async function(e){
   console.log('Handling invalid date range.');
   noError = false;
   finalMessage = 'Invalid date range, going again in an hour';
+}
+
+/*
+
+HANDLE EMPTY PRICE DATA
+
+*/
+
+actions.priceDataEmpty = async function(e){
+  console.log('Price data is empty.');
+  noError = false;
+  finalMessage = 'Price data is empty, possible error with IG server or incorrect epic used';
 }
 
 module.exports = {

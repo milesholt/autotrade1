@@ -35,7 +35,10 @@ actions.getPriceData = async function(){
             prices = r.prices;
             console.log('getting price data for 3 days....');
             console.log(pricedataDir);
-            console.log(prices);
+            if(r.prices.length == 0){
+              let e = {'body':{'errorCode':'customerror.price-data-empty'}};
+              error.handleErrors(e);
+            }
             cloud.updateFile(prices,pricedataDir);
     }).catch(async e => {
       error.handleErrors(e);
@@ -105,7 +108,7 @@ actions.sortPriceData = async function(){
 
     //Sort analysis of data
     await analysis.analysePriceData();
-    
+
   } else {
     return false;
   }

@@ -43,11 +43,11 @@ async function exec(){
 
   //Search contract
   //Bitcoin - CS.D.BITCOIN.TODAY.IP
-  //NEO - UC.D.NEOSUS.JUN.IP
+  //NEO - 'CS.D.NEOUSD.TODAY.IP
   //Stellar - CS.D.XLMUSD.TODAY.IP
   //Ripple - CS.D.XRPUSD.TODAY.IP
   console.log('-------Searching for Epics');
-  await api.search('Ripple').then(r => {
+  await api.search('NEO').then(r => {
     console.log(r);
   }).catch(e => console.log(e));
 
@@ -66,6 +66,15 @@ async function exec(){
   // await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
   //   console.log(r);
   // }).catch(e => console.log(e));
+
+
+  //Get prices
+  const resolution = 'HOUR';
+  const from = '2020-12-12%2000:00:00';
+  const to = '2020-12-14%2009:00:00';
+  await api.histPrc('CS.D.NEOUSD.TODAY.IP', resolution, from, to).then(r => {
+    console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
 
 
   //time check6let timestamp  = moment().format('LLL');
