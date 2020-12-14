@@ -95,13 +95,15 @@ actions.setDefaults = async function(){
   fulldate = moment().format('LLL');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
   date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
-console.log(date1);
-console.log(date2);
+
   currenthour = moment().format("HH");
   lasthour = moment().subtract(1, 'hours').format("HH");
   //3 day date range
   from = date2+'%20'+'00:00:00';
   to = today+'%20'+currenthour+':00:00';
+
+console.log(from);
+console.log(to);
   //last hour date range
   from2 = today+'%20'+lasthour+':00:00';
   to2 = today+'%20'+currenthour+':00:00';
