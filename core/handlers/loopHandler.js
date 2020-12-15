@@ -63,14 +63,14 @@ actions.loopMarkets = async function(){
   //markets.forEach(async (m,i) => {
   for (const [i, m] of markets.entries()) {
     mid = i;
-    market = m;
+    market = markets[mid];
     epic = m.epic;
     //dealId = m.dealId;
     console.log('looping markets: ' + epic);
 
     await core.actions.exec();
   }
-  
+
   //another method
   //https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
   // await Promise.all(files.map(async (file) => {

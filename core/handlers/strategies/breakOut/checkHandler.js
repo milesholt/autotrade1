@@ -181,7 +181,7 @@ actions.finalChecks = async function(){
     beforeRangeOveridden = true;
   }
   if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
-  if(tradedbefore) check12 = false;
+  if(market.tradedbefore) check12 = false;
 }
 
 module.exports = {

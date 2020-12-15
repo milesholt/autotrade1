@@ -26,10 +26,11 @@ missingHoursLimit = 3;
 bumpgrouplimit = 5;
 size = 50;
 
+
 //Main parameters
 markets = [
-  {'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}},
-  {'id':1, 'alias': 'NEO', 'epic': 'CS.D.NEOUSD.TODAY.IP', 'data': {}, 'deal': {}}
+  {'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}, 'tradedbefore' : false },
+  {'id':1, 'alias': 'NEO', 'epic': 'CS.D.NEOUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false }
 ];
 market = {};
 trades = [];
@@ -134,9 +135,9 @@ to = '';
 from2 = '';
 to2 = '';
 
+
 //Other variables
-tradedbefore = false;
-noError = true;
-isHoursCorrect = true;
 totalMissingHours = 0;
+isHoursCorrect = true;
+noError = true;
 isLoopRunning = false;

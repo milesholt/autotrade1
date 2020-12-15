@@ -102,8 +102,6 @@ actions.setDefaults = async function(){
   from = date2+'%20'+'00:00:00';
   to = today+'%20'+currenthour+':00:00';
 
-console.log(from);
-console.log(to);
   //last hour date range
   from2 = today+'%20'+lasthour+':00:00';
   to2 = today+'%20'+currenthour+':00:00';
@@ -171,10 +169,9 @@ console.log(to);
 
 
   //Other variables
-  tradedbefore = false;
-  noError = true;
   isHoursCorrect = true;
   totalMissingHours = 0;
+  noError = true;
   finalMessage = '';
   analysis = {};
 }
