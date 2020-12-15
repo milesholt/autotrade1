@@ -71,9 +71,9 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   markets.forEach((market,i) => {
     if(market.epic == epic){
-      tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
-      trades = await cloud.getFile(tradeDataDir);
-      let t = trades[trades.length-1];
+      const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
+      let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
+      let t = trades_tmp[trades_tmp.length-1];
       t.closeAnalysis = ca;
       t.end_timestamp = Date.now();
       t.end_date = moment().format('LLL');
@@ -84,7 +84,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   accounts.push(ca);
 
   //update tradedata file
-  cloud.updateFile(trades,tradeDataDir);
+  cloud.updateFile(trades_tmp,tradeDataDir_tmp);
 
   //update marketdata file
   cloud.updateFile(markets,marketDataDir);
