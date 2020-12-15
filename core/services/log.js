@@ -69,7 +69,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   ca.amount =  lib.toNumber(amount);
   ca.result =  result;
 
-  markets.forEach((market,i) => {
+  markets.forEach(async (market,i) => {
     if(market.epic == epic){
       const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
       let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
