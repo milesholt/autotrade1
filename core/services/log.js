@@ -69,11 +69,12 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   ca.amount =  lib.toNumber(amount);
   ca.result =  result;
 
+  let t = trades[trades.length-1];
+  console.log(trades.length);
+  console.log(t);
+
   markets.forEach((market,i) => {
-    if(market.epic == epic){
-      let t = trades[trades.length-1];
-      console.log(trades.length);
-      console.log(t);
+    if(market.epic == epic){  
       t.closeAnalysis = ca;
       t.end_timestamp = Date.now();
       t.end_date = moment().format('LLL');
