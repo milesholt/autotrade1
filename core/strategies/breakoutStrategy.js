@@ -121,7 +121,7 @@ actions.calcResistSupport = async function(pricedata,type){
     primaries = primaries.sort(sortbyRangeBumps);
     let primary = primaries[0];
     midrangeprice = (primary.highest + primary.lowest) / 2;
-    lineData.midrange = midrangeprice;
+    lineData.midrange = parseFloat(midrangeprice.toFixed(2));
 
     rangeData[type] = primary.range;
     console.log(primary);
