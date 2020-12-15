@@ -334,6 +334,12 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                       },3000);
                     }).catch(error => console.error(error));
 
+          } else {
+            console.log('position not found with dealId: ' + dealId + ' but should be, going again in 2 seconds...');
+            setTimeout(()=>{
+              actions.beginMonitor();
+            },2000);
+
           }
       });
 
@@ -351,7 +357,7 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
       console.log('no opens positions found but should be, going again....');
       setTimeout(()=>{
         actions.beginMonitor();
-      },2000)
+      },2000);
     }
   }).catch(error => console.error(error));
 
