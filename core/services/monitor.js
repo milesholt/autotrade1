@@ -16,6 +16,7 @@ let dealId = '';
 const stream = require('./stream.js');
 //Require mailer
 const mailer = require('./mailer.js');
+const lib = require('./library.js');
 const log = require('./log.js');
 const github = require('./github.js');
 const testmailer = require('../tests/mailer.js');
@@ -91,12 +92,12 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                       console.log(p);
 
 
-                      let limitDiff = (Math.abs(p.openLevel - p.limitLevel) / 2);
+                      let limitDiff = lib.actions.toNumber(Math.abs(p.openLevel - p.limitLevel) / 2);
 
                       console.log(limitDiff);
 
-                      let newlimitBuy = p.openLevel + limitDiff;
-                      let newlimitSell = p.openLevel - limitDiff;
+                      let newlimitBuy = lib.actions.toNumber(p.openLevel + limitDiff);
+                      let newlimitSell = lib.actions.toNumber(p.openLevel - limitDiff);
                       let newlimit = direction == 'BUY' ? newlimitBuy : newlimitSell;
 
                       console.log('new limit is: ' + newlimit);
