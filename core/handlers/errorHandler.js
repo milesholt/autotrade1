@@ -91,7 +91,7 @@ actions.priceDataEmpty = async function(e){
 
 /* HANDLE DEAL REJECTED */
 
-handleDealRejected(e){
+actions.handleDealRejected = async function(e){
   switch(e.reason){
     case 'ATTACHED_ORDER_LEVEL_ERROR':
         finalMessage = 'Deal error: the stopDistance or limitDistance is not accepted for this market';
