@@ -33,6 +33,9 @@ actions.handleErrors = async function(e){
       case 'customerror.price-data-empty':
         await actions.priceDataEmpty(e);
       break;
+      case 'deal-rejected':
+        await actions.handleDealRejected(e.body.error);
+      break;
     }
   }
   //Once handled the error, we loop again
@@ -84,6 +87,16 @@ actions.priceDataEmpty = async function(e){
   console.log('Price data is empty.');
   noError = false;
   finalMessage = 'Price data is empty, possible error with IG server or incorrect epic used';
+}
+
+/* HANDLE DEAL REJECTED */
+
+handleDealRejected(e){
+  switch(e.reason){
+    case 'ATTACHED_ORDER_LEVEL_ERROR':
+        finalMessage = 'Deal error: the stopDistance or limitDistance is not accepted for this market';
+    break;
+  }
 }
 
 module.exports = {

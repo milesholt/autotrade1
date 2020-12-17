@@ -7,6 +7,7 @@ var monitor;
 var util;
 var log;
 var lib;
+var error;
 
 /*
 
@@ -22,6 +23,7 @@ actions.require = async function(){
   api = core.api;
   monitor = core.monitor.actions;
   lib =  core.lib.actions;
+  error = core.errorHandler.actions;
   util =  core.util;
 }
 
@@ -174,6 +176,8 @@ actions.determineTrade = async function(){
                       //Send notification
                       analysis.errorInformation = rc;
                       await notification.notify('deal-rejected', analysis);
+                      let e = {'body': {'errorCode': 'deal-rejected', 'error': rc }};
+                      await error.handleErrors(e);
                      }
                   });
                 }
