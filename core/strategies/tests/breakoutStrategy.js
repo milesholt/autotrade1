@@ -18,7 +18,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
   const lowestnum = range[0];
   const highestnum = range[range.length-1];
-  let rangediff = highestnum - lowestnum;
+  let pricediff = parseFloat((highestnum - lowestnum).toFixed(2));
   let line = 0;
   let midx = 0;
 
@@ -35,17 +35,21 @@ actions.calcResistSupport = async function(pricedata,type){
   let maxmargin = 0.4; //40% of price difference
   let inc = 0.01;
 
-  for ( var i=0.1, l=(maxmargin+inc); i<=l; i+=inc ){
+  for ( var i=0, l=(maxmargin+inc); i<=l; i+=inc ){
     let v = parseFloat(i.toFixed(2));
     marginPercs.push(v);
   }
+
+
+
+  console.log('priceDiff: '  + pricediff);
 
   let rangeOptions = [];
   marginPercs.forEach(margin => {
 
     //Get percentage of price range using margin percentages array
-    //let margin = parseFloat(rangediff * marginPerc).toFixed(2);
-    //console.log('margin: ' + margin);
+    //let margin = parseFloat(pricediff * marginPerc).toFixed(2);
+    console.log('margin: ' + margin);
 
     //do range
     let mm = [];
@@ -53,30 +57,44 @@ actions.calcResistSupport = async function(pricedata,type){
       price = parseFloat(price);
       let match = false
       let m = [];
-      let pi = []
+      let pi = [];
+      let d = [];
       prices.forEach((price2,idx2) => {
         price2 = parseFloat(price2);
-        let diff = Math.abs(price2 - price);
+        let diff = parseFloat(Math.abs(price2 - price).toFixed(2));
         //convert diff into percentage
-        let diffPerc = (diff/rangediff*100);
+        let diffPerc = parseFloat(((diff/pricediff)*100).toFixed(2));
+        let marginPerc = parseFloat((margin*100).toFixed(2))  //convert 0.4 to 40%
+
+        // if(idx == 0){
+        //   console.log('diff:' + diff);
+        //   console.log('perc:' + diffPerc);
+        //   console.log('marginPerc: ' + marginPerc);
+        // }
+
         // If the difference is within margin, add it to matches
-        if(diff <= margin){
+        if(diffPerc <= marginPerc){
           match = true;
           m.push(price2);
           pi.push(idx2);
+          d.push(diff);
         }
       });
       // Push number of matching prices with matched value
-      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'time': pricedata[type][idx].time});
+      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'time': pricedata[type][idx].time});
       midx++;
     });
 
     // Sort matches by order of how many cluster of prices each match has
     mm.sort(sortbyRangeCluster);
 
+    //console.log(mm);
+
     // The one with the largest cluster (the last one in the order) is the data used to determine midrange line
     let range = mm[mm.length-1];
     rangeData[type] = range;
+
+    //console.log(range);
 
     //do lines
     let midrangeprices = deepCopy(range.prices).sort(sortNumber);
@@ -108,7 +126,7 @@ actions.calcResistSupport = async function(pricedata,type){
   });
 
 
-  //console.log(util.inspect(rangeOptions, false, null));
+  console.log(util.inspect(rangeOptions, false, null));
 
   //console.log('determing range margin: ');
   let primaries = [];
@@ -126,6 +144,8 @@ actions.calcResistSupport = async function(pricedata,type){
     let primary = primaries[0];
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = midrangeprice;
+
+    rangeData[type] = primary.range;
     console.log(primary);
 
     line = type == 'support' ? primary.lowest : primary.highest;

@@ -52,11 +52,12 @@ actions.calcResistSupport = async function(pricedata,type){
       let pi = []
       prices.forEach((price2,idx2) => {
         price2 = parseFloat(price2);
-        let diff = Math.abs(price2 - price);
+        let diff = parseFloat(Math.abs(price2 - price).toFixed(2));
         //convert diff into percentage
-        let diffPerc = (diff/rangediff*100);
+        let diffPerc = parseFloat(((diff/pricediff)*100).toFixed(2));
+        let marginPerc = parseFloat((margin*100).toFixed(2))  //convert 0.4 to 40%
         // If the difference is within margin, add it to matches
-        if(diff <= margin){
+        if(diffPerc <= marginPerc){
           match = true;
           m.push(price2);
           pi.push(idx2);
