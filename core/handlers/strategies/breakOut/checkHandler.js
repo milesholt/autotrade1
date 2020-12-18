@@ -64,7 +64,7 @@ actions.checkOpenTrade = async function(){
   if(!lib.isEmpty(market.deal)) {
     //deal is in process for this market, get trade data
     console.log('deal is in process, getting data:');
-    dealId = deal.dealId;
+    dealId = market.deal.dealId;
     console.log(dealId);
 
     let isMonitoring = false;
