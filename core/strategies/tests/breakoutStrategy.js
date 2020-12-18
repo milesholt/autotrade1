@@ -120,13 +120,24 @@ actions.calcResistSupport = async function(pricedata,type){
       bidx = bump.idx;
     });
 
+
+    //do average difference
+
+    var diffsum = 0;
+    for( var i = 0; i < range.price_diff.length; i++ ){
+        //diffsum += parseInt( range.price_diff[i], 10 ); //don't forget to add the base
+        diffsum += parseFloat(range.price_diff[i].toFixed(2));
+    }
+
+    var avg = parseFloat((diffsum/range.price_diff.length).toFixed(3));
+
     //rangeOptions.push({'margin': margin, 'rangeData': range, 'range': range.prices.length, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice});
 
-    rangeOptions.push({'margin': margin, 'range': range, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice});
+    rangeOptions.push({'margin': margin, 'range': range, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice, 'priceDifferenceAverage' : avg });
   });
 
 
-  console.log(util.inspect(rangeOptions, false, null));
+  //console.log(util.inspect(rangeOptions, false, null));
 
   //console.log('determing range margin: ');
   let primaries = [];
@@ -134,13 +145,19 @@ actions.calcResistSupport = async function(pricedata,type){
     let rangeCount = r.range.prices.length, bumpCount = r.bumps.length;
     if( rangeCount > 12){
       if(bumpCount < 5){
-        primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest});
+        primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest, 'priceDifferenceAverage' : r.priceDifferenceAverage });
       }
     }
   });
 
+
+
   if(primaries.length) {
     primaries = primaries.sort(sortbyRangeBumps);
+    primaries = primaries.sort(sortbyAverageDifference);
+
+      console.log(primaries);
+
     let primary = primaries[0];
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = midrangeprice;
@@ -170,6 +187,10 @@ function sortbyRangeCluster(a, b) {
 
 function sortbyRangeBumps(a, b) {
   return a.bumps.length - b.bumps.length;
+}
+
+function sortbyAverageDifference(a, b) {
+  return a.priceDifferenceAverage - b.priceDifferenceAverage;
 }
 
 function deepCopy(origObj){

@@ -49,7 +49,8 @@ actions.calcResistSupport = async function(pricedata,type){
       price = parseFloat(price);
       let match = false
       let m = [];
-      let pi = []
+      let pi = [];
+      let d = [];
       prices.forEach((price2,idx2) => {
         price2 = parseFloat(price2);
         let diff = parseFloat(Math.abs(price2 - price).toFixed(2));
@@ -61,10 +62,11 @@ actions.calcResistSupport = async function(pricedata,type){
           match = true;
           m.push(price2);
           pi.push(idx2);
+          d.push(diff);
         }
       });
       // Push number of matching prices with matched value
-      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'time': pricedata[type][idx].time});
+      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'time': pricedata[type][idx].time});
       midx++;
     });
 
@@ -99,9 +101,18 @@ actions.calcResistSupport = async function(pricedata,type){
       bidx = bump.idx;
     });
 
+    //do average difference
+    var diffsum = 0;
+    for( var i = 0; i < range.price_diff.length; i++ ){
+        //diffsum += parseInt( range.price_diff[i], 10 ); //don't forget to add the base
+        diffsum += parseFloat(range.price_diff[i].toFixed(2));
+    }
+
+    var avg = parseFloat((diffsum/range.price_diff.length).toFixed(3));
+
     //rangeOptions.push({'margin': margin, 'rangeData': range, 'range': range.prices.length, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice});
 
-    rangeOptions.push({'margin': margin, 'range': range, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice});
+    rangeOptions.push({'margin': margin, 'range': range, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice, 'priceDifferenceAverage' : avg});
   });
 
 
@@ -113,13 +124,14 @@ actions.calcResistSupport = async function(pricedata,type){
     let rangeCount = r.range.prices.length, bumpCount = r.bumps.length;
     if( rangeCount > 12){
       if(bumpCount < 5){
-        primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest});
+        primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest, 'priceDifferenceAverage' : r.priceDifferenceAverage});
       }
     }
   });
 
   if(primaries.length) {
     primaries = primaries.sort(sortbyRangeBumps);
+    primaries = primaries.sort(sortbyAverageDifference);
     let primary = primaries[0];
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = parseFloat(midrangeprice.toFixed(2));
@@ -149,6 +161,10 @@ function sortbyRangeCluster(a, b) {
 
 function sortbyRangeBumps(a, b) {
   return a.bumps.length - b.bumps.length;
+}
+
+function sortbyAverageDifference(a, b) {
+  return a.priceDifferenceAverage - b.priceDifferenceAverage;
 }
 
 function deepCopy(origObj){
