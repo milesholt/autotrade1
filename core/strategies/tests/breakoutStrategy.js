@@ -156,14 +156,35 @@ actions.calcResistSupport = async function(pricedata,type){
     primaries = primaries.sort(sortbyRangeBumps);
     primaries = primaries.sort(sortbyAverageDifference);
 
-      console.log(primaries);
+    //console.log(primaries);
 
     let primary = primaries[0];
+
+    //Remove any range data if there is enough after last bump
+    if(primary.bumps.length > 0){
+      let lastbump = primary.bumps[primary.bumps.length-1].idx;
+      let newrange = [];
+      primary.range.prices.forEach((price,idx) => {
+        let pidx = primary.range.prices_idx[idx];
+        if(pidx > lastbump) newrange.push({'price':price, 'idx':pidx});
+      });
+
+      if(newrange.length > 12) {
+            let remove = (primary.range.prices.length - newrange.length);
+            console.log('remove: ' + remove);
+            primary.range.prices.splice(0,remove);
+            primary.range.prices_idx.splice(0,remove);
+            primary.range.price_diff.splice(0,remove);
+      }
+    }
+
+    console.log(primary);
+
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = midrangeprice;
 
     rangeData[type] = primary.range;
-    console.log(primary);
+    //console.log(primary);
 
     line = type == 'support' ? primary.lowest : primary.highest;
   } else{
