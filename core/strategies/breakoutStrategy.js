@@ -18,7 +18,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
   const lowestnum = range[0];
   const highestnum = range[range.length-1];
-  let rangediff = highestnum - lowestnum;
+  let pricediff = highestnum - lowestnum;
   let line = 0;
   let midx = 0;
 
