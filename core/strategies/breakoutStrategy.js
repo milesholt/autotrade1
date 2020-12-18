@@ -145,7 +145,6 @@ actions.calcResistSupport = async function(pricedata,type){
 
       if(newrange.length > 12) {
             let remove = (primary.range.prices.length - newrange.length);
-            console.log('remove: ' + remove);
             primary.range.prices.splice(0,remove);
             primary.range.prices_idx.splice(0,remove);
             primary.range.price_diff.splice(0,remove);
