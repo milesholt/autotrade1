@@ -58,6 +58,7 @@ marketDataDir = 'core/data/marketdata.json';
 accountDataDir = 'core/data/accountdata.json';
 tradeDataDir = 'core/data/';
 streamLogDir = 'core/data/';
+errorDataDir = 'core/data/';
 monitorDataDir = 'core/data/monitordata.json';
 
 

@@ -71,6 +71,7 @@ actions.setPaths = async function(){
   beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
   tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
+  errorDataDir = 'core/data/'+epic+'/'+epic+'_errordata.json';
 }
 
 

@@ -35,7 +35,6 @@ actions.startTradeLog = async function(epic, analysis, dealId){
       let t = lib.deepCopy(trade);
       t.marketId = market.id;
       t.epic = epic;
-      t.startAnalysis = analysis;
       t.start_timestamp = Date.now();
       t.start_date = moment().format('LLL');
       t.dealId = dealId;
@@ -198,24 +197,23 @@ Record error log when making trade
 
 actions.errorTradeLog = async function(error,ref){
 
-  trades = await cloud.getFile(tradeDataDir);
+  let errors = await cloud.getFile(errorDataDir);
 
   markets.forEach((market,i) => {
     if(market.epic == epic){
-      let t = lib.deepCopy(trade);
-      t.marketId = market.id;
-      t.epic = epic;
-      t.startAnalysis = analysis;
-      t.start_timestamp = Date.now();
-      t.start_date = moment().format('LLL');
-      t.dealRef = ref;
-      t.error = error;
-      trades.push(t);
+      let e = lib.deepCopy(trade);
+      e.marketId = market.id;
+      e.epic = epic;
+      e.start_timestamp = Date.now();
+      e.start_date = moment().format('LLL');
+      e.dealRef = ref;
+      e.error = error;
+      errors.push(e);
     }
   });
 
   //update marketdata file
-  cloud.updateFile(trades,tradeDataDir);
+  cloud.updateFile(errors,errorDataDir);
 
 }
 
