@@ -60,7 +60,8 @@ This is useful if monitoring stops because market is closed. But we need to rest
 */
 
 actions.checkOpenTrade = async function(){
-
+  console.log('checking for open trades');
+  console.log(market.deal);
   if(!lib.isEmpty(market.deal)) {
     //deal is in process for this market, get trade data
     console.log('deal is in process, getting data:');
