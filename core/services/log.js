@@ -30,8 +30,8 @@ actions.startTradeLog = async function(epic, analysis, dealId){
 
   trades = await cloud.getFile(tradeDataDir);
 
-  markets.forEach((market,i) => {
-    if(market.epic == epic){
+  markets.forEach((m,i) => {
+    if(m.epic == epic){
       let t = lib.deepCopy(trade);
       t.marketId = market.id;
       t.epic = epic;
@@ -41,7 +41,7 @@ actions.startTradeLog = async function(epic, analysis, dealId){
       t.dealId = dealId;
       t.dealRef = dealRef;
       trades.push(t);
-      market.deal = t;
+      m.deal = t;
     }
   });
 
