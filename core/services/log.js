@@ -30,11 +30,15 @@ actions.startTradeLog = async function(epic, analysis, dealId){
 
   trades = await cloud.getFile(tradeDataDir);
 
+  let a = lib.deepCopy(analysis);
+  delete a.pricedata;
+
   markets.forEach((m,i) => {
     if(m.epic == epic){
       let t = lib.deepCopy(trade);
       t.marketId = market.id;
       t.epic = epic;
+      t.startAnalysis = a;
       t.start_timestamp = Date.now();
       t.start_date = moment().format('LLL');
       t.dealId = dealId;
@@ -199,11 +203,15 @@ actions.errorTradeLog = async function(error,ref){
 
   let errors = await cloud.getFile(errorDataDir);
 
+  let a = lib.deepCopy(analysis);
+  delete a.pricedata;
+
   markets.forEach((market,i) => {
     if(market.epic == epic){
       let e = lib.deepCopy(trade);
       e.marketId = market.id;
       e.epic = epic;
+      e.startAnalysis = a;
       e.start_timestamp = Date.now();
       e.start_date = moment().format('LLL');
       e.dealRef = ref;
