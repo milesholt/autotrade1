@@ -97,10 +97,9 @@ actions.determineTrade = async function(){
 
         //UPDATE we get a percentage area of priceDiff for limit and stop rather than using lastClose values
 
-        //WAS limit distance = 1.5% of lastClose price
-        //NOW limit distance = 3% of lastClose price
+
         let limitDistanceArea = parseFloat((priceDiff * limitDistancePerc).toFixed(2));
-        //stop distance = 8% of lastClose price + fluctuation of 10 as prices are changing
+
         let stopDistanceFluctuation = parseFloat((priceDiff * stopDistanceFluctuationPerc).toFixed(2));
         let stopDistanceArea = parseFloat(((priceDiff * stopDistancePerc) + stopDistanceFluctuation).toFixed(2));
 

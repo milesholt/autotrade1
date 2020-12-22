@@ -7,7 +7,6 @@ rangeLimitPerc = 0.45;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.06;
-stopDistancePerc = 0.08
 
 momentumLimit = 0;
 rangelimit = 0;
@@ -29,9 +28,9 @@ size = 50;
 
 //Main parameters
 markets = [
-  {'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}, 'tradedbefore' : false },
+  {'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.08' },
   // {'id':1, 'alias': 'NEO', 'epic': 'CS.D.NEOUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false }
-  {'id':1, 'alias': 'Ripple', 'epic': 'CS.D.XRPUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false }
+  {'id':1, 'alias': 'Ripple', 'epic': 'CS.D.XRPUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85'  }
 ];
 market = {};
 trades = [];
