@@ -113,7 +113,8 @@ actions.determineTrade = async function(){
         let stopDistance = lib.toNumber((lastCloseAsk - (lastCloseBid - stopDistanceArea)),'abs');
 
         //Handle if minimum stop is in points and check stopDistance isnt less than this
-        const minStop = market.minimumStop;
+        let minStop = market.minimumStop;
+        console.log(minStop);
         if(minStop.type == 'points' && stopDistance <= minStop.value){
           console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
           console.log('stopDistance was: ' +  stopDistance);
