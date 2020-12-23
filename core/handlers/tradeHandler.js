@@ -112,6 +112,12 @@ actions.determineTrade = async function(){
         let limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceArea)),'abs');
         let stopDistance = lib.toNumber((lastCloseAsk - (lastCloseBid - stopDistanceArea)),'abs');
 
+        //Handle if minimum stop is in points and check stopDistance isnt less than this
+        const minStop = market.minimumStop;
+        if(minStop.type == 'points' && stopDistance <= minStop.value) stopDistance = stopDistance + lib.toNumber((minStop.value - stopDistance + 2), 'abs');
+
+        //TODO: Handle for percentage
+
         let ticketError = false;
 
         if(!positionOpen && positionsData.positions.length === 0){
