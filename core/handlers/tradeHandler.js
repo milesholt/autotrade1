@@ -114,9 +114,22 @@ actions.determineTrade = async function(){
 
         //Handle if minimum stop is in points and check stopDistance isnt less than this
         const minStop = market.minimumStop;
-        if(minStop.type == 'points' && stopDistance <= minStop.value) stopDistance = stopDistance + lib.toNumber((minStop.value - stopDistance + 2), 'abs');
+        if(minStop.type == 'points' && stopDistance <= minStop.value){
+          console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
+          console.log('stopDistance was: ' +  stopDistance);
+          stopDistance = stopDistance + lib.toNumber((minStop.value - stopDistance + 2), 'abs');
+          console.log('stopDistance now: ' + stopDistance);
+        }
 
-        //TODO: Handle for percentage
+        //Handle for percentage
+        const minStopVal = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * minStop.value;
+        if(minStop.type == 'percent' && stopDistance <= minStopVal ){
+          console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
+          console.log('Converted minimumStopVal form percentage: ' + minStopVal);
+          console.log('stopDistance was: ' +  stopDistance);
+          stopDistance = stopDistance + lib.toNumber((minStopVal - stopDistance + 2), 'abs');
+          console.log('stopDistance now: ' + stopDistance);
+        }
 
         let ticketError = false;
 
