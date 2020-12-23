@@ -122,7 +122,7 @@ actions.determineTrade = async function(){
         }
 
         //Handle for percentage
-        const minStopVal = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * minStop.value;
+        const minStopVal = lib.toNumber((trend == 'bullish' ? lastCloseAsk : lastCloseBid) * minStop.value);
         if(minStop.type == 'percent' && stopDistance <= minStopVal ){
           console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
           console.log('Converted minimumStopVal form percentage: ' + minStopVal);
