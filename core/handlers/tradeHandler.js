@@ -224,7 +224,7 @@ actions.determineTrade = async function(){
 
                   //Log trade first before monitoring
                   await log.startTradeLog(epic, analysis, dealId);
-                  await monitor.iniMonitor(dealId,epic);
+                  await monitor.iniMonitor(dealId,dealRef,epic);
 
                   market.tradedbefore = true;
                   finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';

@@ -25,7 +25,7 @@ const testmailer = require('../tests/mailer.js');
 //var streamLogDir = '';
 
 
-actions.iniMonitor = async function(dealId,epic){
+actions.iniMonitor = async function(dealId,dealRef,epic){
 
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
@@ -39,10 +39,10 @@ actions.iniMonitor = async function(dealId,epic){
     if (err) throw err;
   });
   //begin monitoring
-  actions.beginMonitor(dealId,epic,streamLogDir);
+  actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
 }
 
-actions.beginMonitor = async function(dealId,epic,streamLogDir){
+actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   //login
   // await api.login(true).then(r => {
   //   //console.log(util.inspect(r,false,null));
@@ -336,10 +336,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
                     }).catch(error => console.error(error));
 
           } else {
-            console.log('position not found with dealId: ' + dealId + ' but should be, going again in 2 seconds...');
+            console.log('position not found with dealId: ' + dealId + ' but should be, going again in 1 minute...');
             setTimeout(()=>{
-              actions.beginMonitor();
-            },2000);
+              actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
+            },60000);
 
           }
       });
@@ -355,10 +355,10 @@ actions.beginMonitor = async function(dealId,epic,streamLogDir){
       // let dId = position.dealId;
 
     } else{
-      console.log('no opens positions found but should be, going again....');
+      //console.log('no opens positions found but should be, going again....');
       setTimeout(()=>{
-        actions.beginMonitor();
-      },2000);
+        actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
+      },60000);
     }
   }).catch(error => console.error(error));
 
