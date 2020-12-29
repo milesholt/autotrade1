@@ -337,6 +337,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
           } else {
             console.log('position not found with dealId: ' + dealId + ' but should be, going again in 1 minute...');
+            if(typeof dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
             setTimeout(()=>{
               actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
             },60000);
@@ -356,6 +357,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
     } else{
       //console.log('no opens positions found but should be, going again....');
+      if(typeof dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; } 
       setTimeout(()=>{
         actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
       },60000);
