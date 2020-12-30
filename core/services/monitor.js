@@ -380,6 +380,14 @@ actions.stopMonitor = async function(timer,epic = false){
     log.actions.closeMonitorLog(epic);
   }
 
+  var mailOptions = {
+    from: 'contact@milesholt.co.uk',
+    to: 'miles_holt@hotmail.com',
+    subject: 'Monitor has stopped. Epic: ' + epic,
+    text: 'Monitoring has stopped.'
+  };
+  mailer.actions.sendMail(mailOptions);
+
   clearInterval(timer);
   return false;
 }
