@@ -329,9 +329,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   data = {};
                                   //TO DO: Move to error handling
                                   console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                                  console.log(streamLogDir);
+                                  console.log('streamLogDir: ' + streamLogDir);
                                   //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
                                   let ep = streamLogDir.split('/')[2];
+                                  console.log('epic before stopMonitor(): ' + ep);
                                   actions.stopMonitor(timer,ep);
                           }
                         });
