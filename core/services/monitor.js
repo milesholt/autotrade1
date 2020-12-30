@@ -329,7 +329,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   data = {};
                                   //TO DO: Move to error handling
                                   console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                                  actions.stopMonitor(timer);
+                                  console.log(streamLogDir);
+                                  //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
+                                  let epic =  streamLogDir.split('/')[2];
+                                  actions.stopMonitor(timer,epic);
                           }
                         });
                       },3000);
@@ -357,7 +360,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
     } else{
       //console.log('no opens positions found but should be, going again....');
-      if(typeof dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; } 
+      if(typeof dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
       setTimeout(()=>{
         actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
       },60000);
@@ -367,10 +370,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 }
 
 actions.stopMonitor = async function(timer,epic = false){
-  console.log('stopping monitor');
+  console.log('stopping monitor, epic: ' + epic);
 
   //if epic parameter, stop stream
   if(!!epic){
+    console.log('epic is not false, ending stream and monitor logs');
     stream.actions.endStream(epic);
     log.actions.closeMonitorLog(epic);
   }
