@@ -347,7 +347,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
             },60000);
 
           }
-      });
+      }).catch(error => console.error(error));
 
       // const position = positionsData.positions[0].position;
       //
