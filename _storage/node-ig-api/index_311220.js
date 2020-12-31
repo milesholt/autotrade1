@@ -43,7 +43,6 @@ var tokensNull = {
 
 var lsClient = {};
 var lsIsConnected = false;
-var lsIsError = false;
 var subscription = {};
 var subscriptions = {};
 
@@ -1149,8 +1148,6 @@ function subscribeToLightstreamer(subscriptionMode, items, fields, maxFreq, stre
 	// 	throw new Error('Lightstreamer is not connected');
 	// }
 
-	lsIsError = false;
-
 	// include the Lightstreamer Subscription module using requirejs
 	requirejs(['Subscription'], function(Subscription) {
 
@@ -1168,7 +1165,6 @@ function subscribeToLightstreamer(subscriptionMode, items, fields, maxFreq, stre
 
 			onSubscription: function() {
 				console.log('Subscribed to: ' + items);
-				lsIsConnected = true;
 			},
 
 			onUnsubscription: function() {
@@ -1177,8 +1173,7 @@ function subscribeToLightstreamer(subscriptionMode, items, fields, maxFreq, stre
 			},
 
 			onSubscriptionError: (code, message) => {
-				console.log('Subscription failure: ' + code + ' message: ' + message + ' instrument: ' + items);
-				lsIsError = true;
+				console.log('Subscription failure: ' + code + ' message: ' + message);
 			},
 
 			onItemLostUpdates: () => {
@@ -1283,6 +1278,5 @@ module.exports = {
 	epicDetails: epicDetails,
 	tokens:tokens,
 	lsClient:lsClient,
-	lsIsError:lsIsError,
 	isConnectedToLightStreamer:isConnectedToLightStreamer
 };
