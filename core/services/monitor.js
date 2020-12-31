@@ -337,7 +337,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                           }
                         });
                       },3000);
-                    }).catch(error => console.error(error));
+                    }).catch(error => {
+                      console.log('Thrown error, stopping monitor - ');
+                      console.error(error);
+                      let ep = streamLogDir.split('/')[2];
+                      console.log('epic before stopMonitor(): ' + ep);
+                      actions.stopMonitor(timer,ep);
+                    });
 
           } else {
             console.log('position not found with dealId: ' + dealId + ' but should be, going again in 1 minute...');
