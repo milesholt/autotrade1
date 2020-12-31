@@ -71,20 +71,29 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   ca.amount =  lib.toNumber(amount);
   ca.result =  result;
-  
+
   let mid_tmp = 0;
 
+  console.log('Closing trade log, looping through markets:');
+  console.log(markets);
+
   markets.forEach(async (market,i) => {
-    if(market.epic == epic) mid_tmp = market.mid;
+    if(market.epic == epic){
+      console.log('Found market with epic: ' + epic);
+      mid_tmp = market.mid;
+      console.log('Market MID is: ' + mid_tmp );
+    }
   });
-  
+
+  console.log(markets[mid_tmp]);
+  markets[mid_tmp].deal = {};
+
   const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
   let t = trades_tmp[trades_tmp.length-1];
   t.closeAnalysis = ca;
   t.end_timestamp = Date.now();
   t.end_date = moment().format('LLL');
-  markets[mid_tmp].deal = {};
 
   accounts.push(ca);
 
