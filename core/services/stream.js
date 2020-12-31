@@ -149,7 +149,10 @@ actions.readStream = function(streamLogDir,single){
         }
 
     },3000);
-  });
+  }).catch(e){
+    console.log('Catch error for reading stream');
+    console.log(e);
+  };
 }
 
 /* Errors */
