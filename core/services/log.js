@@ -151,6 +151,11 @@ actions.startMonitorLog = async function(){
   let exists = false;
   monitors.forEach((monitor,i) => {
     if(monitor.epic == epic) exists = true;
+    if(monitor.epic == epic && monitor.dealId !== dealId){
+      console.log('Monitor has found epic, but incorrect deal on monitor. This needs looking into. Replacing old deal...');
+      monitors.splice(i,1);
+      exists = false;
+    }
   });
   if(!exists) monitors.push(m);
 
