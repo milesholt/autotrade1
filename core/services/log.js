@@ -80,7 +80,8 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   markets.forEach(async (market,i) => {
     if(market.epic == epic){
       console.log('Found market with epic: ' + epic);
-      mid_tmp = market.mid;
+      console.log(market);
+      mid_tmp = market.id;
       console.log('Market MID is: ' + mid_tmp );
     }
   });
