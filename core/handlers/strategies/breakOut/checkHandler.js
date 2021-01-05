@@ -5,6 +5,7 @@ var monitor;
 var util;
 var cloud;
 var lib;
+var log;
 
 /*
 
@@ -19,6 +20,7 @@ actions.require = async function(){
   monitor = core.monitor.actions;
   cloud = core.cloudHandler.actions;
   lib = core.lib.actions;
+  log = core.log.actions;
 }
 
 /*
@@ -85,7 +87,7 @@ actions.checkOpenTrade = async function(){
     }).catch(e => {
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
       markets[mid].deal = {};
-      closeMonitorLog(market.epic);
+      log.closeMonitorLog(market.epic);
     });
   }
 
