@@ -64,7 +64,7 @@ actions.checkOpenTrade = async function(){
   console.log(market.deal);
   if(!lib.isEmpty(market.deal)) {
     //deal is in process for this market, get trade data
-    console.log('deal is in process, getting data:');
+    console.log('Deal is logged, getting data:');
     dealId = market.deal.dealId;
     console.log(dealId);
 
@@ -82,7 +82,11 @@ actions.checkOpenTrade = async function(){
               monitor.iniMonitor(dealId, epic);
             }
           }
-    }).catch(e => console.log('catch error: showOpenPositions: ' + e));
+    }).catch(e => {
+      console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
+      markets[mid].deal = {};
+      closeMonitorLog(market.epic);
+    });
   }
 
 }
