@@ -6,12 +6,12 @@ momentLimitPerc = 0.1;
 rangeLimitPerc = 0.45;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
-limitDistancePerc = 0.06;
+limitDistancePerc = 0.08;
 
 momentumLimit = 0;
 rangelimit = 0;
 tradelimit = 0;
-linedistancelimit =  0;
+linedistancelimit = 0;
 
 //Specific Strategy Limits
 breakoutMaxMargin = 0.4;
