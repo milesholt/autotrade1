@@ -63,6 +63,6 @@ async function exec(pricedata){
   lineData.support = supportline;
   lineData.resistance = resistanceline;
 
-  analytics.actions.drawChart(pricedata3.support, {}, lineData, {}, rangeData);
+  //analytics.actions.drawChart(pricedata3.support, {}, lineData, {}, rangeData);
 
 }

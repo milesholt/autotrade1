@@ -130,8 +130,19 @@ actions.calcResistSupport = async function(pricedata,type){
   });
 
   if(primaries.length) {
-    primaries = primaries.sort(sortbyRangeBumps);
+
+    //primaries = primaries.sort(sortbyRangeBumps);
+
+    //sort by average difference
     primaries = primaries.sort(sortbyAverageDifference);
+
+    //shortlist to 5 if more
+    if(primaries.length > 5){
+       primaries = primaries.slice(0,5);
+       //then sort by latest date
+       primaries = primaries.sort(sortbyDate);
+    }
+
     let primary = primaries[0];
 
     //Remove any range data if there is enough after last bump
@@ -184,6 +195,10 @@ function sortbyRangeBumps(a, b) {
 
 function sortbyAverageDifference(a, b) {
   return a.priceDifferenceAverage - b.priceDifferenceAverage;
+}
+
+function sortbyDate(a, b) {
+  return new Date(b.range.time) - new Date(a.range.time);
 }
 
 function deepCopy(origObj){
