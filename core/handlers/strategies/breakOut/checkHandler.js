@@ -176,7 +176,7 @@ actions.finalChecks = async function(){
   //trade threshold check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
   if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
-  if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
+  //if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
   check10 = isHoursCorrect;
   //if a number of checks are passed, we overide beforeRangeTrend and pass only if lastBeforeRangeMovement is also the same as trend
   //lastBeforeRangeMovement only holds 'bullish' or 'bearish' when last recorded as beforeRangeTrend
