@@ -46,8 +46,12 @@ async function exec(){
   //NEO - 'CS.D.NEOUSD.TODAY.IP
   //Stellar - CS.D.XLMUSD.TODAY.IP
   //Ripple - CS.D.XRPUSD.TODAY.IP
+  //Volatility Index - CC.D.VIX.USS.IP
+  //Chicago  Wheat - CC.D.W.USS.IP
+
+
   console.log('-------Searching for Epics');
-  await api.search('NEO').then(r => {
+  await api.search('Chicago').then(r => {
     console.log(r);
   }).catch(e => console.log(e));
 
@@ -69,12 +73,12 @@ async function exec(){
 
 
   //Get prices
-  const resolution = 'HOUR';
-  const from = '2020-12-12%2000:00:00';
-  const to = '2020-12-14%2009:00:00';
-  await api.histPrc('CS.D.NEOUSD.TODAY.IP', resolution, from, to).then(r => {
-    console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
+  // const resolution = 'HOUR';
+  // const from = '2020-12-12%2000:00:00';
+  // const to = '2020-12-14%2009:00:00';
+  // await api.histPrc('CS.D.NEOUSD.TODAY.IP', resolution, from, to).then(r => {
+  //   console.log(util.inspect(r,false,null));
+  // }).catch(e => console.log(e));
 
 
   //time check6let timestamp  = moment().format('LLL');
