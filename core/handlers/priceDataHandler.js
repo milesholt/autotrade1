@@ -6,6 +6,7 @@ var cloud;
 var error;
 var api;
 var analysis;
+var moment;
 
 /*
 
@@ -19,6 +20,7 @@ actions.require = async function(){
   cloud = core.cloudHandler.actions;
   error = core.errorHandler.actions;
   analysis = core.analysisHandler.actions;
+  moment = core.moment;
   api = core.api;
 }
 
