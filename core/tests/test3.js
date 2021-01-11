@@ -50,10 +50,11 @@ async function exec(){
   //Chicago  Wheat - CC.D.W.USS.IP
 
 
-  console.log('-------Searching for Epics');
-  await api.search('Chicago').then(r => {
-    console.log(r);
-  }).catch(e => console.log(e));
+  // console.log('-------Searching for Epics');
+  // const searchterm = encodeURI('Volatility Index');
+  // await api.search(searchterm).then(r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = 'DIAAAAEDV2WPGAQ';
@@ -73,12 +74,12 @@ async function exec(){
 
 
   //Get prices
-  // const resolution = 'HOUR';
-  // const from = '2020-12-12%2000:00:00';
-  // const to = '2020-12-14%2009:00:00';
-  // await api.histPrc('CS.D.NEOUSD.TODAY.IP', resolution, from, to).then(r => {
-  //   console.log(util.inspect(r,false,null));
-  // }).catch(e => console.log(e));
+  const resolution = 'HOUR';
+  const from = '2021-01-06%2000:00:00';
+  const to = '2021-01-09%2009:00:00';
+  await api.histPrc('CC.D.VIX.USS.IP', resolution, from, to).then(r => {
+    console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
 
 
   //time check6let timestamp  = moment().format('LLL');
