@@ -164,6 +164,12 @@ actions.determineTrade = async function(){
                 dealRef = ref;
                 if(!r.confirms.dealId){
                   console.log('Error: ' + r.confirms.errorCode);
+
+                  //let e = {'body': {'errorCode': r.confirms.errorCode, 'error': r, 'ticket' : ticket }};
+                  //await error.handleErrors(e);
+
+                  console.log('Checking again, and confirming position with deal ref: ' +  ref);
+
                   //Get status of position if error
                   await api.confirmPosition(ref).then(async rc => {
                     console.log(util.inspect(rc, false, null));
@@ -173,6 +179,9 @@ actions.determineTrade = async function(){
                       ticketError = false;
                       dealId = r.confirms.dealId;
                     }
+                  }).catch(e => {
+                    console.log('could not confirm position with deal reference: ' +  ref);
+                    console.log(e);
                   });
 
                   if(ticketError){

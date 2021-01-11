@@ -49,7 +49,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
     //Get percentage of price range using margin percentages array
     //let margin = parseFloat(pricediff * marginPerc).toFixed(2);
-    console.log('margin: ' + margin);
+    //console.log('margin: ' + margin);
 
     //do range
     let mm = [];
@@ -153,10 +153,17 @@ actions.calcResistSupport = async function(pricedata,type){
 
 
   if(primaries.length) {
-    primaries = primaries.sort(sortbyRangeBumps);
+    //primaries = primaries.sort(sortbyRangeBumps);
+
+    //sort by average difference
     primaries = primaries.sort(sortbyAverageDifference);
 
-    //console.log(primaries);
+    //shortlist to 5 if more
+    if(primaries.length > 5){
+       primaries = primaries.slice(0,5);
+       //then sort by latest date
+       primaries = primaries.sort(sortbyDate);
+    }
 
     let primary = primaries[0];
 
@@ -212,6 +219,10 @@ function sortbyRangeBumps(a, b) {
 
 function sortbyAverageDifference(a, b) {
   return a.priceDifferenceAverage - b.priceDifferenceAverage;
+}
+
+function sortbyDate(a, b) {
+  return new Date(b.range.time) - new Date(a.range.time);
 }
 
 function deepCopy(origObj){

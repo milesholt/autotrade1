@@ -27,6 +27,9 @@ actions.handleErrors = async function(e){
       case 'error.security.client-token-invalid':
         await actions.handleInvalidSecurityToken(e);
       break;
+      case 'error.confirms.deal-not-found':
+        await actions.handleDealNotFound(e);
+      break;
       case 'error.invalid.daterange':
         await actions.handleInvalidDateRange(e);
       break;
@@ -97,6 +100,19 @@ actions.handleDealRejected = async function(e){
         finalMessage = 'Deal error: the stopDistance or limitDistance is not accepted for this market';
     break;
   }
+}
+
+/* HANDLE DEAL NOT FOUND */
+
+actions.handleDealNotFound= async function(e){
+  //try to open ticket again
+  // console.log('deal not found, opening ticket again');
+  // await api.deal(ticket).then(async r => {
+  //   console.log(util.inspect(r, false, null));
+  //   let ref = r.positions.dealReference;
+  //   analysis.dealReference = ref;
+  //   dealRef = ref;
+  // });
 }
 
 module.exports = {
