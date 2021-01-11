@@ -27,8 +27,12 @@ actions.sendMail = function(mailOptions){
 async function sendMail(mailOptions,tryagain){
   //overide some Parameters
   mailOptions.from = '"Miles Holt" <contact@milesholt.co.uk>';
-  mailOptions.to = "miles_holt@hotmail.com"
-  mailOptions.html = deepCopy(mailOptions.text);
+  mailOptions.to = "miles_holt@hotmail.com";
+  //ensure text and html are not objects
+  mailOptions.text = JSON.stringify(mailOptions.text);
+  mailOptions.html = JSON.stringify(deepCopy(mailOptions.text));
+
+
 
   await transporter.sendMail(mailOptions, function(error, info){
     if (error) {
