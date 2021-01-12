@@ -35,7 +35,7 @@ DRAW CHART
 
 actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
-  pricedata = pricedata.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
+  priceData = priceData.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
 
   let isRange = true;
 
