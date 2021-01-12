@@ -69,7 +69,10 @@ actions.determineVolatilityGap = async function(){
       if(d > missingHoursLimit){
         const priceDiff = Math.abs(close - close2);
         const priceDiffPerc = (priceDiff / close2) * 100;
-        if(lib.toNumber(priceDiffPerc) >= priceVolatilityLimit)  r = false;
+        if(lib.toNumber(priceDiffPerc) >= priceVolatilityLimit) {
+          r = false;
+          volatilityGapAnalysis.push({ 'time': price.time, 'diffPerc': priceDiffPerc, 'close': close, 'close2': close2 });
+        }
       }
       close = price.close;
       time = moment(price.time);
@@ -77,6 +80,7 @@ actions.determineVolatilityGap = async function(){
   });
 
   isNoVolatileGap = r;
+
 }
 
 module.exports = {

@@ -161,6 +161,7 @@ actions.setDefaults = async function(){
   closes = [];
   times = [];
   rangeAnalysis = [];
+  volatilityGapAnalysis = [];
   highs = [];
   lows = [];
   opens = [];

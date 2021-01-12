@@ -91,6 +91,7 @@ actions.finalAnalysis = async function(){
     'isBreakingThroughRange': check8,
     'isWithinTradeThreshold': check9,
     'isNoVolatileGap': check10,
+    'volatilityGapAnalysis': volatilityGapAnalysis,
     'totalMissingHours': totalMissingHours,
     'noBumpInRange': check11,
     'bumps': rangeData.bumps,

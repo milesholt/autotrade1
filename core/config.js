@@ -117,6 +117,7 @@ analysis = {};
 closes = [];
 times = [];
 rangeAnalysis = [];
+volatilityGapAnalysis = [];
 highs = [];
 lows = [];
 opens = [];
