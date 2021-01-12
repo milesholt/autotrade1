@@ -171,6 +171,7 @@ actions.setDefaults = async function(){
 
   //Other variables
   isHoursCorrect = true;
+  isNoVolatileGap = true;
   totalMissingHours = 0;
   noError = true;
   finalMessage = '';
@@ -272,6 +273,9 @@ actions.exec = async function(){
 
     //Handle missing hours
     await missingHoursHandler.actions.determineMissingHours();
+
+    //Handle Volatility gap
+    await missingHoursHandler.actions.determineVolatilityGap();
 
     //Handle bumps
     await bumpsHandler.actions.determineBumps();

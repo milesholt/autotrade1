@@ -90,7 +90,7 @@ actions.finalAnalysis = async function(){
     'isRecentTrendBreaking' : isRecentTrendBreaking,
     'isBreakingThroughRange': check8,
     'isWithinTradeThreshold': check9,
-    'isHoursCorrect': check10,
+    'isNoVolatileGap': check10,
     'totalMissingHours': totalMissingHours,
     'noBumpInRange': check11,
     'bumps': rangeData.bumps,

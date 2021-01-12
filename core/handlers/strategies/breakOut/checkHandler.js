@@ -177,7 +177,7 @@ actions.finalChecks = async function(){
   if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
   //if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
-  check10 = isHoursCorrect;
+  check10 = isNoVolatileGap;
   //if a number of checks are passed, we overide beforeRangeTrend and pass only if lastBeforeRangeMovement is also the same as trend
   //lastBeforeRangeMovement only holds 'bullish' or 'bearish' when last recorded as beforeRangeTrend
   //this is to capture longer ranging staircase patterns, where the beforeRangeTrend might be outside number of hours we set as parameter

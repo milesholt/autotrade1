@@ -48,7 +48,7 @@ actions.determineMissingHours = async function(){
   if(totalMissingHours >= missingHoursLimit) isHoursCorrect = false;
 }
 
-actions.determineVolatility = async function(){
+actions.determineVolatilityGap = async function(){
   //if there is a gap of missing hours (ie. weekend)
   //if price data varies aggresively, this suggests Volatility
   //return false if volatile
@@ -76,7 +76,7 @@ actions.determineVolatility = async function(){
     }
   });
 
-  return r;
+  isNoVolatileGap = r;
 }
 
 module.exports = {

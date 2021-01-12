@@ -142,5 +142,6 @@ to2 = '';
 //Other variables
 totalMissingHours = 0;
 isHoursCorrect = true;
+isNoVolatileGap = true;
 noError = true;
 isLoopRunning = false;
