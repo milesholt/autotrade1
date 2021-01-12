@@ -10,7 +10,7 @@ moment().format();
 const strategy = require('../strategies/tests/breakoutStrategy.js');
 const analytics = require('../services/tests/analytics.js');
 
-var pricesDir = path.join(__dirname, './test_pricedata2.json');
+var pricesDir = path.join(__dirname, './test_pricedata_chicago.json');
 
 //let pricedata = {'support': [], 'resistance': []};
 let pricedata2 = {'support': [], 'resistance': []};
@@ -63,6 +63,6 @@ async function exec(pricedata){
   lineData.support = supportline;
   lineData.resistance = resistanceline;
 
-  //analytics.actions.drawChart(pricedata3.support, {}, lineData, {}, rangeData);
+  analytics.actions.drawChart(pricedata3.support, {}, lineData, {}, rangeData);
 
 }

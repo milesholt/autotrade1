@@ -368,6 +368,12 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       domain: [0, 1],
       range: [starttime, endtime],
       rangeslider: {range: [starttime, endtime]},
+      rangebreaks: [
+        {
+          enabled:true,
+          bounds: ['sat', 'mon']
+        }
+      ],
       title: 'Date',
       type: 'date'
     },
