@@ -37,6 +37,12 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   priceData = priceData.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
 
+  priceData.forEach(price =>{
+    if(price.open == 0 && price.close == 0){
+      console.log('--------------price data has zero');
+    }
+  });
+
   let isRange = true;
 
   console.log(lineData.resistance);
