@@ -1,6 +1,7 @@
 var actions = {};
 var core;
 var moment;
+var lib;
 
 /*
 
@@ -11,6 +12,7 @@ REQUIRE
 actions.require = async function(){
   core = require.main.exports;
   moment =  core.moment;
+  lib = core.lib.actions;
 }
 
 /*
@@ -44,6 +46,37 @@ actions.determineMissingHours = async function(){
   });
   //if the number of hours is greater than limit, set data as missing. Exceptions if for example, only one or two hours is missing, this is fine.
   if(totalMissingHours >= missingHoursLimit) isHoursCorrect = false;
+}
+
+actions.determineVolatility = async function(){
+  //if there is a gap of missing hours (ie. weekend)
+  //if price data varies aggresively, this suggests Volatility
+  //return false if volatile
+  let r = true;
+  const priceVolatilityLimit = 70; //70%
+  let start = 0, end = 0, diff = 0, d = 0, close2 = 0;
+  let time = moment(pricedata2.support[0].time);
+  let close = pricedata2.support[0].close;
+
+  pricedata2.support.forEach((price,index) => {
+    //skip the first hour
+    if(index !== 0){
+      start = time;
+      end = moment(price.time);
+      close2 = price.close;
+      diff = end.diff(start, "hours") - 1; //remove by one because we only want the number of hours in between
+      d = diff == -1 ? 0 : diff;
+      if(d > missingHoursLimit){
+        const priceDiff = Math.abs(close - close2);
+        const priceDiffPerc = (priceDiff / close2) * 100;
+        if(lib.toNumber(priceDiffPerc) >= priceVolatilityLimit)  r = false;
+      }
+      close = price.close;
+      time = moment(price.time);
+    }
+  });
+
+  return r;
 }
 
 module.exports = {
