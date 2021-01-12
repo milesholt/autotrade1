@@ -25,15 +25,23 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 
   let times = [], customdata = [], shapes = [], closes = [], opens = [], highs = [], lows = [], range = [];
 
+  pricedata = pricedata.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
+
+  //console.log(pricedata);
+
+  //return false;
+
   pricedata.forEach(price =>{
-    times.push(price.time);
-    closes.push(price.close);
-    opens.push(price.open);
-    highs.push(price.high);
-    lows.push(price.low);
-    customdata.push({});
-    range.push(price.low);
-    range.push(price.high);
+    //if(price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0){
+      times.push(price.time);
+      closes.push(price.close);
+      opens.push(price.open);
+      highs.push(price.high);
+      lows.push(price.low);
+      customdata.push({});
+      range.push(price.low);
+      range.push(price.high);
+  //  }
   });
 
   range.sort(sortNumber);
@@ -133,8 +141,10 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
 
   //let lastClose =  parseFloat(closes[closes.length-1]);
   let lastRangeIndex = rangedata.support.prices_idx[rangedata.support.prices_idx.length-1];
-  //console.log(lastRangeIndex);
+  console.log(lastRangeIndex);
   let lastData = pricedata2[lastRangeIndex];
+
+  console.log(pricedata2.length);
 
   let lastTime = lastData.time;
   let lastTimeStart = moment(lastTime).subtract(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');

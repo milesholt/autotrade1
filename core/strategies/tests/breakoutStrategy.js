@@ -6,6 +6,8 @@ const util = require('util');
 
 actions.calcResistSupport = async function(pricedata,type){
 
+  pricedata[type] = pricedata[type].filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
+
   let prices = pricedata[type].map(r => parseFloat((r.open+r.close)/2).toFixed(2) );
   let range = [];
 
