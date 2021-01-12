@@ -33,8 +33,8 @@ This pulls key data from API and also updates cloud data file
 
 actions.getPriceData = async function(){
   if(prices.length == 0){
-    let fromDay = moment(from).format('dddd');
-    from = (fromDay == 'Saturday' || fromDay == 'Sunday') ? moment(from).subtract(2,'days') : from;
+    let fromDay = moment(date2).format('dddd');
+    from = (fromDay == 'Saturday' || fromDay == 'Sunday') ? moment(date2).subtract(2,'days').format('YYYY-MM-DD') +'%20'+'00:00:00' : from;
 
     await api.histPrc(epic, resolution, from, to).then(r => {
             prices = r.prices;
