@@ -24,13 +24,15 @@ PRICE DATA ANALYSIS
 actions.analysePriceData = async function(){
 
   pricedata3.support.forEach(price =>{
-    times.push(price.time);
-    closes.push(price.close);
-    opens.push(price.open);
-    highs.push(price.high);
-    lows.push(price.low);
-    rangeAnalysis.push(price.low);
-    rangeAnalysis.push(price.high);
+    if(price.closeAsk !== null && price.closeBid !== null){
+      times.push(price.time);
+      closes.push(price.close);
+      opens.push(price.open);
+      highs.push(price.high);
+      lows.push(price.low);
+      rangeAnalysis.push(price.low);
+      rangeAnalysis.push(price.high);
+    }
   });
 
   rangeAnalysis.sort(lib.sortNumber);
