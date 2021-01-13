@@ -142,7 +142,11 @@ FINAL CHECKS
 
 actions.finalChecks = async function(){
   //lastDiff is how much by percentage the lastClose is above/below resistance/support lines
-  if(lastDiff > momentumLimit) check1 = true;
+  //if(lastDiff > momentumLimit) check1 = true;
+
+  //Updated version for check1
+  if(trend == 'bullish' && lastClose >= Math.abs(resistanceline + momentumLimit)) check1 = true;
+  if(trend == 'bearish' && lastClose <= Math.abs(supportline - momentumLimit)) check1 = true;
 
    //if trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   isRecentTrendBreaking = false;
@@ -174,8 +178,12 @@ actions.finalChecks = async function(){
     check8 = true;
   }
   //trade threshold check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
-  if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
-  if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
+  //if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
+  //if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
+
+  if(trend == 'bullish' && lastClose >= Math.abs(resistanceline + tradelimit)) check9 = false;
+  if(trend == 'bearish' && lastClose <= Math.abs(supportline - tradelimit)) check9 = false;
+
   //if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
   check10 = isNoVolatileGap;
   //if a number of checks are passed, we overide beforeRangeTrend and pass only if lastBeforeRangeMovement is also the same as trend
