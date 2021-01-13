@@ -141,12 +141,7 @@ FINAL CHECKS
 */
 
 actions.finalChecks = async function(){
-  //lastDiff is how much by percentage the lastClose is above/below resistance/support lines
-  //if(lastDiff > momentumLimit) check1 = true;
 
-  //Updated version for check1
-  if(trend == 'bullish' && lastClose >= Math.abs(resistanceline + momentumLimit)) check1 = true;
-  if(trend == 'bearish' && lastClose <= Math.abs(supportline - momentumLimit)) check1 = true;
 
    //if trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   isRecentTrendBreaking = false;
@@ -177,12 +172,32 @@ actions.finalChecks = async function(){
   if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
     check8 = true;
   }
+
+  //lastDiff is how much by percentage the lastClose is above/below resistance/support lines
+  //if(lastDiff > momentumLimit) check1 = true;
+
+  //Updated version for check1
+
+  let momentumLimitBuyLine = lib.toNumber((resistanceline + momentumLimit),'abs');
+  let momentumLimitSellLine = lib.toNumber((supportline - momentumLimit), 'abs');
+  let tradeLimitBuyLine = lib.toNumber((resistanceline + tradelimit),'abs');
+  let tradeLimitSellLine = lib.toNumber((resistanceline + tradelimit),'abs');
+
+  console.log('trend: ' + trend);
+  console.log('lastClose: ' + lastClose);
+  console.log('momentumLimitBuyLine: ' + momentumLimitBuyLine);
+  console.log('momentumLimitSellLine: ' + momentumLimitSellLine);
+
+  if(trend == 'bullish' && lastClose >= momentumLimitBuyLine) check1 = true;
+  if(trend == 'bearish' && lastClose <= momentumLimitSellLine) check1 = true;
+
+
   //trade threshold check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward
   //if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   //if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
 
-  if(trend == 'bullish' && lastClose >= Math.abs(resistanceline + tradelimit)) check9 = false;
-  if(trend == 'bearish' && lastClose <= Math.abs(supportline - tradelimit)) check9 = false;
+  if(trend == 'bullish' && lastClose >= tradeLimitBuyLine) check9 = false;
+  if(trend == 'bearish' && lastClose <= tradeLimitSellLine) check9 = false;
 
   //if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
   check10 = isNoVolatileGap;
