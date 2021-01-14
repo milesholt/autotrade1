@@ -196,8 +196,8 @@ actions.finalChecks = async function(){
   //if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   //if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
 
-  if(trend == 'bullish' && lastClose >= tradeLimitBuyLine) check9 = false;
-  if(trend == 'bearish' && lastClose <= tradeLimitSellLine) check9 = false;
+  if(trend == 'bullish' && lastClose <= tradeLimitBuyLine) check9 = false;
+  if(trend == 'bearish' && lastClose >= tradeLimitSellLine) check9 = false;
 
   //if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
   check10 = isNoVolatileGap;
