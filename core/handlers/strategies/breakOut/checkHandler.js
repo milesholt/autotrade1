@@ -181,12 +181,14 @@ actions.finalChecks = async function(){
   let momentumLimitBuyLine = lib.toNumber((resistanceline + momentumLimit),'abs');
   let momentumLimitSellLine = lib.toNumber((supportline - momentumLimit), 'abs');
   let tradeLimitBuyLine = lib.toNumber((resistanceline + tradelimit),'abs');
-  let tradeLimitSellLine = lib.toNumber((resistanceline + tradelimit),'abs');
+  let tradeLimitSellLine = lib.toNumber((supportline - tradelimit),'abs');
 
   console.log('trend: ' + trend);
   console.log('lastClose: ' + lastClose);
   console.log('momentumLimitBuyLine: ' + momentumLimitBuyLine);
   console.log('momentumLimitSellLine: ' + momentumLimitSellLine);
+  console.log('tradeLimitBuyLine: ' + tradeLimitBuyLine);
+  console.log('tradeLimitSellLine: ' + tradeLimitSellLine);
 
   if(trend == 'bullish' && lastClose >= momentumLimitBuyLine) check1 = true;
   if(trend == 'bearish' && lastClose <= momentumLimitSellLine) check1 = true;
@@ -196,8 +198,8 @@ actions.finalChecks = async function(){
   //if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   //if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
 
-  if(trend == 'bullish' && lastClose <= tradeLimitBuyLine) check9 = false;
-  if(trend == 'bearish' && lastClose >= tradeLimitSellLine) check9 = false;
+  if(trend == 'bullish' && lastClose >= tradeLimitBuyLine) check9 = false;
+  if(trend == 'bearish' && lastClose <= tradeLimitSellLine) check9 = false;
 
   //if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
   check10 = isNoVolatileGap;
