@@ -34,7 +34,7 @@ actions.calcResistSupport = async function(pricedata,type){
   */
 
   let marginPercs = [];
-  let maxmargin = 0.4; //40% of price difference
+  let maxmargin = 0.17; //% of price difference
   let inc = 0.01;
 
   for ( var i=0, l=(maxmargin+inc); i<=l; i+=inc ){
@@ -61,9 +61,12 @@ actions.calcResistSupport = async function(pricedata,type){
       let m = [];
       let pi = [];
       let d = [];
+      let ocd = [];
+      let dp;
       prices.forEach((price2,idx2) => {
         price2 = parseFloat(price2);
         let diff = parseFloat(Math.abs(price2 - price).toFixed(2));
+        let openclose_diff = parseFloat(Math.abs(pricedata[type][idx2].open - pricedata[type][idx2].close).toFixed(2));
         //convert diff into percentage
         let diffPerc = parseFloat(((diff/pricediff)*100).toFixed(2));
         let marginPerc = parseFloat((margin*100).toFixed(2))  //convert 0.4 to 40%
@@ -75,15 +78,17 @@ actions.calcResistSupport = async function(pricedata,type){
         // }
 
         // If the difference is within margin, add it to matches
+
         if(diffPerc <= marginPerc){
           match = true;
           m.push(price2);
           pi.push(idx2);
+          ocd.push(openclose_diff);
           d.push(diff);
         }
       });
       // Push number of matching prices with matched value
-      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'time': pricedata[type][idx].time});
+      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'openclose_diff': ocd, 'time': pricedata[type][idx].time});
       midx++;
     });
 
@@ -126,16 +131,23 @@ actions.calcResistSupport = async function(pricedata,type){
     //do average difference
 
     var diffsum = 0;
+    var oc_diffsum = 0;
     for( var i = 0; i < range.price_diff.length; i++ ){
         //diffsum += parseInt( range.price_diff[i], 10 ); //don't forget to add the base
         diffsum += parseFloat(range.price_diff[i].toFixed(2));
     }
 
+    for( var i = 0; i < range.openclose_diff.length; i++ ){
+        //diffsum += parseInt( range.price_diff[i], 10 ); //don't forget to add the base
+        oc_diffsum += parseFloat(range.openclose_diff[i].toFixed(2));
+    }
+
     var avg = parseFloat((diffsum/range.price_diff.length).toFixed(3));
+    var oc_avg = parseFloat((oc_diffsum/range.openclose_diff.length).toFixed(3));
 
     //rangeOptions.push({'margin': margin, 'rangeData': range, 'range': range.prices.length, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice});
 
-    rangeOptions.push({'margin': margin, 'range': range, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice, 'priceDifferenceAverage' : avg });
+    rangeOptions.push({'margin': margin, 'range': range, 'bumps': bumps, 'bumpgroups' : bumpgroupcount, 'lowest': lowestprice, 'highest': highestprice,'openCloseDifferenceAverage': oc_avg,'priceDifferenceAverage' : avg });
   });
 
 
@@ -147,7 +159,7 @@ actions.calcResistSupport = async function(pricedata,type){
     let rangeCount = r.range.prices.length, bumpCount = r.bumps.length;
     if( rangeCount > 12){
       if(bumpCount < 5){
-        primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest, 'priceDifferenceAverage' : r.priceDifferenceAverage });
+        primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest, 'openCloseDifferenceAverage': r.openCloseDifferenceAverage, 'priceDifferenceAverage' : r.priceDifferenceAverage });
       }
     }
   });
@@ -159,13 +171,21 @@ actions.calcResistSupport = async function(pricedata,type){
 
     //sort by average difference
     primaries = primaries.sort(sortbyAverageDifference);
+    //primaries = primaries.sort(sortbyOpenCloseDifferenceAverage);
+
+    // primaries.forEach(primary => {
+    //   console.log(primary.openCloseDifferenceAverage);
+    // })
+
+    //console.log(primaries);
+    console.log(util.inspect(primaries, false, null));
 
     //shortlist to 5 if more
-    if(primaries.length > 5){
-       primaries = primaries.slice(0,5);
-       //then sort by latest date
-       primaries = primaries.sort(sortbyDate);
-    }
+    // if(primaries.length > 5){
+    //    primaries = primaries.slice(0,5);
+    //    //then sort by latest date
+    //    primaries = primaries.sort(sortbyDate);
+    // }
 
     let primary = primaries[0];
 
@@ -187,7 +207,7 @@ actions.calcResistSupport = async function(pricedata,type){
       }
     }
 
-    console.log(primary);
+    //console.log(primary);
 
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = midrangeprice;
@@ -221,6 +241,10 @@ function sortbyRangeBumps(a, b) {
 
 function sortbyAverageDifference(a, b) {
   return a.priceDifferenceAverage - b.priceDifferenceAverage;
+}
+
+function sortbyOpenCloseDifferenceAverage(a, b) {
+  return a.openCloseDifferenceAverage - b.openCloseDifferenceAverage;
 }
 
 function sortbyDate(a, b) {
