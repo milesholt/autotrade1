@@ -37,8 +37,8 @@ actions.determineRecentTrend = async function(){
   recenttrend = 'ranging';
   //Possibly update below as this is now outdated since we now have momentumLimit
   //We could instead replace this and UPDATE with if movementValueDiff greater than momentumLimit, as we are then comparing movements with a movement type limit rather than half the range area
-  if((movementValue < 0) && (movementValueDiff >= parseFloat((rangelimit/2).toFixed(2)) )) recenttrend = 'bearish';
-  if((movementValue > 0) && (movementValueDiff >= parseFloat((rangelimit/2).toFixed(2)) )) recenttrend = 'bullish';
+  //if((movementValue < 0) && (movementValueDiff >= parseFloat((rangelimit/2).toFixed(2)) )) recenttrend = 'bearish';
+  //if((movementValue > 0) && (movementValueDiff >= parseFloat((rangelimit/2).toFixed(2)) )) recenttrend = 'bullish';
   //UPDATE - if recentMovementValueDiffPerc is above momentumLimitPerc
   if((movementValue < 0) && (movementValueDiffPerc >= momentLimitPerc )) recenttrend = 'bearish';
   if((movementValue > 0) && (movementValueDiffPerc >= momentLimitPerc )) recenttrend = 'bullish';
