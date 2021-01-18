@@ -146,7 +146,8 @@ actions.finalChecks = async function(){
    //if trend is currently ranging, this would suggest that the market is breaking through range, so set trend as the same
   isRecentTrendBreaking = false;
   currenttrend = trend; //store a copy of trend before (if) changing it for analysis
-  if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2)) && trend == 'ranging'){
+  //if(recenttrend !== 'ranging' && (movementValueDiff >= (rangelimit/2)) && trend == 'ranging'){
+  if(recenttrend !== 'ranging' && (movementValueDiffPerc >= momentLimitPerc) && trend == 'ranging'){
     trend = recenttrend;
     isRecentTrendBreaking = true;
   }
