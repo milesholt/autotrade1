@@ -385,6 +385,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
       //check if deal is already closed (If the market moves quicker than the deal being processed and monitor setting up)
       console.log('Checking confirmation of deal: ');
       await api.confirmPosition(dealRef).then(async r =>{
+        console.log(util.inspect(r.affectedDeals, false, null));
         console.log(util.inspect(r.reason, false, null));
       });
 
