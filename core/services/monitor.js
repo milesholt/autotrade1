@@ -53,25 +53,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   console.log('dealRef: ' + dealRef);
   console.log('dealId: ' + dealId);
 
-  //show working orders (not open positions yet)
-  console.log('Checking working orders:');
-  await api.showWorkingOrders().then(async workingOrders => {
-    console.log(util.inspect(workingOrders, false, null));
-    if(workingOrders.length > 0){
-      workingOrders.forEach(workingOrder =>{
-        if(dealId == workingOrder.workingOrderData.dealId){
-          console.log('dealId found as working order, position still being processed..');
-        }
-      });
-    }
-  });
-
-  //check if deal is already closed (If the market moves quicker than the deal being processed and monitor setting up)
-  console.log('Checking confirmation of deal: ');
-  await api.confirmPosition(dealRef).then(async r =>{
-    console.log(util.inspect(r.reason, false, null));
-  });
-
   //get open position information
 
   await api.showOpenPositions(1).then(async positionsData => {
@@ -387,6 +368,27 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
     } else{
       //console.log('no opens positions found but should be, going again....');
       if(typeof dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
+
+      //show working orders (not open positions yet)
+      console.log('Checking working orders:');
+      await api.showWorkingOrders().then(async workingOrders => {
+        console.log(util.inspect(workingOrders, false, null));
+        if(workingOrders.length > 0){
+          workingOrders.forEach(workingOrder =>{
+            if(dealId == workingOrder.workingOrderData.dealId){
+              console.log('dealId found as working order, position still being processed..');
+            }
+          });
+        }
+      });
+
+      //check if deal is already closed (If the market moves quicker than the deal being processed and monitor setting up)
+      console.log('Checking confirmation of deal: ');
+      await api.confirmPosition(dealRef).then(async r =>{
+        console.log(util.inspect(r.reason, false, null));
+      });
+
+
       setTimeout(()=>{
         actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
       },60000);
