@@ -62,7 +62,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
         if(dealId == workingOrder.workingOrderData.dealId){
           console.log('dealId found as working order, position still being processed..');
         }
-      })
+      });
     }
   });
 
