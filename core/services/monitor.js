@@ -54,8 +54,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   console.log('dealId: ' + dealId);
 
   //show working orders (not open positions yet)
+  console.log('Checking working orders:');
   await api.showWorkingOrders().then(async workingOrders => {
-    console.log('Checking working orders:');
     console.log(util.inspect(workingOrders, false, null));
     if(workingOrders.length > 0){
       workingOrders.forEach(workingOrder =>{
@@ -64,6 +64,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
         }
       });
     }
+  });
+
+  //check if deal is already closed (If the market moves quicker than the deal being processed and monitor setting up)
+  console.log('Checking confirmation of deal: ');
+  await api.confirmPosition(dealRef).then(async r =>{
+    console.log(util.inspect(r.reason, false, null));
   });
 
   //get open position information
