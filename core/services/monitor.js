@@ -53,6 +53,18 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   console.log('dealRef: ' + dealRef);
   console.log('dealId: ' + dealId);
 
+  //show working orders (not open positions yet)
+  await api.showWorkingOrders().then(async workingOrders => {
+    console.log(util.inspect(workingOrders, false, null));
+    if(workingOrders.length > 0){
+      workingOrders.forEach(workingOrder =>{
+        if(dealId == workingOrder.workingOrderData.dealId){
+          console.log('dealId found as working order, position still being processed..');
+        }
+      })
+    }
+  });
+
   //get open position information
 
   await api.showOpenPositions(1).then(async positionsData => {
