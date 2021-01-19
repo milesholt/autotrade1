@@ -55,6 +55,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
   //show working orders (not open positions yet)
   await api.showWorkingOrders().then(async workingOrders => {
+    console.log('Checking working orders:');
     console.log(util.inspect(workingOrders, false, null));
     if(workingOrders.length > 0){
       workingOrders.forEach(workingOrder =>{
