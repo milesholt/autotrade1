@@ -83,6 +83,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     const p = trade.position;
 
                     console.log(arr);
+                    epic = arr.epic;
                     console.log('epic: ' + epic);
                     console.log('dealId: ' + dealId)
 
