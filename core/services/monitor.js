@@ -27,9 +27,6 @@ const testmailer = require('../tests/mailer.js');
 
 actions.iniMonitor = async function(dealId,dealRef,epic){
 
-  console.log('ini monitor');
-  console.log(epic);
-
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
 
@@ -56,16 +53,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   console.log('dealRef: ' + dealRef);
   console.log('dealId: ' + dealId);
   console.log('epic: ' + epic);
+  //create global object otherwise variables arent picked up in foreach loops
   var arr = {};
   arr.epic = epic;
 
   //get open position information
 
-  await api.showOpenPositions(1).then(async (positionsData,i,epic) => {
+  await api.showOpenPositions(1).then(async (positionsData) => {
     console.log(util.inspect(positionsData, false, null));
-
-    console.log('VARIABLES:');
-    console.log(epic);
 
     if(Object.keys(positionsData).indexOf('confirms') !== -1){
       let status = positionsData.confirms.dealStatus;
@@ -81,11 +76,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
           if(trade.position.dealId == dealId){
 
                     const p = trade.position;
-
-                    console.log(arr);
                     epic = arr.epic;
-                    console.log('epic: ' + epic);
-                    console.log('dealId: ' + dealId)
 
                     //log monitor
                     await log.actions.startMonitorLog();
