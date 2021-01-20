@@ -27,6 +27,9 @@ const testmailer = require('../tests/mailer.js');
 
 actions.iniMonitor = async function(dealId,dealRef,epic){
 
+  console.log('ini monitor');
+  console.log(epic);
+
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   let data = '';
 
