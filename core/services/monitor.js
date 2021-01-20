@@ -53,7 +53,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   console.log('dealRef: ' + dealRef);
   console.log('dealId: ' + dealId);
   console.log('epic: ' + epic);
-  let epc = epic;
+  var epc = epic;
 
   //get open position information
 
