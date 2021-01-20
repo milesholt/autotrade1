@@ -52,6 +52,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   console.log('direction: ' + direction);
   console.log('dealRef: ' + dealRef);
   console.log('dealId: ' + dealId);
+  console.log('epic: ' + epic);
 
   //get open position information
 
@@ -81,6 +82,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                     //start stream
                     //use real-time streaming to get latest hour
+                    console.log('starting stream, epic: ' + epic);
                     await stream.actions.startStream(epic,streamLogDir);
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(streamLogDir,false).then(r => {
