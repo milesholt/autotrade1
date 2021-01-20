@@ -44,7 +44,7 @@ actions.checkOpenTrades = async function(){
            direction = trade.position.direction;
            t = trade;
            core.actions.setPaths();
-           monitor.iniMonitor(dealId, epic);
+           monitor.iniMonitor(dealId,dealRef,epic);
          });
        }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
