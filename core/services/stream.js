@@ -65,6 +65,7 @@ actions.startStream = async function(epic,streamLogDir = false,check = false){
 }
 
 actions.endStream = function(epic){
+  console.log(epic);
   api.unsubscribeToLightstreamer(epic);
   api.disconnectToLightstreamer();
   destroyStream = true;

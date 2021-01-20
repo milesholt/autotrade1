@@ -177,6 +177,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 if (isNaN(d.closePrice.ask) || isNaN(d.closePrice.bid)) {
                                   console.log('price data is returning NaN, market has potentially closed while monitoring. Stopping monitoring...');
                                   actions.stopMonitor(timer,ep);
+                                  return false;
                                 }
 
                                 //if stream price goes beyond settings, take action
