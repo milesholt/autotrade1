@@ -341,6 +341,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   let ep = streamLogDir.split('/')[2];
                                   console.log('epic before stopMonitor(): ' + ep);
                                   actions.stopMonitor(timer,ep);
+                                  return false;
                           }
                         });
                       },3000);
