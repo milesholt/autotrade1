@@ -105,7 +105,7 @@ actions.checkOpenTrade = async function(){
               amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
               result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
               data: 'NO DATA',
-              dealId: dealId,
+              dealId: dealId
             }
 
             console.log(closeAnalysis);
