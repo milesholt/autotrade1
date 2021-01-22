@@ -81,7 +81,7 @@ actions.checkOpenTrade = async function(){
             });
             if(isMonitoring == false){
               console.log('Open trade wasnt monitoring, starting monitoring. dealId: ' + dealId + ' epic: ' + epic);
-              monitor.iniMonitor(dealId, epic);
+              monitor.iniMonitor(dealId, dealRef, epic);
             }
           }
     }).catch(e => {
