@@ -68,7 +68,9 @@ actions.checkOpenTrade = async function(){
     //deal is in process for this market, get trade data
     console.log('Deal is logged, getting data:');
     dealId = market.deal.dealId;
+    dealRef = market.deal.dealRef;
     console.log(dealId);
+    console.log('dealRef: ' + dealRef );
 
     let isMonitoring = false;
     await api.getPosition(String(dealId)).then(async positionData => {
@@ -86,6 +88,35 @@ actions.checkOpenTrade = async function(){
           }
     }).catch(e => {
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
+
+      await api.acctTransaction('ALL_DEAL',undefined, undefined, 50,1).then(r => {
+        //console.log(util.inspect(r,false,null));
+        let transactions = r.transactions;
+        transactions.forEach(transaction =>{
+          if(transaction.reference == dealId){
+            console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
+
+            let closeAnalysis = {
+              timestamp: moment(transaction.dateUTC).valueOf(),
+              date: moment(transaction.dateUTC).format('LLL'),
+              lastClose: transaction.closeLevel,
+              direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
+              openLevel: transaction.openLevel,
+              amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
+              result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
+              data: 'NO DATA',
+              dealId: dealId,
+            }
+
+            console.log(closeAnalysis);
+            console.log('closing trade log...');
+
+            log.closeTradeLog(market.epic, closeAnalysis);
+
+          }
+        });
+      }).catch(e => console.log(e));
+
       markets[mid].deal = {};
       log.closeMonitorLog(market.epic);
     });

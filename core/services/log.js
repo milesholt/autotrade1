@@ -66,12 +66,14 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   let ca = closeAnalysis;
 
-  let amount = (ca.openLevel - ca.lastClose) * size;
-  let result = Math.sign(amount) === 1 ? 'PROFIT' : 'LOSS';
+  if(!ca.amount && !ca.result){
+    let amount = (ca.openLevel - ca.lastClose) * size;
+    let result = Math.sign(amount) === 1 ? 'PROFIT' : 'LOSS';
 
-  ca.amount =  lib.toNumber(amount);
-  ca.result =  result;
-
+    ca.amount =  lib.toNumber(amount);
+    ca.result =  result;
+  }
+  
   let mid_tmp = 0;
 
   console.log('Closing trade log, looping through markets:');

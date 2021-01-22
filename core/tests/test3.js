@@ -52,13 +52,13 @@ async function exec(){
 
 
   // console.log('-------Searching for Epics');
-  const searchterm = encodeURI('MXN JPY');
-  await api.search(searchterm).then(r => {
-    console.log(r);
-  }).catch(e => console.log(e));
+  // const searchterm = encodeURI('MXN JPY');
+  // await api.search(searchterm).then(r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
 
   //Confirm position
-  // let dealRef = 'DIAAAAEDV2WPGAQ';
+  // let dealRef = 'Y9K5N33WEGY44S4';
   // await api.confirmPosition(dealRef).then(r => {
   //   console.log(r);
   // }).catch(e => console.log(e));
@@ -66,12 +66,37 @@ async function exec(){
   //Get history
   // let from = undefined;
   // let to = undefined;
-  // let detailed = undefined;
-  // let dealId = 'DIAAAAEDV2WPGAQ';
+  // let detailed = true;
+  // let dealId = 'DIAAAAE3E8KCJAQ';
   // let pageSize = 50;
   // await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
-  //   console.log(r);
+  //   console.log(util.inspect(r,false,null));
   // }).catch(e => console.log(e));
+
+
+
+  let dealId = 'DIAAAAE3E8KCJAQ';
+  let pageSize = 50;
+  let type = 'ALL_DEAL';
+  let from = undefined;
+  let to = undefined;
+
+  await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+    console.log(util.inspect(r,false,null));
+    let transactions = r.transactions;
+    transactions.forEach(transaction =>{
+      if(transaction.reference == dealId){
+        console.log('dealId found. position has been closed');
+        let dateClosed = transaction.dateUtc;
+        let profitLoss = transaction.profitAndLoss.split('£')[1];
+        let closeLevel = transaction.closeLevel;
+        console.log('dateClosed: ' + dateClosed);
+        console.log('profitLoss: ' + profitLoss);
+        console.log('closeLevel: ' + closeLevel);
+
+      }
+    });
+  }).catch(e => console.log(e));
 
 
   //Get prices
