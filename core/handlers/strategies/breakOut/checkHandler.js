@@ -86,7 +86,7 @@ actions.checkOpenTrade = async function(){
               monitor.iniMonitor(dealId, dealRef, epic);
             }
           }
-    }).catch(e => {
+    }).catch(async e => {
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
 
       await api.acctTransaction('ALL_DEAL',undefined, undefined, 50,1).then(r => {
