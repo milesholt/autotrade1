@@ -140,6 +140,7 @@ actions.readStream = function(streamLogDir,single){
         });
 
         readerStream.on('error', function(err) {
+          console.log('Error from stream:');
            reject(err.stack);
         });
 
