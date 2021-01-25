@@ -356,6 +356,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       let ep = streamLogDir.split('/')[2];
                       console.log('epic before stopMonitor(): ' + ep);
                       actions.stopMonitor(timer,ep);
+                      return false;
                     });
 
           } else {
@@ -404,8 +405,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
 
       setTimeout(()=>{
+        console.log('waiting 10 minutes, then will check for open positions again.');
         actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
-      },60000);
+      },600000);
     }
   }).catch(error => console.error(error));
 
