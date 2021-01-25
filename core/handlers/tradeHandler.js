@@ -235,7 +235,7 @@ actions.determineTrade = async function(){
                   await log.startTradeLog(epic, analysis, dealId);
                   await monitor.iniMonitor(dealId,dealRef,epic);
 
-                  market.tradedbefore = true;
+                  markets[mid].tradedbefore = true;
                   finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';
 
                } else {
@@ -253,7 +253,7 @@ actions.determineTrade = async function(){
       }).catch(e => console.log(e));
   } else {
       //No trade, wait another hour
-      market.tradedbefore = false;
+      markets[mid].tradedbefore = false;
       finalMessage = 'Checks not passed. No trade. Waiting 1 hour.'
 
   }
