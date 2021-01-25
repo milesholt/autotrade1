@@ -6,6 +6,7 @@ var util;
 var cloud;
 var lib;
 var log;
+var moment;
 
 /*
 
@@ -21,6 +22,7 @@ actions.require = async function(){
   cloud = core.cloudHandler.actions;
   lib = core.lib.actions;
   log = core.log.actions;
+  moment = core.moment;
 }
 
 /*
