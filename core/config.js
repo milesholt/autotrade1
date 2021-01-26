@@ -23,7 +23,7 @@ rangeConfirmationLimit = 12;
 confirmationlimit = 3;
 missingHoursLimit = 3;
 bumpgrouplimit = 5;
-size = 50;
+size = 1;
 
 
 //Main parameters
