@@ -70,6 +70,7 @@ actions.finalAnalysis = async function(){
     'beforeRangeTrend': beforeRangeTrend,
     'beforeRangeFirstCloseData' : beforeRangeFirstCloseData,
     'beforeRangeTrendDiff': beforeRangeTrendDiff,
+    'beforeRangeTrendDiffPerc': beforeRangeTrendDiffPerc,
     'rangedata_indexes': rangeData.support.prices_idx,
     'recentrange': recentrange,
     'rangeConfirmations':rangeConfirmations,
