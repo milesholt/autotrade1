@@ -73,7 +73,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
     ca.amount =  lib.toNumber(amount);
     ca.result =  result;
   }
-  
+
   let mid_tmp = 0;
 
   console.log('Closing trade log, looping through markets:');
@@ -97,6 +97,8 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   t.closeAnalysis = ca;
   t.end_timestamp = Date.now();
   t.end_date = moment().format('LLL');
+
+  console.log(accounts);
 
   accounts.push(ca);
 
