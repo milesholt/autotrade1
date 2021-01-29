@@ -32,6 +32,10 @@ actions.isEmpty = function(obj){
     return true;
 }
 
+actions.isDefined(obj,prop){
+  return obj.hasOwnProperty(prop);
+}
+
 actions.sortNumber = function(a, b) {
   return a - b;
 }
