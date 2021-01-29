@@ -32,7 +32,7 @@ actions.isEmpty = function(obj){
     return true;
 }
 
-actions.isDefined(obj,prop){
+actions.isDefined = function(obj,prop){
   return obj.hasOwnProperty(prop);
 }
 
