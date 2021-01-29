@@ -23,9 +23,11 @@ DETERMINE BEFORE RANGE DATA
 
 actions.determineBeforeRangeData = function(){
   beforeRangeFirstCloseData = pricedata3.support[0];
-  let oldbeforeRangeTrendDiffPerc = lib.deepCopy(markets[mid].data.beforeRangeTrendDiffPerc);
+    beforeRangeTrendDiff = parseFloat(Math.abs(beforeRangeFirstClose - lastClose).toFixed(2));
+
+  let oldbeforeRangeTrendDiffPerc = markets[mid].data.beforeRangeTrendDiffPerc ? lib.deepCopy(markets[mid].data.beforeRangeTrendDiffPerc) : beforeRangeTrendDiff;
   console.log('old beforeRangeTrendDiffPerc: ' + oldbeforeRangeTrendDiffPerc);
-  beforeRangeTrendDiff = parseFloat(Math.abs(beforeRangeFirstClose - lastClose).toFixed(2));
+
   beforeRangeTrendDiffPerc = lib.toNumber((100 - (beforeRangeFirstClose / lastClose * 100)), 'abs');
   console.log('new beforeRangeTrendDiffPerc: ' + beforeRangeTrendDiffPerc);
   //if((beforeRangeFirstClose > resistanceline) && (beforeRangeTrendDiff >= (rangelimit/2))) beforeRangeTrend = 'bearish';
