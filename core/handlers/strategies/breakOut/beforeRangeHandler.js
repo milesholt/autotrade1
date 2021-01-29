@@ -26,8 +26,8 @@ actions.determineBeforeRangeData = function(){
   beforeRangeTrendDiff = parseFloat(Math.abs(beforeRangeFirstClose - lastClose).toFixed(2));
   beforeRangeTrendDiffPerc = lib.toNumber((100 - (beforeRangeFirstClose / lastClose * 100)), 'abs');
 
-  let oldbeforeRangeTrendDiffPerc = lib.isDefined(markets[mid].data,'beforeRangeTrendDiffPerc') ? lib.deepCopy(markets[mid].data.beforeRangeTrendDiffPerc) : beforeRangeTrendDiffPerc;
-  console.log('old beforeRangeTrendDiffPerc: ' + oldbeforeRangeTrendDiffPerc);
+  let oldlastBeforeRangeTrendMovementPerc = lib.isDefined(markets[mid].data,'lastBeforeRangeTrendMovementPerc') ? lib.deepCopy(markets[mid].data.lastBeforeRangeTrendMovementPerc) : beforeRangeTrendDiffPerc;
+  console.log('old lastBeforeRangeTrendMovementPerc: ' + oldlastBeforeRangeTrendMovementPerc);
 
 
   console.log('new beforeRangeTrendDiffPerc: ' + beforeRangeTrendDiffPerc);
@@ -41,16 +41,18 @@ actions.determineBeforeRangeData = function(){
   if the trend matches and there are more bars than the last beforeRangeTrend, then we overide, as there are enough bars to justify the trend and there are also more than the previous which justifies overide
   */
 
-  if((beforeRangeFirstClose > resistanceline) && (beforeRangeTrendDiffPerc >= momentLimitPerc) && (beforeRangeTrendDiffPerc > oldbeforeRangeTrendDiffPerc)) beforeRangeTrend = 'bearish';
-  if((beforeRangeFirstClose < supportline) && (beforeRangeTrendDiffPerc >= momentLimitPerc) && (beforeRangeTrendDiffPerc > oldbeforeRangeTrendDiffPerc)) beforeRangeTrend = 'bullish';
-  if(beforeRangeTrend !== 'ranging'){
+  if((beforeRangeFirstClose > resistanceline) && (beforeRangeTrendDiffPerc >= momentLimitPerc)) beforeRangeTrend = 'bearish';
+  if((beforeRangeFirstClose < supportline) && (beforeRangeTrendDiffPerc >= momentLimitPerc)) beforeRangeTrend = 'bullish';
+  if(beforeRangeTrend !== 'ranging' && (beforeRangeTrendDiffPerc > oldlastBeforeRangeTrendMovementPerc)){
     bRD.lastBeforeRangeTrendMovement = beforeRangeTrend;
     bRD.lastBeforeRangeTrendMovementClose = beforeRangeFirstClose;
     bRD.lastBeforeRangeTrendMovementTime = beforeRangeFirstCloseData.time;
+    bRD.lastBeforeRangeTrendMovementPerc = beforeRangeTrendDiffPerc;
     let beforeRangeData = {
       'lastBeforeRangeTrendMovement': bRD.lastBeforeRangeTrendMovement,
       'lastBeforeRangeTrendMovementClose' : bRD.lastBeforeRangeTrendMovementClose,
-      'lastBeforeRangeTrendMovementTime' : bRD.lastBeforeRangeTrendMovementTime
+      'lastBeforeRangeTrendMovementTime' : bRD.lastBeforeRangeTrendMovementTime,
+      'lastBeforeRangeTrendMovementPerc' : bRD.lastBeforeRangeTrendMovementPerc
     }
     setTimeout(()=>{
       console.log('updating beforeRangeData file after 10 seconds');

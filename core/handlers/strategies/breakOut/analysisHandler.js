@@ -105,6 +105,7 @@ actions.finalAnalysis = async function(){
     'lastBeforeRangeTrendMovementClose': bRD.lastBeforeRangeTrendMovementClose,
     'lastBeforeRangeTrendMovementTime': bRD.lastBeforeRangeTrendMovementTime,
     'lastBeforeRangeTrendMovementDiff': bRD.lastBeforeRangeTrendMovementDiff,
+    'lastBeforeRangeTrendMovementPerc': bRD.lastBeforeRangeTrendMovementPerc,
     'momentumLimit': momentumLimit,
     'rangeLimit': rangelimit,
     'tradeLimit': tradelimit,
