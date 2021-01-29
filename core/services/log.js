@@ -74,6 +74,8 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
     ca.result =  result;
   }
 
+  ca.epic = epic;
+
   let mid_tmp = 0;
 
   console.log('Closing trade log, looping through markets:');
