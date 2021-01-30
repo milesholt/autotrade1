@@ -102,6 +102,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   console.log(accounts);
 
+  accounts = await github.actions.getFile(accountDataDir);
   accounts.push(ca);
 
   //update tradedata file
