@@ -59,6 +59,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   //create global object otherwise variables arent picked up in foreach loops
   var arr = {};
   arr.epic = epic;
+  arr.dealId = dealId;
+  arr.dealRef = dealRef;
 
   //get open position information
 
@@ -76,12 +78,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
     if(positionsData.positions.length){
 
       positionsData.positions.forEach(async (trade,i) => {
-          if(trade.position.dealId == dealId){
+          if(trade.position.dealId == arr.dealId){
 
                     const p = trade.position;
 
                     console.log(arr.epic);
                     epic = arr.epic;
+                    dealId = arr.dealId;
 
                     //log monitor
                     await log.actions.startMonitorLog();
@@ -360,10 +363,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     });
 
           } else {
-            console.log('position not found with dealId: ' + dealId + ' but should be, going again in 1 minute...');
-            if(typeof dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
+            console.log('position not found with dealId: ' + arr.dealId + ' but should be, going again in 1 minute...');
+            if(typeof arr.dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
             setTimeout(()=>{
-              actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
+              actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir);
             },60000);
 
           }
