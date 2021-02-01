@@ -43,7 +43,7 @@ actions.determineBeforeRangeData = function(){
 
   if((beforeRangeFirstClose > resistanceline) && (beforeRangeTrendDiffPerc >= momentLimitPerc)) beforeRangeTrend = 'bearish';
   if((beforeRangeFirstClose < supportline) && (beforeRangeTrendDiffPerc >= momentLimitPerc)) beforeRangeTrend = 'bullish';
-  if(beforeRangeTrend !== 'ranging' && (beforeRangeTrendDiffPerc > oldlastBeforeRangeTrendMovementPerc)){
+  if(beforeRangeTrend !== 'ranging' && (beforeRangeTrendDiffPerc >= oldlastBeforeRangeTrendMovementPerc)){
     bRD.lastBeforeRangeTrendMovement = beforeRangeTrend;
     bRD.lastBeforeRangeTrendMovementClose = beforeRangeFirstClose;
     bRD.lastBeforeRangeTrendMovementTime = beforeRangeFirstCloseData.time;
