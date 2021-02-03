@@ -38,13 +38,13 @@ actions.checkOpenTrades = async function(){
         console.log(util.inspect(positionsData, false, null));
         if(positionsData.positions.length > 0){
          //Loop through any open trades and begin monitoring
-         positionsData.positions.forEach(trade => {
-           console.log(trade);
-           epic = trade.market.epic;
-           dealId = trade.position.dealId;
-           dealRef = trade.position.dealReference;
-           direction = trade.position.direction;
-           t = trade;
+         positionsData.positions.forEach(td => {
+           console.log(td);
+           epic = td.market.epic;
+           dealId = td.position.dealId;
+           dealRef = td.position.dealReference;
+           direction = td.position.direction;
+           t = td;
            core.actions.setPaths();
            monitor.iniMonitor(dealId,dealRef,epic);
          });
@@ -63,10 +63,47 @@ This is useful if monitoring stops because market is closed. But we need to rest
 
 */
 
+actions.checkDeal = async function(){
+  var m = market;
+  await api.showOpenPositions(1).then(async (positionsData) => {
+    if(positionsData.positions.length){
+      positionsData.positions.forEach(async (td,i) => {
+          console.log(market);
+          if(td.position.epic == m.epic){
+            console.log('Found open deal on IG server with epic: ' + m.epic);
+            const dealId = td.position.dealId;
+            if(lib.isEmpty(m.deal)) {
+              console.log('Deal is empty on market data, re-adding...');
+              trades.forEach(td2 =>{
+                console.log(market);
+                if(td2.dealId == dealId){
+                  console.log('Found deal.');
+                  m.deal = lib.deepCopy(td2.deal);
+
+                  //after adding missing deal, re-run checkOpenTrade
+                  //actions.checkOpenTrade();
+                }
+              });
+            } else {
+              console.log('Deal on market data is not empty. continue...')
+            }
+          } else {
+            console.log('No open position found for epic: ' + m.epic);
+          }
+      });
+    } else {
+      console.log('No open positions found for any epic.');
+    }
+  }).catch(e => console.log(e));
+}
+
 actions.checkOpenTrade = async function(){
   console.log('checking for open trades');
   console.log(market.deal);
-  if(!lib.isEmpty(market.deal)) {
+  if(lib.isEmpty(market.deal)) {
+    console.log('Deal on market data is empty. Checking for open positions.')
+    await actions.checkDeal();
+  } else {
     //deal is in process for this market, get trade data
     console.log('Deal is logged, getting data:');
     dealId = market.deal.dealId;
@@ -83,6 +120,7 @@ actions.checkOpenTrade = async function(){
             monitors.forEach(monitor => {
               if(monitor.epic == epic) isMonitoring = true;
             });
+
             if(isMonitoring == false){
               console.log('Open trade wasnt monitoring, starting monitoring. dealId: ' + dealId + ' epic: ' + epic);
               monitor.iniMonitor(dealId, dealRef, epic);
