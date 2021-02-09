@@ -111,6 +111,8 @@ actions.checkOpenTrade = async function(){
     console.log(dealId);
     console.log('dealRef: ' + dealRef );
 
+    if(dealId == 'undefined'){ console.log('dealId is undefined'); return false; }
+
     let isMonitoring = false;
     await api.getPosition(String(dealId)).then(async positionData => {
           console.log(util.inspect(positionData, false, null));
@@ -127,6 +129,7 @@ actions.checkOpenTrade = async function(){
             }
           }
     }).catch(async e => {
+
       console.log('Error finding position with dealId: ' + dealId);
       console.log(e);
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
@@ -134,10 +137,13 @@ actions.checkOpenTrade = async function(){
       await api.acctTransaction('ALL_DEAL',undefined, undefined, 50,1).then(r => {
         //console.log(util.inspect(r,false,null));
         let transactions = r.transactions;
+        console.log('Looping through transactions..');
+        console.log('DealId: ' + dealId);
+
         transactions.forEach(transaction =>{
-          console.log('Looping through transactions..');
-          console.log('DealId: ' + dealId);
+
           if(transaction.reference == dealId){
+                  
             console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
 
             let closeAnalysis = {

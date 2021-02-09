@@ -156,12 +156,15 @@ actions.determineTrade = async function(){
           };
           analysis.ticket = ticket;
           console.log(analysis);
+
+
+
               //Open a ticket
               await api.deal(ticket).then(async r => {
                 console.log(util.inspect(r, false, null));
                 let ref = r.positions.dealReference;
                 analysis.dealReference = ref;
-                dealRef = ref;
+
                 if(!r.confirms.dealId){
                   console.log('Error: ' + r.confirms.errorCode);
 
@@ -177,7 +180,8 @@ actions.determineTrade = async function(){
                     ticketError = true;
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
                       ticketError = false;
-                      dealId = r.confirms.dealId;
+                      analysis.dealId = r.confirms.dealId;
+                      console.log('deal success, dealId should be:' + analysis.dealId);
                     }
                   }).catch(e => {
                     console.log('could not confirm position with deal reference: ' +  ref);
@@ -198,7 +202,7 @@ actions.determineTrade = async function(){
                     ticketError = true;
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
                       ticketError = false;
-                      dealId = r.confirms.dealId;
+                      analysis.dealId = r.confirms.dealId;
                     } else if(rc.dealStatus == 'REJECTED'){
                       //Handle deal being rejected
                       //Send notification
@@ -230,6 +234,13 @@ actions.determineTrade = async function(){
                   So each monitor has to be associated with an ID or object, that contains the epic and dealId it is assigned with
                   There could be a monitors array, which contains the MID of whichever market is being monitored
                   */
+
+                  console.log('Notification actioned. Beginning monitor and logging trade, dealId: ' + analysis.dealId);
+
+                  dealId = analysis.dealId;
+                  dealRef = analysis.dealReference;
+                  direction = analysis.ticket.direction;
+
 
                   //Log trade first before monitoring
                   await log.startTradeLog(epic, analysis, dealId);

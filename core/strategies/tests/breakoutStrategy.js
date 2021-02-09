@@ -128,6 +128,18 @@ actions.calcResistSupport = async function(pricedata,type){
     });
 
 
+    //do waves
+    let waves = []
+    /*
+    loop through range data
+    find out which direction it's going first (start of wave formation)
+    then get the highest or lowest depending on trend
+    then look for the opposite (peak of wave)
+    then find again the opposite (end of wave) at this point, count as one wave and add to waves
+    then continue the same until end of range data
+    */
+
+
     //do average difference
 
     var diffsum = 0;
