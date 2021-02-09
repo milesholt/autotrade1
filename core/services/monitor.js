@@ -97,7 +97,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     console.log('starting stream, epic: ' + epic);
                     await stream.actions.startStream(epic,streamLogDir);
                     console.log('streamLogDir: ' + streamLogDir);
-                    await stream.actions.readStream(streamLogDir,false).then(r => {
+                    await stream.actions.readStream(streamLogDir,false).then(async r => {
 
                       let closeprofit = false;
                       let closeloss = false;
@@ -244,7 +244,18 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       dealId: m.dealId
                                     }
 
-                                    api.closePosition(m.dealId).then(r => console.log(util.inspect(r, false, null))).catch(e => console.log(e));
+                                    await api.closePosition(m.dealId).then(async r =>{
+                                      console.log(util.inspect(r, false, null));
+
+                                      //get confirmation of position with recorded profit price from server
+                                      await api.confirmPosition(dealRef).then(async positionData =>{
+                                         //should be positionData.profit
+                                         console.log(util.inspect(positionData, false, null));
+                                      }).catch(e => console.log(e));
+
+
+                                    }).catch(e => console.log(e));
+
                                     var mailOptions = {
                                       from: 'contact@milesholt.co.uk',
                                       to: 'miles_holt@hotmail.com',
