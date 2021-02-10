@@ -64,31 +64,27 @@ This is useful if monitoring stops because market is closed. But we need to rest
 */
 
 actions.checkDeal = async function(){
-  var m = market;
   await api.showOpenPositions(1).then(async (positionsData) => {
     if(positionsData.positions.length){
       positionsData.positions.forEach(async (td,i) => {
-          console.log(market);
-          if(td.position.epic == m.epic){
-            console.log('Found open deal on IG server with epic: ' + m.epic);
+          if(td.position.epic == market.epic){
+            console.log('Found open deal on IG server with epic: ' + market.epic);
             const dealId = td.position.dealId;
-            if(lib.isEmpty(m.deal)) {
+            if(lib.isEmpty(market.deal)) {
               console.log('Deal is empty on market data, re-adding...');
               trades.forEach(td2 =>{
-                console.log(market);
                 if(td2.dealId == dealId){
                   console.log('Found deal.');
-                  m.deal = lib.deepCopy(td2.deal);
-
+                  market.deal = lib.deepCopy(td2.deal);
                   //after adding missing deal, re-run checkOpenTrade
-                  //actions.checkOpenTrade();
+                  actions.checkOpenTrade();
                 }
               });
             } else {
               console.log('Deal on market data is not empty. continue...')
             }
           } else {
-            console.log('No open position found for epic: ' + m.epic);
+            console.log('No open position found for epic: ' + market.epic);
           }
       });
     } else {
@@ -143,7 +139,7 @@ actions.checkOpenTrade = async function(){
         transactions.forEach(transaction =>{
 
           if(transaction.reference == dealId){
-                  
+
             console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
 
             let closeAnalysis = {
