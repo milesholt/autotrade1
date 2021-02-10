@@ -32,7 +32,7 @@ actions.determineRecentTrend = async function(){
   for(let i = (pl - recentlimit), len = pl; i < len; i++){
     let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
     if(movement == 'down') { downs++ } else { ups++ };
-    recenttrendArr.push(movement);
+    recenttrendArr.push({'movement': movement, 'open': pricedata.support[i].open, 'close': pricedata.support[i].close });
   }
   recenttrend = 'ranging';
   //Possibly update below as this is now outdated since we now have momentumLimit
