@@ -10,10 +10,10 @@ moment().format();
 //This will convert a string to a number rounded to decimal points, default is 2
 //Also has the option of getting the absolute value (non negative)
 actions.toNumber = function(val,method=false,points=2){
-  let r = parseFloat(val.toFixed(points));
+  let r = parseFloat(Number(val).toFixed(points));
   switch(method){
     case 'abs':
-     r = parseFloat(Math.abs(val).toFixed(points));
+     r = parseFloat(Math.abs(Number(val)).toFixed(points));
     break;
   }
   return r;

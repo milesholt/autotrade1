@@ -90,9 +90,11 @@ async function exec(){
         let dateClosed = transaction.dateUtc;
         let profitLoss = transaction.profitAndLoss.split('£')[1];
         let closeLevel = transaction.closeLevel;
-        console.log('dateClosed: ' + dateClosed);
-        console.log('profitLoss: ' + profitLoss);
-        console.log('closeLevel: ' + closeLevel);
+        //console.log('dateClosed: ' + dateClosed);
+        //console.log('profitLoss: ' + profitLoss);
+        console.log(typeof profitLoss);
+        console.log(Number(profitLoss).toFixed(2));
+        //console.log('closeLevel: ' + closeLevel);
 
       }
     });
