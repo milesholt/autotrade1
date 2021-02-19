@@ -107,7 +107,16 @@ actions.checkOpenTrade = async function(){
     console.log(dealId);
     console.log('dealRef: ' + dealRef );
 
-    if(dealId == 'undefined'){ console.log('dealId is undefined'); return false; }
+    if(dealId == 'undefined' || typeof dealId == 'undefined'){
+      console.log('dealId is undefined');
+      await actions.checkDealId(dealRef).then(id => {
+        dealId = id;
+        console.log('got dealId: ' + dealId);
+      }).catch(e => {
+        console.log(e);
+        return false;
+      });
+    }
 
     let isMonitoring = false;
     await api.getPosition(String(dealId)).then(async positionData => {
@@ -168,6 +177,26 @@ actions.checkOpenTrade = async function(){
     });
   }
 
+}
+
+/*
+
+CHECK DEAL ID
+
+*/
+
+actions.checkDealId = async function(ref){
+  return new Promise(async (resolve, reject) => {
+        console.log('checking for dealId with dealRef:' + ref);
+        await api.confirmPosition(ref).then(async r => {
+          console.log(util.inspect(r, false, null));
+          resolve(r.dealId);
+        }).catch(e => {
+          console.log('could not confirm position with deal reference: ' +  ref);
+          console.log(e);
+          reject(e);
+        });
+  });
 }
 
 
