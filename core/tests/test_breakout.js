@@ -10,12 +10,12 @@ moment().format();
 const strategy = require('../strategies/tests/breakoutStrategy.js');
 const analytics = require('../services/tests/analytics0.js');
 
-var pricesDir = path.join(__dirname, './test_pricedata9_norange.json');
+var pricesDir = path.join(__dirname, './test_pricedata1.json');
 
 //let pricedata = {'support': [], 'resistance': []};
 let pricedata2 = {'support': [], 'resistance': []};
 let pricedata3 = {'support': [], 'resistance': []};
-global.rangeData = {'resistance': {}, 'support': {}, 'bumps': []};
+global.rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': []};
 global.lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
@@ -62,6 +62,8 @@ async function exec(pricedata){
 
   lineData.support = supportline;
   lineData.resistance = resistanceline;
+
+  //console.log(rangeData.waves);
 
   //analytics.actions.drawChart(pricedata3.support, lineData, {}, rangeData);
 

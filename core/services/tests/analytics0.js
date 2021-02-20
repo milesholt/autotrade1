@@ -404,9 +404,31 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
         layer: 'above'
   }
 
+  let waves_arr = {
+    x:[],
+    y:[]
+  }
+
+  rangeData.waves.forEach(wave =>{
+    waves_arr.x.push(wave.time);
+    waves_arr.y.push(wave.close);
+  });
+
+  console.log(waves_arr.x);
+  console.log(waves_arr.y);
+
+  var trace2 = {
+      x: waves_arr.x,
+      y: waves_arr.y,
+      mode: 'lines+markers',
+      name: 'spline',
+      line: { shape: 'spline', width: 2, color:'#000000'},
+      type: 'scatter'
+  };
 
 
-  var data = [trace1];
+
+  var data = [trace1,trace2];
 
   //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
   if(isRange == true) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);

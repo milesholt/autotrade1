@@ -308,7 +308,30 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
         layer: 'above'
   }
 
-  var data = [trace1];
+
+  let waves_arr = {
+    x:[],
+    y:[]
+  }
+
+  rangeData.waves.forEach(wave =>{
+    waves_arr.x.push(wave.time);
+    waves_arr.y.push(wave.close);
+  });
+
+  console.log(waves_arr.x);
+  console.log(waves_arr.y);
+
+  var trace2 = {
+      x: waves_arr.x,
+      y: waves_arr.y,
+      mode: 'lines+markers',
+      name: 'spline',
+      line: { shape: 'spline', width: 2, color:'#F6A900'},
+      type: 'scatter'
+  };
+
+  var data = [trace1,trace2];
 
   shapes.push(supportline, resistanceline, midrangeline, momentumarea, tradearea, minimumarea);
 
@@ -350,6 +373,8 @@ actions.drawChart = async function(pricedata, wickdata, linedata, analysis, rang
     layout,
     "world_readable": true
   }
+
+  console.log('here');
 
   plotly.plot(data, options, function (err, msg) {
     if (err) return console.log(err)

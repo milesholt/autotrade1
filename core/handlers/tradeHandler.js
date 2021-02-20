@@ -157,8 +157,6 @@ actions.determineTrade = async function(){
           analysis.ticket = ticket;
           console.log(analysis);
 
-
-
               //Open a ticket
               await api.deal(ticket).then(async r => {
                 console.log(util.inspect(r, false, null));

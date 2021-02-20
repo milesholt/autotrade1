@@ -75,7 +75,7 @@ async function exec(){
 
 
 
-  let dealId = 'DIAAAAE3E8KCJAQ';
+  let dealId = 'DIAAAAE6ZWKLYA4';
   let pageSize = 50;
   let type = 'ALL_DEAL';
   let from = undefined;
@@ -86,6 +86,7 @@ async function exec(){
     let transactions = r.transactions;
     transactions.forEach(transaction =>{
       if(transaction.reference == dealId){
+        console.log(dealId);
         console.log('dealId found. position has been closed');
         let dateClosed = transaction.dateUtc;
         let profitLoss = transaction.profitAndLoss.split('£')[1];

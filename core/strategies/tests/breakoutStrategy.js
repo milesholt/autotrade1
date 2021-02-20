@@ -34,7 +34,7 @@ actions.calcResistSupport = async function(pricedata,type){
   */
 
   let marginPercs = [];
-  let maxmargin = 0.17; //% of price difference
+  let maxmargin = 0.4; //% of price difference
   let inc = 0.01;
 
   for ( var i=0, l=(maxmargin+inc); i<=l; i+=inc ){
@@ -63,6 +63,10 @@ actions.calcResistSupport = async function(pricedata,type){
       let d = [];
       let ocd = [];
       let dp;
+      let open;
+      let close;
+      let dir;
+      let wavedata = [];
       prices.forEach((price2,idx2) => {
         price2 = parseFloat(price2);
         let diff = parseFloat(Math.abs(price2 - price).toFixed(2));
@@ -70,6 +74,11 @@ actions.calcResistSupport = async function(pricedata,type){
         //convert diff into percentage
         let diffPerc = parseFloat(((diff/pricediff)*100).toFixed(2));
         let marginPerc = parseFloat((margin*100).toFixed(2))  //convert 0.4 to 40%
+        open = pricedata[type][idx2].open;
+        close = pricedata[type][idx2].close;
+        dir = 'NEUTRAL';
+        if(open > close) dir = 'DOWN';
+        if(close > open) dir = 'UP'
 
         // if(idx == 0){
         //   console.log('diff:' + diff);
@@ -85,10 +94,11 @@ actions.calcResistSupport = async function(pricedata,type){
           pi.push(idx2);
           ocd.push(openclose_diff);
           d.push(diff);
+          wavedata.push({ 'open': open, 'close': close, 'direction': dir, 'time': pricedata[type][idx2].time });
         }
       });
       // Push number of matching prices with matched value
-      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'openclose_diff': ocd, 'time': pricedata[type][idx].time});
+      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'wavedata': wavedata, 'prices_idx':pi, 'price_diff': d, 'openclose_diff': ocd, 'time': pricedata[type][idx].time});
       midx++;
     });
 
@@ -126,18 +136,6 @@ actions.calcResistSupport = async function(pricedata,type){
       if(bump.idx == (bidx+1)) bumpgroupcount++;
       bidx = bump.idx;
     });
-
-
-    //do waves
-    let waves = []
-    /*
-    loop through range data
-    find out which direction it's going first (start of wave formation)
-    then get the highest or lowest depending on trend
-    then look for the opposite (peak of wave)
-    then find again the opposite (end of wave) at this point, count as one wave and add to waves
-    then continue the same until end of range data
-    */
 
 
     //do average difference
@@ -190,7 +188,7 @@ actions.calcResistSupport = async function(pricedata,type){
     // })
 
     //console.log(primaries);
-    console.log(util.inspect(primaries, false, null));
+    //console.log(util.inspect(primaries, false, null));
 
     //shortlist to 5 if more
     // if(primaries.length > 5){
@@ -199,7 +197,15 @@ actions.calcResistSupport = async function(pricedata,type){
     //    primaries = primaries.sort(sortbyDate);
     // }
 
-    let primary = primaries[0];
+    //select the primary in the middle, rather than one with the smallest average difference
+    let mid = Math.round(primaries.length/2);
+    console.log('midprimary:' + mid);
+
+    let third = Math.round(primaries.length/3);
+
+    let quarter = Math.round(primaries.length/4);
+
+    let primary = primaries[third];
 
     //Remove any range data if there is enough after last bump
     if(primary.bumps.length > 0){
@@ -219,7 +225,80 @@ actions.calcResistSupport = async function(pricedata,type){
       }
     }
 
-    //console.log(primary);
+    console.log(primary);
+
+    //do waves
+    /*
+    loop through range data
+    find out which direction it's going first (start of wave formation)
+    then get the highest or lowest depending on trend
+    then look for the opposite (peak of wave)
+    then find again the opposite (end of wave) at this point, count as one wave and add to waves
+    then continue the same until end of range data
+    */
+
+    //process2:
+    //count direction based on 2 price bars
+    //as soon as it goes 2 price bars in the oppposite direction, we mark the last direction as a turning point
+
+    let waves = [];
+    var rdir;
+    let barcount = 0;
+
+    let wprop = {
+      dir: null,
+      barcount: 1
+    }
+
+    console.log(primary.range.wavedata);
+
+    primary.range.wavedata.forEach((r,idx) => {
+
+        if(r.direction !== 'NEUTRAL') {
+          if(r.direction == wprop.dir) {
+            wprop.barcount++;
+          } else {
+            if(wprop.barcount >= 2){
+              console.log('MARK! -- ' + primary.range.wavedata[idx-1].direction);
+              if(waves.length == 0){
+                  waves.push(primary.range.wavedata[idx-2]);
+              }
+              waves.push(primary.range.wavedata[idx-1]);
+
+              wprop.barcount = 1;
+            }
+            wprop.dir = r.direction;
+          }
+        }
+            //console.log(r);
+    });
+
+    console.log(waves);
+
+    //clean up waves (merge duplicate directions, where trend continues)
+    // let duplicates = [];
+    // waves.forEach((wave,idx) =>{
+    //   if(idx > 0) if(wave.direction == waves[idx-1].direction) duplicates.push(idx-1);
+    // });
+    //
+    // duplicates.forEach(didx => {
+    //   waves.splice(didx,1);
+    // });
+    //
+    // console.log(waves);
+
+    let w = {
+      wavecount: 0,
+      waveidx:0
+    };
+
+    waves.forEach((wave,idx) => {
+      if(w.waveidx == 2){ w.wavecount++; w.waveidx=0 }; w.waveidx++;
+    });
+
+    console.log(w.wavecount);
+
+    rangeData.waves = waves;
 
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = midrangeprice;
