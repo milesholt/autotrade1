@@ -69,7 +69,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   let ca = closeAnalysis;
 
-  if(!ca.amount && !ca.result){
+  if(!ca.amount && !ca.result){ 
     let amount = (ca.openLevel - ca.lastClose) * size;
     if(ca.profit !== NULL){ amount = ca.profit;  } else { console.log('No profit on closeAnalysis, going with own calculation.'); }
     let result = Math.sign(amount) === 1 ? 'PROFIT' : 'LOSS';
