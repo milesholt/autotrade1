@@ -241,7 +241,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       direction: p.direction,
                                       openLevel: p.openLevel,
                                       data: d,
-                                      dealId: m.dealId
+                                      dealId: m.dealId,
+                                      profit:NULL
                                     }
 
                                     await api.closePosition(m.dealId).then(async r =>{
@@ -251,6 +252,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       await api.confirmPosition(dealRef).then(async positionData =>{
                                          //should be positionData.profit
                                          console.log(util.inspect(positionData, false, null));
+                                         closeAnalysis.profit = positionData.confirms.profit;
                                       }).catch(e => console.log(e));
 
 
