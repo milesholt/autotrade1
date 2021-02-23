@@ -34,7 +34,7 @@ actions.calcResistSupport = async function(pricedata,type){
   */
 
   let marginPercs = [];
-  let maxmargin = 0.6; //% of price difference
+  let maxmargin = 0.4; //% of price difference
   let inc = 0.01;
 
   for ( var i=0, l=(maxmargin+inc); i<=l; i+=inc ){
@@ -256,6 +256,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
         if(r.direction !== 'NEUTRAL') {
           if(r.direction == wprop.dir) {
+            if(idx == primary.range.wavedata.length-1 ) waves.push(r);
             wprop.barcount++;
           } else {
             if(wprop.barcount >= 2){
@@ -269,11 +270,15 @@ actions.calcResistSupport = async function(pricedata,type){
             }
             wprop.dir = r.direction;
           }
+
+
         }
-            //console.log(r);
+
+
+            console.log(r);
     });
 
-    console.log(waves);
+    //console.log(waves);
 
     //clean up waves (merge duplicate directions, where trend continues)
     // let duplicates = [];
