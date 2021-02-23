@@ -34,7 +34,7 @@ actions.calcResistSupport = async function(pricedata,type){
   */
 
   let marginPercs = [];
-  let maxmargin = 0.4; //% of price difference
+  let maxmargin = 0.6; //% of price difference
   let inc = 0.01;
 
   for ( var i=0, l=(maxmargin+inc); i<=l; i+=inc ){
