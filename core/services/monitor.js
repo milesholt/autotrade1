@@ -242,7 +242,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       openLevel: p.openLevel,
                                       data: d,
                                       dealId: m.dealId,
-                                      profit:NULL
+                                      profit:null
                                     }
 
                                     await api.closePosition(m.dealId).then(async r =>{
