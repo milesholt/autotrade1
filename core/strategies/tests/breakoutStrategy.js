@@ -260,10 +260,10 @@ actions.calcResistSupport = async function(pricedata,type){
           } else {
             if(wprop.barcount >= 2){
               console.log('MARK! -- ' + primary.range.wavedata[idx-1].direction);
-              if(waves.length == 0){
-                  waves.push(primary.range.wavedata[idx-2]);
-              }
-              waves.push(primary.range.wavedata[idx-1]);
+              // if(waves.length == 0){
+              //     waves.push(primary.range.wavedata[idx-2]);
+              // }
+              waves.push(primary.range.wavedata[idx-2]);
 
               wprop.barcount = 1;
             }

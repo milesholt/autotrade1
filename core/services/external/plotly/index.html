@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Plotly</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+      <div id="graph" style="width:600px;height:250px;"></div>
+      <script>
+      	var graphId = document.getElementById('graph');
+        var traces;
+        var layout;
+
+        var data = {
+          traces: [{
+        	x: [1, 2, 3, 4, 5],
+        	y: [1, 2, 4, 8, 16] }],
+          layout: {margin: { t: 0 }}
+        }
+
+        function loadJSON(callback) {
+            var xobj = new XMLHttpRequest();
+                xobj.overrideMimeType("application/json");
+            xobj.open('GET', './data.json', true); // Replace 'appDataServices' with the path to your file
+            xobj.onreadystatechange = function () {
+                  if (xobj.readyState == 4 && xobj.status == "200") {
+                    // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                    callback(xobj.responseText);
+                  }
+            };
+            xobj.send(null);
+        }
+
+        function callback(json){
+          console.log(json);
+        }
+
+        loadJSON();
+
+      	Plotly.newPlot( graphId, data.traces, data.layout );
+
+      </script>
+  </body>
+</html>

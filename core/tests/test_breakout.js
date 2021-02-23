@@ -3,6 +3,7 @@ const api=require('node-ig-api');
 const util=require('util');
 const moment=require('moment');
 const fs = require('fs');
+const http = require('http');
 const path = require('path');
 
 moment().format();
@@ -10,7 +11,7 @@ moment().format();
 const strategy = require('../strategies/tests/breakoutStrategy.js');
 const analytics = require('../services/tests/analytics0.js');
 
-var pricesDir = path.join(__dirname, './test_pricedata1.json');
+var pricesDir = path.join(__dirname, './test_pricedata6.json');
 
 //let pricedata = {'support': [], 'resistance': []};
 let pricedata2 = {'support': [], 'resistance': []};
@@ -66,5 +67,18 @@ async function exec(pricedata){
   //console.log(rangeData.waves);
 
   //analytics.actions.drawChart(pricedata3.support, lineData, {}, rangeData);
+
+  console.log('file:///C:/Users/miles/Development/autotrade1/core/services/external/plotly/index.html');
+
+  fs.readFile('../services/external/plotly/index.html', function (err, html) {
+      if (err) {
+          throw err;
+      }
+      http.createServer(function(request, response) {
+          response.writeHeader(200, {"Content-Type": "text/html"});
+          response.write(html);
+          response.end();
+      }).listen(8000);
+  });
 
 }
