@@ -5,6 +5,7 @@ const moment=require('moment');
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
+const open = require('open');
 
 moment().format();
 
@@ -66,19 +67,29 @@ async function exec(pricedata){
 
   //console.log(rangeData.waves);
 
-  //analytics.actions.drawChart(pricedata3.support, lineData, {}, rangeData);
+  analytics.actions.drawChart(pricedata3.support, lineData, {}, rangeData);
 
-  console.log('file:///C:/Users/miles/Development/autotrade1/core/services/external/plotly/index.html');
+  //file:///C:/xampp/htdocs/autotrade1/core/services/external/plotly/index.html
 
-  fs.readFile('../services/external/plotly/index.html', function (err, html) {
-      if (err) {
-          throw err;
-      }
-      http.createServer(function(request, response) {
-          response.writeHeader(200, {"Content-Type": "text/html"});
-          response.write(html);
-          response.end();
-      }).listen(8000);
-  });
+  //console.log('file:///C:/Users/miles/Development/autotrade1/core/services/external/plotly/index.html');
+
+  //var graphpath = path.join(__dirname, '../services/external/plotly/index.html?d=test');
+
+  //console.log(graphpath);
+
+  //open(graphpath);
+
+
+
+  // fs.readFile('../services/external/plotly/index.html', function (err, html) {
+  //     if (err) {
+  //         throw err;
+  //     }
+  //     http.createServer(function(request, response) {
+  //         response.writeHeader(200, {"Content-Type": "text/html"});
+  //         response.write(html);
+  //         response.end();
+  //     }).listen(8000);
+  // });
 
 }

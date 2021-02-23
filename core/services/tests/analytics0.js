@@ -5,6 +5,8 @@ var lib = l.actions;
 //var moment;
 const moment=require('moment');
 moment().format();
+const fs = require('fs');
+const path = require('path');
 
 const { from, range } = require('rxjs');
 const { map, filter } = require('rxjs/operators');
@@ -472,14 +474,27 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
     "world_readable": true
   }
 
+  //
+  // plotly.plot(data, options, function (err, msg) {
+  //   if (err) return console.log(err);
+  //   console.log(msg);
+  // });
+  //
+  // var chart = { 'data': [ data ], 'layout':layout };
+  // actions.getImage(chart);
 
-  plotly.plot(data, options, function (err, msg) {
-    if (err) return console.log(err);
-    console.log(msg);
-  });
+  let d = {
+    traces: data,
+    layout: layout
+  }
 
-  var chart = { 'data': [ data ], 'layout':layout };
-  actions.getImage(chart);
+  let json = 'var data='+JSON.stringify(d);
+
+  var jsonDir = path.join(__dirname, '../external/plotly/data.js');
+
+  console.log(jsonDir);
+
+  fs.writeFileSync(jsonDir, json);
 }
 
 actions.getImage = async function(chart){

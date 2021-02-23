@@ -12,6 +12,7 @@
     "moment": "^2.24.0",
     "node-ig-api": "^2.0.4",
     "nodemailer": "^6.4.2",
+    "open": "^7.4.2",
     "plotly": "^1.0.6",
     "plotly.js-dist": "^1.58.4",
     "rxjs": "^6.5.4"
