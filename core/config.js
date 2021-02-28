@@ -6,7 +6,7 @@ momentLimitPerc = 0.1;
 rangeLimitPerc = 0.45;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
-limitDistancePerc = 0.08;
+limitDistancePerc = 0.1;
 
 momentumLimit = 0;
 rangelimit = 0;
