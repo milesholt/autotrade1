@@ -38,7 +38,7 @@ DRAW CHART
 
 */
 
-actions.drawChart = async function(priceData, lineData, analysis, rangeData){
+actions.drawChart = async function(priceData, lineData, analysis, rangeData, alias){
 
   //Set in config
   let momentLimitPerc = 0.1;
@@ -430,7 +430,10 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
 
 
-  var data = [trace1,trace2];
+  var traces = [trace1];
+  if(isRange == true) traces.push(trace2);
+
+  var data = traces;
 
   //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
   if(isRange == true) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
@@ -448,7 +451,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       autorange: true,
       domain: [0, 1],
       range: [starttime, endtime],
-      rangeslider: {range: [starttime, endtime]},
+      rangeslider: {visible: false, range: [starttime, endtime]},
       rangebreaks: [
         {
           enabled:true,
@@ -485,12 +488,14 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   let d = {
     traces: data,
-    layout: layout
+    layout: layout,
+    waves: rangeData.waves,
+    wavecount: rangeData.wavecount
   }
 
-  let json = 'var data='+JSON.stringify(d);
+  let json = 'var '+alias+'='+JSON.stringify(d);
 
-  var jsonDir = path.join(__dirname, '../external/plotly/data.js');
+  var jsonDir = path.join(__dirname, '../external/plotly/'+alias+'.js');
 
   console.log(jsonDir);
 

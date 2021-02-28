@@ -4,22 +4,67 @@
     <meta charset="utf-8">
     <title>Plotly</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script type="text/javascript" src="data.js"></script>
+    <script src="config.js"></script>
   </head>
   <body>
-      <div id="graph" style="width:100%;height:200px;"></div>
-      <script>
-      	var graphId = document.getElementById('graph');
-        var traces;
-        var layout;
+    <script>
+        function doLayout() {
 
-        function ini() {
-          graphId.style.height = window.innerHeight+'px';
-          Plotly.newPlot( graphId, data.traces, data.layout );
+            for(var i=0,len=count; i<len; i++){
+
+              var idx = isSelect ? config.select[i] : (i+1);
+
+              //import the script
+              var script = document.createElement('script');
+              script.type = 'text/javascript';
+              script.src = 'pricedata'+idx+'.js';
+              document.head.appendChild(script);
+
+              //create graph element
+              let div = document.createElement('div');
+              div.classList.add('graph-container');
+              div.innerHTML = '<h2>Graph'+idx+'</h2><br><div id="graph'+idx+'" class="graph" style="width:100%;height:200px;"></div>';
+              document.body.appendChild(div);
+
+              //create wave element
+              let div2 = document.createElement('div');
+              div2.classList.add('waves-container');
+              div2.innerHTML = '<h2>Waves Log '+idx+'</h2><br><div id="waveslog'+idx+'" class="waveslog" style="width:100%;"></div>';
+              document.body.appendChild(div2);
+
+           }
         }
 
-        window.onresize = ini;
-      	ini();
+        function doGraphs(){
+          setTimeout(function(){
+
+              for(var i=0,len=count; i<len; i++){
+
+                var idx = isSelect ? config.select[i] : (i+1);
+
+                //plot the graph
+                var graphId = document.getElementById('graph'+idx);
+                var traces;
+                var layout;
+                var alias = ['pricedata'+idx];
+                graphId.style.height = window.innerHeight+'px';
+                Plotly.newPlot( graphId, window[alias].traces, window[alias].layout, {responsive: true} );
+
+                var waveId = document.getElementById('waveslog'+idx);
+                waveId.innerHTML = '<p>Wavecount: ' + window[alias].wavecount + '</p>' + '<br><br>' + JSON.stringify(window[alias].waves);
+              }
+
+          },500);
+        }
+
+        var count = 0, isSelect = false;
+
+        isSelect = config.select.length > 0 ? true : false;
+        count = isSelect ? config.select.length : config.count;
+
+        window.onresize = doGraphs;
+      	doLayout();
+        doGraphs();
 
       </script>
   </body>

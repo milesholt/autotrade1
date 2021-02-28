@@ -26,7 +26,7 @@ const analytics = require('../services/tests/analytics0.js');
 //let pricedata = {'support': [], 'resistance': []};
 let pricedata2 = {'support': [], 'resistance': []};
 let pricedata3 = {'support': [], 'resistance': []};
-global.rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
+global.rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': []};
 global.lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
 global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
@@ -42,7 +42,7 @@ global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], '
 // let pricedata10 = require(pricesDir10);
 
 pricedatacount = 11;
-pricedataselect = []; //this overides pricedatacount
+pricedataselect = [3]; //this overides pricedatacount
 
 begin(0);
 

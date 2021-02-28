@@ -50,7 +50,7 @@ dealRef = '';
 direction = '';
 finalMessage = '';
 
-rangeData = {'resistance': {}, 'support': {}, 'bumps': []};
+rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
 lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
 confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 

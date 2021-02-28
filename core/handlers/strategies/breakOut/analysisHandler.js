@@ -99,6 +99,7 @@ actions.finalAnalysis = async function(){
     'noBumpInRange': check11,
     'bumps': rangeData.bumps,
     'bumpgroupcount': bumpgroupcount,
+    'waves': rangeData.wavecount,
     'notTradedBefore': check12,
     'beforeRangeOveridden': beforeRangeOveridden,
     'lastBeforeRangeTrendMovement': bRD.lastBeforeRangeTrendMovement,

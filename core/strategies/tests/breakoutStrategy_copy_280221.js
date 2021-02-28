@@ -96,7 +96,7 @@ actions.calcResistSupport = async function(pricedata,type){
           pi.push(idx2);
           ocd.push(openclose_diff);
           d.push(diff);
-          wavedata.push({ 'open': open, 'close': close, 'direction': dir, 'time': pricedata[type][idx2].time, 'remove':false });
+          wavedata.push({ 'open': open, 'close': close, 'direction': dir, 'time': pricedata[type][idx2].time });
         }
       });
       // Push number of matching prices with matched value
@@ -230,71 +230,159 @@ actions.calcResistSupport = async function(pricedata,type){
     //console.log(primary);
 
     //do waves
+    /*
+    loop through range data
+    find out which direction it's going first (start of wave formation)
+    then get the highest or lowest depending on trend
+    then look for the opposite (peak of wave)
+    then find again the opposite (end of wave) at this point, count as one wave and add to waves
+    then continue the same until end of range data
+    */
+
+    //process2:
+    //count direction based on 2 price bars
+    //as soon as it goes 2 price bars in the oppposite direction, we mark the last direction as a turning point
 
     let waves = [];
+    var rdir;
+    let barcount = 0;
 
-    let w = {
+    let wprop = {
       dir: null,
-      wavecount: 0
+      barcount: 1
     }
 
-    //1) Get points where there is change in direction
-    primary.range.wavedata.forEach((point,idx) => {
-      if(idx > 0){
-        //determine direction of next point
-        let dir = '';
-        let pw = primary.range.wavedata;
-        let prev = pw[idx-1];
-        let last = pw.length-1;
-        if(point.close > prev.close) dir = 'UP';
-        if(point.close < prev.close) dir = 'DOWN';
-        if(point.close == prev.close) dir = 'NEUTRAL';
-        //determine if direction is same as before or different
-        if(dir !== w.dir){
-          //direction is different, mark point
-          waves.push(prev);
-          w.dir = dir;
+    //console.log(primary.range.wavedata);
+
+
+    //First loop - set any price bars that are NEUTRAL to previous direction if previous is not NEUTRAL
+    //This is to include NEUTRAL price bars as part of the direction of the previous
+    primary.range.wavedata.forEach((r,idx) => {
+      if(r.direction == 'NEUTRAL'){
+        let previous = primary.range.wavedata[idx-1];
+        if(previous.direction !== 'NEUTRAL') r.direction = previous.direction;
+      }
+    });
+
+
+    //Second loop - go through and mark changes
+
+    primary.range.wavedata.forEach((r,idx) => {
+        if(r.direction !== 'NEUTRAL') {
+          if(r.direction == wprop.dir) {
+            if(idx == primary.range.wavedata.length-1 ) waves.push(r);
+          } else {
+            waves.push(primary.range.wavedata[idx]);
+            wprop.dir = r.direction;
+          }
         }
-        if(idx == last) waves.push(point);
+    });
+
+
+    //Third loop - clean up marks
+    let waves2 = [];
+
+    waves.forEach((wave,idx) => {
+
+
+      //mark the First and last
+      if (idx == 0 || idx == (waves.length-1)) waves2.push(wave);
+
+      //mark anything more than two hours in different direction
+      if(idx > 1){
+        const start = moment(wave.time);
+        const end = moment(waves[idx-1].time);
+        diff = Math.abs(end.diff(start, "hours") - 1);
+        if(diff > 2)  waves2.push(wave);
+      }
+
+    });
+
+    //Fourth loop - remove any duplicates
+    let waves3 = waves2.filter((w,idx) => idx > 0 && w.time !== waves2[idx-1].time);
+    waves3.unshift(waves2[0]); //bring back first
+
+
+    console.log(waves3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //Then loop through again and count waves
+    // primary.range.wavedata.forEach((r,idx) => {
+    //     if(r.direction !== 'NEUTRAL') {
+    //       if(r.direction == wprop.dir) {
+    //         if(idx == primary.range.wavedata.length-1 ) waves.push(r);
+    //         wprop.barcount++;
+    //       } else {
+    //         console.log('change');
+    //         console.log('barcount: ' + wprop.barcount);
+    //         if(wprop.barcount >= 2){
+    //           console.log('barcount: ' + wprop.barcount);
+    //           console.log('MARK! -- ' + primary.range.wavedata[idx-1].direction);
+    //           // if(waves.length == 0){
+    //           //     waves.push(primary.range.wavedata[idx-2]);
+    //           // }
+    //           waves.push(primary.range.wavedata[idx-2]);
+    //
+    //           wprop.barcount = 1;
+    //         }
+    //         wprop.dir = r.direction;
+    //       }
+    //     }
+    //     console.log(r);
+    // });
+
+    //console.log(waves);
+
+    //clean up waves (merge duplicate directions, where trend continues)
+    // let duplicates = [];
+    // waves.forEach((wave,idx) =>{
+    //   if(idx > 0) if(wave.direction == waves[idx-1].direction) duplicates.push(idx-1);
+    // });
+    //
+    // duplicates.forEach(didx => {
+    //   waves.splice(didx,1);
+    // });
+    //
+    // console.log(waves);
+
+    let w = {
+      wavecount: 0,
+      waveidx:0
+    };
+
+    // waves3.forEach((wave,idx) => {
+    //   if(w.waveidx == 2){ w.wavecount++; w.waveidx=0 }; w.waveidx++;
+    // });
+
+    let waves4 = [];
+
+    waves3.forEach((wave,idx) =>{
+      if(idx > 0){
+        if(wave.direction !== waves3[idx-1].direction) w.wavecount++;
+        if(w.wavecount == 2){
+          waves4.push([waves3[idx-2],waves3[idx-1],waves3[idx]]);
+          w.wavecount = 0;
+        }
       }
     });
 
-    let rangeArea = primary.highest - primary.lowest;
-    let pointPercLimit = 0.3;
+    console.log(waves4);
 
-    //2) Remove any points that are close to each other, or within percentage of the rangeArea to one another
-    waves.forEach((point,idx)=>{
-      if(idx > 0 && idx < waves.length-1){
-        let prev = waves[idx-1];
-        let diff = Math.abs(parseFloat((point.close - prev.close) / rangeArea).toFixed(2));
-        if( diff <= pointPercLimit ) point.remove = true;
-      }
-    });
-    waves = waves.filter(point => point.remove == false);
-
-    //3) Remove any duplicate points that are in the same direction and not a pivot point
-    waves.forEach((point,idx)=>{
-      if(idx > 0 && idx < waves.length-1){
-        let next = waves[idx+1];
-        if(point.direction == next.direction) point.remove = true;
-      }
-    });
-    waves = waves.filter(point => point.remove == false);
-
-
-    //4) Count how many waves based on UP pivots within first and last
-    waves.forEach((point,idx) =>{
-      if(idx > 0 && idx < waves.length-1){
-        let prev = waves[idx-1];
-        if(point.direction == 'UP' || (point.direction == 'NEUTRAL' && point.close > prev.close)) w.wavecount++;
-      }
-    });
-
-    console.log(waves);
     console.log(w.wavecount);
 
-    rangeData.waves = waves;
-    rangeData.wavecount = w.wavecount;
+    rangeData.waves = waves3;
 
     midrangeprice = (primary.highest + primary.lowest) / 2;
     lineData.midrange = midrangeprice;

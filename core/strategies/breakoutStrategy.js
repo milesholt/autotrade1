@@ -54,22 +54,37 @@ actions.calcResistSupport = async function(pricedata,type){
       let m = [];
       let pi = [];
       let d = [];
+      let ocd = [];
+      let dp;
+      let open;
+      let close;
+      let dir;
+      let wavedata = [];
       prices.forEach((price2,idx2) => {
         price2 = parseFloat(price2);
         let diff = parseFloat(Math.abs(price2 - price).toFixed(2));
+        let openclose_diff = parseFloat(Math.abs(pricedata[type][idx2].open - pricedata[type][idx2].close).toFixed(2));
         //convert diff into percentage
         let diffPerc = parseFloat(((diff/pricediff)*100).toFixed(2));
         let marginPerc = parseFloat((margin*100).toFixed(2))  //convert 0.4 to 40%
+        open = pricedata[type][idx2].open;
+        close = pricedata[type][idx2].close;
+        dir = 'NEUTRAL';
+        if(open > close) dir = 'DOWN';
+        if(close > open) dir = 'UP'
+
         // If the difference is within margin, add it to matches
         if(diffPerc <= marginPerc){
           match = true;
           m.push(price2);
           pi.push(idx2);
+          ocd.push(openclose_diff);
           d.push(diff);
+          wavedata.push({ 'open': open, 'close': close, 'direction': dir, 'time': pricedata[type][idx2].time, 'remove':false });
         }
       });
       // Push number of matching prices with matched value
-      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'time': pricedata[type][idx].time});
+      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'openclose_diff': ocd, 'time': pricedata[type][idx].time});
       midx++;
     });
 
@@ -164,6 +179,74 @@ actions.calcResistSupport = async function(pricedata,type){
             primary.range.price_diff.splice(0,remove);
       }
     }
+
+
+    //do waves
+
+    let waves = [];
+
+    let w = {
+      dir: null,
+      wavecount: 0
+    }
+
+    //1) Get points where there is change in direction
+    primary.range.wavedata.forEach((point,idx) => {
+      if(idx > 0){
+        //determine direction of next point
+        let dir = '';
+        let pw = primary.range.wavedata;
+        let prev = pw[idx-1];
+        let last = pw.length-1;
+        if(point.close > prev.close) dir = 'UP';
+        if(point.close < prev.close) dir = 'DOWN';
+        if(point.close == prev.close) dir = 'NEUTRAL';
+        //determine if direction is same as before or different
+        if(dir !== w.dir){
+          //direction is different, mark point
+          waves.push(prev);
+          w.dir = dir;
+        }
+        if(idx == last) waves.push(point);
+      }
+    });
+
+    let rangeArea = primary.highest - primary.lowest;
+    let pointPercLimit = 0.3;
+
+    //2) Remove any points that are close to each other, or within percentage of the rangeArea to one another
+    waves.forEach((point,idx)=>{
+      if(idx > 0 && idx < waves.length-1){
+        let prev = waves[idx-1];
+        let diff = Math.abs(parseFloat((point.close - prev.close) / rangeArea).toFixed(2));
+        if( diff <= pointPercLimit ) point.remove = true;
+      }
+    });
+    waves = waves.filter(point => point.remove == false);
+
+    //3) Remove any duplicate points that are in the same direction and not a pivot point
+    waves.forEach((point,idx)=>{
+      if(idx > 0 && idx < waves.length-1){
+        let next = waves[idx+1];
+        if(point.direction == next.direction) point.remove = true;
+      }
+    });
+    waves = waves.filter(point => point.remove == false);
+
+
+    //4) Count how many waves based on UP pivots within first and last
+    waves.forEach((point,idx) =>{
+      if(idx > 0 && idx < waves.length-1){
+        let prev = waves[idx-1];
+        if(point.direction == 'UP' || (point.direction == 'NEUTRAL' && point.close > prev.close)) w.wavecount++;
+      }
+    });
+
+    console.log(waves);
+    console.log(w.wavecount);
+
+    rangeData.waves = waves;
+    rangeData.wavecount = w.wavecount;
 
 
     midrangeprice = (primary.highest + primary.lowest) / 2;
