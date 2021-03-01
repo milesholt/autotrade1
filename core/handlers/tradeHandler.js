@@ -131,12 +131,10 @@ actions.determineTrade = async function(){
           console.log('stopDistance now: ' + stopDistance);
         }
 
-
         //new Method for stopDistance
         //start from minimum and expand by 5%
         let points = 0;
         let stopDistanceOffset = 4;
-        let minStop = market.minimumStop;
         if(minStop.type == 'percentage') {
           //do for percentage
           points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
