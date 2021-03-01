@@ -40,6 +40,9 @@ actions.notify = async function(notification, msg = ''){
     case 'deal-ticket-error':
       options.title = 'Deal ticket error. Trade could not be made';
     break;
+    case 'trade-being-made':
+      options.title = 'Trade being made. Epic: ' + epic;
+    break;
   }
 
   await actions.sendNotification(options);

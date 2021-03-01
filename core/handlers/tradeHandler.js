@@ -43,6 +43,8 @@ actions.determineTrade = async function(){
 
       console.log('All checks passed. Beginning trade...');
 
+      await notification.notify('trade-being-made', 'Trade is being made');
+
       //Check if we already have a position
       let positionOpen = false;
       if(dealId !== ''){
