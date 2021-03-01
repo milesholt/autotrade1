@@ -1,6 +1,7 @@
 var actions = {};
 var core;
 var moment;
+var api;
 
 /*
 
@@ -11,6 +12,7 @@ REQUIRE
 actions.require = function(){
   core = require.main.exports;
   moment = core.moment;
+  api = core.api;
 }
 
 /*
@@ -65,6 +67,14 @@ actions.loopMarkets = async function(){
     mid = i;
     market = markets[mid];
     epic = m.epic;
+
+    //get latest dealing rules
+    await api.epicDetails([epic]).then(r => {
+      let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
+      markets[mid].minimumStop.value = stopDistance.value;
+      markets[mid].minimumStop.type = String(stopDistance.unit).toLowerCase();
+    }).catch(e => console.log(e));
+
     //dealId = m.dealId;
     console.log('looping markets: ' + epic);
 
