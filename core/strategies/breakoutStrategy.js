@@ -84,7 +84,7 @@ actions.calcResistSupport = async function(pricedata,type){
         }
       });
       // Push number of matching prices with matched value
-      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'prices_idx':pi, 'price_diff': d, 'openclose_diff': ocd, 'time': pricedata[type][idx].time});
+      if(match) mm.push({'idx':midx, 'integer': price,'prices': m, 'wavedata': wavedata, 'prices_idx':pi, 'price_diff': d, 'openclose_diff': ocd, 'time': pricedata[type][idx].time});
       midx++;
     });
 
