@@ -35,7 +35,6 @@ DETERMINE TRADE
 
 actions.determineTrade = async function(){
 
-
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
   const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
@@ -134,11 +133,10 @@ actions.determineTrade = async function(){
           console.log('stopDistance now: ' + stopDistance);
         }
 
-
         //new Method for stopDistance
         //start from minimum and expand by 5%
         let points = 0;
-        let stopDistanceOffset = 2;
+        let stopDistanceOffset = 4;
         if(minStop.type == 'percentage') {
           //do for percentage
           points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
@@ -147,9 +145,9 @@ actions.determineTrade = async function(){
           points = (minStop.value * stopDistanceOffset);
         }
 
-        let stopDistanceLevel = 0
-        if(trend == 'bullish') stopDistanceLevel = lastCloseAsk - points;
-        if(trend == 'bearish') stopDistanceLevel = lastCloseBid + points;
+        //let stopDistanceLevel = 0
+        if(trend == 'bullish') stopDistance = lib.toNumber((lastCloseAsk - points), 'abs');
+        if(trend == 'bearish') stopDistance = lib.toNumber((lastCloseBid + points), 'abs');
 
         console.log('test stop distance: ' + points);
         console.log('test new stopDistance level: ' + stopDistanceLevel);

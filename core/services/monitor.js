@@ -247,13 +247,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                     await api.closePosition(m.dealId).then(async r =>{
                                       console.log(util.inspect(r, false, null));
+                                      closeAnalysis.profit = r.confirms.profit;
 
                                       //get confirmation of position with recorded profit price from server
-                                      await api.confirmPosition(dealRef).then(async positionData =>{
-                                         //should be positionData.profit
-                                         console.log(util.inspect(positionData, false, null));
-                                         closeAnalysis.profit = positionData.confirms.profit;
-                                      }).catch(e => console.log(e));
+                                      // await api.confirmPosition(dealRef).then(async positionData =>{
+                                      //    //should be positionData.profit
+                                      //    console.log(util.inspect(positionData, false, null));
+                                      //    closeAnalysis.profit = positionData.confirms.profit;
+                                      // }).catch(e => console.log(e));
 
 
                                     }).catch(e => console.log(e));
