@@ -39,6 +39,7 @@ actions.determineTrade = async function(){
   //start from minimum and expand by 5%
   let points = 0;
   let stopDistanceOffset = 2;
+  let minStop = market.minimumStop;
   if(minStop.type == 'percentage') {
     //do for percentage
     points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
