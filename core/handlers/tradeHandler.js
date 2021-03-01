@@ -35,28 +35,6 @@ DETERMINE TRADE
 
 actions.determineTrade = async function(){
 
-  //new Method for stopDistance
-  //start from minimum and expand by 5%
-  let points = 0;
-  let stopDistanceOffset = 2;
-  let minStop = market.minimumStop;
-  if(minStop.type == 'percentage') {
-    //do for percentage
-    points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
-  } else{
-    //do for points
-    points = (minStop.value * stopDistanceOffset);
-  }
-
-  let stopDistanceLevel = 0
-  let bullishstopDistanceLevel = lib.toNumber((lastCloseAsk - points),'abs');
-  let bearishstopDistanceLevel = lib.toNumber((lastCloseBid + points),'abs');
-
-  console.log('test stop distance: ' + points);
-  console.log('test new stopDistance level if bullish: ' + bullishstopDistanceLevel + ' lastCloseAsk: ' + lastCloseAsk);
-  console.log('test new stopDistance level if bearish: ' + bearishstopDistanceLevel + ' lastCloseBid: ' + lastCloseBid);
-
-
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
   const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
@@ -154,7 +132,25 @@ actions.determineTrade = async function(){
         }
 
 
+        //new Method for stopDistance
+        //start from minimum and expand by 5%
+        let points = 0;
+        let stopDistanceOffset = 4;
+        let minStop = market.minimumStop;
+        if(minStop.type == 'percentage') {
+          //do for percentage
+          points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
+        } else{
+          //do for points
+          points = (minStop.value * stopDistanceOffset);
+        }
 
+        //let stopDistanceLevel = 0
+        if(trend == 'bullish') stopDistance = lib.toNumber((lastCloseAsk - points), 'abs');
+        if(trend == 'bearish') stopDistance = lib.toNumber((lastCloseBid + points), 'abs');
+
+        console.log('test stop distance: ' + points);
+        console.log('test new stopDistance level: ' + stopDistanceLevel);
 
 
 
