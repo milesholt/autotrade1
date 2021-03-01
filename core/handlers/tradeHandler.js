@@ -49,12 +49,12 @@ actions.determineTrade = async function(){
   }
 
   let stopDistanceLevel = 0
-  let bullishstopDistanceLevel = lastCloseAsk - points;
-  let bearishstopDistanceLevel = lastCloseBid + points;
+  let bullishstopDistanceLevel = lib.toNumber((lastCloseAsk - points),'abs');
+  let bearishstopDistanceLevel = lib.toNumber((lastCloseBid + points),'abs');
 
   console.log('test stop distance: ' + points);
-  console.log('test new stopDistance level if bullish: ' + bullishstopDistanceLevel);
-  console.log('test new stopDistance level if bearish: ' + bearishstopDistanceLevel);
+  console.log('test new stopDistance level if bullish: ' + bullishstopDistanceLevel + ' lastCloseAsk: ' + lastCloseAsk);
+  console.log('test new stopDistance level if bearish: ' + bearishstopDistanceLevel + ' lastCloseBid: ' + lastCloseBid);
 
 
   //If all checks pass, begin trade
