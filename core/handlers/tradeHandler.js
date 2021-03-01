@@ -35,6 +35,25 @@ DETERMINE TRADE
 
 actions.determineTrade = async function(){
 
+  //new Method for stopDistance
+  //start from minimum and expand by 5%
+  let points = 0;
+  let stopDistanceOffset = 2;
+  if(minStop.type == 'percentage') {
+    //do for percentage
+    points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
+  } else{
+    //do for points
+    points = (minStop.value * stopDistanceOffset);
+  }
+
+  let stopDistanceLevel = 0
+  if(trend == 'bullish') stopDistanceLevel = lastCloseAsk - points;
+  if(trend == 'bearish') stopDistanceLevel = lastCloseBid + points;
+
+  console.log('test stop distance: ' + points);
+  console.log('test new stopDistance level: ' + stopDistanceLevel);
+
 
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
@@ -133,24 +152,7 @@ actions.determineTrade = async function(){
         }
 
 
-        //new Method for stopDistance
-        //start from minimum and expand by 5%
-        let points = 0;
-        let stopDistanceOffset = 2;
-        if(minStop.type == 'percentage') {
-          //do for percentage
-          points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
-        } else{
-          //do for points
-          points = (minStop.value * stopDistanceOffset);
-        }
 
-        let stopDistanceLevel = 0
-        if(trend == 'bullish') stopDistanceLevel = lastCloseAsk - points;
-        if(trend == 'bearish') stopDistanceLevel = lastCloseBid + points;
-
-        console.log('test stop distance: ' + points);
-        console.log('test new stopDistance level: ' + stopDistanceLevel);
 
 
 
