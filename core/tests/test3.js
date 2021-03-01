@@ -69,6 +69,7 @@ async function exec(){
   await api.epicDetails(epics).then(r => {
     //console.log(util.inspect(r,false,null));
     console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
+    //
   }).catch(e => console.log(e));
 
   //Get history
