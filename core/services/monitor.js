@@ -157,7 +157,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
-                                let dir =
+                                let dir = p.direction;
 
                                 let d = {
                                   'snapshotTime':time,
@@ -200,14 +200,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                 //our settings
                                 //half the limit level
-                                if(direction == 'BUY' && d.closePrice.bid >= newlimit) closeprofit = true;
-                                if(direction == 'SELL' && d.closePrice.ask <= newlimit) closeprofit = true;
+                                if(dir == 'BUY' && d.closePrice.bid >= newlimit) closeprofit = true;
+                                if(dir == 'SELL' && d.closePrice.ask <= newlimit) closeprofit = true;
 
                                 //stopLevel remains as is
-                                if(direction == 'BUY' && d.closePrice.bid <= p.stopLevel) closeloss = true;
-                                if(direction == 'SELL' && d.closePrice.ask >= p.stopLevel) closeloss = true;
+                                if(dir == 'BUY' && d.closePrice.bid <= p.stopLevel) closeloss = true;
+                                if(dir == 'SELL' && d.closePrice.ask >= p.stopLevel) closeloss = true;
 
-                                let closePrice = direction == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
+                                let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
 
 
 
