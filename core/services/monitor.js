@@ -231,6 +231,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                         epic : r.epic,
                                         dealId: r.dealId,
                                         dealRef: r.dealRef,
+                                        direction: r.direction,
                                         streamLogDir: r.streamLogDir
                                       }
                                     }).catch(e => { console.log(e) });
