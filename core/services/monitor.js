@@ -160,8 +160,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 let dir = null;
 
                                 markets.forEach(market => {
-                                  if(market.epic == ep) dir = market.direction;
-                                }); 
+                                  if(market.epic == ep) dir = market.deal.direction;
+                                });
 
                                 let d = {
                                   'snapshotTime':time,
