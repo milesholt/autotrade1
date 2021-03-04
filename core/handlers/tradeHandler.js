@@ -47,7 +47,9 @@ actions.determineTrade = async function(){
 
       //Check if we already have a position
       let positionOpen = false;
-      if(dealId !== ''){
+
+      if(!lib.isEmpty(markets[mid].deal)){
+        let dealId = markets[mid].deal.dealId;
         await api.getPosition(String(dealId)).then(async positionData => {
           //Check status pre-existing dealId
           //If status is CLOSED, we can open a new position
@@ -157,7 +159,9 @@ actions.determineTrade = async function(){
 
         let ticketError = false;
 
-        if(!positionOpen && positionsData.positions.length === 0){
+        //if(!positionOpen && positionsData.positions.length === 0){
+        if(!positionOpen){
+
           //No open positions, begin trade
           ticket = {
           	'currencyCode': 'GBP',
