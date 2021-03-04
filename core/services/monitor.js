@@ -291,6 +291,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   if(closeloss){
 
                                     console.log('close loss');
+                                    console.log('direction: ' + dir);
 
                                     let m = {};
 
