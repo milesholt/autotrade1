@@ -155,6 +155,7 @@ actions.startMonitorLog = async function(){
   m.dealId =  dealId;
   m.dealRef = dealRef;
   m.streamLogDir = streamLogDir;
+  m.direction = direction;
   monitors = await cloud.getFile(monitorDataDir);
   let exists = false;
   monitors.forEach((monitor,i) => {
