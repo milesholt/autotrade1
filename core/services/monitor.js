@@ -74,11 +74,15 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
         return console.error(positionsData.confirms.reason);
       }
     }
+    let positionFound = false;
 
     if(positionsData.positions.length){
 
       positionsData.positions.forEach(async (trade,i) => {
           if(trade.position.dealId == arr.dealId){
+
+                    positionFound = true;
+                    console.log('Position found for dealId: ' + arr.dealId);
 
                     const p = trade.position;
 
@@ -386,6 +390,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     });
 
           } else {
+
+            if(positionFound) return false;
             console.log('position not found with dealId: ' + arr.dealId + ' but should be, going again in 1 minute...');
             if(typeof arr.dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
             setTimeout(()=>{
