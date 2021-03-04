@@ -109,7 +109,7 @@ actions.readStream = function(streamLogDir,single){
             //console.log(data);
             let d = {};
             if(Array.isArray(data)){
-              console.log(data);
+              //console.log(data);
               let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
               d = {
                 'snapshotTime':time,
