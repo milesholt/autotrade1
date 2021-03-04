@@ -150,9 +150,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 //the json is ok
 
                                 data = JSON.parse(data.toString());
+
+                                console.log('reading data from this file: ' + streamLogDir);
+                                console.log(data);
+
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
+                                let dir =
 
                                 let d = {
                                   'snapshotTime':time,
