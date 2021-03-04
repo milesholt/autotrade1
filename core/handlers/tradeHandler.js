@@ -151,7 +151,7 @@ actions.determineTrade = async function(){
         if(trend == 'bearish') stopDistance = lib.toNumber((lastCloseBid + points), 'abs');
 
         console.log('test stop distance: ' + points);
-        console.log('test new stopDistance level: ' + stopDistanceLevel);
+        console.log('test new stopDistance level: ' + stopDistance);
 
 
 
