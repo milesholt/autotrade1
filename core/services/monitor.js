@@ -222,6 +222,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   if(closeprofit){
 
                                     console.log('close profit');
+                                    console.log('direction: ' + dir);
 
                                     let m = {};
 
@@ -297,7 +298,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                         epic : r.epic,
                                         dealId: r.dealId,
                                         dealRef: r.dealRef,
+                                        direction: r.direction,
                                         streamLogDir: r.streamLogDir
+
                                       }
                                     }).catch(e => { console.log(e) });
 
