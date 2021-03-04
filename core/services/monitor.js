@@ -157,7 +157,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
-                                let dir = p.direction;
+                                let dir = null;
+
+                                markets.forEach(market => {
+                                  if(market.epic == ep) dir = market.direction;
+                                }); 
 
                                 let d = {
                                   'snapshotTime':time,
