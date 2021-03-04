@@ -148,12 +148,14 @@ actions.determineTrade = async function(){
           points = (minStop.value * stopDistanceOffset);
         }
 
-        //let stopDistanceLevel = 0
-        if(trend == 'bullish') stopDistance = lib.toNumber((lastCloseAsk - points), 'abs');
-        if(trend == 'bearish') stopDistance = lib.toNumber((lastCloseBid + points), 'abs');
+        let stopDistanceLevel = 0
+        if(trend == 'bullish') stopDistanceLevel = lib.toNumber((lastCloseAsk - points), 'abs');
+        if(trend == 'bearish') stopDistanceLevel = lib.toNumber((lastCloseBid + points), 'abs');
 
         console.log('test stop distance: ' + points);
-        console.log('test new stopDistance level: ' + stopDistance);
+        console.log('test new stopDistance level: ' + stopDistanceLevel);
+
+        stopDistance = points;
 
 
 
