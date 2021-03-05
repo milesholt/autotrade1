@@ -79,7 +79,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
     if(positionsData.positions.length){
 
       positionsData.positions.forEach(async (trade,i) => {
-          if(trade.position.dealRef == arr.dealRef){
+          if(trade.position.dealReference == arr.dealRef){
 
                     //retrieve dealId if undefined
                     if(typeof arr.dealId == 'undefined') {
