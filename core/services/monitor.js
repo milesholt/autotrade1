@@ -115,6 +115,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       // console.log('position data:');
                       // console.log(p);
 
+                      console.log('response:');
                       console.log(r);
 
 
