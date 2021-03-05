@@ -39,7 +39,7 @@ actions.isConnected = async function(){
   return api.isConnectedToLightStreamer();
 }
 
-actions.startStream = async function(epic,streamLogDir = false,check = false){
+actions.startStream = async function(epic, streamLogDir = false, positionData, check = false){
 
   if(!streamLogDir){
     console.log('stream path not set');
@@ -50,7 +50,7 @@ actions.startStream = async function(epic,streamLogDir = false,check = false){
   await actions.connectStream(check).then( async r =>{
     if(api.isConnectedToLightStreamer()) {
       console.log('streamer should be connected.');
-      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
+      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic, positionData);
       if(api.lsIsError == true){
         console.log('Stream error. Stopping.');
         return false;
@@ -59,7 +59,7 @@ actions.startStream = async function(epic,streamLogDir = false,check = false){
   }).catch(e => {
     setTimeout(() => {
         console.log('stream not connected, trying again in 2 secs..');
-        actions.startStream(epic,streamLogDir,true);
+        actions.startStream(epic,streamLogDir, positionData, true);
     }, 2000);
   });
 }
