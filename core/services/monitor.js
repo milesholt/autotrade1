@@ -64,7 +64,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
   //get open position information
 
-  await api.showOpenPositions(1).then(async (positionsData) => {
+  await api.showOpenPositions().then(async (positionsData) => {
     console.log(util.inspect(positionsData, false, null));
 
     if(Object.keys(positionsData).indexOf('confirms') !== -1){
@@ -79,10 +79,16 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
     if(positionsData.positions.length){
 
       positionsData.positions.forEach(async (trade,i) => {
-          if(trade.position.dealId == arr.dealId){
+          if(trade.position.dealRef == arr.dealRef){
+
+                    //retrieve dealId if undefined
+                    if(typeof arr.dealId == 'undefined') {
+                      arr.dealId = trade.position.dealId;
+                      console.log('dealId was undefined, is now: ' + arr.dealId);
+                    }
 
                     positionFound = true;
-                    console.log('Position found for dealId: ' + arr.dealId);
+                    console.log('Position found for dealRef: ' + arr.dealRef);
 
                     const p = trade.position;
 
