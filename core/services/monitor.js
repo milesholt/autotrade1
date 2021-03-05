@@ -141,6 +141,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                         counter += 3;
 
+                        //NOTE - This is reading from the streamLog being written in Heroku server, not Github!
+                        //So the data written to Github is after this is read, which is in a different structure
+
                         fs.readFile(streamLogDir, async function (err, data) {
                           if (err) {
                             actions.stopMonitor(timer);
