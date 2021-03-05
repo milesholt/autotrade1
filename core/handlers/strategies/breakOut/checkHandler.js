@@ -38,7 +38,18 @@ actions.checkOpenTrades = async function(){
         console.log(util.inspect(positionsData, false, null));
         if(positionsData.positions.length > 0){
          //Loop through any open trades and begin monitoring
-         positionsData.positions.forEach(async (td) => {
+         // positionsData.positions.forEach(async (td) => {
+         //   console.log(td);
+         //   epic = td.market.epic;
+         //   dealId = td.position.dealId;
+         //   dealRef = td.position.dealReference;
+         //   direction = td.position.direction;
+         //   t = td;
+         //   core.actions.setPaths();
+         //   monitor.iniMonitor(dealId,dealRef,epic);
+         // });
+
+         for (const [i, td] of positionsData.positions.entries()) {
            console.log(td);
            epic = td.market.epic;
            dealId = td.position.dealId;
@@ -47,7 +58,10 @@ actions.checkOpenTrades = async function(){
            t = td;
            core.actions.setPaths();
            monitor.iniMonitor(dealId,dealRef,epic);
-         });
+         }
+
+
+
        }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 }
