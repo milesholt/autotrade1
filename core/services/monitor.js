@@ -404,12 +404,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     });
 
           } else {
-
-            if(positionFound) return false;
+            console.log(positionFound);
+            if(positionFound == true) return false;
             console.log('position not found with dealId: ' + arr.dealId + ' but should be, going again in 1 minute...');
             if(typeof arr.dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
             setTimeout(()=>{
-              actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir);
+              if(positionFound == false) actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir);
             },60000);
 
           }
