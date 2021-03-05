@@ -116,12 +116,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       console.log(p);
 
 
-                      let limitDiff = lib.actions.toNumber(Math.abs(p.openLevel - p.limitLevel) / 2);
+                      let limitDiff = lib.actions.toNumber(Math.abs(p.level - p.limitLevel) / 2);
 
                       console.log(limitDiff);
 
-                      let newlimitBuy = lib.actions.toNumber(p.openLevel + limitDiff);
-                      let newlimitSell = lib.actions.toNumber(p.openLevel - limitDiff);
+                      let newlimitBuy = lib.actions.toNumber(p.level + limitDiff);
+                      let newlimitSell = lib.actions.toNumber(p.level - limitDiff);
                       let newlimit = direction == 'BUY' ? newlimitBuy : newlimitSell;
 
                       console.log('new limit is: ' + newlimit);
@@ -130,7 +130,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                         limitLevel: p.limitLevel,
                         stopLevel: p.stopLevel,
                         newLimit: newlimit,
-                        openLevel: p.openLevel,
+                        openLevel: p.level,
                         direction: p.direction
                       }
 
@@ -263,7 +263,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       newLimit: newlimit,
                                       lastClose: closePrice,
                                       direction: p.direction,
-                                      openLevel: p.openLevel,
+                                      openLevel: p.level,
                                       data: d,
                                       dealId: m.dealId,
                                       profit:null
@@ -332,7 +332,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       stopLevel: p.stopLevel,
                                       lastClose: closePrice,
                                       direction: p.direction,
-                                      openLevel: p.openLevel,
+                                      openLevel: p.level,
                                       data: d,
                                       dealId: m.dealId
                                     }
@@ -366,7 +366,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     newLimit: newlimit,
                                     stopLevel: p.stopLevel,
                                     direction: p.direction,
-                                    openLevel: p.openLevel,
+                                    openLevel: p.level,
                                     updated: modtime,
                                     timestamp: timestamp
                                   }
