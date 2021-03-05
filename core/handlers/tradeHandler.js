@@ -52,8 +52,11 @@ actions.determineTrade = async function(){
         let dealId = markets[mid].deal.dealId;
         await api.getPosition(String(dealId)).then(async positionData => {
           //Check status pre-existing dealId
+          console.log('Found position currently open.');
+          console.log(positionData);
           //If status is CLOSED, we can open a new position
           if(positionData.market.marketStatus !== 'CLOSED'){
+            console.log('positionOpen should now be true: ' + positionOpen);
             positionOpen = true;
           }
         }).catch(async e => {
@@ -162,7 +165,8 @@ actions.determineTrade = async function(){
         let ticketError = false;
 
         //if(!positionOpen && positionsData.positions.length === 0){
-        if(!positionOpen){
+        console.log('positionOpen before making trade: ' + positionOpen);
+        if(positionOpen == false){
 
           //No open positions, begin trade
           ticket = {
