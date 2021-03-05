@@ -46,7 +46,7 @@ actions.checkOpenTrades = async function(){
            direction = td.position.direction;
            t = td;
            core.actions.setPaths();
-           await monitor.iniMonitor(dealId,dealRef,epic);
+           monitor.iniMonitor(dealId,dealRef,epic);
          });
        }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
@@ -130,7 +130,7 @@ actions.checkOpenTrade = async function(){
 
             if(isMonitoring == false){
               console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
-              await monitor.iniMonitor(dealId, dealRef, epic);
+              monitor.iniMonitor(dealId, dealRef, epic);
             }
           }
     }).catch(async e => {
