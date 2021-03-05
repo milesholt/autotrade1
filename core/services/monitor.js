@@ -468,6 +468,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 actions.stopMonitor = async function(timer,epic = false){
   console.log('stopping monitor, epic: ' + epic);
 
+  clearInterval(timer);
+
   //if epic parameter, stop stream
   if(!!epic){
     console.log('epic is not false, ending stream and monitor logs');
@@ -483,7 +485,6 @@ actions.stopMonitor = async function(timer,epic = false){
   };
   mailer.actions.sendMail(mailOptions);
 
-  clearInterval(timer);
   return false;
 }
 
