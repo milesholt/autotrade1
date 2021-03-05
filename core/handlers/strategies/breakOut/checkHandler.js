@@ -57,7 +57,7 @@ actions.checkOpenTrades = async function(){
            direction = td.position.direction;
            t = td;
            core.actions.setPaths();
-           monitor.iniMonitor(dealId,dealRef,epic);
+           await monitor.iniMonitor(dealId,dealRef,epic);
          }
 
 
