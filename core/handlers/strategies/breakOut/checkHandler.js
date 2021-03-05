@@ -64,7 +64,7 @@ This is useful if monitoring stops because market is closed. But we need to rest
 */
 
 actions.checkDeal = async function(){
-  await api.showOpenPositions(1).then(async (positionsData) => {
+  await api.showOpenPositions().then(async (positionsData) => {
     if(positionsData.positions.length){
       positionsData.positions.forEach(async (td,i) => {
           if(td.position.epic == market.epic){
@@ -95,7 +95,7 @@ actions.checkDeal = async function(){
 
 actions.checkOpenTrade = async function(){
   console.log('checking for open trades');
-  console.log(market.deal);
+  //console.log(market.deal);
   if(lib.isEmpty(market.deal)) {
     console.log('Deal on market data is empty. Checking for open positions.')
     await actions.checkDeal();
@@ -104,7 +104,7 @@ actions.checkOpenTrade = async function(){
     console.log('Deal is logged, getting data:');
     dealId = market.deal.dealId;
     dealRef = market.deal.dealRef;
-    console.log(dealId);
+    console.log('dealId: ' + dealId);
     console.log('dealRef: ' + dealRef );
 
     if(dealId == 'undefined' || typeof dealId == 'undefined'){
@@ -120,7 +120,7 @@ actions.checkOpenTrade = async function(){
 
     let isMonitoring = false;
     await api.getPosition(String(dealId)).then(async positionData => {
-          console.log(util.inspect(positionData, false, null));
+          //console.log(util.inspect(positionData, false, null));
           if(positionData.market.marketStatus !== 'CLOSED'){
             dealRef = positionData.position.dealReference;
             direction = positionData.position.direction;
@@ -189,7 +189,7 @@ actions.checkDealId = async function(ref){
   return new Promise(async (resolve, reject) => {
         console.log('checking for dealId with dealRef:' + ref);
         await api.confirmPosition(ref).then(async r => {
-          console.log(util.inspect(r, false, null));
+          //console.log(util.inspect(r, false, null));
           resolve(r.dealId);
         }).catch(e => {
           console.log('could not confirm position with deal reference: ' +  ref);

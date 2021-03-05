@@ -37,8 +37,8 @@ actions.determineTrade = async function(){
 
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
-  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
-  //const checks = [true];
+  //const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
+  const checks = [true];
   if(checks.indexOf(false) == -1){
 
       console.log('All checks passed. Beginning trade...');
@@ -78,7 +78,7 @@ actions.determineTrade = async function(){
 
       //Check for existing open tickets
       await api.showOpenPositions().then(async positionsData => {
-        console.log(util.inspect(positionsData, false, null));
+        //console.log(util.inspect(positionsData, false, null));
 
         //NEW LOGIC
         /*
@@ -184,11 +184,11 @@ actions.determineTrade = async function(){
           	'trailingStopIncrement': null
           };
           analysis.ticket = ticket;
-          console.log(analysis);
+          //console.log(analysis);
 
               //Open a ticket
               await api.deal(ticket).then(async r => {
-                console.log(util.inspect(r, false, null));
+                //console.log(util.inspect(r, false, null));
                 let ref = r.positions.dealReference;
                 analysis.dealReference = ref;
 
@@ -202,7 +202,7 @@ actions.determineTrade = async function(){
 
                   //Get status of position if error
                   await api.confirmPosition(ref).then(async rc => {
-                    console.log(util.inspect(rc, false, null));
+                    //console.log(util.inspect(rc, false, null));
                     //Check again as sometimes there's an error - not found - if it's still being processed
                     ticketError = true;
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
@@ -225,7 +225,7 @@ actions.determineTrade = async function(){
                 } else {
                   //There can be a deal id but also an error, so check for errors again
                   await api.confirmPosition(ref).then(async rc => {
-                    console.log(util.inspect(rc, false, null));
+                    //console.log(util.inspect(rc, false, null));
                     //Check again as sometimes there's an error - not found - if it's still being processed
                     ticketError = true;
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
