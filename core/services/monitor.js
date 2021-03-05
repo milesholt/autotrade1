@@ -42,7 +42,7 @@ actions.iniMonitor = async function(dealId,dealRef,epic){
     if (err) throw err;
   });
   //begin monitoring
-  actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
+  await actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
 }
 
 actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
@@ -214,6 +214,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                 //NOTE: If you're selling to open then you are buying to close.
                                 //So if your are SELLING you close at the ASK price. If your are BUYING, you close at the BID price.
+                                console.log('EPIC: ' + ep);
+                                console.log('DATA: ');
+                                console.log(p);
 
                                 //our settings
                                 //half the limit level
