@@ -166,7 +166,7 @@ actions.determineTrade = async function(){
 
         //if(!positionOpen && positionsData.positions.length === 0){
         console.log('positionOpen before making trade: ' + positionOpen);
-        if(positionOpen == false){
+        if(positionOpen == false && lib.isEmpty(market.deal)){
 
           //No open positions, begin trade
           ticket = {
