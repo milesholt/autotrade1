@@ -111,8 +111,8 @@ actions.checkOpenTrade = async function(){
   //console.log(market.deal);
   if(lib.isEmpty(market.deal)) {
     console.log('Deal on market data is empty. Checking for open positions.');
-    console.log('market epic: ' + market.epic);
-    console.log(market.deal);
+    console.log('market epic: ' + markets[mid].epic);
+    console.log(markets[mid].deal);
     await actions.checkDeal();
   } else {
     //deal is in process for this market, get trade data
