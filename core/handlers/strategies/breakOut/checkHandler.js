@@ -60,7 +60,14 @@ actions.checkOpenTrades = async function(){
            await monitor.iniMonitor(dealId,dealRef,epic);
          }
 
-
+       } else {
+         //check if any deals arent empty
+         for (const [i, m] of markets.entries()) {
+           mid = i;
+           market = markets[mid];
+           epic = m.epic;
+           actions.checkOpenTrade();
+         }
 
        }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
@@ -161,6 +168,8 @@ actions.checkOpenTrade = async function(){
 
         transactions.forEach(transaction =>{
 
+          console.log('Transaction reference: ' + transaction.reference);
+
           if(transaction.reference == dealId){
 
             console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
@@ -182,6 +191,8 @@ actions.checkOpenTrade = async function(){
 
             log.closeTradeLog(market.epic, closeAnalysis);
 
+          } else {
+            console.log('No transaction found with dealId: ' + dealId)
           }
         });
       }).catch(e => console.log(e));

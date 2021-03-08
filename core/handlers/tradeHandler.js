@@ -56,8 +56,8 @@ actions.determineTrade = async function(){
           console.log(positionData);
           //If status is CLOSED, we can open a new position
           if(positionData.market.marketStatus !== 'CLOSED'){
-            console.log('positionOpen should now be true: ' + positionOpen);
             positionOpen = true;
+            console.log('positionOpen should now be true: ' + positionOpen);          
           }
         }).catch(async e => {
           //API might fail to find position, go again
