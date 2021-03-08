@@ -194,6 +194,8 @@ actions.checkOpenTrade = async function(){
           console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
           console.log('Need to look into why this is. Resetting deal on market data for now...');
           markets[mid].deal = {};
+          //Clear any monitoring if any
+          log.closeMonitorLog(market.epic);
           // await actions.checkDealId(dealRef).then(id => {
           //   dealId = id;
           //   console.log('got dealId: ' + dealId);
