@@ -192,6 +192,8 @@ actions.checkOpenTrade = async function(){
 
         if(!isTransactionFound){
           console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
+          console.log('Need to look into why this is. Resetting deal on market data for now...');
+          markets[mid].deal = {};
           // await actions.checkDealId(dealRef).then(id => {
           //   dealId = id;
           //   console.log('got dealId: ' + dealId);
