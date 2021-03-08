@@ -191,7 +191,7 @@ actions.checkOpenTrade = async function(){
         });
 
         if(!isTransactionFound){
-          console.log('No trasancation for dealId: ' + dealId + 'found. deal refernece:  ' + dealRef);
+          console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
           // await actions.checkDealId(dealRef).then(id => {
           //   dealId = id;
           //   console.log('got dealId: ' + dealId);
@@ -221,6 +221,7 @@ actions.checkDealId = async function(ref){
   return new Promise(async (resolve, reject) => {
         console.log('checking for dealId with dealRef:' + ref);
         await api.confirmPosition(ref).then(async r => {
+          console.log('returning dealId: ' + r.dealId);
           //console.log(util.inspect(r, false, null));
           resolve(r.dealId);
         }).catch(e => {
