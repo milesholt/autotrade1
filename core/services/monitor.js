@@ -65,7 +65,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   //get open position information
 
   await api.showOpenPositions().then(async (positionsData) => {
-    console.log(util.inspect(positionsData, false, null));
+    //console.log(util.inspect(positionsData, false, null));
 
     if(Object.keys(positionsData).indexOf('confirms') !== -1){
       let status = positionsData.confirms.dealStatus;

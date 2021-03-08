@@ -38,7 +38,7 @@ actions.checkOpenTrades = async function(){
   //run through and check any open positions
   console.log('Checking open positions');
   await api.showOpenPositions().then(async positionsData => {
-        console.log(util.inspect(positionsData, false, null));
+        //console.log(util.inspect(positionsData, false, null));
         if(positionsData.positions.length > 0){
          //Loop through any open trades and begin monitoring
          for (const [i, td] of positionsData.positions.entries()) {
@@ -55,13 +55,13 @@ actions.checkOpenTrades = async function(){
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 
   //run through any deals which aren't empty on market data
-  console.log('Checking deals on market data');
-  for (const [i, m] of markets.entries()) {
-    mid = i;
-    market = markets[mid];
-    epic = m.epic;
-    actions.checkOpenTrade();
-  }
+  //console.log('Checking deals on market data');
+  // for (const [i, m] of markets.entries()) {
+  //   mid = i;
+  //   market = markets[mid];
+  //   epic = m.epic;
+  //   actions.checkOpenTrade();
+  // }
 
 }
 
