@@ -224,13 +224,14 @@ CHECK DEAL ID
 actions.checkDealId = async function(ref){
   return new Promise(async (resolve, reject) => {
         console.log('checking for dealId with dealRef:' + ref);
-        await api.confirmPosition(ref).then(async r => {
+        //note this only works for unconfirmed positions
+        await api.confirmPosition(String(ref)).then(async r => {
           console.log('returning dealId: ' + r.dealId);
           //console.log(util.inspect(r, false, null));
           resolve(r.dealId);
         }).catch(e => {
           console.log('could not confirm position with deal reference: ' +  ref);
-          console.log(e);
+          //console.log(e);
           reject(e);
         });
   });
