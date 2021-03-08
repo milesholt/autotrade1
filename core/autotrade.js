@@ -209,7 +209,7 @@ actions.init = async function(){
   }).catch(e => console.log(e));
 
   //Get hosted data files
-  await cloudHandler.actions.getFiles();
+  await cloudHandler.actions.getMainFiles();
 
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();

@@ -62,6 +62,20 @@ actions.getFiles = async function(){
   markets = await github.actions.getFile(marketDataDir);
 }
 
+/*
+
+GET MAIN FILES
+This gets the main files that arent specific to an epic or market
+*/
+
+actions.getMainFiles = async function(){
+  accounts = await github.actions.getFile(accountDataDir);
+  accountDataSha =  github.sha;
+  monitors = await github.actions.getFile(monitorDataDir);
+  monitorDataSha = github.sha;
+  markets = await github.actions.getFile(marketDataDir);
+}
+
 module.exports = {
   actions: actions
 }
