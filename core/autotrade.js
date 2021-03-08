@@ -208,6 +208,9 @@ actions.init = async function(){
   await api.login(true).then(r => {
   }).catch(e => console.log(e));
 
+  //Get hosted data files
+  await cloudHandler.actions.getFiles();
+
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();
 
