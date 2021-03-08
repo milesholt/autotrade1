@@ -233,7 +233,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 if(dir == 'SELL' && d.closePrice.ask >= p.stopLevel) closeloss = true;
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
-
+                                let foundMonitor =  false;
 
 
                                   if(closeprofit){
@@ -251,58 +251,67 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                         direction: r.direction,
                                         streamLogDir: r.streamLogDir
                                       }
+                                      foundMonitor = true;
                                     }).catch(e => { console.log(e) });
 
-                                    console.log(m);
+                                    if(foundMonitor == true){
+                                      console.log(m);
 
-                                    console.log('New limit level reached. Closing position.');
-                                    console.log('new limit was: ' + newlimit);
-                                    console.log('closing price was: ' + closePrice);
-                                    console.log('closing price (ask) was: ' + d.closePrice.ask);
-                                    console.log('closing price (bid) was: ' + d.closePrice.bid);
+                                      console.log('New limit level reached. Closing position.');
+                                      console.log('new limit was: ' + newlimit);
+                                      console.log('closing price was: ' + closePrice);
+                                      console.log('closing price (ask) was: ' + d.closePrice.ask);
+                                      console.log('closing price (bid) was: ' + d.closePrice.bid);
 
-                                    console.log('PROFIT - Finished monitoring, positions should be closed. Ending stream.');
+                                      console.log('PROFIT - Finished monitoring, positions should be closed. Ending stream.');
 
-                                    let closeAnalysis = {
-                                      timestamp: Date.now(),
-                                      date: moment().format('LLL'),
-                                      limitLevel: p.limitLevel,
-                                      stopLevel: p.stopLevel,
-                                      newLimit: newlimit,
-                                      lastClose: closePrice,
-                                      direction: p.direction,
-                                      openLevel: p.level,
-                                      data: d,
-                                      dealId: m.dealId,
-                                      profit:null
+                                      let closeAnalysis = {
+                                        timestamp: Date.now(),
+                                        date: moment().format('LLL'),
+                                        limitLevel: p.limitLevel,
+                                        stopLevel: p.stopLevel,
+                                        newLimit: newlimit,
+                                        lastClose: closePrice,
+                                        direction: p.direction,
+                                        openLevel: p.level,
+                                        data: d,
+                                        dealId: m.dealId,
+                                        profit:null
+                                      }
+
+                                      await api.closePosition(m.dealId).then(async r =>{
+                                        console.log(util.inspect(r, false, null));
+                                        closeAnalysis.profit = r.confirms.profit;
+
+                                        //get confirmation of position with recorded profit price from server
+                                        // await api.confirmPosition(dealRef).then(async positionData =>{
+                                        //    //should be positionData.profit
+                                        //    console.log(util.inspect(positionData, false, null));
+                                        //    closeAnalysis.profit = positionData.confirms.profit;
+                                        // }).catch(e => console.log(e));
+
+
+                                      }).catch(e => console.log(e));
+
+                                      var mailOptions = {
+                                        from: 'contact@milesholt.co.uk',
+                                        to: 'miles_holt@hotmail.com',
+                                        subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
+                                        text: JSON.stringify(closeAnalysis)
+                                      };
+                                      mailer.actions.sendMail(mailOptions);
+                                      actions.stopMonitor(timer, m.epic);
+                                      log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                      github.actions.updateFile({}, m.streamLogDir);
+
+                                      return false;
+                                    } else {
+
+                                      console.log('Couldnt find monitor data, doing nothing');
+                                      return false;
                                     }
 
-                                    await api.closePosition(m.dealId).then(async r =>{
-                                      console.log(util.inspect(r, false, null));
-                                      closeAnalysis.profit = r.confirms.profit;
 
-                                      //get confirmation of position with recorded profit price from server
-                                      // await api.confirmPosition(dealRef).then(async positionData =>{
-                                      //    //should be positionData.profit
-                                      //    console.log(util.inspect(positionData, false, null));
-                                      //    closeAnalysis.profit = positionData.confirms.profit;
-                                      // }).catch(e => console.log(e));
-
-
-                                    }).catch(e => console.log(e));
-
-                                    var mailOptions = {
-                                      from: 'contact@milesholt.co.uk',
-                                      to: 'miles_holt@hotmail.com',
-                                      subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
-                                      text: JSON.stringify(closeAnalysis)
-                                    };
-                                    mailer.actions.sendMail(mailOptions);
-                                    actions.stopMonitor(timer, m.epic);
-                                    log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                    github.actions.updateFile({}, m.streamLogDir);
-
-                                    return false;
                                   }
 
                                   if(closeloss){
@@ -321,41 +330,49 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                         streamLogDir: r.streamLogDir
 
                                       }
+                                      foundMonitor = true;
                                     }).catch(e => { console.log(e) });
 
-                                    console.log(m);
+                                    if(foundMonitor == true){
+                                      console.log(m);
 
-                                    console.log('Stop level reached. Closing position.');
-                                    console.log('stop level was: ' + p.stopLevel);
-                                    console.log('closing price was: ' + closePrice);
-                                    console.log('closing price (ask) was: ' + d.closePrice.ask);
-                                    console.log('closing price (bid) was: ' + d.closePrice.bid);
+                                      console.log('Stop level reached. Closing position.');
+                                      console.log('stop level was: ' + p.stopLevel);
+                                      console.log('closing price was: ' + closePrice);
+                                      console.log('closing price (ask) was: ' + d.closePrice.ask);
+                                      console.log('closing price (bid) was: ' + d.closePrice.bid);
 
-                                    console.log('LOSS - Finished monitoring, positions should be closed. Ending stream.');
+                                      console.log('LOSS - Finished monitoring, positions should be closed. Ending stream.');
 
-                                    let closeAnalysis = {
-                                      timestamp: Date.now(),
-                                      date: moment().format('LLL'),
-                                      limitLevel: p.limitLevel,
-                                      stopLevel: p.stopLevel,
-                                      lastClose: closePrice,
-                                      direction: p.direction,
-                                      openLevel: p.level,
-                                      data: d,
-                                      dealId: m.dealId
+                                      let closeAnalysis = {
+                                        timestamp: Date.now(),
+                                        date: moment().format('LLL'),
+                                        limitLevel: p.limitLevel,
+                                        stopLevel: p.stopLevel,
+                                        lastClose: closePrice,
+                                        direction: p.direction,
+                                        openLevel: p.level,
+                                        data: d,
+                                        dealId: m.dealId
+                                      }
+                                      var mailOptions = {
+                                        from: 'contact@milesholt.co.uk',
+                                        to: 'miles_holt@hotmail.com',
+                                        subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
+                                        text: JSON.stringify(closeAnalysis)
+                                      };
+                                      mailer.actions.sendMail(mailOptions);
+                                      actions.stopMonitor(timer, m.epic);
+                                      log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                      //update stream data
+                                      github.actions.updateFile({}, m.streamLogDir);
+                                      return false;
+
+                                    } else {
+                                      console.log('Couldnt find monitor data, doing nothing');
+                                      return false;
                                     }
-                                    var mailOptions = {
-                                      from: 'contact@milesholt.co.uk',
-                                      to: 'miles_holt@hotmail.com',
-                                      subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
-                                      text: JSON.stringify(closeAnalysis)
-                                    };
-                                    mailer.actions.sendMail(mailOptions);
-                                    actions.stopMonitor(timer, m.epic);
-                                    log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                    //update stream data
-                                    github.actions.updateFile({}, m.streamLogDir);
-                                    return false;
+
 
                                   }
 
