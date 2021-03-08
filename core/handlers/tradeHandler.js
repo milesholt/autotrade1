@@ -57,7 +57,12 @@ actions.determineTrade = async function(){
           //If status is CLOSED, we can open a new position
           if(positionData.market.marketStatus !== 'CLOSED'){
             positionOpen = true;
-            console.log('positionOpen should now be true: ' + positionOpen);          
+            console.log('positionOpen should now be true: ' + positionOpen);
+          }
+
+          if(positionData.market.marketStatus == 'CLOSED'){
+            console.log('Found open position but status is closed');
+            markets[mid].deal = {};
           }
         }).catch(async e => {
           //API might fail to find position, go again
@@ -67,7 +72,8 @@ actions.determineTrade = async function(){
             r.transactions.forEach(transaction => {
               if(dealId === transaction.reference){
                 //Deal found in transaction history. Clear position and continue with trade.
-                dealId = '';
+                console.log('deal is not empty, but no dealId found in transacations or as open position, resetting..');
+                markets[mid].deal = {};
               }
             });
           }).catch(e => {
