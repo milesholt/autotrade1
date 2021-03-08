@@ -97,6 +97,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     dealId = arr.dealId;
 
                     //log monitor
+                    console.log(arr.dealId)
+                    console.log(dealId);
                     await log.actions.startMonitorLog();
 
                     //declare time before reading stream
