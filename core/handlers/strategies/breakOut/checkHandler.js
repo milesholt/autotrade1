@@ -122,8 +122,8 @@ actions.checkOpenTrade = async function(){
     console.log('dealId: ' + dealId);
     console.log('dealRef: ' + dealRef );
 
-    //if(dealId == 'undefined' || typeof dealId == 'undefined'){
-      console.log('checking dealId is correct, not undefined and matches with dealRef..');
+    if(dealId == 'undefined' || typeof dealId == 'undefined'){
+      console.log('dealId is undefined. Position might be unconfirmed if dealId is undefined, checking for confirmed positions');
       await actions.checkDealId(dealRef).then(id => {
         dealId = id;
         console.log('got dealId: ' + dealId);
@@ -131,7 +131,7 @@ actions.checkOpenTrade = async function(){
         console.log(e);
         return false;
       });
-    //}
+    }
 
     let isMonitoring = false;
     await api.getPosition(String(dealId)).then(async positionData => {
