@@ -34,21 +34,13 @@ CHECK OPEN TRADES
 actions.checkOpenTrades = async function(){
   let t = {};
   let l = true;
+
+  //run through and check any open positions
+  console.log('Checking open positions');
   await api.showOpenPositions().then(async positionsData => {
         console.log(util.inspect(positionsData, false, null));
         if(positionsData.positions.length > 0){
          //Loop through any open trades and begin monitoring
-         // positionsData.positions.forEach(async (td) => {
-         //   console.log(td);
-         //   epic = td.market.epic;
-         //   dealId = td.position.dealId;
-         //   dealRef = td.position.dealReference;
-         //   direction = td.position.direction;
-         //   t = td;
-         //   core.actions.setPaths();
-         //   monitor.iniMonitor(dealId,dealRef,epic);
-         // });
-
          for (const [i, td] of positionsData.positions.entries()) {
            console.log(td);
            epic = td.market.epic;
@@ -59,18 +51,18 @@ actions.checkOpenTrades = async function(){
            core.actions.setPaths();
            await monitor.iniMonitor(dealId,dealRef,epic);
          }
-
-       } else {
-         //check if any deals arent empty
-         for (const [i, m] of markets.entries()) {
-           mid = i;
-           market = markets[mid];
-           epic = m.epic;
-           actions.checkOpenTrade();
-         }
-
        }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
+
+  //run through any deals which aren't empty on market data
+  console.log('Checking deals on market data');
+  for (const [i, m] of markets.entries()) {
+    mid = i;
+    market = markets[mid];
+    epic = m.epic;
+    actions.checkOpenTrade();
+  }
+
 }
 
 
