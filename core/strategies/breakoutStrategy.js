@@ -242,8 +242,8 @@ actions.calcResistSupport = async function(pricedata,type){
       }
     });
 
-    console.log(waves);
-    console.log(w.wavecount);
+    //console.log(waves);
+    //console.log(w.wavecount);
 
     rangeData.waves = waves;
     rangeData.wavecount = w.wavecount;
@@ -253,7 +253,7 @@ actions.calcResistSupport = async function(pricedata,type){
     lineData.midrange = parseFloat(midrangeprice.toFixed(2));
 
     rangeData[type] = primary.range;
-    console.log(primary);
+    //console.log(primary);
 
     line = type == 'support' ? primary.lowest : primary.highest;
   } else{

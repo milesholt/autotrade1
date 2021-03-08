@@ -117,7 +117,7 @@ actions.finalAnalysis = async function(){
 
   log.dataLog(analysis);
 
-  console.log(markets[mid].data);
+  //console.log(markets[mid].data);
 
   //set previous trend after everything else (using currenttrend to catch 'ranging' otherwise isBreakingThroughRange is false)
   previousTrend = currenttrend;
