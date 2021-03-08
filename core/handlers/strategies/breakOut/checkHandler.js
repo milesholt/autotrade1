@@ -122,8 +122,8 @@ actions.checkOpenTrade = async function(){
     console.log('dealId: ' + dealId);
     console.log('dealRef: ' + dealRef );
 
-    if(dealId == 'undefined' || typeof dealId == 'undefined'){
-      console.log('dealId is undefined');
+    //if(dealId == 'undefined' || typeof dealId == 'undefined'){
+      console.log('checking dealId is correct, not undefined and matches with dealRef..');
       await actions.checkDealId(dealRef).then(id => {
         dealId = id;
         console.log('got dealId: ' + dealId);
@@ -131,7 +131,7 @@ actions.checkOpenTrade = async function(){
         console.log(e);
         return false;
       });
-    }
+    //}
 
     let isMonitoring = false;
     await api.getPosition(String(dealId)).then(async positionData => {
@@ -160,11 +160,13 @@ actions.checkOpenTrade = async function(){
         console.log('Looping through transactions..');
         console.log('DealId: ' + dealId);
 
+        let isTransactionFound =  false;
+
         transactions.forEach(transaction =>{
 
-          console.log('Transaction reference: ' + transaction.reference);
-
           if(transaction.reference == dealId){
+
+            isTransactionFound =  true;
 
             console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
 
@@ -185,10 +187,21 @@ actions.checkOpenTrade = async function(){
 
             log.closeTradeLog(market.epic, closeAnalysis);
 
-          } else {
-            console.log('No transaction found with dealId: ' + dealId)
           }
         });
+
+        if(!isTransactionFound){
+          console.log('No trasancation for dealId: ' + dealId + 'found. deal refernece:  ' + dealRef);
+          // await actions.checkDealId(dealRef).then(id => {
+          //   dealId = id;
+          //   console.log('got dealId: ' + dealId);
+          // }).catch(e => {
+          //   console.log(e);
+          //   return false;
+          // });
+
+        }
+
       }).catch(e => console.log(e));
 
       //markets[mid].deal = {};
