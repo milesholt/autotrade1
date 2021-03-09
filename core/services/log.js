@@ -160,7 +160,7 @@ actions.startMonitorLog = async function(){
   let exists = false;
   monitors.forEach((monitor,i) => {
     if(monitor.epic == epic) exists = true;
-    if(monitor.epic == epic && monitor.dealId !== m.dealId){
+    if((monitor.epic == epic) && (monitor.dealId !== m.dealId)){
       console.log('Monitor has found epic ' + epic + ', but with a different deal, replacing with:');
       console.log(m);
       monitors.splice(i,1);
