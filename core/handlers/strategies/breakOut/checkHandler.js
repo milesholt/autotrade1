@@ -124,7 +124,7 @@ actions.checkDeal = async function(){
           for (const [i, td2] of trades.entries()) {
             if(td2.dealId == dId){
               console.log('Found deal.');
-              market.deal = lib.deepCopy(td2.deal);
+              markets[mid].deal = lib.deepCopy(td2.deal);
               //after adding missing deal, re-run checkOpenTrade
               await actions.checkOpenTrade();
             }
