@@ -119,7 +119,7 @@ actions.checkDeal = async function(){
 
       if(isPositionFound == true){
         console.log('Found open deal on IG server with epic: ' + market.epic);
-        if(lib.isEmpty(market.deal)) {
+        if(lib.isEmpty(markets[mid].deal)) {
           console.log('Deal is empty on market data, re-adding...');
           for (const [i, td2] of trades.entries()) {
             if(td2.dealId == dId){
