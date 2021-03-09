@@ -109,18 +109,20 @@ actions.checkDeal = async function(){
       // });
 
       let isPositionFound = false;
+      let dId = null;
       for (const [i, td] of positionsData.positions.entries()) {
-        console.log(td.market);
-        if(td.market.epic == market.epic) isPositionFound = true;
+        if(td.market.epic == market.epic){
+          dId = td.position.dealId;
+          isPositionFound = true;
+        }
       }
 
       if(isPositionFound == true){
         console.log('Found open deal on IG server with epic: ' + market.epic);
-        const dealId = td.position.dealId;
         if(lib.isEmpty(market.deal)) {
           console.log('Deal is empty on market data, re-adding...');
           for (const [i, td2] of trades.entries()) {
-            if(td2.dealId == dealId){
+            if(td2.dealId == dId){
               console.log('Found deal.');
               market.deal = lib.deepCopy(td2.deal);
               //after adding missing deal, re-run checkOpenTrade
