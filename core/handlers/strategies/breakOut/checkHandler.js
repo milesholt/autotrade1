@@ -186,6 +186,7 @@ actions.checkOpenTrade = async function(){
             console.log('closing trade log...');
 
             log.closeTradeLog(market.epic, closeAnalysis);
+            log.closeMonitorLog(market.epic);
 
           }
         });
