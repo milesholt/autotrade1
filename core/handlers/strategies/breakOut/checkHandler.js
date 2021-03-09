@@ -119,12 +119,12 @@ actions.checkDeal = async function(){
 
       if(isPositionFound == true){
         console.log('Found open deal on IG server with epic: ' + market.epic);
-        if(lib.isEmpty(markets[mid].deal)) {
+        if(lib.isEmpty(market.deal)) {
           console.log('Deal is empty on market data, re-adding...');
           for (const [i, td2] of trades.entries()) {
             if(td2.dealId == dId){
               console.log('Found deal.');
-              markets[mid].deal = lib.deepCopy(td2.deal);
+              market.deal = lib.deepCopy(td2.deal);
               //after adding missing deal, re-run checkOpenTrade
               await actions.checkOpenTrade();
             }
