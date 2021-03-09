@@ -160,14 +160,17 @@ actions.startMonitorLog = async function(){
   let exists = false;
   monitors.forEach((monitor,i) => {
     if(monitor.epic == epic) exists = true;
-    if(monitor.epic == epic){
-      console.log('Monitor has found epic ' + epic + ', replacing with:');
+    if(monitor.epic == epic && monitor.dealId !== m.dealId){
+      console.log('Monitor has found epic ' + epic + ', but with a different deal, replacing with:');
       console.log(m);
       monitors.splice(i,1);
       exists = false;
     }
   });
-  if(!exists) monitors.push(m);
+  if(exists == false){
+    console.log('Monitor does not exist, adding. Exists is: ' + exists);
+    monitors.push(m);
+  }
 
   cloud.updateFile(monitors,monitorDataDir);
 }
