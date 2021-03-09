@@ -127,6 +127,8 @@ actions.checkDeal = async function(){
               market.deal = lib.deepCopy(td2.deal);
               //after adding missing deal, re-run checkOpenTrade
               await actions.checkOpenTrade();
+            } else {
+              console.log('Could not add. Could not find deal with dealId: ' +  dId);
             }
           }
         } else {
