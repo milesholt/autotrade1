@@ -61,7 +61,6 @@ actions.sendNotification = async function(options, method = 'mail'){
   //Other methods by which to notify will go here
 
   console.log('sending notification:');
-  console.log(options.content);
 
   if(method == 'mail'){
     var mailOptions = {
