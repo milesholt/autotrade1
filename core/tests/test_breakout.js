@@ -42,7 +42,7 @@ global.confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], '
 // let pricedata10 = require(pricesDir10);
 
 pricedatacount = 11;
-pricedataselect = []; //this overides pricedatacount
+pricedataselect = [13]; //this overides pricedatacount
 
 begin(0);
 

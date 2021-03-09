@@ -110,6 +110,7 @@ actions.checkDeal = async function(){
 
       let isPositionFound = false;
       for (const [i, td] of positionsData.positions.entries()) {
+        console.log('Open position epic: ' + td.position.epic);
         if(td.position.epic == market.epic) isPositionFound = true;
       }
 

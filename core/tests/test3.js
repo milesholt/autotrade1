@@ -58,19 +58,19 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Confirm position
-  // let dealRef = 'Y9K5N33WEGY44S4';
-  // await api.confirmPosition(dealRef).then(r => {
-  //   console.log(r);
-  // }).catch(e => console.log(e));
+  let dealRef = 'BCUQ8XPY8RE44TD';
+  await api.confirmPosition(String(dealRef)).then(r => {
+    console.log(r);
+  }).catch(e => console.log(e));
 
 
   //Get markets
-  let epics = ['CC.D.VIX.USS.IP'];
-  await api.epicDetails(epics).then(r => {
-    //console.log(util.inspect(r,false,null));
-    console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
-    //
-  }).catch(e => console.log(e));
+  // let epics = ['CC.D.VIX.USS.IP'];
+  // await api.epicDetails(epics).then(r => {
+  //   //console.log(util.inspect(r,false,null));
+  //   console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
+  //   //
+  // }).catch(e => console.log(e));
 
   //Get history
   // let from = undefined;
