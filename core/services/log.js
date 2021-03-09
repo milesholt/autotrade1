@@ -161,7 +161,8 @@ actions.startMonitorLog = async function(){
   monitors.forEach((monitor,i) => {
     if(monitor.epic == epic) exists = true;
     if(monitor.epic == epic){
-      console.log('Monitor has found epic ' + epic + ', replacing.');
+      console.log('Monitor has found epic ' + epic + ', replacing with:');
+      console.log(m);
       monitors.splice(i,1);
       exists = false;
     }
