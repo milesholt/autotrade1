@@ -139,11 +139,11 @@ actions.checkDeal = async function(){
 }
 
 actions.checkOpenTrade = async function(){
-  console.log('-------------------------------------- BEGIN checking for open trades');
+  console.log('-------------------------------------- BEGIN checking for open trades : ' + epic);
   //console.log(market.deal);
   if(lib.isEmpty(market.deal)) {
     console.log('Deal on market data is empty. Checking for open positions.');
-    console.log('market epic: ' + markets[mid].epic);
+    console.log('market epic: ' + epic);
     //console.log(markets[mid].deal);
     await actions.checkDeal();
   } else {
