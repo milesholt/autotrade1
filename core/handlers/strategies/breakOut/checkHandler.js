@@ -108,27 +108,29 @@ actions.checkDeal = async function(){
       //     }
       // });
 
-
+      let isPositionFound = false;
       for (const [i, td] of positionsData.positions.entries()) {
-        if(td.position.epic == market.epic){
-          console.log('Found open deal on IG server with epic: ' + market.epic);
-          const dealId = td.position.dealId;
-          if(lib.isEmpty(market.deal)) {
-            console.log('Deal is empty on market data, re-adding...');
-            for (const [i, td2] of trades.entries()) {
-              if(td2.dealId == dealId){
-                console.log('Found deal.');
-                market.deal = lib.deepCopy(td2.deal);
-                //after adding missing deal, re-run checkOpenTrade
-                await actions.checkOpenTrade();
-              }
+        if(td.position.epic == market.epic) isPositionFound = true;
+      }
+
+      if(isPositionFound == true){
+        console.log('Found open deal on IG server with epic: ' + market.epic);
+        const dealId = td.position.dealId;
+        if(lib.isEmpty(market.deal)) {
+          console.log('Deal is empty on market data, re-adding...');
+          for (const [i, td2] of trades.entries()) {
+            if(td2.dealId == dealId){
+              console.log('Found deal.');
+              market.deal = lib.deepCopy(td2.deal);
+              //after adding missing deal, re-run checkOpenTrade
+              await actions.checkOpenTrade();
             }
-          } else {
-            console.log('Deal on market data is not empty. continue...')
           }
         } else {
-          console.log('No open position found for epic: ' + market.epic);
+          console.log('Deal on market data is not empty. continue...')
         }
+      } else {
+          console.log('No position found for epic: ' + market.epic);
       }
 
 
