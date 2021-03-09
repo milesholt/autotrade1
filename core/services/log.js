@@ -167,6 +167,7 @@ actions.startMonitorLog = async function(){
       exists = false;
     }
   });
+  console.log(exists);
   if(exists == false){
     console.log('Monitor does not exist, adding. Exists is: ' + exists);
     monitors.push(m);
