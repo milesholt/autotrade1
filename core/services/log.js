@@ -47,7 +47,7 @@ actions.startTradeLog = async function(epic, analysis, dealId){
 
       console.log(t);
       trades.push(t);
-      m.deal = t;
+      market.deal = t;
     }
   });
 

@@ -48,8 +48,8 @@ actions.determineTrade = async function(){
       //Check if we already have a position
       let positionOpen = false;
 
-      if(!lib.isEmpty(markets[mid].deal)){
-        let dealId = markets[mid].deal.dealId;
+      if(!lib.isEmpty(market.deal)){
+        let dealId = market.deal.dealId;
         await api.getPosition(String(dealId)).then(async positionData => {
           //Check status pre-existing dealId
           console.log('Found position currently open.');
@@ -62,7 +62,7 @@ actions.determineTrade = async function(){
 
           if(positionData.market.marketStatus == 'CLOSED'){
             console.log('Found open position but status is closed');
-            markets[mid].deal = {};
+            market.deal = {};
           }
         }).catch(async e => {
           //API might fail to find position, go again
@@ -73,7 +73,7 @@ actions.determineTrade = async function(){
               if(dealId === transaction.reference){
                 //Deal found in transaction history. Clear position and continue with trade.
                 console.log('deal is not empty, but no dealId found in transacations or as open position, resetting..');
-                markets[mid].deal = {};
+                market.deal = {};
               }
             });
           }).catch(e => {
@@ -284,7 +284,7 @@ actions.determineTrade = async function(){
                   await log.startTradeLog(epic, analysis, dealId);
                   await monitor.iniMonitor(dealId,dealRef,epic);
 
-                  markets[mid].tradedbefore = true;
+                  market.tradedbefore = true;
                   finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';
 
                } else {
@@ -302,7 +302,7 @@ actions.determineTrade = async function(){
       }).catch(e => console.log(e));
   } else {
       //No trade, wait another hour
-      markets[mid].tradedbefore = false;
+      market.tradedbefore = false;
       finalMessage = 'Checks not passed. No trade. Waiting 1 hour.'
 
   }

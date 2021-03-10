@@ -71,8 +71,8 @@ actions.loopMarkets = async function(){
     //get latest dealing rules
     await api.epicDetails([epic]).then(r => {
       let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
-      markets[mid].minimumStop.value = stopDistance.value;
-      markets[mid].minimumStop.type = String(stopDistance.unit).toLowerCase();
+      market.minimumStop.value = stopDistance.value;
+      market.minimumStop.type = String(stopDistance.unit).toLowerCase();
     }).catch(e => console.log(e));
 
     //dealId = m.dealId;

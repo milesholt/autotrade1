@@ -238,7 +238,7 @@ actions.checkOpenTrade = async function(){
         if(!isTransactionFound){
           console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
           console.log('Need to look into why this is. Resetting deal on market data for now...');
-          markets[mid].deal = {};
+          market.deal = {};
           //Clear any monitoring if any
           log.closeMonitorLog(market.epic);
           // await actions.checkDealId(dealRef).then(id => {
@@ -403,7 +403,7 @@ actions.finalChecks = async function(){
     beforeRangeOveridden = true;
   }
   if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
-  if(markets[mid].tradedbefore == true) check12 = false;
+  if(market.tradedbefore == true) check12 = false;
 }
 
 module.exports = {
