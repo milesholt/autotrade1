@@ -126,6 +126,8 @@ actions.checkDeal = async function(){
               console.log('Found deal.');
               market.deal = lib.deepCopy(td2.deal);
               //after adding missing deal, re-run checkOpenTrade
+              markets[mid] = market;
+              await cloudHandler.actions.updateFile(markets,marketDataDir);
               await actions.checkOpenTrade();
             }
           }
