@@ -295,6 +295,7 @@ actions.exec = async function(){
     await tradeHandler.actions.determineTrade();
 
     //Final logs
+    console.log(market);
     markets[mid] = market;
     await cloudHandler.actions.updateFile(markets,marketDataDir);
 
