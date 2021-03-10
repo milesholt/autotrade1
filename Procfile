@@ -5,5 +5,5 @@
 #web: sh -c 'cd ./app/autotrade/www/ && npm start'
 #web: npm start app/autotrade/
 #worker: node core/tests/streamtest.js
-worker: node core/autotrade.js
+worker: node core/autotrade.js --trace-warnings
 #worker: node tests/apicheck.js
