@@ -158,6 +158,7 @@ actions.startMonitorLog = async function(){
   m.direction = direction;
   monitors = await cloud.getFile(monitorDataDir);
   let exists = false;
+  let isChanged =  false;
   monitors.forEach((monitor,i) => {
     if(monitor.epic == m.epic){
       console.log('epics match, epic: ' + m.epic + ' monitor epic: ' + monitor.epic);
@@ -167,6 +168,7 @@ actions.startMonitorLog = async function(){
         console.log(m);
         monitors.splice(i,1);
         exists = false;
+        isChanged = true;
       }
     }
   });
@@ -174,9 +176,13 @@ actions.startMonitorLog = async function(){
   if(exists == false){
     console.log('Monitor does not exist, adding. Exists is: ' + exists);
     monitors.push(m);
+    isChanged = true;
   }
 
-  cloud.updateFile(monitors,monitorDataDir);
+  if(isChanged == true){
+    console.log('monitor has changed, updating...');
+    cloud.updateFile(monitors,monitorDataDir);
+  }
 }
 
 /*
