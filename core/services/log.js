@@ -214,9 +214,12 @@ Log new monitor
 */
 
 actions.closeMonitorLog = async function(epic){
+  console.log('closeMonitorLog');
+  console.log('path: ' + monitorDataDir);
   monitors = await cloud.getFile(monitorDataDir);
   monitors.forEach((monitor,i) => {
     if(monitor.epic == epic){
+      console.log('found monitor with epic: ' + epic + ', removing from log.');
       monitors.splice(i,1);
     }
   });
