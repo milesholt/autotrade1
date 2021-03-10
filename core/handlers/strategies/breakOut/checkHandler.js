@@ -60,6 +60,8 @@ actions.checkOpenTrades = async function(){
                mid = i;
                market = markets[mid];
                epic = m.epic;
+               const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
+               trades = await cloud.getFile(tradeDataDir_tmp);
                await actions.checkOpenTrade();
              }
 
@@ -121,6 +123,7 @@ actions.checkDeal = async function(){
         console.log('Found open deal on IG server with epic: ' + market.epic);
         if(lib.isEmpty(market.deal)) {
           console.log('Deal is empty on market data, re-adding...');
+          console.log(dId);
           for (const [i, td2] of trades.entries()) {
             if(td2.dealId == dId){
               console.log('Found deal.');
