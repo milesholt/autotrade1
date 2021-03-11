@@ -133,6 +133,7 @@ actions.dataLog = async function(analysis){
   //   }
   // });
   market.data = analysis;
+  console.log(market);
 }
 
 
