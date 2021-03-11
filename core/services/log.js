@@ -126,14 +126,7 @@ Log hourly analysis for market
 */
 
 actions.dataLog = async function(analysis){
-  console.log('Adding data to market');
-  // markets.forEach((market,i) => {
-  //   if(market.epic == epic){
-  //     market.data = analysis;
-  //   }
-  // });
   market.data = analysis;
-  console.log(market);
 }
 
 
