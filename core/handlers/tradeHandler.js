@@ -72,7 +72,7 @@ actions.determineTrade = async function(){
             r.transactions.forEach(transaction => {
               if(dealId === transaction.reference){
                 //Deal found in transaction history. Clear position and continue with trade.
-                console.log('deal is not empty, but no dealId found in transacations or as open position, resetting..');
+                console.log('deal is not empty, but no dealId found in transactions or as open position, resetting..');
                 market.deal = {};
               }
             });
