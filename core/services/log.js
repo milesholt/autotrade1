@@ -138,7 +138,7 @@ Log new monitor
 
 */
 
-actions.startMonitorLog = async function(){
+actions.startMonitorLog = async function(dealId){
 
   console.log('starting monitor log');
   console.log('dealRef: ' + dealRef);
