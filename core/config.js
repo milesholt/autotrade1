@@ -33,8 +33,11 @@ markets = [
   //{'id':1, 'alias': 'Ripple', 'epic': 'CS.D.XRPUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 10, 'type': 'points'}  }
   {'id':0, 'alias': 'Volatility Index', 'epic': 'CC.D.VIX.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 0.4, 'type': 'points'}  },
   {'id':1, 'alias': 'MXNJPY', 'epic': 'CS.D.MXNJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 2, 'type': 'points'}  },
-  {"id":2, "alias": "Spot Platinum", "epic": "CS.D.PLAT.TODAY.IP", "data": {}, "deal": {}, "tradedbefore" : false, "stopDistancePerc" : "0.85", "minimumStop" : {"value": 10, "type": "points"}  }
-  //{'id':1, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 2.5, 'type': 'points'}  },
+  //{"id":2, "alias": "Spot Platinum", "epic": "CS.D.PLAT.TODAY.IP", "data": {}, "deal": {}, "tradedbefore" : false, "stopDistancePerc" : "0.85", "minimumStop" : {"value": 10, "type": "points"}  }
+  {"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedbefore" : false, "stopDistancePerc" : "0.85", "minimumStop" : {"value": 10, "type": "points"}  }
+  {'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 2.5, 'type': 'points'}  },
+//  {'id':4, 'alias': 'INRJPY', 'epic': 'CS.D.INRJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 2, 'type': 'points'}  },
+  {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 1.5, 'type': 'points'}  },
 ];
 market = {};
 trades = [];

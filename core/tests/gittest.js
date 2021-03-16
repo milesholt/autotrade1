@@ -1,5 +1,5 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+//import { createRequire } from 'module';
+//const require = createRequire(import.meta.url);
 const GitHub = require('github-api');
 const { Octokit } = require("@octokit/core");
 const moment=require('moment');
@@ -16,14 +16,17 @@ const obj =
 let objJsonStr = JSON.stringify(obj);
 let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
 let sha = 0;
-const path = 'beforerangedata.json';
+const path = 'core/data/CC.TEST.IP/CC.TEST.IP_pricedata.json';
+const owner = 'milesholt';
+const branch = 'version2';
+const repo = 'autotrade1';
 
 ini();
 
 //Initiate
 async function ini(){
   //First read the file and update SHA value
-  await getFile();
+  //await getFile();
   //Then update existing file with the new SHA
   updateFile(objJsonB64);
 }
@@ -31,9 +34,10 @@ async function ini(){
 //Get file
 async function getFile(){
   const result = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
-  owner: 'milesholt',
-  repo: 'autotrade1',
-  path: path
+  owner: owner,
+  repo: repo,
+  path: path,
+  ref: branch
 }).catch(e => {
   console.log(e);
 });
@@ -45,12 +49,12 @@ async function getFile(){
 async function updateFile(content){
   const timestamp = Date.now();
   const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-    owner: 'milesholt',
-    repo: 'autotrade1',
+    owner: owner,
+    repo: repo,
     path: path,
+    branch: branch,
     message: 'beforerange updated - ' + moment(timestamp).format('LLL'),
     content: content,
-    branch: 'master',
     sha: sha
   }).catch(e => {
     console.log(e);

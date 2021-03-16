@@ -49,19 +49,26 @@ async function exec(){
   //Volatility Index - CC.D.VIX.USS.IP
   //Chicago  Wheat - CC.D.W.USS.IP
   //Spot platinum - CS.D.PLAT.TODAY.IP
+  //london Gas Oil - CC.D.LGO.USS.IP
+  //Spot Gold - CS.D.USCGC.TODAY.IP'
+  //Rolls-Royce Holdings PLC - KA.D.RR.DAILY.IP
+  //INR/JPY - CS.D.INRJPY.TODAY.IP
+  //MXN/JPY - CS.D.MXNJPY.TODAY.IP
+  
+
 
 
   // console.log('-------Searching for Epics');
-  // const searchterm = encodeURI('MXN JPY');
-  // await api.search(searchterm).then(r => {
-  //   console.log(r);
-  // }).catch(e => console.log(e));
-
-  //Confirm position
-  let dealRef = 'BCUQ8XPY8RE44TD';
-  await api.confirmPosition(String(dealRef)).then(r => {
+  const searchterm = encodeURI('INR JPY');
+  await api.search(searchterm).then(r => {
     console.log(r);
   }).catch(e => console.log(e));
+
+  //Confirm position
+  // let dealRef = 'BCUQ8XPY8RE44TD';
+  // await api.confirmPosition(String(dealRef)).then(r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
 
 
   //Get markets
