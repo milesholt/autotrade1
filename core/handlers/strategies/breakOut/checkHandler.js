@@ -206,9 +206,19 @@ actions.checkOpenTrade = async function(){
 
         let isTransactionFound =  false;
 
+
+        let marketDealStartTime = moment(market.deal.start_timestamp).format('LLL');
+        console.log('market deal start: ' + marketDealStartTime);
+        console.log('epic: ' + epic);
+
         transactions.forEach(transaction =>{
 
-          if(transaction.reference == dealId){
+          let transactionOpenDate = moment(transaction.openDateUtc).format('LLL');
+          console.log('transaction open date: ' +  transactionOpenDate);
+          console.log('transaction epic: ' + transaction.instrumentName);
+
+
+          if( (transaction.reference == dealId) || (epic == transaction.instrumentName && transactionOpenDate == marketDealStartTime) ){
 
             isTransactionFound =  true;
 
@@ -223,7 +233,8 @@ actions.checkOpenTrade = async function(){
               amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
               result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
               data: 'NO DATA',
-              dealId: dealId
+              dealId: dealId,
+              transactionDealId: transaction.reference
             }
 
             console.log(closeAnalysis);
