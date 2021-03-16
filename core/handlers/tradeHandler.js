@@ -209,15 +209,17 @@ actions.determineTrade = async function(){
                   //await error.handleErrors(e);
 
                   console.log('Checking again, and confirming position with deal ref: ' +  ref);
+                  ticketError = true;
 
                   //Get status of position if error
                   await api.confirmPosition(ref).then(async rc => {
                     //console.log(util.inspect(rc, false, null));
                     //Check again as sometimes there's an error - not found - if it's still being processed
-                    ticketError = true;
+
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
                       ticketError = false;
-                      analysis.dealId = rc.affectedDeals[0].dealId;
+                      let id = rc.affectedDeals.length ? rc.affectedDeals[0].dealId : rc.dealId;
+                      analysis.dealId = id;
                       console.log(r.confirms);
                       console.log('deal success, dealId should be:' + analysis.dealId);
                     }
@@ -240,7 +242,8 @@ actions.determineTrade = async function(){
                     ticketError = true;
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
                       ticketError = false;
-                      analysis.dealId = rc.affectedDeals[0].dealId;
+                      let id = rc.affectedDeals.length ? rc.affectedDeals[0].dealId : rc.dealId;
+                      analysis.dealId = id;
                     } else if(rc.dealStatus == 'REJECTED'){
                       //Handle deal being rejected
                       //Send notification
