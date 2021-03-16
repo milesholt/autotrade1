@@ -218,6 +218,8 @@ actions.determineTrade = async function(){
 
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
                       ticketError = false;
+                      console.log('affectedDeals:');
+                      console.log(rc.affectedDeals);
                       let id = rc.affectedDeals.length ? rc.affectedDeals[0].dealId : rc.dealId;
                       analysis.dealId = id;
                       console.log(r.confirms);
@@ -242,6 +244,8 @@ actions.determineTrade = async function(){
                     ticketError = true;
                     if(rc.dealStatus == 'ACCEPTED' && rc.reason == 'SUCCESS' && rc.status == 'OPEN'){
                       ticketError = false;
+                      console.log('affectedDeals:');
+                      console.log(rc.affectedDeals);
                       let id = rc.affectedDeals.length ? rc.affectedDeals[0].dealId : rc.dealId;
                       analysis.dealId = id;
                     } else if(rc.dealStatus == 'REJECTED'){
