@@ -428,7 +428,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   });
 
   var chart = { 'data': [ data ], 'layout':layout };
-  actions.getImage(chart);
+  //actions.getImage(chart);
 }
 
 actions.getImage = async function(chart){
