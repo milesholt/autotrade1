@@ -79,6 +79,10 @@ actions.getMainFiles = async function(){
   // let cld_markets = await github.actions.getFile(marketDataDir);
   // markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
   markets = await actions.syncFile(marketDataDir, markets, 'epic');
+
+  markets.forEach(market => {
+    console.log(market.epic);
+  });
 }
 
 
