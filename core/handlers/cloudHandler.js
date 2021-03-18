@@ -79,6 +79,8 @@ actions.getMainFiles = async function(){
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
 
+  console.log(markets);
+
   console.log('markets before sync: ' + markets.length);
   let testmarkets = await actions.syncFile(marketDataDir, markets, 'epic');
   console.log('GETTING MAIN FILES, SYNCED MARKETS');
