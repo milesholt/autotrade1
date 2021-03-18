@@ -62,7 +62,9 @@ actions.getFiles = async function(){
   //merge cloud markets with config markets to merge any new additional markets
 
   //markets = await github.actions.getFile(marketDataDir);
-  markets = await actions.syncFile(marketDataDir, markets, 'epic');
+  //markets = await actions.syncFile(marketDataDir, markets, 'epic');
+  let cld_markets = await github.actions.getFile(marketDataDir);
+  markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
 }
 
 /*
@@ -76,13 +78,13 @@ actions.getMainFiles = async function(){
   accountDataSha =  github.sha;
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
-  // let cld_markets = await github.actions.getFile(marketDataDir);
-  // markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
+  let cld_markets = await github.actions.getFile(marketDataDir);
+  markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
   console.log('markets before sync: ' + markets.length);
-  markets = await actions.syncFile(marketDataDir, markets, 'epic');
+  let testmarkets = await actions.syncFile(marketDataDir, markets, 'epic');
   console.log('GETTING MAIN FILES, SYNCED MARKETS');
   console.log(markets.length);
-  markets.forEach(market => {
+  testmarkets.forEach(market => {
     console.log(market.epic);
   });
 }
