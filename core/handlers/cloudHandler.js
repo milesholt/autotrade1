@@ -110,6 +110,9 @@ actions.syncFile = async function(cloudDataDir, local, checkproperty){
   let l = localFile.map(item => item.epic);
   let c = cloudFile.map(item => item.epic);
 
+  console.log(l);
+  console.log(c);
+
   // var array1 = ['a','b','c'],
   //     array2 = ['a','b'],
       remove = l.filter((i => a => a !== c[i] || !++i)(0));
