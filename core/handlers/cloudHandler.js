@@ -60,9 +60,9 @@ actions.getFiles = async function(){
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
   //merge cloud markets with config markets to merge any new additional markets
-  let cld_markets = await github.actions.getFile(marketDataDir);
-  markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
+
   //markets = await github.actions.getFile(marketDataDir);
+  markets = await actions.syncFile(marketDataDir, markets, 'epic');
 }
 
 /*
@@ -76,9 +76,29 @@ actions.getMainFiles = async function(){
   accountDataSha =  github.sha;
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
-  let cld_markets = await github.actions.getFile(marketDataDir);
-  markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
+  // let cld_markets = await github.actions.getFile(marketDataDir);
+  // markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
+  markets = await actions.syncFile(marketDataDir, markets, 'epic');
 }
+
+
+/* SYNC CLOUD DATA FILE */
+
+actions.syncFile = async function(cloudDataDir, local, checkproperty){
+  let cloudFile = await github.actions.getFile(cloudDataDir);
+  let localFile = local.map((item, i) => Object.assign({}, item, cloudFile[i]));
+  let remove = [];
+  localFile.forEach((field,i) => {
+    cloudFile.forEach(cfield=>{
+      if(field[checkproperty] !== cfield[checkproperty]) remove.push(i);
+    });
+  });
+  remove.forEach(idx=>{
+      localFile.splice(idx,1);
+  });
+  return localFile;
+}
+
 
 module.exports = {
   actions: actions

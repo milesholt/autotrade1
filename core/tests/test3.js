@@ -54,22 +54,32 @@ async function exec(){
   //Rolls-Royce Holdings PLC - KA.D.RR.DAILY.IP
   //INR/JPY - CS.D.INRJPY.TODAY.IP
   //MXN/JPY - CS.D.MXNJPY.TODAY.IP
-  
+
 
 
 
   // console.log('-------Searching for Epics');
-  const searchterm = encodeURI('INR JPY');
-  await api.search(searchterm).then(r => {
-    console.log(r);
-  }).catch(e => console.log(e));
+  // const searchterm = encodeURI('INR JPY');
+  // await api.search(searchterm).then(r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
 
   //Confirm position
-  // let dealRef = 'BCUQ8XPY8RE44TD';
+  // let dealRef = '2XMFTXH4WH644TP';
   // await api.confirmPosition(String(dealRef)).then(r => {
   //   console.log(r);
   // }).catch(e => console.log(e));
 
+  //Get current open position
+  // let dealId = 'DIAAAAFCLL2TPAQ';
+  // api.getPosition(String(dealId)).then(r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
+
+  //Show open positions
+  await api.showOpenPositions().then(r => {
+  console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
 
   //Get markets
   // let epics = ['CC.D.VIX.USS.IP'];
