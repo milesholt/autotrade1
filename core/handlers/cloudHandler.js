@@ -97,13 +97,24 @@ actions.syncFile = async function(cloudDataDir, local, checkproperty){
   let localFile = local.map((item, i) => Object.assign({}, item, cloudFile[i]));
   let remove = [];
   localFile.forEach((field,i) => {
+    console.log('local epic: ' + field[checkproperty]);
     cloudFile.forEach(cfield=>{
-      if(field[checkproperty] !== cfield[checkproperty]) remove.push(i);
+      console.log('cloud epic: ' + cfield[checkproperty]);
+      if(field[checkproperty] !== cfield[checkproperty]){
+        console.log(field[checkproperty] + 'does not exist, removing...');
+        remove.push(i);
+      }
     });
   });
-  remove.forEach(idx=>{
-      localFile.splice(idx,1);
-  });
+
+  console.log(remove);
+  // remove.forEach(idx=>{
+  //     localFile.splice(idx,1);
+  // });
+
+  while(remove.length) {
+      localFile.splice(remove.pop(), 1);
+  }
   return localFile;
 }
 
