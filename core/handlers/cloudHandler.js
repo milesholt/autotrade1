@@ -96,16 +96,23 @@ actions.syncFile = async function(cloudDataDir, local, checkproperty){
   let cloudFile = await github.actions.getFile(cloudDataDir);
   let localFile = local.map((item, i) => Object.assign({}, item, cloudFile[i]));
   let remove = [];
-  localFile.forEach((field,i) => {
-    console.log('local epic: ' + field[checkproperty]);
-    cloudFile.forEach(cfield=>{
-      console.log('cloud epic: ' + cfield[checkproperty]);
-      if(field[checkproperty] !== cfield[checkproperty]){
-        console.log(field[checkproperty] + 'does not exist, removing...');
-        remove.push(i);
-      }
-    });
-  });
+  // localFile.forEach((field,i) => {
+  //   console.log('local epic: ' + field[checkproperty]);
+  //   //cloudFile.forEach(cfield=>{
+  //     console.log('cloud epic: ' + cfield[checkproperty]);
+  //     if(field[checkproperty] !== cloudFile[i][checkproperty]){
+  //       console.log(field[checkproperty] + 'does not exist, removing...');
+  //       remove.push(i);
+  //     }
+  //   //});
+  // });
+
+  let l = localFile.map(item => item.epic);
+  let c = cloudFile.map(item => item.epic);
+
+  // var array1 = ['a','b','c'],
+  //     array2 = ['a','b'],
+      remove = l.filter((i => a => a !== c[i] || !++i)(0));
 
   console.log(remove);
   // remove.forEach(idx=>{
