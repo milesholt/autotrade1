@@ -353,7 +353,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                         direction: p.direction,
                                         openLevel: p.level,
                                         data: d,
-                                        dealId: m.dealId
+                                        dealId: m.dealId,
+                                        profit:null
                                       }
                                       var mailOptions = {
                                         from: 'contact@milesholt.co.uk',
