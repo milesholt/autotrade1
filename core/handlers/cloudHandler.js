@@ -97,38 +97,40 @@ actions.getMainFiles = async function(){
 
 /* SYNC CLOUD DATA FILE */
 
-actions.syncFile = async function(cloudDataDir, local, checkproperty){
+actions.syncFile = async function(cloudDataDir, localFile, checkproperty){
 
   //setup
   let remove = [];
   let add = [];
-  let tmp_local = lib.deepCopy(local);
 
-  //update data from cloud to local
   let cloudFile = await github.actions.getFile(cloudDataDir);
-  let localFile = local.map((item, i) => Object.assign({}, item, cloudFile[i]));
 
-  //get array with just epics
+  let tmp_local = lib.deepCopy(localFile);
+  let tmp_cloud = lib.deepCopy(cloudFile);
+
+   //get array with just epics
   let l = localFile.map(item => item.epic);
   let c = cloudFile.map(item => item.epic);
-  let tl = tmp_local.map(item => item.epic);
 
-  //add = tl.filter((item,idx) => item !== l[idx]);
-  add = tl.flatMap((item,i) => item !== l[i] ? i : []);
-  //remove = c.filter((item,idx) => item !== tl[idx]);
-  remove = c.flatMap((item,i) => item !== tl[i] ? i : []);
+  var ls = new Set(l);
+  //remove = c.filter(x => !ls.has(x));
+  remove = c.flatMap((x,i) =>  !ls.has(x) ? i : []);
 
-  while(remove.length) {
-      localFile.splice(remove.pop(), 1);
-  }
-  //
-  // let i = 0;
-  // while(i < add.length){
-  //   localFile.push(tmp_local[add[i]]);
-  // }
-  console.log(add);
+  var ls = new Set(c);
+  //add = l.filter(x => !ls.has(x));
+  add = l.flatMap((x,i) =>  !ls.has(x) ? i : []);
 
-  return localFile;
+
+   while(remove.length) {
+     tmp_cloud.splice(remove.pop(), 1);
+   }
+
+   while(add.length){
+     let a = add.pop();
+   	 tmp_cloud.splice(a, 0, tmp_local[a]);
+   }
+     
+  return tmp_cloud;
 }
 
 
