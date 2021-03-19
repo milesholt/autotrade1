@@ -118,14 +118,15 @@ actions.syncFile = async function(cloudDataDir, local, checkproperty){
   //remove = c.filter((item,idx) => item !== tl[idx]);
   remove = c.flatMap((item,i) => item !== tl[i] ? i : []);
 
-  while(remove.length) {
-      localFile.splice(remove.pop(), 1);
-  }
-
-  let i = 0;
-  while(i < add.length){
-    localFile.push(tmp_local[add[i]]);
-  }
+  // while(remove.length) {
+  //     localFile.splice(remove.pop(), 1);
+  // }
+  //
+  // let i = 0;
+  // while(i < add.length){
+  //   localFile.push(tmp_local[add[i]]);
+  // }
+  console.log(add);
 
   return localFile;
 }
