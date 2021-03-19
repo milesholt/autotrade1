@@ -122,6 +122,7 @@ actions.syncFile = async function(cloudDataDir, local, checkproperty){
       localFile.splice(remove.pop(), 1);
   }
 
+  let i = 0;
   while(i < add.length){
     localFile.push(tmp_local[add[i]]);
   }
