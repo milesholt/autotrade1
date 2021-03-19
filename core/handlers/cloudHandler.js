@@ -4,7 +4,7 @@ const github = require('../services/github.js');
 
 var actions = {};
 var core;
-
+var lib;
 
 /*
 
@@ -14,6 +14,7 @@ REQUIRE
 
 actions.require = async function(){
   core = require.main.exports;
+  lib = core.lib.actions;
 }
 
 /*
@@ -97,38 +98,34 @@ actions.getMainFiles = async function(){
 /* SYNC CLOUD DATA FILE */
 
 actions.syncFile = async function(cloudDataDir, local, checkproperty){
+
+  //setup
+  let remove = [];
+  let add = [];
+  let tmp_local = lib.deepCopy(local);
+
+  //update data from cloud to local
   let cloudFile = await github.actions.getFile(cloudDataDir);
   let localFile = local.map((item, i) => Object.assign({}, item, cloudFile[i]));
-  let remove = [];
-  // localFile.forEach((field,i) => {
-  //   console.log('local epic: ' + field[checkproperty]);
-  //   //cloudFile.forEach(cfield=>{
-  //     console.log('cloud epic: ' + cfield[checkproperty]);
-  //     if(field[checkproperty] !== cloudFile[i][checkproperty]){
-  //       console.log(field[checkproperty] + 'does not exist, removing...');
-  //       remove.push(i);
-  //     }
-  //   //});
-  // });
 
+  //get array with just epics
   let l = localFile.map(item => item.epic);
-  let c = cloudFile.map(item => item.epic);
+  let tl = tmp_local.map(item => item.epic);
+  let c = cloud.map(item => item.epic);
 
-  console.log(l);
-  console.log(c);
-
-  // var array1 = ['a','b','c'],
-  //     array2 = ['a','b'],
-      remove = l.filter((i => a => a !== c[i] || !++i)(0));
-
-  console.log(remove);
-  // remove.forEach(idx=>{
-  //     localFile.splice(idx,1);
-  // });
+  //add = tl.filter((item,idx) => item !== l[idx]);
+  add = tl.flatMap((item,i) => item !== l[i] ? i : []);
+  //remove = c.filter((item,idx) => item !== tl[idx]);
+  remove = c.flatMap((item,i) => item !== tl[i] ? i : []);
 
   while(remove.length) {
       localFile.splice(remove.pop(), 1);
   }
+
+  while(i < add.length){
+    localFile.push(tmp_local[add[i]]);
+  }
+
   return localFile;
 }
 
