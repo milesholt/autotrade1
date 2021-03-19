@@ -110,8 +110,8 @@ actions.syncFile = async function(cloudDataDir, local, checkproperty){
 
   //get array with just epics
   let l = localFile.map(item => item.epic);
+  let c = cloudFile.map(item => item.epic);
   let tl = tmp_local.map(item => item.epic);
-  let c = cloud.map(item => item.epic);
 
   //add = tl.filter((item,idx) => item !== l[idx]);
   add = tl.flatMap((item,i) => item !== l[i] ? i : []);
