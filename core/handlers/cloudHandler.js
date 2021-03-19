@@ -97,7 +97,7 @@ actions.getMainFiles = async function(){
 
 /* SYNC CLOUD DATA FILE */
 
-actions.syncFile = async function(cloudDataDir, localFile, checkproperty){
+actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
 
   //setup
   let remove = [];
@@ -109,8 +109,8 @@ actions.syncFile = async function(cloudDataDir, localFile, checkproperty){
   let tmp_cloud = lib.deepCopy(cloudFile);
 
    //get array with just epics
-  let l = localFile.map(item => item.epic);
-  let c = cloudFile.map(item => item.epic);
+  let l = localFile.map(item => item[mapProperty]);
+  let c = cloudFile.map(item => item[mapProperty]);
 
   var ls = new Set(l);
   //remove = c.filter(x => !ls.has(x));
@@ -129,7 +129,7 @@ actions.syncFile = async function(cloudDataDir, localFile, checkproperty){
      let a = add.pop();
    	 tmp_cloud.splice(a, 0, tmp_local[a]);
    }
-     
+
   return tmp_cloud;
 }
 
