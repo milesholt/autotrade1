@@ -121,6 +121,13 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
    	 tmp_cloud.splice(a, 0, tmp_local[a]);
    }
 
+   //update if any new properties
+   tmp_cloud.forEach( (cfield,i) => {
+      tmp_local.forEach( lfield => {
+        if(cfield[mapProperty] == lfield[mapProperty]) tmp_cloud[i] = Object.assign({}, lfield, cfield);
+      });
+   });
+
   return tmp_cloud;
 }
 
