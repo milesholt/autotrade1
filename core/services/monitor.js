@@ -121,13 +121,17 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       console.log(r);
 
 
-                      let limitDiff = lib.actions.toNumber(Math.abs(p.level - p.limitLevel) / 2);
+                      let limitDiff = lib.actions.toNumber(Math.abs(p.level - p.limitLevel) * limitClosePerc);
+                      let stopDiff = lib.actions.toNumber(Math.abs(p.level - p.stopLevel) * stopClosePerc);
 
                       console.log(limitDiff);
 
                       let newlimitBuy = lib.actions.toNumber(p.level + limitDiff);
                       let newlimitSell = lib.actions.toNumber(p.level - limitDiff);
+                      let newStopBuy = lib.actions.toNumber(p.level - stopDiff);
+                      let newStopSell = lib.actions.toNumber(p.level + stopDiff);
                       let newlimit = direction == 'BUY' ? newlimitBuy : newlimitSell;
+                      let newStop = direction == 'BUY' ? newStopBuy : newStopSell;
 
                       console.log('new limit is: ' + newlimit);
 
@@ -135,6 +139,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                         limitLevel: p.limitLevel,
                         stopLevel: p.stopLevel,
                         newLimit: newlimit,
+                        newStop: newStop,
                         openLevel: p.level,
                         direction: p.direction
                       }
@@ -224,13 +229,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 //console.log(p);
 
                                 //our settings
-                                //half the limit level
+                                //use new limit level
                                 if(dir == 'BUY' && d.closePrice.bid >= newlimit) closeprofit = true;
                                 if(dir == 'SELL' && d.closePrice.ask <= newlimit) closeprofit = true;
 
-                                //stopLevel remains as is
-                                if(dir == 'BUY' && d.closePrice.bid <= p.stopLevel) closeloss = true;
-                                if(dir == 'SELL' && d.closePrice.ask >= p.stopLevel) closeloss = true;
+                                //suse new stop level
+                                if(dir == 'BUY' && d.closePrice.bid <= newStop) closeloss = true;
+                                if(dir == 'SELL' && d.closePrice.ask >= newStop) closeloss = true;
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
@@ -356,6 +361,22 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                         dealId: m.dealId,
                                         profit:null
                                       }
+
+
+                                      await api.closePosition(m.dealId).then(async r =>{
+                                        console.log(util.inspect(r, false, null));
+                                        closeAnalysis.profit = r.confirms.profit;
+
+                                        //get confirmation of position with recorded profit price from server
+                                        // await api.confirmPosition(dealRef).then(async positionData =>{
+                                        //    //should be positionData.profit
+                                        //    console.log(util.inspect(positionData, false, null));
+                                        //    closeAnalysis.profit = positionData.confirms.profit;
+                                        // }).catch(e => console.log(e));
+
+
+                                      }).catch(e => console.log(e));
+
                                       var mailOptions = {
                                         from: 'contact@milesholt.co.uk',
                                         to: 'miles_holt@hotmail.com',
