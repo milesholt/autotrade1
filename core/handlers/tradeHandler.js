@@ -180,7 +180,7 @@ actions.determineTrade = async function(){
           	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
           	'epic': epic,
           	'expiry': 'DFB',
-          	'size': size,
+          	'size': market.size,
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,
