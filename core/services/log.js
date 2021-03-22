@@ -70,7 +70,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   let ca = closeAnalysis;
 
   if(!ca.amount && !ca.result){
-    let v = trend == 'bullish' ? (ca.lastClose - ca.openLevel) : (ca.openLevel - ca.lastClose);
+    let v = ca.direction == 'BUY' ? (ca.lastClose - ca.openLevel) : (ca.openLevel - ca.lastClose);
     let amount = v * size;
     if(ca.profit !== null){ amount = ca.profit;  } else { console.log('No profit on closeAnalysis, going with own calculation.'); }
     let result = Math.sign(amount) === 1 ? 'PROFIT' : 'LOSS';
