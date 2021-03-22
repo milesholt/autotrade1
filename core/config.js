@@ -7,8 +7,8 @@ rangeLimitPerc = 0.45;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
-limitClosePerc = 0.8;
-stopClosePerc = 0.5;
+limitClosePerc = 0.7;
+stopClosePerc = 0.8;
 
 momentumLimit = 0;
 rangelimit = 0;
@@ -26,7 +26,6 @@ confirmationlimit = 3;
 missingHoursLimit = 3;
 bumpgrouplimit = 5;
 size = 1;
-
 
 //Main parameters
 markets = [
