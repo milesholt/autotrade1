@@ -2,6 +2,7 @@ var actions = {};
 var core;
 var lib;
 var moment;
+var cloud;
 
 const { from, range } = require('rxjs');
 const { map, filter } = require('rxjs/operators');
@@ -25,6 +26,7 @@ actions.require = async function(){
   core = require.main.exports;
   lib = core.lib.actions;
   moment = core.moment;
+  cloud = core.cloudHandler.actions;
 }
 
 /*
@@ -420,6 +422,19 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
     layout,
     "world_readable": true
   }
+
+
+    let d = {
+      traces: data,
+      layout: layout,
+      waves: rangeData.waves,
+      wavecount: rangeData.wavecount
+    }
+
+    let json = 'var '+alias+'='+JSON.stringify(d);
+
+    var jsonDir = 'core/data/plotly/'+alias+'.js';
+    cloud.updateFile(json,jsonDir);
 
 
   plotly.plot(data, options, function (err, msg) {
