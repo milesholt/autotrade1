@@ -63,7 +63,9 @@ actions.getFile = async function(path){
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
-  let obj = lib.actions.isJSON(string) ? JSON.parse(string) : string;
+  console.log('Checking if obj is json...');
+  console.log(lib.actions.isJSON(string))
+  let obj = lib.actions.isJSON(string) == true ? JSON.parse(string) : string;
   isRunning = false;
   //console.log(obj);
   return obj;
