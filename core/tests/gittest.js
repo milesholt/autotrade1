@@ -14,9 +14,12 @@ const obj =
       "lastBeforeRangeTrendMovementTime" : "2020-07-14 22:00:00"
       }
 let objJsonStr = JSON.stringify(obj);
+
+objJsonStr = 'var jstest2='+JSON.stringify(obj);
+
 let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
-let sha = 0;
-const path = 'core/data/CC.TEST.IP/CC.TEST.IP_pricedata.json';
+let sha = '0';
+const path = 'core/data/CC.TEST.IP/CC.TEST.IP_pricedata.js';
 const owner = 'milesholt';
 const branch = 'version2';
 const repo = 'autotrade1';

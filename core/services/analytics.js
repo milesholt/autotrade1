@@ -434,7 +434,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
     let json = 'var '+market.epic+'='+JSON.stringify(d);
 
     var jsonDir = 'core/data/'+market.epic+'/'+market.epic+'_plotdata.js';
-    cloud.updateFile2(json,jsonDir);
+    cloud.updateFile(json,jsonDir);
 
 
   plotly.plot(data, options, function (err, msg) {
