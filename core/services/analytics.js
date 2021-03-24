@@ -431,7 +431,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       wavecount: rangeData.wavecount
     }
 
-    let json = 'var '+market.epic+'='+JSON.stringify(d);
+    let json = 'var plot_'+market.id+'='+JSON.stringify(d);
 
     var jsonDir = 'core/data/'+market.epic+'/'+market.epic+'_plotdata.js';
     console.log(jsonDir);
