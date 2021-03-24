@@ -127,7 +127,78 @@ actions.updateFile = async function(data,path,retry=false){
                 //Then go again
                  await actions.updateFile(data,path,true);
                });
-            }        
+            }
+          }
+        });
+
+        //End operation
+        isRunning = false;
+  }
+}
+
+
+//Update file
+actions.updateFile2 = async function(data,path,retry=false){
+  const timestamp = Date.now();
+  //encode data to base64 string
+  let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
+  let dataTo64 = Buffer.from(dataToStr).toString("base64");
+
+  //update SHA
+  //console.log(shas);
+  /*
+  shas.forEach(s =>{
+    if(s.path == path){
+      console.log('Found matching path');
+      console.log(s);
+      sha = s.sha;
+    }
+  });
+  */
+
+  //Github is already running
+  if(isRunning){
+        //console.log('Cannot update file. Github service is in operation. Waiting 10 seconds..');
+        //Wait 10 seconds
+        await actions.wait(10000)
+          .then(async r => {
+           //Then go again
+           await actions.updateFile(data,path);
+        })
+          .catch(e => {
+            console.log('error waiting for Github operations');
+        });
+  } else {
+
+        //If nothing is running, begin operation and get file with sha before updating it
+        //await actions.getFile(path);
+        isRunning = true;
+        //console.log('updating file with sha: ' + sha + ' and path:' + path);
+        sha = 0;
+
+        //Write data
+        const result =  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+          owner: owner,
+          repo: repo,
+          path: path,
+          message: 'File updated - ' + moment(timestamp).format('LLL'),
+          content: dataTo64,
+          branch: branch,
+          sha: sha
+        }).catch(async e => {
+          if(!JSON.stringify(e).includes('HttpError')){
+            console.log(e);
+          } else {
+            console.log('error updating file: ' +path+ '  from GitHub - HttpError, trying again in 10 seconds...');
+            if(retry){
+              console.log('Retry failed, giving up.');
+            } else{
+               await actions.wait(10000)
+                .then(async r => {
+                //Then go again
+                 await actions.updateFile(data,path,true);
+               });
+            }
           }
         });
 
