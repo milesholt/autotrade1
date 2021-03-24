@@ -431,7 +431,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       wavecount: rangeData.wavecount
     }
 
-    let json = 'var '+alias+'='+JSON.stringify(d);
+    let json = 'var '+market.epic+'='+JSON.stringify(d);
 
     var jsonDir = 'core/data/plotly/'+market.epic+'.js';
     cloud.updateFile(json,jsonDir);
