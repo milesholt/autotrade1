@@ -95,7 +95,7 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
   let add = [];
 
   let cloudFile = await github.actions.getFile(cloudDataDir);
-  console.log(cloudFile);
+  //console.log(cloudFile);
 
   let tmp_local = lib.deepCopy(localFile);
   let tmp_cloud = lib.deepCopy(cloudFile);
