@@ -44,7 +44,6 @@ actions.isJSON = function(val){
   try {
        JSON.parse(val);
    } catch (e) {
-     console.log(e);
        return false;
    }
    return true;
