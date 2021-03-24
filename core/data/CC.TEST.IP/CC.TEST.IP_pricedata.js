@@ -1,0 +1,1 @@
+var jstest={"lastBeforeRangeTrendMovement":"bearish","lastBeforeRangeTrendMovementClose":9245.03,"lastBeforeRangeTrendMovementTime":"2020-07-14 22:00:00"}
