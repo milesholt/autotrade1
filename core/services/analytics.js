@@ -434,6 +434,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
     let json = 'var '+market.epic+'='+JSON.stringify(d);
 
     var jsonDir = 'core/data/'+market.epic+'/'+market.epic+'_plotdata.js';
+    console.log(jsonDir);
     cloud.updateFile(json,jsonDir);
 
 
