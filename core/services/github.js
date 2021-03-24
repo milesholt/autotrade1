@@ -4,6 +4,8 @@ const { Octokit } = require("@octokit/core");
 const moment=require('moment');
 
 var actions = {};
+const lib = require('./library.js');
+
 moment().format();
 //Authenticate with Personal Access Token from Github Developer Settings
 const octokit = new Octokit({ auth: process.env.GIT_PERSONAL_ACCESS_TOKEN });
@@ -61,7 +63,7 @@ actions.getFile = async function(path){
   //decode data from base64 string to object
   let buff = new Buffer.from(result.data.content, 'base64');
   let string = buff.toString('ascii');
-  let obj = JSON.parse(string);
+  let obj = if(lib.actions.isJSON(string)) JSON.parse(string) : string;
   isRunning = false;
   //console.log(obj);
   return obj;
