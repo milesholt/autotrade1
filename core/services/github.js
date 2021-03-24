@@ -96,6 +96,7 @@ actions.updateFile = async function(data,path,retry=false){
            await actions.updateFile(data,path);
         })
           .catch(e => {
+            console.log(e);
             console.log('error waiting for Github operations');
         });
   } else {
