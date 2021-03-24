@@ -417,7 +417,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   };
 
   var options = {
-    "filename": "analytics-" + markets[mid].alias,
+    "filename": "analytics-" + market.alias,
     "fileopt": "overwrite",
     layout,
     "world_readable": true
@@ -433,7 +433,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
     let json = 'var '+alias+'='+JSON.stringify(d);
 
-    var jsonDir = 'core/data/plotly/'+alias+'.js';
+    var jsonDir = 'core/data/plotly/'+market.epic+'.js';
     cloud.updateFile(json,jsonDir);
 
 
