@@ -438,10 +438,10 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
     cloud.updateFile(json,jsonDir);
 
 
-  plotly.plot(data, options, function (err, msg) {
-    if (err) return console.log(err);
-    console.log(msg);
-  });
+  // plotly.plot(data, options, function (err, msg) {
+  //   if (err) return console.log(err);
+  //   console.log(msg);
+  // });
 
   var chart = { 'data': [ data ], 'layout':layout };
   //actions.getImage(chart);
