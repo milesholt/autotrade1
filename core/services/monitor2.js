@@ -92,18 +92,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                     const p = trade.position;
 
-                    let limitDiff = lib.actions.toNumber(Math.abs(p.level - p.limitLevel) * limitClosePerc);
-                    let stopDiff = lib.actions.toNumber(Math.abs(p.level - p.stopLevel) * stopClosePerc);
-
-                    let monitorData = {
-                      'newlimitBuy': lib.actions.toNumber(p.level + limitDiff),
-                      'newlimitSell':  lib.actions.toNumber(p.level - limitDiff),
-                      'newStopBuy':lib.actions.toNumber(p.level - stopDiff),
-                      'newStopSell':  lib.actions.toNumber(p.level + stopDiff),
-                      'newLimit': direction == 'BUY' ? newlimitBuy : newlimitSell,
-                      'newStop': direction == 'BUY' ? newStopBuy : newStopSell
-                    }
-
                     console.log(arr.epic);
                     epic = arr.epic;
                     dealId = arr.dealId;
@@ -111,7 +99,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     //log monitor
                     console.log(arr.dealId)
                     console.log(dealId);
-                    await log.actions.startMonitorLog(dealId,monitorData);
+                    await log.actions.startMonitorLog(dealId);
 
                     //declare time before reading stream
                     var timer;
@@ -123,15 +111,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(streamLogDir,false).then(async r => {
 
-                      //test getting tmp_monitordata
-                      try {
-                        let tmpMonitorData = fs.readFileSync('core/data/tmpMonitor.json');
-                        let tm = lib.isJSON(tmpMonitorData) ? JSON.parse(tmpMonitorData) : 'no tmp monitor data';
-                        console.log(tm);
-                      } catch (e) {
-                        console.log('Error loading tmp monitor data');
-                      }
-
                       let closeprofit = false;
                       let closeloss = false;
 
@@ -142,14 +121,17 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       console.log(r);
 
 
+                      let limitDiff = lib.actions.toNumber(Math.abs(p.level - p.limitLevel) * limitClosePerc);
+                      let stopDiff = lib.actions.toNumber(Math.abs(p.level - p.stopLevel) * stopClosePerc);
+
                       console.log(limitDiff);
 
-                      let newlimitBuy = monitorData.newlimitBuy;
-                      let newlimitSell = monitorData.newlimitSell;
-                      let newStopBuy = monitorData.newStopBuy;
-                      let newStopSell = monitorData.newStopSell;
-                      let newlimit = monitorData.newlimit;
-                      let newStop = monitorData.newStop;
+                      let newlimitBuy = lib.actions.toNumber(p.level + limitDiff);
+                      let newlimitSell = lib.actions.toNumber(p.level - limitDiff);
+                      let newStopBuy = lib.actions.toNumber(p.level - stopDiff);
+                      let newStopSell = lib.actions.toNumber(p.level + stopDiff);
+                      let newlimit = direction == 'BUY' ? newlimitBuy : newlimitSell;
+                      let newStop = direction == 'BUY' ? newStopBuy : newStopSell;
 
                       console.log('new limit is: ' + newlimit);
 

@@ -4,6 +4,7 @@ var core;
 var cloud;
 var lib;
 var moment;
+var fs;
 
 /*
 
@@ -16,6 +17,7 @@ actions.require = async function(){
   cloud = core.cloudHandler.actions;
   lib = core.lib.actions;
   moment = core.moment;
+  fs =  core.fs;
 }
 
 /*
@@ -138,7 +140,7 @@ Log new monitor
 
 */
 
-actions.startMonitorLog = async function(dealId){
+actions.startMonitorLog = async function(dealId,monitorPositionData){
 
   console.log('starting monitor log');
   console.log('dealRef: ' + dealRef);
@@ -146,12 +148,18 @@ actions.startMonitorLog = async function(dealId){
   console.log('dealId: ' + dealId);
   console.log('direction: ' + direction);
 
-  let m = lib.deepCopy(monitor);
-  m.epic = epic;
-  m.dealId =  dealId;
-  m.dealRef = dealRef;
-  m.streamLogDir = streamLogDir;
-  m.direction = direction;
+  let monitorKeyData = lib.deepCopy(monitor);
+  monitorKeyData.epic = epic;
+  monitorKeyData.dealId =  dealId;
+  monitorKeyData.dealRef = dealRef;
+  monitorKeyData.streamLogDir = streamLogDir;
+  monitorKeyData.direction = direction;
+
+  //m.map((item, i) => Object.assign({}, item, monitorData));
+  let m = {...monitorKeyData, ...monitorPositionData};
+
+
+
   monitors = await cloud.getFile(monitorDataDir);
   let exists = false;
   let isChanged =  false;
@@ -178,6 +186,13 @@ actions.startMonitorLog = async function(dealId){
   if(isChanged == true){
     console.log('monitor has changed, updating...');
     cloud.updateFile(monitors,monitorDataDir);
+    //write monitor data to tmp_file stored on server
+    const tmpMonitorPath = 'core/data/tmpMonitor.json';
+    fs.writeFile(tmpMonitorPath, m, { flag: 'w' }, function (err) {
+      if (err) throw err;
+      console.log("tmp monitor should be saved");
+    });
+
   }
 }
 
