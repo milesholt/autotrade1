@@ -187,7 +187,7 @@ actions.startMonitorLog = async function(dealId,monitorPositionData){
     console.log('monitor has changed, updating...');
     cloud.updateFile(monitors,monitorDataDir);
     //write monitor data to tmp_file stored on server
-    const tmpMonitorPath = 'core/data/tmpMonitor.json';
+    const tmpMonitorPath = './tmpMonitor.json';
     fs.writeFile(tmpMonitorPath, JSON.stringify(m), { flag: 'w' }, function (err) {
       if (err) throw err;
       console.log("tmp monitor should be saved");

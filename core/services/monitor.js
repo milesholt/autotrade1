@@ -125,11 +125,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                       //test getting tmp_monitordata
                       try {
-                        let tmpMonitorData = fs.readFileSync('core/data/tmpMonitor.json');
+                        let tmpMonitorData = fs.readFileSync('./tmpMonitor.json');
                         let tm = lib.isJSON(tmpMonitorData) ? JSON.parse(tmpMonitorData) : 'no tmp monitor data';
                         console.log(tm);
                       } catch (e) {
-                        console.log('Error loading tmp monitor data');
+                        console.log('Error loading tmp monitor data, trying again');
                       }
 
                       let closeprofit = false;
