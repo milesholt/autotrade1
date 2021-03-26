@@ -100,9 +100,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       'newlimitSell':  lib.actions.toNumber(p.level - limitDiff),
                       'newStopBuy':lib.actions.toNumber(p.level - stopDiff),
                       'newStopSell':  lib.actions.toNumber(p.level + stopDiff),
-                      'newLimit': direction == 'BUY' ? newlimitBuy : newlimitSell,
-                      'newStop': direction == 'BUY' ? newStopBuy : newStopSell
                     }
+                    monitorData.newLimit = direction == 'BUY' ? monitorData.newlimitBuy : monitorData.newlimitSell;
+                    monitorData.newStop = direction == 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
 
                     console.log(arr.epic);
                     epic = arr.epic;
