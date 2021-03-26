@@ -130,6 +130,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                         console.log(tm);
                       } catch (e) {
                         console.log('Error loading tmp monitor data, trying again');
+                        console.log(e);
                       }
 
                       let closeprofit = false;
