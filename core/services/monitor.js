@@ -192,7 +192,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                               //match monitordata with current stream
                               if(mon.streamLogDir == streamLogDir){
                                 x = mon;
-                                console.log(x);
                               }
                             });
                           } catch (e) {
