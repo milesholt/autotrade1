@@ -143,9 +143,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       let newlimitSell = monitorData.newlimitSell;
                       let newStopBuy = monitorData.newStopBuy;
                       let newStopSell = monitorData.newStopSell;
-                      let newlimit = monitorData.newlimit;
+                      let newlimit = monitorData.newLimit;
                       let newStop = monitorData.newStop;
 
+    
                       console.log('new limit is: ' + newlimit);
 
                       let monitorAnalysis = {
@@ -187,7 +188,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                           try {
                             let tmpMonitorData = fs.readFileSync('core/data/tmpMonitor.json');
                             let tm = lib.actions.isJSON(tmpMonitorData) ? JSON.parse(tmpMonitorData) : 'no tmp monitor data';
- 
+
                             tm.forEach(mon=>{
                               //match monitordata with current stream
                               if(mon.streamLogDir == streamLogDir){
