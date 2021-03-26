@@ -100,6 +100,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       'newlimitSell':  lib.actions.toNumber(p.level - limitDiff),
                       'newStopBuy':lib.actions.toNumber(p.level - stopDiff),
                       'newStopSell':  lib.actions.toNumber(p.level + stopDiff),
+                      'limitLevel': p.limitLevel,
+                      'stopLevel': p.stopLevel,
+                      'level': p.level
                     }
                     monitorData.newLimit = direction == 'BUY' ? monitorData.newlimitBuy : monitorData.newlimitSell;
                     monitorData.newStop = direction == 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
@@ -123,15 +126,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(streamLogDir,false).then(async r => {
 
-                      //test getting tmp_monitordata
-                      try {
-                        let tmpMonitorData = fs.readFileSync('core/data/tmpMonitor.json');
-                        let tm = lib.actions.isJSON(tmpMonitorData) ? JSON.parse(tmpMonitorData) : 'no tmp monitor data';
-                        console.log(tm);
-                      } catch (e) {
-                        console.log('Error loading tmp monitor data, trying again');
-                        console.log(e);
-                      }
 
                       let closeprofit = false;
                       let closeloss = false;
@@ -174,6 +168,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       var counter = 0;
                       timer = setInterval(()=>{
 
+
+
+
                         counter += 3;
 
                         //NOTE - This is reading from the streamLog being written in Heroku server, not Github!
@@ -183,6 +180,23 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                           if (err) {
                             actions.stopMonitor(timer);
                             return console.error(err);
+                          }
+
+                          //test getting tmp_monitordata
+                          try {
+                            let tmpMonitorData = fs.readFileSync('core/data/tmpMonitor.json');
+                            let tm = lib.actions.isJSON(tmpMonitorData) ? JSON.parse(tmpMonitorData) : 'no tmp monitor data';
+                            let x = {}
+                            tm.forEach(mon=>{
+                              //match monitordata with current stream
+                              if(mon.streamLogDir == streamLogDir){
+                                x = mon;
+                              }
+                            });
+                          } catch (e) {
+                            console.log('Error loading tmp monitor data, trying again, stopping stream');
+                            console.log(e);
+                            actions.stopMonitor(timer);
                           }
 
 
@@ -199,7 +213,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
-                                let dir = p.direction;
+                                let dir = x.direction;
 
                                 // markets.forEach(market => {
                                 //   if(market.epic == ep) dir = market.deal.direction;
@@ -249,12 +263,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                 //our settings
                                 //use new limit level
-                                if(dir == 'BUY' && d.closePrice.bid >= newlimit) closeprofit = true;
-                                if(dir == 'SELL' && d.closePrice.ask <= newlimit) closeprofit = true;
+                                if(dir == 'BUY' && d.closePrice.bid >= x.newlimit) closeprofit = true;
+                                if(dir == 'SELL' && d.closePrice.ask <= x.newlimit) closeprofit = true;
 
                                 //suse new stop level
-                                if(dir == 'BUY' && d.closePrice.bid <= newStop) closeloss = true;
-                                if(dir == 'SELL' && d.closePrice.ask >= newStop) closeloss = true;
+                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) closeloss = true;
+                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop) closeloss = true;
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
@@ -282,7 +296,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       console.log(m);
 
                                       console.log('New limit level reached. Closing position.');
-                                      console.log('new limit was: ' + newlimit);
+                                      console.log('new limit was: ' + x.newlimit);
                                       console.log('closing price was: ' + closePrice);
                                       console.log('closing price (ask) was: ' + d.closePrice.ask);
                                       console.log('closing price (bid) was: ' + d.closePrice.bid);
@@ -292,14 +306,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       let closeAnalysis = {
                                         timestamp: Date.now(),
                                         date: moment().format('LLL'),
-                                        limitLevel: p.limitLevel,
-                                        stopLevel: p.stopLevel,
-                                        newLimit: newlimit,
+                                        limitLevel: x.limitLevel,
+                                        stopLevel: x.stopLevel,
+                                        newLimit: x.newlimit,
                                         lastClose: closePrice,
-                                        direction: p.direction,
-                                        openLevel: p.level,
+                                        direction: x.direction,
+                                        openLevel: x.level,
                                         data: d,
-                                        dealId: m.dealId,
+                                        dealId: x.dealId,
                                         profit:null
                                       }
 
@@ -361,7 +375,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       console.log(m);
 
                                       console.log('Stop level reached. Closing position.');
-                                      console.log('stop level was: ' + p.stopLevel);
+                                      console.log('stop level was: ' + x.stopLevel);
                                       console.log('closing price was: ' + closePrice);
                                       console.log('closing price (ask) was: ' + d.closePrice.ask);
                                       console.log('closing price (bid) was: ' + d.closePrice.bid);
@@ -371,11 +385,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       let closeAnalysis = {
                                         timestamp: Date.now(),
                                         date: moment().format('LLL'),
-                                        limitLevel: p.limitLevel,
-                                        stopLevel: p.stopLevel,
+                                        limitLevel: x.limitLevel,
+                                        stopLevel: x.stopLevel,
                                         lastClose: closePrice,
-                                        direction: p.direction,
-                                        openLevel: p.level,
+                                        direction: x.direction,
+                                        openLevel: x.level,
                                         data: d,
                                         dealId: m.dealId,
                                         profit:null
@@ -431,9 +445,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     closeBid: d.closePrice.bid,
                                     newLimit: newlimit,
                                     newStop: newStop,
-                                    stopLevel: p.stopLevel,
-                                    direction: p.direction,
-                                    openLevel: p.level,
+                                    stopLevel: x.stopLevel,
+                                    direction: x.direction,
+                                    openLevel: x.level,
                                     updated: modtime,
                                     timestamp: timestamp
                                   }
