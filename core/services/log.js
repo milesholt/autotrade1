@@ -243,6 +243,11 @@ actions.closeMonitorLog = async function(epic){
     }
   });
   cloud.updateFile(monitors,monitorDataDir);
+  const tmpMonitorPath = 'core/data/tmpMonitor.json';
+  fs.writeFile(tmpMonitorPath, JSON.stringify(monitors), { flag: 'w' }, function (err) {
+    if (err) throw err;
+    console.log("tmp monitor should be saved");
+  });
 }
 
 
