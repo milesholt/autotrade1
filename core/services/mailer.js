@@ -37,7 +37,7 @@ async function sendMail(mailOptions,tryagain){
   await transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log('Error - Sending mail failed. Error message: ');
-      console.log(error);
+      //console.log(error);
 
       if(tryagain){
         console.log('Waiting 10 seconds, then trying again...');
