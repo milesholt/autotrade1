@@ -125,7 +125,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                       //test getting tmp_monitordata
                       try {
-                        let tmpMonitorData = fs.readFileSync('./tmpMonitor.json');
+                        let tmpMonitorData = fs.readFileSync(streamLogDir);
                         let tm = lib.isJSON(tmpMonitorData) ? JSON.parse(tmpMonitorData) : 'no tmp monitor data';
                         console.log(tm);
                       } catch (e) {
