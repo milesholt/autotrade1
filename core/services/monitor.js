@@ -146,7 +146,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       let newlimit = monitorData.newLimit;
                       let newStop = monitorData.newStop;
 
-    
+
                       console.log('new limit is: ' + newlimit);
 
                       let monitorAnalysis = {
@@ -378,6 +378,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                       console.log('Stop level reached. Closing position.');
                                       console.log('stop level was: ' + x.stopLevel);
+                                      console.log('new stop level: ' + x.newStop);
                                       console.log('closing price was: ' + closePrice);
                                       console.log('closing price (ask) was: ' + d.closePrice.ask);
                                       console.log('closing price (bid) was: ' + d.closePrice.bid);
