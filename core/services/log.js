@@ -142,7 +142,7 @@ Log new monitor
 
 actions.startMonitorLog = async function(monitorData){
 
-  console.log('starting monitor log');
+  console.log('starting monitor log: ' + monitorData.epic);
   // console.log('dealRef: ' + dealRef);
   // console.log('epic: ' + epic);
   // console.log('dealId: ' + dealId);
@@ -162,7 +162,7 @@ actions.startMonitorLog = async function(monitorData){
   var m = {...monitorKeys, ...monitorData};
 
 
-  monitors = await cloud.getFile(monitorDataDir);
+  //monitors = await cloud.getFile(monitorDataDir);
   let exists = false;
   let isChanged =  false;
   monitors.forEach((monitor,i) => {
@@ -180,9 +180,11 @@ actions.startMonitorLog = async function(monitorData){
   });
   console.log(exists);
   if(exists == false){
-    console.log('Monitor does not exist, adding. Exists is: ' + exists);
+    console.log('Monitor does not exist, adding. Exists is: ' + exists + ', epic is: ' + monitorData.epic);
     monitors.push(m);
     isChanged = true;
+  } else {
+    console.log('Monitor for epic: ' + monitorData.pic + ' already exists');
   }
 
   if(isChanged == true){
