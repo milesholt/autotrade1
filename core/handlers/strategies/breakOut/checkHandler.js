@@ -192,6 +192,7 @@ actions.checkOpenTrade = async function(){
             }
 
           }
+
     }).catch(async e => {
 
       console.log('Error finding position with dealId: ' + dealId);
