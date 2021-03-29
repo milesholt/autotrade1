@@ -252,6 +252,8 @@ actions.checkOpenTrade = async function(){
           market.deal = {};
           //Clear any monitoring if any
           log.closeMonitorLog(market.epic);
+          await cloudHandler.actions.updateFile(markets,marketDataDir);
+
           // await actions.checkDealId(dealRef).then(id => {
           //   dealId = id;
           //   console.log('got dealId: ' + dealId);
