@@ -62,6 +62,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   arr.dealId = dealId;
   arr.dealRef = dealRef;
   arr.streamLogDir = streamLogDir;
+  arr.direction =  direction;
 
   //get open position information
 
