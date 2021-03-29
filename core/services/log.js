@@ -188,15 +188,15 @@ actions.startMonitorLog = async function(monitorData){
   if(isChanged == true){
     console.log('monitor has changed, updating...');
     cloud.updateFile(monitors,monitorDataDir);
-    //write monitor data to tmp_file stored on server
-    const tmpMonitorPath = 'core/data/tmpMonitor.json';
-    fs.writeFile(tmpMonitorPath, JSON.stringify(monitors), { flag: 'w' }, function (err) {
-      if (err) throw err;
-      console.log("tmp monitor should be saved");
-      console.log(m);
-    });
-
   }
+
+  //write monitor data to tmp_file stored on server
+  const tmpMonitorPath = 'core/data/tmpMonitor.json';
+  fs.writeFile(tmpMonitorPath, JSON.stringify(monitors), { flag: 'w' }, function (err) {
+    if (err) throw err;
+    console.log("tmp monitor should be saved");
+    console.log(m);
+  });
 }
 
 /*
