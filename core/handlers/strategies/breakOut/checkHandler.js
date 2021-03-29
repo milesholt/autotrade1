@@ -182,6 +182,8 @@ actions.checkOpenTrade = async function(){
             dealRef = positionData.position.dealReference;
             direction = positionData.position.direction;
 
+            console.log(monitors);
+
             monitors.forEach(monitor => {
               if(monitor.epic == epic) isMonitoring = true;
             });
