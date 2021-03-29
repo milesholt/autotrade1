@@ -225,7 +225,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 let ep = data[1];
                                 let dir = x.direction;
 
-                                console.log('epic: ' + ep + 'path: ' + x.streamLogDir + ' dir:' + x.direction);
+                                //console.log('epic: ' + ep + 'path: ' + x.streamLogDir + ' dir:' + x.direction);
 
                                 // markets.forEach(market => {
                                 //   if(market.epic == ep) dir = market.deal.direction;
