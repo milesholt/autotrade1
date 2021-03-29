@@ -178,7 +178,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                         //NOTE - This is reading from the streamLog being written in Heroku server, not Github!
                         //So the data written to Github is after this is read, which is in a different structure
 
-                        fs.readFile(streamLogDir, async function (err, data) {
+                        fs.readFile(monitorData.streamLogDir, async function (err, data) {
                           if (err) {
                             actions.stopMonitor(timer);
                             return console.error(err);
@@ -192,7 +192,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                             tm.forEach(mon=>{
                               //match monitordata with current stream
-                              if(mon.streamLogDir == streamLogDir){
+                              if(mon.streamLogDir == monitorData.streamLogDir){
                                 x = mon;
 
                               }
@@ -443,7 +443,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   }
 
                                   //get modification time of file
-                                  const stats = fs.statSync(streamLogDir);
+                                  const stats = fs.statSync(monitorData.streamLogDir);
                                   const modtime = moment(stats.mtime).format('LT');
                                   let timestamp = Date.now();
 
@@ -468,7 +468,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   if(counter == 60){
                                     //console.log('resetting counter');
                                     counter = 0;
-                                    github.actions.updateFile(streamdata, streamLogDir);
+                                    github.actions.updateFile(streamdata, monitorData.streamLogDir);
                                   }
 
 
@@ -477,9 +477,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   data = {};
                                   //TO DO: Move to error handling
                                   console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                                  console.log('streamLogDir: ' + streamLogDir);
+                                  console.log('streamLogDir: ' + monitorData.streamLogDir);
                                   //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
-                                  let ep = streamLogDir.split('/')[2];
+                                  let ep = monitorData.streamLogDir.split('/')[2];
                                   console.log('epic before stopMonitor(): ' + ep);
                                   actions.stopMonitor(timer,ep);
                                   return false;
@@ -489,7 +489,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     }).catch(error => {
                       console.log('Thrown error, stopping monitor - ');
                       console.error(error);
-                      let ep = streamLogDir.split('/')[2];
+                      let ep = monitorData.streamLogDir.split('/')[2];
                       console.log('epic before stopMonitor(): ' + ep);
                       actions.stopMonitor(timer,ep);
                       return false;
