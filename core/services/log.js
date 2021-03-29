@@ -184,7 +184,7 @@ actions.startMonitorLog = async function(monitorData){
     monitors.push(m);
     isChanged = true;
   } else {
-    console.log('Monitor for epic: ' + monitorData.pic + ' already exists');
+    console.log('Monitor for epic: ' + monitorData.epic + ' already exists');
   }
 
   if(isChanged == true){
