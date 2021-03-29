@@ -64,6 +64,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   arr.streamLogDir = streamLogDir;
   arr.direction =  direction;
 
+  console.log(arr);
+
   //get open position information
 
   await api.showOpenPositions().then(async (positionsData) => {
