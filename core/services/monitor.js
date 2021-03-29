@@ -31,6 +31,7 @@ actions.iniMonitor = async function(dealId,dealRef,epic){
   console.log(epic);
 
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
+  streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
   let data = '';
 
 
@@ -121,6 +122,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                     //declare time before reading stream
                     var timer;
+
+                    //check if stream is already running first
+                    //if()
 
                     //start stream
                     //use real-time streaming to get latest hour
