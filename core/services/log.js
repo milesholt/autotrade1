@@ -180,11 +180,11 @@ actions.startMonitorLog = async function(monitorData){
   });
   console.log(exists);
   if(exists == false){
-    console.log('Monitor does not exist, adding. Exists is: ' + exists + ', epic is: ' + monitorData.epic);
+    console.log('Monitor does not exist, adding. Exists is: ' + exists + ', epic is: ' + m.epic);
     monitors.push(m);
     isChanged = true;
   } else {
-    console.log('Monitor for epic: ' + monitorData.epic + ' already exists');
+    console.log('Monitor for epic: ' + m.epic + ' already exists');
   }
 
   if(isChanged == true){
