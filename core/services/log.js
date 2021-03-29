@@ -140,24 +140,26 @@ Log new monitor
 
 */
 
-actions.startMonitorLog = async function(dealId,monitorPositionData){
+actions.startMonitorLog = async function(monitorData){
 
   console.log('starting monitor log');
-  console.log('dealRef: ' + dealRef);
-  console.log('epic: ' + epic);
-  console.log('dealId: ' + dealId);
-  console.log('direction: ' + direction);
+  // console.log('dealRef: ' + dealRef);
+  // console.log('epic: ' + epic);
+  // console.log('dealId: ' + dealId);
+  // console.log('direction: ' + direction);
+  //
+ //let monitorKeyData = lib.deepCopy(monitor);
+  // monitorKeyData.epic = epic;
+  // monitorKeyData.dealId =  dealId;
+  // monitorKeyData.dealRef = dealRef;
+  // monitorKeyData.streamLogDir = streamLogDir;
+  // monitorKeyData.direction = direction;
+  //
+  // //m.map((item, i) => Object.assign({}, item, monitorData));
+  // let m = {...monitorKeyData, ...monitorPositionData};
 
-  let monitorKeyData = lib.deepCopy(monitor);
-  monitorKeyData.epic = epic;
-  monitorKeyData.dealId =  dealId;
-  monitorKeyData.dealRef = dealRef;
-  monitorKeyData.streamLogDir = streamLogDir;
-  monitorKeyData.direction = direction;
-
-  //m.map((item, i) => Object.assign({}, item, monitorData));
-  let m = {...monitorKeyData, ...monitorPositionData};
-
+  let monitorKeys = lib.deepCopy(monitor);
+  var m = {...monitorKeys, ...monitorData};
 
 
   monitors = await cloud.getFile(monitorDataDir);

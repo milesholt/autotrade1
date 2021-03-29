@@ -61,6 +61,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
   arr.epic = epic;
   arr.dealId = dealId;
   arr.dealRef = dealRef;
+  arr.streamLogDir = streamLogDir;
 
   //get open position information
 
@@ -112,9 +113,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     dealId = arr.dealId;
 
                     //log monitor
-                    console.log(arr.dealId)
-                    console.log(dealId);
-                    await log.actions.startMonitorLog(dealId,monitorData);
+                    monitorData = {...arr, ...monitorData};
+                    await log.actions.startMonitorLog(monitorData);
 
                     //declare time before reading stream
                     var timer;
