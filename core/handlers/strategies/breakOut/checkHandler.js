@@ -198,7 +198,7 @@ actions.checkOpenTrade = async function(){
       console.log(e);
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
 
-      await api.acctTransaction('ALL_DEAL',undefined, undefined, 50,1).then(r => {
+      await api.acctTransaction('ALL_DEAL',undefined, undefined, 50,1).then(async r => {
         //console.log(util.inspect(r,false,null));
         let transactions = r.transactions;
         console.log('Looping through transactions..');
