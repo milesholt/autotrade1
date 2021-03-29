@@ -266,6 +266,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 //console.log('DATA: ');
                                 //console.log(p);
 
+                                if(ep == x.epic){
+
                                 //our settings
                                 //use new limit level
                                 if(dir == 'BUY' && d.closePrice.bid >= x.newlimit) closeprofit = true;
@@ -434,6 +436,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       return false;
                                     }
 
+
+                                  }
 
                                   }
 
