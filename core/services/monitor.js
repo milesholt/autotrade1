@@ -454,7 +454,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   let timestamp = Date.now();
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
-                                  console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
+
+                                  if(ep == 'CC.D.LGO.USS.IP'){
+                                    console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
+                                  }
+
 
                                   let streamdata = {
                                     epic : ep,
