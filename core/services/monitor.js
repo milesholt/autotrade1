@@ -454,6 +454,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   let timestamp = Date.now();
                                   let timeonly = moment(timestamp).format('LT');
 
+
+                                  const time1 = stats.mtime;
+                                  const time2 = timestamp;
+                                  let timediff = time2.diff(time1, "minutes");
+
+                                  console.log(timediff);
+
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
                                   // if(ep == 'CC.D.LGO.USS.IP'){
