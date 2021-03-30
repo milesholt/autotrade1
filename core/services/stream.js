@@ -75,6 +75,14 @@ actions.getActiveSubscriptions = async function(){
   return api.getActiveSubscriptions();
 }
 
+actions.isSubscribed = async function(epic){
+  return api.isSubscribed(epic);
+}
+
+actions.isActive = async function(epic){
+  return api.isActive(epic);
+}
+
 actions.readStream = function(streamLogDir,single){
   return new Promise((resolve, reject) => {
     setTimeout(()=>{
