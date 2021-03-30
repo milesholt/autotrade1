@@ -454,10 +454,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   let timestamp = Date.now();
                                   let timeonly = moment(timestamp).format('LT');
 
-
-                                  const time1 = stats.mtime;
-                                  const time2 = timestamp;
-                                  let timediff = time2.diff(time1, "minutes");
+                                  let timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
 
                                   console.log(timediff);
 
