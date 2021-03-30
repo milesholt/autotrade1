@@ -484,9 +484,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     stopLevel: x.stopLevel,
                                     direction: x.direction,
                                     openLevel: x.level,
-                                    updated: modtime,
-                                    timestamp: timestamp,
-                                    timediff: timediff
+                                    streamUpdated: modtime,
+                                    fileUpdated: timeonly,
+                                    timediff: timediff,
+                                    timestamp: timestamp
                                   }
 
                                    //update stream data every 60 seconds
