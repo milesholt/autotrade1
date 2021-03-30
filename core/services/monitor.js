@@ -456,7 +456,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                   let timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
 
-                    
+
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
@@ -485,7 +485,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     direction: x.direction,
                                     openLevel: x.level,
                                     updated: modtime,
-                                    timestamp: timestamp
+                                    timestamp: timestamp,
+                                    timediff: timediff
                                   }
 
                                    //update stream data every 60 seconds
