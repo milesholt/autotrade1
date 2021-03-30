@@ -466,8 +466,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                   //if stream date and modification date difference greater than 5 minutes, restart streaming
                                   if(timediff >= 1){
+
+                                    console.log('Active subscriptions:');
                                     let activesubs = stream.actions.getActiveSubscriptions();
                                     console.log(activesubs);
+
+                                    console.log('Is epic ' + monitorData.epic +' subscribed:');
+                                    let isSubscribed = stream.actions.isSubscribed(monitorData.epic);
+                                    console.log(isSubscribed);
+
+                                    console.log('Is epic ' + monitorData.epic +' active:');
+                                    let isActive = stream.actions.isActive(monitorData.epic);
+                                    console.log(isActive);
+
 
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating. fileupdated:' + timeonly + ' streamupdated: ' + modtime);
