@@ -465,16 +465,17 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   // }
 
                                   //if stream date and modification date difference greater than 5 minutes, restart streaming
-                                  if(timediff > 1){
+                                  if(timediff > 5){
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating...');
-
                                     try{
                                       await stream.actions.endStream(monitorData.epic);
                                     } catch(e){
-                                      console.log(e);
                                     }
-                                    //await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
+                                    try{
+                                      await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
+                                    } catch(e){
+                                    }
                                   }
 
 
@@ -589,7 +590,10 @@ actions.stopMonitor = async function(timer,epic = false){
   //if epic parameter, stop stream
   if(!!epic){
     console.log('epic is not false, ending stream and monitor logs');
-    stream.actions.endStream(epic);
+    try{
+      stream.actions.endStream(epic);
+    } catch(e){
+    }
     log.actions.closeMonitorLog(epic);
   }
 
