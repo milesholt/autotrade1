@@ -467,17 +467,17 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   //if stream date and modification date difference greater than 5 minutes, restart streaming
                                   if(timediff >= 5){
 
-                                    console.log('Active subscriptions:');
+                                    //console.log('Active subscriptions:');
                                     // stream.actions.getActiveSubscriptions().then(r => {
                                     //   console.log(util.inspect(r,false,null));
                                     // }).catch(e => {
                                     //   console.log(e);
                                     // });
 
-                                    console.log('Is epic ' + monitorData.epic +' subscribed:');
+                                    //console.log('Is epic ' + monitorData.epic +' subscribed:');
                                     stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                                       if(subscribed == false){
-                                        console.log('Epic is not subscribed: ' + subscribed);
+                                        console.log('Epic '+monitorData.epic+' is not subscribed: ' + subscribed);
                                         await stream.actions.startStream(monitorData.epic, monitorData.streamLogDir);
                                       }
 
