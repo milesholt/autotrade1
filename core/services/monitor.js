@@ -490,15 +490,15 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
 
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
-                                    console.log('Resetting stream, possibly not updating. fileupdated:' + timeonly + ' streamupdated: ' + modtime);
-                                    try{
-                                      await stream.actions.endStream(monitorData.epic);
-                                    } catch(e){
-                                    }
-                                    try{
-                                      await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
-                                    } catch(e){
-                                    }
+                                    // console.log('Resetting stream, possibly not updating. fileupdated:' + timeonly + ' streamupdated: ' + modtime);
+                                    // try{
+                                    //   await stream.actions.endStream(monitorData.epic);
+                                    // } catch(e){
+                                    // }
+                                    // try{
+                                    //   await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
+                                    // } catch(e){
+                                    // }
                                   }
 
 
