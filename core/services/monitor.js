@@ -456,7 +456,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                   let timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
 
-                                  console.log(timediff);
+                    
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
@@ -464,7 +464,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   //   console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
                                   // }
 
-                                  if(modtime !== timeonly){
+                                  //if stream date and modification date difference greater than 1 minute, restart streaming
+                                  if(timediff > 1){
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating...');
                                     console.log(modtime);
