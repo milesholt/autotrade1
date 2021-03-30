@@ -25,14 +25,15 @@ var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN
 var destroyStream = false;
 
 actions.connectStream = function(check){
-  return new Promise((resolve, reject) => {
-    if(!check) api.connectToLightstreamer();
-    if(api.isConnectedToLightStreamer()) {
-      resolve();
-    }else{
-      reject();
-    }
-  });
+  api.connectToLightstreamer();
+  // return new Promise((resolve, reject) => {
+  //   if(!check) api.connectToLightstreamer();
+  //   if(api.isConnectedToLightStreamer()) {
+  //     resolve();
+  //   }else{
+  //     reject();
+  //   }
+  // });
 }
 
 actions.isConnected = async function(){
@@ -46,22 +47,39 @@ actions.startStream = async function(epic, streamLogDir = false, positionData, c
     return false;
   }
 
-  let items = ['CHART:'+epic+':HOUR'];
-  await actions.connectStream(check).then( async r =>{
-    if(api.isConnectedToLightStreamer()) {
-      console.log('streamer should be connected.');
-      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
-      if(api.lsIsError == true){
-        console.log('Stream error. Stopping.');
-        return false;
-      }
-    }
-  }).catch(e => {
-    setTimeout(() => {
-        console.log('stream not connected, trying again in 2 secs..');
-        actions.startStream(epic,streamLogDir, positionData, true);
+  if(!actions.isConnected()){
+    //streamer not connected, connect then retry
+    actions.connectStream();
+    setTimeout(()=>{
+      console.log('stream not connected, connecting and trying again in 2 secs..');
+      actions.startStream(epic,streamLogDir, positionData, true);
     }, 2000);
-  });
+  } else {
+    console.log('Stream is connected.');
+    let items = ['CHART:'+epic+':HOUR'];
+    await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
+    if(api.lsIsError == true){
+      console.log('Stream error. Stopping.');
+      return false;
+    }
+  }
+
+  // let items = ['CHART:'+epic+':HOUR'];
+  // await actions.connectStream(check).then( async r =>{
+  //   if(api.isConnectedToLightStreamer()) {
+  //     console.log('streamer should be connected.');
+  //     await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
+  //     if(api.lsIsError == true){
+  //       console.log('Stream error. Stopping.');
+  //       return false;
+  //     }
+  //   }
+  // }).catch(e => {
+  //   setTimeout(() => {
+  //       console.log('stream not connected, trying again in 2 secs..');
+  //       actions.startStream(epic,streamLogDir, positionData, true);
+  //   }, 2000);
+  // });
 }
 
 actions.endStream = function(epic){

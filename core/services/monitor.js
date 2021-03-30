@@ -465,7 +465,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   // }
 
                                   //if stream date and modification date difference greater than 5 minutes, restart streaming
-                                  if(timediff >= 1){
+                                  if(timediff >= 5){
 
                                     console.log('Active subscriptions:');
                                     // stream.actions.getActiveSubscriptions().then(r => {
@@ -475,18 +475,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     // });
 
                                     console.log('Is epic ' + monitorData.epic +' subscribed:');
-                                    stream.actions.isSubscribed(monitorData.epic).then(r => {
-                                      console.log(r);
+                                    stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                                      if(subscribed == false)  await stream.actions.endStream(monitorData.epic);
+
                                     }).catch(e => {
                                       console.log(e);
                                     });
 
-                                    console.log('Is epic ' + monitorData.epic +' active:');
-                                    stream.actions.isActive(monitorData.epic).then(r => {
-                                      console.log(r);
-                                    }).catch(e => {
-                                      console.log(e);
-                                    });
+                                    // console.log('Is epic ' + monitorData.epic +' active:');
+                                    // stream.actions.isActive(monitorData.epic).then(r => {
+                                    //   console.log(r);
+                                    // }).catch(e => {
+                                    //   console.log(e);
+                                    // });
 
 
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
