@@ -464,13 +464,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   //   console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
                                   // }
 
-                                  //if stream date and modification date difference greater than 1 minute, restart streaming
-                                  if(timediff > 1){
+                                  //if stream date and modification date difference greater than 5 minutes, restart streaming
+                                  if(timediff > 5){
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating...');
-                                    console.log(modtime);
-                                    console.log(timeonly);
-                                    stream.actions.endStream(monitorData.epic);
+                                    await stream.actions.endStream(monitorData.epic);
                                     await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
                                   }
 
@@ -488,7 +486,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     fileUpdated: timeonly,
                                     timediff: timediff,
                                     timestamp: timestamp
-                                  } 
+                                  }
 
                                    //update stream data every 60 seconds
                                    //this is to not exceed github api limit
