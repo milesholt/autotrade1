@@ -218,7 +218,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                 data = JSON.parse(data.toString());
 
                                 // console.log('reading data from this file: ' + streamLogDir);
-                                if(ep == 'CC.D.LGO.USS.IP')   console.log(data);
+                                //if(ep == 'CC.D.LGO.USS.IP')   console.log(data);
 
                                 let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
@@ -454,7 +454,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   let timestamp = Date.now();
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
-                                  //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
+                                  console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
 
                                   let streamdata = {
                                     epic : ep,
