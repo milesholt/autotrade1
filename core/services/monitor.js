@@ -463,6 +463,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   if(modtime !== timeonly){
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating...');
+                                    console.log(modtime);
+                                    console.log(timeonly);
+                                    stream.actions.endStream(monitorData.epic);
                                     await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
                                   }
 
