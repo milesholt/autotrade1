@@ -56,8 +56,8 @@ actions.checkOpenTrades = async function(){
              console.log('Finished looping through open positions');
              //run through any deals which aren't empty on market data
 
-             console.log('========MONITORS:');
-             console.log(monitors);
+             //console.log('========MONITORS:');
+             //console.log(monitors);
 
              console.log('Checking deals on market data');
              for (const [i, m] of markets.entries()) {
@@ -186,8 +186,8 @@ actions.checkOpenTrade = async function(){
             dealRef = positionData.position.dealReference;
             direction = positionData.position.direction;
 
-            console.log('-----MONITORS:');
-            console.log(monitors);
+            //console.log('-----MONITORS:');
+            //console.log(monitors);
 
             monitors.forEach(monitor => {
               if(monitor.epic == epic) isMonitoring = true;
