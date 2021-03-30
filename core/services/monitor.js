@@ -488,7 +488,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     fileUpdated: timeonly,
                                     timediff: timediff,
                                     timestamp: timestamp
-                                  }
+                                  } 
 
                                    //update stream data every 60 seconds
                                    //this is to not exceed github api limit
