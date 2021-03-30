@@ -468,11 +468,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   if(timediff >= 1){
 
                                     console.log('Active subscriptions:');
-                                    stream.actions.getActiveSubscriptions().then(r => {
-                                      console.log(util.inspect(r,false,null));
-                                    }).catch(e => {
-                                      console.log(e);
-                                    });
+                                    // stream.actions.getActiveSubscriptions().then(r => {
+                                    //   console.log(util.inspect(r,false,null));
+                                    // }).catch(e => {
+                                    //   console.log(e);
+                                    // });
 
                                     console.log('Is epic ' + monitorData.epic +' subscribed:');
                                     stream.actions.isSubscribed(monitorData.epic).then(r => {
