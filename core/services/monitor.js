@@ -468,16 +468,25 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   if(timediff >= 1){
 
                                     console.log('Active subscriptions:');
-                                    let activesubs = stream.actions.getActiveSubscriptions();
-                                    console.log(activesubs);
+                                    stream.actions.getActiveSubscriptions().then(r => {
+                                      console.log(util.inspect(r,false,null));
+                                    }).catch(e => {
+                                      console.log(e);
+                                    });
 
                                     console.log('Is epic ' + monitorData.epic +' subscribed:');
-                                    let isSubscribed = stream.actions.isSubscribed(monitorData.epic);
-                                    console.log(isSubscribed);
+                                    stream.actions.isSubscribed(monitorData.epic).then(r => {
+                                      console.log(r);
+                                    }).catch(e => {
+                                      console.log(e);
+                                    });
 
                                     console.log('Is epic ' + monitorData.epic +' active:');
-                                    let isActive = stream.actions.isActive(monitorData.epic);
-                                    console.log(isActive);
+                                    stream.actions.isActive(monitorData.epic).then(r => {
+                                      console.log(r);
+                                    }).catch(e => {
+                                      console.log(e);
+                                    });
 
 
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
