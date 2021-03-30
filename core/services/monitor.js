@@ -465,7 +465,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   // }
 
                                   //if stream date and modification date difference greater than 5 minutes, restart streaming
-                                  if(timediff >= 5){
+                                  if(timediff >= 1){
+                                    let activesubs = stream.actions.getActiveSubscriptions();
+                                    console.log(activesubs);
+
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating. fileupdated:' + timeonly + ' streamupdated: ' + modtime);
                                     try{

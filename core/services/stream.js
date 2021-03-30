@@ -71,6 +71,10 @@ actions.endStream = function(epic){
   destroyStream = true;
 }
 
+actions.getActiveSubscriptions = async function(){
+  return api.getActiveSubscriptions();
+}
+
 actions.readStream = function(streamLogDir,single){
   return new Promise((resolve, reject) => {
     setTimeout(()=>{
