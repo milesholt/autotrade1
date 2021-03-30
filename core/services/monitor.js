@@ -476,7 +476,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                     console.log('Is epic ' + monitorData.epic +' subscribed:');
                                     stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
-                                      if(subscribed == false)  await stream.actions.endStream(monitorData.epic);
+                                      if(subscribed == false){
+                                        console.log('Epic is not subscribed: ' + subscribed);
+                                        await stream.actions.startStream(monitorData.epic, monitorData.streamLogDir);
+                                      }
 
                                     }).catch(e => {
                                       console.log(e);
