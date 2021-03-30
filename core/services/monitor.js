@@ -129,7 +129,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     //start stream
                     //use real-time streaming to get latest hour
                     console.log('starting stream, epic: ' + monitorData.epic + ', streamLogDir: ' + monitorData.streamLogDir);
-                    await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir,p);
+                    await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(monitorData.streamLogDir,false).then(async r => {
 
@@ -463,7 +463,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   if(modtime !== time){
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating...');
-                                    await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir,p);
+                                    await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
                                   }
 
 

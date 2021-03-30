@@ -50,7 +50,7 @@ actions.startStream = async function(epic, streamLogDir = false, positionData, c
   await actions.connectStream(check).then( async r =>{
     if(api.isConnectedToLightStreamer()) {
       console.log('streamer should be connected.');
-      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic, positionData);
+      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
       if(api.lsIsError == true){
         console.log('Stream error. Stopping.');
         return false;
