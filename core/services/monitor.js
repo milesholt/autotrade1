@@ -452,7 +452,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   const stats = fs.statSync(monitorData.streamLogDir);
                                   const modtime = moment(stats.mtime).format('LT');
                                   let timestamp = Date.now();
-                                  let time = moment(timestamp).format('LT');
+                                  let timeonly = moment(timestamp).format('LT');
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
@@ -460,7 +460,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   //   console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
                                   // }
 
-                                  if(modtime !== time){
+                                  if(modtime !== timeonly){
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     console.log('Resetting stream, possibly not updating...');
                                     await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
