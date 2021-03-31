@@ -497,8 +497,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                     });
 
                                      console.log('Is epic ' + monitorData.epic +' active:');
-                                    stream.actions.isActive(monitorData.epic).then(r => {
-                                      if(subscribed == false){
+                                    stream.actions.isActive(monitorData.epic).then(active => {
+                                      if(active == false){
                                         console.log('Epic is not active');
                                       }
                                     }).catch(e => {
