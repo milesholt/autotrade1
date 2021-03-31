@@ -281,6 +281,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 if(ep == x.epic){
 
                                   console.log('Epics match: ' + ep +  ' | ' + x.epic);
+                                  console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newlimit + ' newStop: ' + p.newStop);
 
                                 //our settings
                                 //use new limit level
@@ -468,7 +469,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
                                   // if(ep == 'CC.D.LGO.USS.IP'){
-                                  //   console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
+                                     //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
                                   // }
 
                                   //if stream date and modification date difference greater than 5 minutes, restart streaming
