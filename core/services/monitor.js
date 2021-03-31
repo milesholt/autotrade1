@@ -176,7 +176,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       var counter = 0;
                       timer = setInterval(()=>{
 
-
+                        console.log(stream.connection);
 
 
                         counter += 3;
@@ -538,7 +538,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   data = {};
 
                                   //first, are we connected, as lightstreamer could still be connecting
-                                  console.log(stream.connection);
+                                  //console.log(stream.connection);
 
                                     // if(stream.connection == 'CONNECTED'){
                                     //   //TO DO: Move to error handling
