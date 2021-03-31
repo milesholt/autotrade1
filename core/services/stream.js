@@ -90,6 +90,7 @@ actions.startStream = async function(epic, streamLogDir = false){
     break;
 
     case 'CONNECTING':
+      actions.connection = connection;
       actions.checkConnection();
       setTimeout(() => {
             console.log('stream is still connecting, trying again in 2 secs..');
@@ -99,6 +100,7 @@ actions.startStream = async function(epic, streamLogDir = false){
 
     case 'CONNECTED':
       console.log('connected!');
+      actions.connection = connection;
     break;
   }
 
