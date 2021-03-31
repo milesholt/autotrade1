@@ -56,12 +56,17 @@ actions.startStream = async function(epic, streamLogDir = false){
     }, 2000);
   } else {
     console.log('Stream is connected.');
-    let items = ['CHART:'+epic+':HOUR'];
-    await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
-    if(api.lsIsError == true){
-      console.log('Stream error. Stopping.');
-      return false;
+    if(api.isConnectedToLightStreamer()) {
+      let items = ['CHART:'+epic+':HOUR'];
+      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
+      if(api.lsIsError == true){
+        console.log('Stream error. Stopping.');
+        return false;
+      }
+    } else {
+      console.log('still not connnected');
     }
+
   }
 
   // let items = ['CHART:'+epic+':HOUR'];
