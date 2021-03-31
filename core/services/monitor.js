@@ -280,7 +280,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                 if(ep == x.epic){
 
-                                  console.log('Epics match: ' + ep +  ' | ' + x.epic);
+                                  //console.log('Epics match: ' + ep +  ' | ' + x.epic);
                                   console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newlimit + ' newStop: ' + p.newStop);
 
                                 //our settings
