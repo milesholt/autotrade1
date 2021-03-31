@@ -173,7 +173,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                         subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
                         text: JSON.stringify(monitorAnalysis)
                       };
-                      mailer.actions.sendMail(mailOptions);
+                      //mailer.actions.sendMail(mailOptions);
 
                       var counter = 0;
                       timer = setInterval(()=>{
