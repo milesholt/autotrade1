@@ -591,7 +591,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,try){
         console.log('position not found with dealId: ' + arr.dealId + ' but should be, going again in 1 minute...');
         if(typeof arr.dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
         setTimeout(()=>{
-          actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir);
+          actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,false);
         },60000);
       }
 
@@ -632,7 +632,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,try){
 
       setTimeout(()=>{
         console.log('waiting 10 minutes, then will check for open positions again.');
-        actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
+        actions.beginMonitor(dealId,dealRef,epic,streamLogDir,false);
       },600000);
     }
   }).catch(error => console.error(error));
