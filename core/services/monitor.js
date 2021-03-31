@@ -537,7 +537,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                           } else{
 
                                   //the json is not ok, reset
-                                  data = {};
+                                  //data = {};
 
                                   //first, are we connected, as lightstreamer could still be connecting
 
@@ -549,6 +549,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
                                       let ep = monitorData.streamLogDir.split('/')[2];
                                       console.log(ep);
+                                      console.log(data);
                                       //console.log('epic before stopMonitor(): ' + ep);
                                       //actions.stopMonitor(timer,ep);
                                       //return false;
