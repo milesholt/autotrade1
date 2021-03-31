@@ -533,12 +533,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
 
                           } else{
-                                  console.log(data);
-                                  //the json is not ok
+
+                                  //the json is not ok, reset
                                   data = {};
 
                                   //first, are we connected, as lightstreamer could still be connecting
-                                  stream.actions.isConnected().then(r => {
+
                                     if(stream.actions.connection == 'CONNECTED'){
                                       //TO DO: Move to error handling
                                       console.log('Connected, but error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
@@ -548,17 +548,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       console.log('epic before stopMonitor(): ' + ep);
                                       actions.stopMonitor(timer,ep);
                                       return false;
+
+                                    } else if(stream.actions.connection == 'CONNECTING'){
+                                      console.log('Streamer is still connecting, waiting..');
+
                                     } else {
-                                      console.log('Something is wrong. Says it is connected, but connection is: ' + stream.actions.connection);
+                                      console.log('No connection, waiting..');
                                     }
 
-                                  }).catch(e => {
-                                    if(stream.actions.connection == 'CONNECTING'){
-                                      console.log('Streamer is still connecting...');
-                                    } else {
-                                      console.log('No connection');
-                                    }
-                                  });
 
                           }
                         });
