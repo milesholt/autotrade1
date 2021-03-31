@@ -178,7 +178,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       var counter = 0;
                       timer = setInterval(()=>{
 
-                        //console.log(stream.connection);
+                        console.log(stream.actions.connection);
 
 
                         counter += 3;
