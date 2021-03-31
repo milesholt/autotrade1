@@ -638,10 +638,14 @@ actions.stopMonitor = async function(timer,epic = false){
     } catch(e){
     }
     await log.actions.closeMonitorLog(epic);
-    if(monitors.length == 0){
-      console.log('No positions being monitored. Disconnecting from lighstreamer');
-      stream.actions.disconnectStream();
-    }
+    
+    setTimeout(()=>{
+      if(monitors.length == 0){
+        console.log('No positions being monitored. Disconnecting from lighstreamer');
+        stream.actions.disconnectStream();
+      }
+    },3000);
+
   }
 
   var mailOptions = {
