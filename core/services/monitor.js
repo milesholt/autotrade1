@@ -218,7 +218,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                             if(lib.actions.isJSON(data)){
                                 //the json is ok
-                                console.log(data);
+                        
 
                                 data = JSON.parse(data.toString());
 
