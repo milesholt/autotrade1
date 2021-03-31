@@ -120,7 +120,7 @@ actions.checkConnection = function(){
     connection = 'CONNECTED';
   }).catch(e){
     console.log('still not connected');
-  }
+  });
 }
 
 actions.endStream = function(epic){
