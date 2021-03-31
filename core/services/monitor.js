@@ -133,6 +133,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(monitorData.streamLogDir,false).then(async r => {
 
+                      console.log(stream.connection);
+
 
                       let closeprofit = false;
                       let closeloss = false;
@@ -176,7 +178,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                       var counter = 0;
                       timer = setInterval(()=>{
 
-                        console.log(stream.connection);
+                        //console.log(stream.connection);
 
 
                         counter += 3;
