@@ -557,11 +557,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         },5000);
                                       } else{
                                           console.log('Tried already, still getting error. Stopping stream');
+                                          actions.stopMonitor(timer,ep);
+                                          return false;
                                       }
 
-                                      //console.log('epic before stopMonitor(): ' + ep);
-                                      //actions.stopMonitor(timer,ep);
-                                      //return false;
 
                                     } else if(stream.actions.connection == 'CONNECTING'){
                                       console.log('Streamer is still connecting, waiting..');
