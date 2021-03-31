@@ -25,20 +25,8 @@ var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN
 var destroyStream = false;
 
 actions.connectStream = function(check){
-  if(api.isConnectedToLightStreamer() === false) api.connectToLightstreamer();
-  // return new Promise((resolve, reject) => {
-  //   if(!check) api.connectToLightstreamer();
-  //   if(api.isConnectedToLightStreamer()) {
-  //     resolve();
-  //   }else{
-  //     reject();
-  //   }
-  // });
-}
-
-actions.isConnected = async function(){
-  //return api.isConnectedToLightStreamer();
   return new Promise((resolve, reject) => {
+    if(!check) api.connectToLightstreamer();
     if(api.isConnectedToLightStreamer()) {
       resolve();
     }else{
@@ -47,68 +35,33 @@ actions.isConnected = async function(){
   });
 }
 
-actions.startStream = async function(epic, streamLogDir = false){
+actions.isConnected = async function(){
+  return api.isConnectedToLightStreamer();
+}
+
+actions.startStream = async function(epic, streamLogDir = false, positionData, check = false){
 
   if(!streamLogDir){
     console.log('stream path not set');
     return false;
   }
 
-  // if(!actions.isConnected()){
-  //   //streamer not connected, connect then retry
-  //   console.log('Not connected, reconnecting');
-  //   actions.connectStream();
-  //   setTimeout(()=>{
-  //     console.log('stream not connected, connecting and trying again in 2 secs..');
-  //     actions.startStream(epic,streamLogDir);
-  //   }, 2000);
-  // } else {
-  //   if(api.isConnectedToLightStreamer()) {
-  //     console.log('Stream is connected.');
-  //     let items = ['CHART:'+epic+':HOUR'];
-  //     await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
-  //     if(api.lsIsError == true){
-  //       console.log('Stream error. Stopping.');
-  //       return false;
-  //     }
-  //   } else {
-  //     console.log('Stream still not connnected, trying again in 2 seconds...');
-  //     setTimeout(()=>{
-  //       console.log('stream not connected, connecting and trying again in 2 secs..');
-  //       actions.startStream(epic,streamLogDir);
-  //     }, 2000);
-  //   }
-
-    actions.connectStream();
-
-    actions.isConnected().then(r => {
-      console.log('connected');
-
-    }).catch(e){
-      console.log('still not connected');
-      console.log(e);
+  let items = ['CHART:'+epic+':HOUR'];
+  await actions.connectStream(check).then( async r =>{
+    if(api.isConnectedToLightStreamer()) {
+      console.log('streamer should be connected.');
+      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic, positionData);
+      if(api.lsIsError == true){
+        console.log('Stream error. Stopping.');
+        return false;
+      }
     }
-
-
-
-  }
-
-  // let items = ['CHART:'+epic+':HOUR'];
-  // await actions.connectStream(check).then( async r =>{
-  //   if(api.isConnectedToLightStreamer()) {
-  //     console.log('streamer should be connected.');
-  //     await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
-  //     if(api.lsIsError == true){
-  //       console.log('Stream error. Stopping.');
-  //       return false;
-  //     }
-  //   }
-  // }).catch(e => {
-  //   setTimeout(() => {
-  //       console.log('stream not connected, trying again in 2 secs..');
-  //       actions.startStream(epic,streamLogDir, positionData, true);
-  //   }, 2000);
-  // });
+  }).catch(e => {
+    setTimeout(() => {
+        console.log('stream not connected, trying again in 2 secs..');
+        actions.startStream(epic,streamLogDir, positionData, true);
+    }, 2000);
+  });
 }
 
 actions.endStream = function(epic){
@@ -116,18 +69,6 @@ actions.endStream = function(epic){
   api.unsubscribeToLightstreamer(epic);
   api.disconnectToLightstreamer();
   destroyStream = true;
-}
-
-actions.getActiveSubscriptions = async function(){
-  return api.getActiveSubscriptions();
-}
-
-actions.isSubscribed = async function(epic){
-  return api.isSubscribed(epic);
-}
-
-actions.isActive = async function(epic){
-  return api.isActive(epic);
 }
 
 actions.readStream = function(streamLogDir,single){
