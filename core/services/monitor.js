@@ -210,9 +210,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                           }
 
 
-                          if (/^[\],:{}\s]*$/.test(data.toString().replace(/\\["\\\/bfnrtu]/g, '@').
-                           replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
-                           replace(/(?:^|:|,)(?:\s*\[)+/g, '')) && typeof data !== null && typeof data !== undefined && data.length > 0) {
+                          // if (/^[\],:{}\s]*$/.test(data.toString().replace(/\\["\\\/bfnrtu]/g, '@').
+                          //  replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+                          //  replace(/(?:^|:|,)(?:\s*\[)+/g, '')) && typeof data !== null && typeof data !== undefined && data.length > 0) {
+
+                            if(lib.actions.isJSON(data)){
                                 //the json is ok
 
                                 data = JSON.parse(data.toString());
@@ -536,14 +538,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                   //first, are we connected, as lightstreamer could still be connecting
                                   stream.actions.isConnected().then(r => {
-                                    //TO DO: Move to error handling
-                                    console.log('Connected, but error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                                    console.log('streamLogDir: ' + monitorData.streamLogDir);
-                                    //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
-                                    let ep = monitorData.streamLogDir.split('/')[2];
-                                    console.log('epic before stopMonitor(): ' + ep);
-                                    actions.stopMonitor(timer,ep);
-                                    return false;
+                                    if(stream.actions.connection == 'CONNECTED'){
+                                      //TO DO: Move to error handling
+                                      console.log('Connected, but error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
+                                      console.log('streamLogDir: ' + monitorData.streamLogDir);
+                                      //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
+                                      let ep = monitorData.streamLogDir.split('/')[2];
+                                      console.log('epic before stopMonitor(): ' + ep);
+                                      actions.stopMonitor(timer,ep);
+                                      return false;
+                                    } else {
+                                      console.log('Something is wrong. Says it is connected, but connection is: ' + stream.actions.connection);
+                                    }
+
                                   }).catch(e => {
                                     if(stream.actions.connection == 'CONNECTING'){
                                       console.log('Streamer is still connecting...');
