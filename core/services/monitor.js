@@ -280,15 +280,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                 if(ep == x.epic){
 
-                                  console.log(x);
 
                                   //console.log('Epics match: ' + ep +  ' | ' + x.epic);
-                                  //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newlimit + ' newStop: ' + p.newStop);
+                                  console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newLimit + ' newStop: ' + x.newStop);
 
                                 //our settings
                                 //use new limit level
-                                if(dir == 'BUY' && d.closePrice.bid >= x.newlimit) closeprofit = true;
-                                if(dir == 'SELL' && d.closePrice.ask <= x.newlimit) closeprofit = true;
+                                if(dir == 'BUY' && d.closePrice.bid >= x.newLimit) closeprofit = true;
+                                if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) closeprofit = true;
 
                                 //suse new stop level
                                 if(dir == 'BUY' && d.closePrice.bid <= x.newStop) closeloss = true;
@@ -320,7 +319,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       console.log(m);
 
                                       console.log('New limit level reached. Closing position.');
-                                      console.log('new limit was: ' + x.newlimit);
+                                      console.log('new limit was: ' + x.newLimit);
                                       console.log('closing price was: ' + closePrice);
                                       console.log('closing price (ask) was: ' + d.closePrice.ask);
                                       console.log('closing price (bid) was: ' + d.closePrice.bid);
@@ -332,7 +331,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         date: moment().format('LLL'),
                                         limitLevel: x.limitLevel,
                                         stopLevel: x.stopLevel,
-                                        newLimit: x.newlimit,
+                                        newLimit: x.newLimit,
                                         lastClose: closePrice,
                                         direction: x.direction,
                                         openLevel: x.level,
@@ -412,6 +411,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         date: moment().format('LLL'),
                                         limitLevel: x.limitLevel,
                                         stopLevel: x.stopLevel,
+                                        newStop: x.newStop,
                                         lastClose: closePrice,
                                         direction: x.direction,
                                         openLevel: x.level,
