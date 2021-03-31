@@ -49,6 +49,7 @@ actions.startStream = async function(epic, streamLogDir = false){
 
   if(!actions.isConnected()){
     //streamer not connected, connect then retry
+    console.log('Not connected, reconnecting');
     actions.connectStream();
     setTimeout(()=>{
       console.log('stream not connected, connecting and trying again in 2 secs..');
