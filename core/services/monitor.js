@@ -133,7 +133,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(monitorData.streamLogDir,false).then(async r => {
 
-                      console.log(stream.connection);
+                      console.log(stream.actions.connection);
 
 
                       let closeprofit = false;
