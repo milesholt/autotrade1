@@ -539,7 +539,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                   //first, are we connected, as lightstreamer could still be connecting
 
-                                    if(stream.actions.connection == 'CONNECTED'){
+                                    if(stream.connection == 'CONNECTED'){
                                       //TO DO: Move to error handling
                                       console.log('Connected, but error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
                                       console.log('streamLogDir: ' + monitorData.streamLogDir);
@@ -549,7 +549,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       actions.stopMonitor(timer,ep);
                                       return false;
 
-                                    } else if(stream.actions.connection == 'CONNECTING'){
+                                    } else if(stream.connection == 'CONNECTING'){
                                       console.log('Streamer is still connecting, waiting..');
 
                                     } else {
@@ -638,7 +638,7 @@ actions.stopMonitor = async function(timer,epic = false){
     } catch(e){
     }
     await log.actions.closeMonitorLog(epic);
-    
+
     setTimeout(()=>{
       if(monitors.length == 0){
         console.log('No positions being monitored. Disconnecting from lighstreamer');
