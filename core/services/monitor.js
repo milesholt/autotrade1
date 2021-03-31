@@ -46,7 +46,7 @@ actions.iniMonitor = async function(dealId,dealRef,epic){
   await actions.beginMonitor(dealId,dealRef,epic,streamLogDir,false);
 }
 
-actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,try){
+actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt = false){
   //login
   // await api.login(true).then(r => {
   //   //console.log(util.inspect(r,false,null));
