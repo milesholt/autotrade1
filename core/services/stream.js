@@ -102,6 +102,7 @@ actions.startStream = async function(epic, streamLogDir = false){
     case 'CONNECTED':
       actions.connection = connection;
       console.log('Stream is connected. Creating subscription.');
+      let items = ['CHART:'+epic+':HOUR'];
       await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
          if(api.lsIsError == true){
            console.log('Stream error. Stopping.');
