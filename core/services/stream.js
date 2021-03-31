@@ -127,7 +127,7 @@ actions.checkConnection = function(){
 actions.endStream = function(epic){
   console.log(epic);
   api.unsubscribeToLightstreamer(epic);
-  api.disconnectToLightstreamer();
+  //api.disconnectToLightstreamer();
   destroyStream = true;
 }
 
