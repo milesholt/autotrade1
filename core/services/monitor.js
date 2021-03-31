@@ -533,6 +533,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
 
                           } else{
+                                  console.log(data);
                                   //the json is not ok
                                   data = {};
 
