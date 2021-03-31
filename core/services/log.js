@@ -170,7 +170,7 @@ actions.startMonitorLog = async function(monitorData){
       exists = true;
       if(monitor.dealId !== m.dealId){
         console.log('Monitor has found epic ' + m.epic + ', but with a different dealId, replacing with:');
-        console.log(m);
+        //console.log(m);
         monitors.splice(i,1);
         exists = false;
         isChanged = true;
