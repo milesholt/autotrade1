@@ -218,7 +218,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                             if(lib.actions.isJSON(data)){
                                 //the json is ok
-                        
+
 
                                 data = JSON.parse(data.toString());
 
@@ -279,6 +279,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 //console.log(p);
 
                                 if(ep == x.epic){
+
+                                  console.log('Epics match: ' + ep +  ' | ' + x.epic);
 
                                 //our settings
                                 //use new limit level
