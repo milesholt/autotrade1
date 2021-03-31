@@ -60,31 +60,6 @@ actions.startStream = async function(epic, streamLogDir = false){
     return false;
   }
 
-  // if(!actions.isConnected()){
-  //   //streamer not connected, connect then retry
-  //   console.log('Not connected, reconnecting');
-  //   actions.connectStream();
-  //   setTimeout(()=>{
-  //     console.log('stream not connected, connecting and trying again in 2 secs..');
-  //     actions.startStream(epic,streamLogDir);
-  //   }, 2000);
-  // } else {
-  //   if(api.isConnectedToLightStreamer()) {
-  //     console.log('Stream is connected.');
-  //     let items = ['CHART:'+epic+':HOUR'];
-  //     await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
-  //     if(api.lsIsError == true){
-  //       console.log('Stream error. Stopping.');
-  //       return false;
-  //     }
-  //   } else {
-  //     console.log('Stream still not connnected, trying again in 2 seconds...');
-  //     setTimeout(()=>{
-  //       console.log('stream not connected, connecting and trying again in 2 secs..');
-  //       actions.startStream(epic,streamLogDir);
-  //     }, 2000);
-  //   }
-
   switch(connection){
     case 'NONE':
       actions.connectStream();
@@ -111,22 +86,6 @@ actions.startStream = async function(epic, streamLogDir = false){
     break;
   }
 
-  // let items = ['CHART:'+epic+':HOUR'];
-  // await actions.connectStream(check).then( async r =>{
-  //   if(api.isConnectedToLightStreamer()) {
-  //     console.log('streamer should be connected.');
-  //     await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
-  //     if(api.lsIsError == true){
-  //       console.log('Stream error. Stopping.');
-  //       return false;
-  //     }
-  //   }
-  // }).catch(e => {
-  //   setTimeout(() => {
-  //       console.log('stream not connected, trying again in 2 secs..');
-  //       actions.startStream(epic,streamLogDir, positionData, true);
-  //   }, 2000);
-  // });
 }
 
 
@@ -147,7 +106,7 @@ actions.unsubscribe = function(epic){
 
 actions.disconnectStream = function(){
   api.disconnectToLightstreamer();
-  connection = 'NONE2';
+  connection = 'NONE';
 }
 
 actions.getActiveSubscriptions = async function(){
