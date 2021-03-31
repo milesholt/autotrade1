@@ -46,7 +46,7 @@ actions.iniMonitor = async function(dealId,dealRef,epic){
   await actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
 }
 
-actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
+actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,try=false){
   //login
   // await api.login(true).then(r => {
   //   //console.log(util.inspect(r,false,null));
@@ -544,12 +544,21 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                     if(stream.actions.connection == 'CONNECTED'){
                                       //TO DO: Move to error handling
-                                      console.log('Connected, but error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
+                                      console.log('Connected, but error reading stream, likely JSON data incorrect');
                                       //console.log('streamLogDir: ' + monitorData.streamLogDir);
                                       //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
-                                      let ep = monitorData.streamLogDir.split('/')[2];
-                                      console.log(ep);
+                                      //let ep = monitorData.epic;
+                                      console.log(monitorData.epic);
                                       console.log(data);
+                                      if(!try){
+                                        setTimeout(()=>{
+                                          console.log('Trying stream again after 5 seconds');
+                                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
+                                        },5000);
+                                      } else{
+                                          console.log('Tried already, still getting error. Stopping stream');
+                                      }
+
                                       //console.log('epic before stopMonitor(): ' + ep);
                                       //actions.stopMonitor(timer,ep);
                                       //return false;
