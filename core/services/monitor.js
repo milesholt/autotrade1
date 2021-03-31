@@ -475,10 +475,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     // });
 
                                     //console.log('Is epic ' + monitorData.epic +' subscribed:');
-                                    stream.actions.isSubscribed(monitorData.epic).then(async subscribed => {
+                                    stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                                       if(subscribed == false){
                                         console.log('Epic '+monitorData.epic+' is not subscribed: ' + subscribed);
-                                        await stream.actions.startStream(monitorData.epic, monitorData.streamLogDir);
+                                        stream.actions.startStream(monitorData.epic, monitorData.streamLogDir);
                                       }
 
                                     }).catch(e => {
