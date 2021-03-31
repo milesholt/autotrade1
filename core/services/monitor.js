@@ -496,7 +496,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
                                     // console.log('Resetting stream, possibly not updating. fileupdated:' + timeonly + ' streamupdated: ' + modtime);
                                     // try{
-                                    //   await stream.actions.endStream(monitorData.epic);
+                                    //   await stream.actions.unsubscribe(monitorData.epic);
                                     // } catch(e){
                                     // }
                                     // try{
@@ -618,10 +618,14 @@ actions.stopMonitor = async function(timer,epic = false){
   if(!!epic){
     console.log('epic is not false, ending stream and monitor logs');
     try{
-      stream.actions.endStream(epic);
+      stream.actions.unsubscribe(epic);
     } catch(e){
     }
-    log.actions.closeMonitorLog(epic);
+    await log.actions.closeMonitorLog(epic);
+    if(monitors.length == 0){
+      console.log('No positions being monitored. Disconnecting from lighstreamer');
+      stream.actions.disconnectStream();
+    }
   }
 
   var mailOptions = {

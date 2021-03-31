@@ -124,11 +124,15 @@ actions.checkConnection = function(){
   });
 }
 
-actions.endStream = function(epic){
+actions.unsubscribe = function(epic){
   console.log(epic);
   api.unsubscribeToLightstreamer(epic);
-  //api.disconnectToLightstreamer();
   destroyStream = true;
+}
+
+actions.disconnectStream = function(){
+  api.disconnectToLightstreamer();
+  connection = 'NONE';
 }
 
 actions.getActiveSubscriptions = async function(){
