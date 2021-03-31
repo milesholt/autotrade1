@@ -218,6 +218,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                             if(lib.actions.isJSON(data)){
                                 //the json is ok
+                                console.log(data);
 
                                 data = JSON.parse(data.toString());
 
@@ -493,12 +494,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       console.log(e);
                                     });
 
-                                    // console.log('Is epic ' + monitorData.epic +' active:');
-                                    // stream.actions.isActive(monitorData.epic).then(r => {
-                                    //   console.log(r);
-                                    // }).catch(e => {
-                                    //   console.log(e);
-                                    // });
+                                     console.log('Is epic ' + monitorData.epic +' active:');
+                                    stream.actions.isActive(monitorData.epic).then(r => {
+                                      console.log(r);
+                                    }).catch(e => {
+                                      console.log(e);
+                                    });
 
 
                                     //modification time isnt same as recorded stream time, possible stream is not being updated, Resetting
