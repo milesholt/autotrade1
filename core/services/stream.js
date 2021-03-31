@@ -25,6 +25,8 @@ var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN
 var destroyStream = false;
 var connection = 'NONE';
 
+actions.connection = connection;
+
 actions.connectStream = function(check){
     console.log('CONNECTING TO STREAM');
     connection = 'CONNECTING';

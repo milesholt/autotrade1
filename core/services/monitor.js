@@ -533,14 +533,27 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                           } else{
                                   //the json is not ok
                                   data = {};
-                                  //TO DO: Move to error handling
-                                  console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                                  console.log('streamLogDir: ' + monitorData.streamLogDir);
-                                  //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
-                                  let ep = monitorData.streamLogDir.split('/')[2];
-                                  console.log('epic before stopMonitor(): ' + ep);
-                                  actions.stopMonitor(timer,ep);
-                                  return false;
+
+                                  //first, are we connected, as lightstreamer could still be connecting
+                                  if(stream.actions.isConnected === false){
+                                    if(stream.actions.connection == 'CONNECTING'){
+                                      console.log('Streamer is still connecting...');
+                                    } else {
+                                      console.log('No connection');
+                                    }
+
+                                  } else{
+                                    //TO DO: Move to error handling
+                                    console.log('Error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
+                                    console.log('streamLogDir: ' + monitorData.streamLogDir);
+                                    //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
+                                    let ep = monitorData.streamLogDir.split('/')[2];
+                                    console.log('epic before stopMonitor(): ' + ep);
+                                    actions.stopMonitor(timer,ep);
+                                    return false;
+                                  }
+
+
                           }
                         });
                       },3000);
