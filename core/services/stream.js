@@ -55,8 +55,8 @@ actions.startStream = async function(epic, streamLogDir = false){
       actions.startStream(epic,streamLogDir);
     }, 2000);
   } else {
-    console.log('Stream is connected.');
     if(api.isConnectedToLightStreamer()) {
+      console.log('Stream is connected.');
       let items = ['CHART:'+epic+':HOUR'];
       await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
       if(api.lsIsError == true){
@@ -64,7 +64,11 @@ actions.startStream = async function(epic, streamLogDir = false){
         return false;
       }
     } else {
-      console.log('still not connnected');
+      console.log('Stream still not connnected, trying again in 2 seconds...');
+      setTimeout(()=>{
+        console.log('stream not connected, connecting and trying again in 2 secs..');
+        actions.startStream(epic,streamLogDir);
+      }, 2000);
     }
 
   }
