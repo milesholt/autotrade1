@@ -567,7 +567,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         },5000);
                                       } else{
                                           console.log('Tried already, still getting error. Stopping stream');
-                                          actions.stopMonitor(timer,ep);
+                                          actions.stopMonitor(timer,monitorData.epic);
                                           return false;
                                       }
 
