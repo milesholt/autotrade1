@@ -137,7 +137,7 @@ actions.unsubscribe = function(epic){
 
 actions.disconnectStream = function(){
   api.disconnectToLightstreamer();
-  connection = 'NONE';
+  connection = 'NONE2';
 }
 
 actions.getActiveSubscriptions = async function(){
