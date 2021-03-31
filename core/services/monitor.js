@@ -43,10 +43,10 @@ actions.iniMonitor = async function(dealId,dealRef,epic){
     if (err) throw err;
   });
   //begin monitoring
-  await actions.beginMonitor(dealId,dealRef,epic,streamLogDir);
+  await actions.beginMonitor(dealId,dealRef,epic,streamLogDir,false);
 }
 
-actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,try=false){
+actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,try){
   //login
   // await api.login(true).then(r => {
   //   //console.log(util.inspect(r,false,null));
