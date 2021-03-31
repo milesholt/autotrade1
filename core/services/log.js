@@ -196,7 +196,6 @@ actions.startMonitorLog = async function(monitorData){
   fs.writeFile(tmpMonitorPath, JSON.stringify(monitors), { flag: 'w' }, function (err) {
     if (err) throw err;
     console.log("tmp monitor should be saved");
-    console.log(m);
   });
 }
 
