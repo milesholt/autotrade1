@@ -550,7 +550,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       //let ep = monitorData.epic;
                                       console.log(monitorData.epic);
                                       console.log(data);
-                                      if(!try){
+                                      if(!attempt){
                                         setTimeout(()=>{
                                           console.log('Trying stream again after 5 seconds');
                                           actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
