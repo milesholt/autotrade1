@@ -23,9 +23,12 @@ var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN
 
 
 var destroyStream = false;
+var connection = 'NONE';
 
 actions.connectStream = function(check){
-  if(api.isConnectedToLightStreamer() === false) api.connectToLightstreamer();
+    console.log('CONNECTING TO STREAM');
+    connection = 'CONNECTING';
+    api.connectToLightstreamer();
   // return new Promise((resolve, reject) => {
   //   if(!check) api.connectToLightstreamer();
   //   if(api.isConnectedToLightStreamer()) {
@@ -79,18 +82,18 @@ actions.startStream = async function(epic, streamLogDir = false){
   //     }, 2000);
   //   }
 
-    actions.connectStream();
+  switch(connection){
+    case 'NONE':
+      actions.connectStream();
+    break;
 
-    actions.isConnected().then(r => {
-      console.log('connected');
+    case 'CONNECTING':
+      actions.checkConnection();
+    break;
 
-    }).catch(e){
-      console.log('still not connected');
-      console.log(e);
-    }
-
-
-
+    case 'CONNECTED':
+      console.log('connected!');
+    break;
   }
 
   // let items = ['CHART:'+epic+':HOUR'];
@@ -109,6 +112,15 @@ actions.startStream = async function(epic, streamLogDir = false){
   //       actions.startStream(epic,streamLogDir, positionData, true);
   //   }, 2000);
   // });
+}
+
+
+actions.checkConnection = function(){
+  actions.isConnected().then(r => {
+    connection = 'CONNECTED';
+  }).catch(e){
+    console.log('still not connected');
+  }
 }
 
 actions.endStream = function(epic){
