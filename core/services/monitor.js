@@ -540,24 +540,24 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                   data = {};
 
                                   //first, are we connected, as lightstreamer could still be connecting
-                                    console.log(stream.actions.connection);
 
-                                    // if(stream.connection == 'CONNECTED'){
-                                    //   //TO DO: Move to error handling
-                                    //   console.log('Connected, but error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
-                                    //   console.log('streamLogDir: ' + monitorData.streamLogDir);
-                                    //   //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
-                                    //   let ep = monitorData.streamLogDir.split('/')[2];
-                                    //   console.log('epic before stopMonitor(): ' + ep);
-                                    //   actions.stopMonitor(timer,ep);
-                                    //   return false;
-                                    //
-                                    // } else if(stream.connection == 'CONNECTING'){
-                                    //   console.log('Streamer is still connecting, waiting..');
-                                    //
-                                    // } else {
-                                    //   console.log('No connection, waiting..');
-                                    // }
+
+                                    if(stream.actions.connection == 'CONNECTED'){
+                                      //TO DO: Move to error handling
+                                      console.log('Connected, but error reading stream, likely JSON data incorrect which suggests market is closed. Ending stream..');
+                                      //console.log('streamLogDir: ' + monitorData.streamLogDir);
+                                      //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
+                                      let ep = monitorData.streamLogDir.split('/')[2];
+                                      //console.log('epic before stopMonitor(): ' + ep);
+                                      //actions.stopMonitor(timer,ep);
+                                      //return false;
+
+                                    } else if(stream.actions.connection == 'CONNECTING'){
+                                      console.log('Streamer is still connecting, waiting..');
+
+                                    } else {
+                                      console.log('No connection, waiting..');
+                                    }
 
 
                           }

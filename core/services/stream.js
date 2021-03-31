@@ -94,14 +94,19 @@ actions.startStream = async function(epic, streamLogDir = false){
       actions.connection = connection;
       actions.checkConnection();
       setTimeout(() => {
-            console.log('stream is still connecting, trying again in 2 secs..');
+            console.log('Stream is still connecting, trying again in 2 secs..');
             actions.startStream(epic,streamLogDir);
       }, 2000);
     break;
 
     case 'CONNECTED':
       actions.connection = connection;
-      console.log('connected!');
+      console.log('Stream is connected. Creating subscription.');
+      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
+         if(api.lsIsError == true){
+           console.log('Stream error. Stopping.');
+           return false;
+         }
     break;
   }
 
