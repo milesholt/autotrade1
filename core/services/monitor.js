@@ -548,6 +548,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       //console.log('streamLogDir: ' + monitorData.streamLogDir);
                                       //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
                                       let ep = monitorData.streamLogDir.split('/')[2];
+                                      console.log(ep);
                                       //console.log('epic before stopMonitor(): ' + ep);
                                       //actions.stopMonitor(timer,ep);
                                       //return false;
