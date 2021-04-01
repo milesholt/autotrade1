@@ -89,7 +89,7 @@ actions.determineTrade = async function(){
       await api.showOpenPositions().then(async positionsData => {
         //console.log(util.inspect(positionsData, false, null));
         positionsData.forEach(position => {
-          if(position.market.epic == epic){
+          if(position.market.epic == market.epic){
             positionOpen = true;
             if(lib.isEmpty(market.deal)){
               console.log('Position found on server, but deal on marketdata is empty');
