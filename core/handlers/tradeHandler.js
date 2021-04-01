@@ -88,6 +88,16 @@ actions.determineTrade = async function(){
       //Check for existing open tickets
       await api.showOpenPositions().then(async positionsData => {
         //console.log(util.inspect(positionsData, false, null));
+        positionsData.forEach(position => {
+          if(position.market.epic == market.epic){
+            positionOpen = true;
+            if(lib.isEmpty(market.deal)){
+              console.log('Position found on server, but deal on marketdata is empty');
+
+            }
+          }
+        });
+      }).catch(e => console.log(e));
 
         //NEW LOGIC
         /*
@@ -308,7 +318,7 @@ actions.determineTrade = async function(){
           finalMessage = 'You are already trading on this epic. Waiting 1 hour.';
 
         };
-      }).catch(e => console.log(e));
+
   } else {
       //No trade, wait another hour
       market.tradedbefore = false;

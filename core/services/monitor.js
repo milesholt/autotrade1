@@ -477,7 +477,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                   //if stream date and modification date difference greater than 5 minutes, restart streaming
                                   if(timediff >= 5){
 
-                                    console.log('Time difference greater than 5, timediff: ' + timeiff + ' epic: ' + monitorData.epic);
+                                    //console.log('Time difference greater than 5, timediff: ' + timediff + ' epic: ' + monitorData.epic);
 
                                     //console.log('Active subscriptions:');
                                     // stream.actions.getActiveSubscriptions().then(r => {
@@ -496,7 +496,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       console.log(e);
                                     });
 
-                                     console.log('Is epic ' + monitorData.epic +' active:');
+                                    //console.log('Is epic ' + monitorData.epic +' active:');
                                     stream.actions.isActive(monitorData.epic).then(active => {
                                       if(active == false){
                                         console.log('Epic is not active');
