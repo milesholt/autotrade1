@@ -80,6 +80,67 @@ actions.checkOpenTrades = async function(){
 
 /*
 
+FIX DEAL ID
+
+This methods checks for missing dealId and matches using openDateUtc and openLevel value, where dealId is not the same
+
+*/
+
+actions.checkIncorrectDeal = async function(dealId){
+  return new Promise(async (resolve, reject) => {
+
+    let from = undefined;
+    let to = undefined;
+    let detailed = true;
+    let pageSize = 50;
+    let openLevel = null;
+    let openDate = null;
+    let positionFound = false;
+    let name = null;
+    let dealUpdated = false;
+    let type = 'ALL_DEAL';
+
+    await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
+      console.log(util.inspect(r,false,null));
+      if(r.activities.length){
+        r.activities.forEach(activity => {
+          if(activity.dealId == dealId){
+            console.log(activity);
+            openLevel = activity.details.level;
+            openDate = activity.date;
+            name = activity.instrumentName;
+            positionFound = true;
+          }
+        });
+      } else {
+        reject(dealUpdated);
+      }
+    }).catch(e => reject(e));
+
+    if(positionFound){
+
+      await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+        console.log(util.inspect(r,false,null));
+        let transactions = r.transactions;
+        transactions.forEach(transaction =>{
+          if(transaction.dateUtc == openDate && transaction.openLevel == openLevel && transaction.instrumentName == name){
+            console.log('matching position found with different ID, updating...');
+            market.deal.dealId = transaction.reference;
+            dealUpdated = true;
+            resolve(dealUpdated);
+          }
+        });
+      }).catch(e => reject(e));
+
+    } else {
+      reject(dealUpdated);
+    }
+  });
+}
+
+
+/*
+
 CHECK OPEN TRADES
 
 Checks for an open trade on a specific market.

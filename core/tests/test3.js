@@ -77,9 +77,9 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Show open positions
-  await api.showOpenPositions().then(r => {
-  console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
+  // await api.showOpenPositions().then(r => {
+  // console.log(util.inspect(r,false,null));
+  // }).catch(e => console.log(e));
 
   //Get markets
   // let epics = ['CC.D.VIX.USS.IP'];
@@ -93,39 +93,64 @@ async function exec(){
   // let from = undefined;
   // let to = undefined;
   // let detailed = true;
-  // let dealId = 'DIAAAAE3E8KCJAQ';
+  // let dealId = 'DIAAAAFFBYAQSAQ';
   // let pageSize = 50;
   // await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
   //   console.log(util.inspect(r,false,null));
+  //   if(r.activities.length){
+  //     r.activities.forEach(activity => {
+  //       if(activity.dealId == dealId ){
+  //         console.log(activity);
+  //       }
+  //     });
+  //   }
   // }).catch(e => console.log(e));
 
 
+  // {
+  //    date: '2021-04-01',
+  //    dateUtc: '2021-04-01T14:41:33',
+  //    openDateUtc: '2021-04-01T14:03:03',
+  //    instrumentName: 'London Gas Oil',
+  //    period: 'DFB',
+  //    profitAndLoss: '£6.80',
+  //    transactionType: 'DEAL',
+  //    reference: 'DIAAAAFFB23W5AG',
+  //    openLevel: '505.6',
+  //    closeLevel: '498.8',
+  //    size: '-1',
+  //    currency: '£',
+  //    cashTransaction: false
+  //  },
 
-  // let dealId = 'DIAAAAE6ZWKLYA4';
-  // let pageSize = 50;
-  // let type = 'ALL_DEAL';
-  // let from = undefined;
-  // let to = undefined;
-  //
-  // await api.acctTransaction(type,from, to, pageSize,1).then(r => {
-  //   console.log(util.inspect(r,false,null));
-  //   let transactions = r.transactions;
-  //   transactions.forEach(transaction =>{
-  //     if(transaction.reference == dealId){
-  //       console.log(dealId);
-  //       console.log('dealId found. position has been closed');
-  //       let dateClosed = transaction.dateUtc;
-  //       let profitLoss = transaction.profitAndLoss.split('£')[1];
-  //       let closeLevel = transaction.closeLevel;
-  //       //console.log('dateClosed: ' + dateClosed);
-  //       //console.log('profitLoss: ' + profitLoss);
-  //       console.log(typeof profitLoss);
-  //       console.log(Number(profitLoss).toFixed(2));
-  //       //console.log('closeLevel: ' + closeLevel);
-  //
-  //     }
-  //   });
-  // }).catch(e => console.log(e));
+
+
+
+  let dealId = 'DIAAAAE6ZWKLYA4';
+  let pageSize = 50;
+  let type = 'ALL_DEAL';
+  let from = undefined;
+  let to = undefined;
+
+  await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+    console.log(util.inspect(r,false,null));
+    // let transactions = r.transactions;
+    // transactions.forEach(transaction =>{
+    //   if(transaction.reference == dealId){
+    //     console.log(dealId);
+    //     console.log('dealId found. position has been closed');
+    //     let dateClosed = transaction.dateUtc;
+    //     let profitLoss = transaction.profitAndLoss.split('£')[1];
+    //     let closeLevel = transaction.closeLevel;
+    //     //console.log('dateClosed: ' + dateClosed);
+    //     //console.log('profitLoss: ' + profitLoss);
+    //     console.log(typeof profitLoss);
+    //     console.log(Number(profitLoss).toFixed(2));
+    //     //console.log('closeLevel: ' + closeLevel);
+    //
+    //   }
+    // });
+  }).catch(e => console.log(e));
 
 
   //Get prices
