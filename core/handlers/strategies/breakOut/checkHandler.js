@@ -116,9 +116,16 @@ actions.checkDeal = async function(){
 
       let isPositionFound = false;
       let dId = null;
+      let startDate = null;
+      let dRef = null;
+      let posDirection = null;
       for (const [i, td] of positionsData.positions.entries()) {
         if(td.market.epic == market.epic){
           dId = td.position.dealId;
+          dRef = td.position.dealReference;
+          posDirection = td.position.direction;
+          startDate = td.position.createdDateUTC;
+
           isPositionFound = true;
         }
       }
@@ -128,16 +135,35 @@ actions.checkDeal = async function(){
         if(lib.isEmpty(market.deal)) {
           console.log('Deal is empty on market data, re-adding...');
           console.log(dId);
+
+          let tradeFound = false;
           for (const [i, td2] of trades.entries()) {
             if(td2.dealId == dId){
               console.log('Found deal.');
               market.deal = lib.deepCopy(td2);
-              //after adding missing deal, re-run checkOpenTrade
-              markets[mid] = market;
-              await cloud.updateFile(markets,marketDataDir);
-              await actions.checkOpenTrade();
+              tradeFound = true;
             }
           }
+
+          if(tradeFound == false){
+            console.log('No deal found on tradedata, creating one');
+            let t = lib.deepCopy(trade);
+            t.marketId = market.id;
+            t.epic = market.epic;
+            t.startAnalysis = {};
+            t.start_timestamp = moment(startDate).valueOf();
+            t.start_date = moment(startDate).format('LLL');
+            t.dealId = dId;
+            t.dealRef = dRef;
+            t.direction = posDirection;
+            market.deal = lib.deepCopy(t);
+          }
+
+          //after adding missing deal, re-run checkOpenTrade
+          markets[mid] = market;
+          await cloud.updateFile(markets,marketDataDir);
+          await actions.checkOpenTrade();
+
         } else {
           console.log('Deal on market data is not empty. continue...')
         }
