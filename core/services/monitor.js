@@ -491,7 +491,18 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                     stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                                       if(subscribed == false){
                                         console.log('Epic '+monitorData.epic+' is not subscribed: ' + subscribed);
-                                        stream.actions.startStream(monitorData.epic, monitorData.streamLogDir);
+                                        //check if market is closed
+                                        check.actions.checkMarketStatus(monitorData.epic).then(r => {
+                                            if(r == 'TRADEABLE'){
+                                              stream.actions.startStream(monitorData.epic, monitorData.streamLogDir);
+                                            } else {
+                                              console.log('Market is closed or offline. Stopping monitor.');
+                                              actions.stopMonitor(timer,monitorData.epic);
+                                            }
+                                        }).catch(e => {
+                                            console.log(e);
+                                        });
+
                                       }
                                     }).catch(e => {
                                       console.log(e);

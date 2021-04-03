@@ -80,6 +80,21 @@ actions.checkOpenTrades = async function(){
 
 /*
 
+CHECK MARKET CLOSED
+
+*/
+
+actions.checkMarketStatus = async function(epic){
+  return new Promise(async (resolve, reject) => {
+    await api.epicDetails(epic).then(r => {
+        resolve(r.marketDetails[0].snapshot.marketStatus);
+      }).catch(e => console.log(e));
+  });
+}
+
+
+/*
+
 FIX DEAL ID
 
 This methods checks for missing dealId and matches using openDateUtc and openLevel value, where dealId is not the same
@@ -265,6 +280,18 @@ actions.checkOpenTrade = async function(){
         return false;
       });
     }
+
+    //Don't think this is necessary as this is already triggered in iniMonitor if position is not found
+    // if(dealId.length && dealId !== 'undefined' && typeof dealId !== 'undefined'){
+    //   await actions.checkIncorrectDeal(dealId).then(async r => {
+    //     console.log('Found matching position with different dealId, dealID has been updated.');
+    //     dealId = market.deal.dealId;
+    //   }).catch(e => {
+    //     console.log('Error checking for incorrect deal');
+    //     console.log(e);
+    //   });
+    // }
+
 
     let isMonitoring = false;
     await api.getPosition(String(dealId)).then(async positionData => {
