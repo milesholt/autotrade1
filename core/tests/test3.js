@@ -26,7 +26,7 @@ async function exec(){
   //Login
   // console.log('-------Logging in');
   await api.login(true).then(r => {
-    console.log(util.inspect(r,false,null));
+    //console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
 
   //Switch Default Account (Accountid -  102399016 Spread - Z3MUI3, CFD - Z3MUI2)
@@ -82,30 +82,38 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Get markets
-  let epics = ['CC.D.VIX.USS.IP'];
-  await api.epicDetails(epics).then(r => {
-    //console.log(util.inspect(r,false,null));
-    //console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
-    console.log(r.marketDetails[0].snapshot.marketStatus);
-    //
-  }).catch(e => console.log(e));
+  // let epics = ['CC.D.VIX.USS.IP'];
+  // await api.epicDetails(epics).then(r => {
+  //   //console.log(util.inspect(r,false,null));
+  //   //console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
+  //   console.log(r.marketDetails[0].snapshot.marketStatus);
+  //   //
+  // }).catch(e => console.log(e));
 
   //Get history
-  // let from = undefined;
-  // let to = undefined;
-  // let detailed = true;
-  // let dealId = 'DIAAAAFFBYAQSAQ';
-  // let pageSize = 50;
-  // await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
-  //   console.log(util.inspect(r,false,null));
-  //   if(r.activities.length){
-  //     r.activities.forEach(activity => {
-  //       if(activity.dealId == dealId ){
-  //         console.log(activity);
-  //       }
-  //     });
-  //   }
-  // }).catch(e => console.log(e));
+  let from = undefined;
+  let to = undefined;
+  let detailed = true;
+  //let dealId = 'DIAAAAFFBKE4KAK';
+  //let dealId = 'DIAAAAFFKMKBEAM';
+  let dealRef = 'JGNNPWYAU8LTYNK';
+  let dealId = undefined;
+  let pageSize = 50;
+  await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
+    //console.log(util.inspect(r,false,null));
+    if(r.activities.length){
+      // r.activities.forEach(activity => {
+      //   if(activity.dealId == dealRef ){
+      //     console.log(activity);
+      //   }
+      // });
+      r.activities.forEach(activity => {
+        if(activity.details.dealReference == dealRef ){
+          console.log(activity.details);
+        }
+      });
+    }
+  }).catch(e => console.log(e));
 
 
   // {
@@ -126,8 +134,8 @@ async function exec(){
 
 
 
-  //
-  // let dealId = 'DIAAAAE6ZWKLYA4';
+
+  // let dealId = 'DIAAAAFFBKE4KAK';
   // let pageSize = 50;
   // let type = 'ALL_DEAL';
   // let from = undefined;
