@@ -338,7 +338,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         openLevel: x.level,
                                         data: d,
                                         dealId: x.dealId,
-                                        dealRef: x.dealRef;
+                                        dealRef: x.dealRef,
                                         profit:null
                                       }
 
