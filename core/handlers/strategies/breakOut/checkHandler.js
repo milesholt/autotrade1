@@ -360,7 +360,7 @@ actions.checkOpenTrade = async function(){
 
             isTransactionFound =  true;
 
-            console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
+            console.log('deal found and position has been closed on IG server. Cleaning up and closing position.');
 
             let closeAnalysis = {
               timestamp: moment(transaction.dateUTC).valueOf(),

@@ -168,13 +168,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         direction: p.direction
                       }
 
-                      var mailOptions = {
-                        from: 'contact@milesholt.co.uk',
-                        to: 'miles_holt@hotmail.com',
-                        subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
-                        text: JSON.stringify(monitorAnalysis)
-                      };
-                      mailer.actions.sendMail(mailOptions);
+                      // var mailOptions = {
+                      //   from: 'contact@milesholt.co.uk',
+                      //   to: 'miles_holt@hotmail.com',
+                      //   subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
+                      //   text: JSON.stringify(monitorAnalysis)
+                      // };
+                      // mailer.actions.sendMail(mailOptions);
 
                       var counter = 0;
                       timer = setInterval(()=>{
@@ -713,13 +713,13 @@ actions.stopMonitor = async function(timer,epic = false){
 
   }
 
-  var mailOptions = {
-    from: 'contact@milesholt.co.uk',
-    to: 'miles_holt@hotmail.com',
-    subject: 'Monitor has stopped. Epic: ' + epic,
-    text: 'Monitoring has stopped.'
-  };
-  mailer.actions.sendMail(mailOptions);
+  // var mailOptions = {
+  //   from: 'contact@milesholt.co.uk',
+  //   to: 'miles_holt@hotmail.com',
+  //   subject: 'Monitor has stopped. Epic: ' + epic,
+  //   text: 'Monitoring has stopped.'
+  // };
+  // mailer.actions.sendMail(mailOptions);
 
   return false;
 }
