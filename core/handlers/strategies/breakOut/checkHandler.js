@@ -356,7 +356,7 @@ actions.checkOpenTrade = async function(){
           console.log('transaction epic: ' + transaction.instrumentName);
 
 
-          if( (transaction.reference == dealId) || (epic == transaction.instrumentName && transactionOpenDate == marketDealStartTime) ){
+          if( (transaction.reference == dealId) || (market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime) ){
 
             isTransactionFound =  true;
 
