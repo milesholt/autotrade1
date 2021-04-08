@@ -136,6 +136,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                       console.log(stream.actions.connection);
 
+                    if(stream.actions.connection == 'CONNECTED'){
+
+
 
                       let closeprofit = false;
                       let closeloss = false;
@@ -168,13 +171,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         direction: p.direction
                       }
 
-                      // var mailOptions = {
-                      //   from: 'contact@milesholt.co.uk',
-                      //   to: 'miles_holt@hotmail.com',
-                      //   subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
-                      //   text: JSON.stringify(monitorAnalysis)
-                      // };
-                      // mailer.actions.sendMail(mailOptions);
+                      var mailOptions = {
+                        from: 'contact@milesholt.co.uk',
+                        to: 'miles_holt@hotmail.com',
+                        subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
+                        text: JSON.stringify(monitorAnalysis)
+                      };
+                      mailer.actions.sendMail(mailOptions);
 
                       var counter = 0;
                       timer = setInterval(()=>{
@@ -338,7 +341,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         openLevel: x.level,
                                         data: d,
                                         dealId: x.dealId,
-                                        dealRef: x.dealRef,
                                         profit:null
                                       }
 
@@ -352,13 +354,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         //    console.log(util.inspect(positionData, false, null));
                                         //    closeAnalysis.profit = positionData.confirms.profit;
                                         // }).catch(e => console.log(e));
-
-                                        //check closed trade before logs
-                                        await check.actions.checkClosedTrade(closeAnalysis).then(r => {
-                                          console.log('Found matching position with different dealId, dealID has been updated.');
-                                        }).catch(e => {
-                                          console.log(e);
-                                        });
 
 
                                       }).catch(e => console.log(e));
@@ -425,8 +420,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         direction: x.direction,
                                         openLevel: x.level,
                                         data: d,
-                                        dealId: x.dealId,
-                                        dealRef: x.dealRef,
+                                        dealId: m.dealId,
                                         profit:null
                                       }
 
@@ -435,6 +429,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         console.log(util.inspect(r, false, null));
                                         closeAnalysis.profit = r.confirms.profit;
 
+
+
                                         //get confirmation of position with recorded profit price from server
                                         // await api.confirmPosition(dealRef).then(async positionData =>{
                                         //    //should be positionData.profit
@@ -442,17 +438,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         //    closeAnalysis.profit = positionData.confirms.profit;
                                         // }).catch(e => console.log(e));
 
-                                        //check closed trade before logs
-                                        await check.actions.checkClosedTrade(closeAnalysis).then(r => {
-                                          console.log('Found matching position with different dealId, dealID has been updated.');
-                                        }).catch(e => {
-                                          console.log(e);
-                                        });
-
 
                                       }).catch(e => console.log(e));
-
-
 
                                       var mailOptions = {
                                         from: 'contact@milesholt.co.uk',
@@ -580,8 +567,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                   //first, are we connected, as lightstreamer could still be connecting
 
-
-                                    if(stream.actions.connection == 'CONNECTED'){
                                       //TO DO: Move to error handling
                                       console.log('Connected, but error reading stream, likely JSON data incorrect');
                                       //console.log('streamLogDir: ' + monitorData.streamLogDir);
@@ -601,17 +586,28 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       }
 
 
-                                    } else if(stream.actions.connection == 'CONNECTING'){
-                                      console.log('Streamer is still connecting, waiting..');
 
-                                    } else {
-                                      console.log('No connection, waiting..');
-                                    }
 
 
                           }
                         });
                       },3000);
+
+                    }else{
+
+                      //Handle no stream connection
+
+                      if(!attempt){
+                        setTimeout(()=>{
+                          console.log('Trying stream again after 5 seconds');
+                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
+                        },5000);
+                      } else{
+                          console.log('Tried but still getting no stream connection. No monitor started. Giving up');
+                          return false;
+                      }
+
+                    }
                     }).catch(error => {
                       console.log('Thrown error, stopping monitor - ');
                       console.error(error);
@@ -629,21 +625,23 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
         console.log('position not found with dealId: ' + arr.dealId + ' but should be, going again in 1 minute...');
         if(typeof arr.dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
 
+        //check if dealID has changed or is mismatched
+        check.actions.checkIncorrectDeal(arr.dealId).then(r => {
+          console.log('Found matching position with different dealId, dealID has been updated.');
+        }).catch(e => {
 
-        if(!attempt){
-          setTimeout(()=>{
-            console.log('No matching positions found. Trying stream again after 5 seconds');
-            actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
-          },5000);
-        } else{
-            console.log('Tried stream already, no matching positions found, giving up.');
-            actions.stopMonitor(timer,monitorData.epic);
-            return false;
-        }
+          if(!attempt){
+            setTimeout(()=>{
+              console.log('No matching positions found. Trying stream again after 5 seconds');
+              actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
+            },5000);
+          } else{
+              console.log('Tried stream already, no matching positions found, giving up.');
+              actions.stopMonitor(timer,monitorData.epic);
+              return false;
+          }
 
-
-
-
+        });
       }
 
       // const position = positionsData.positions[0].position;
@@ -713,13 +711,13 @@ actions.stopMonitor = async function(timer,epic = false){
 
   }
 
-  // var mailOptions = {
-  //   from: 'contact@milesholt.co.uk',
-  //   to: 'miles_holt@hotmail.com',
-  //   subject: 'Monitor has stopped. Epic: ' + epic,
-  //   text: 'Monitoring has stopped.'
-  // };
-  // mailer.actions.sendMail(mailOptions);
+  var mailOptions = {
+    from: 'contact@milesholt.co.uk',
+    to: 'miles_holt@hotmail.com',
+    subject: 'Monitor has stopped. Epic: ' + epic,
+    text: 'Monitoring has stopped.'
+  };
+  mailer.actions.sendMail(mailOptions);
 
   return false;
 }
