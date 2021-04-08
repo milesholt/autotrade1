@@ -95,27 +95,13 @@ actions.checkMarketStatus = async function(epic){
 
 /*
 
-CHECK CLOSED TRADE
-
-This checks data is correct after position has been closed. Sometimes direction and dealID are incorrect.
-If this is the case, we need to amend trade and account information so data matches
-
-*/
-
-actions.checkClosedTrade = async function(dealId, dealRef){
-
-}
-
-
-/*
-
 FIX DEAL ID
 
 This methods checks for missing dealId and matches using openDateUtc and openLevel value, where dealId is not the same
 
 */
 
-actions.checkClosedTrade = async function(closeAnalysis){
+actions.checkIncorrectDeal = async function(dealId){
   return new Promise(async (resolve, reject) => {
 
     let from = undefined;
@@ -133,17 +119,16 @@ actions.checkClosedTrade = async function(closeAnalysis){
       console.log(util.inspect(r,false,null));
       if(r.activities.length){
         r.activities.forEach(activity => {
-          if(activity.details.dealReference == closeAnalysis.dealRef && activity.actions.actionType == 'POSITION_OPENED'){
+          if(activity.dealId == dealId){
             console.log(activity);
             openLevel = activity.details.level;
             openDate = activity.date;
             name = activity.instrumentName;
             positionFound = true;
-            closeAnalysis.direction = activity.direction; //make sure we're using the correct direction for when position opened
           }
         });
       } else {
-        reject('checkClosedTrade error: Could not find activity with dealId');
+        reject(dealUpdated);
       }
     }).catch(e => reject(e));
 
@@ -155,16 +140,15 @@ actions.checkClosedTrade = async function(closeAnalysis){
         transactions.forEach(transaction =>{
           if(transaction.dateUtc == openDate && transaction.openLevel == openLevel && transaction.instrumentName == name){
             console.log('matching position found with different ID, updating...');
-            closeAnalysis.transactionRef = transaction.reference;
-            closeAnalysis.profit = transaction.profitAndLoss.split('£')[1];
+            market.deal.dealId = transaction.reference;
             dealUpdated = true;
-            resolve(closeAnalysis);
+            resolve(dealUpdated);
           }
         });
       }).catch(e => reject(e));
 
     } else {
-      reject('checkClosedTrade error: no position found');
+      reject(dealUpdated);
     }
   });
 }
@@ -270,6 +254,23 @@ actions.checkDeal = async function(){
   }).catch(e => console.log(e));
 }
 
+/*
+
+CHECK CLOSED TRADE
+
+*/
+
+
+actions.checkCloseTrade = async function(){
+
+}
+
+/*
+
+CHECK OPEN TRADE
+
+*/
+
 actions.checkOpenTrade = async function(){
   console.log('-------------------------------------- BEGIN checking for open trades : ' + epic);
   //console.log(market.deal);
@@ -353,14 +354,14 @@ actions.checkOpenTrade = async function(){
 
           let transactionOpenDate = moment(transaction.openDateUtc).format('LLL');
           console.log('transaction open date: ' +  transactionOpenDate);
-          console.log('transaction epic: ' + transaction.instrumentName);
+          console.log('transaction name: ' + transaction.instrumentName);
 
 
           if( (transaction.reference == dealId) || (market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime) ){
 
             isTransactionFound =  true;
 
-            console.log('deal found and position has been closed on IG server. Cleaning up and closing position.');
+            console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
 
             let closeAnalysis = {
               timestamp: moment(transaction.dateUTC).valueOf(),
