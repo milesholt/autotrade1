@@ -15,6 +15,13 @@ exec();
 //Execute async script
 async function exec(){
 
+  date0 = moment().format('YYYY-MM-DDTHH:mm:ssZ');
+  date1 = moment().add(1, 'days').format('YYYY-MM-DDTHH:mm:ssZ');
+  date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DDTHH:mm:ssZ');
+
+
+  console.log(date0);
+
   console.log('--------BEGIN EXEC AUTO TRADE');
 
   //Logout --clears tokens
@@ -91,29 +98,29 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Get history
-  let from = undefined;
-  let to = undefined;
-  let detailed = true;
-  //let dealId = 'DIAAAAFFBKE4KAK';
-  //let dealId = 'DIAAAAFFKMKBEAM';
-  let dealRef = 'JGNNPWYAU8LTYNK';
-  let dealId = undefined;
-  let pageSize = 50;
-  await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
-    //console.log(util.inspect(r,false,null));
-    if(r.activities.length){
-      // r.activities.forEach(activity => {
-      //   if(activity.dealId == dealRef ){
-      //     console.log(activity);
-      //   }
-      // });
-      r.activities.forEach(activity => {
-        if(activity.details.dealReference == dealRef ){
-          console.log(activity.details);
-        }
-      });
-    }
-  }).catch(e => console.log(e));
+  // let from = undefined;
+  // let to = undefined;
+  // let detailed = true;
+  // //let dealId = 'DIAAAAFFBKE4KAK';
+  // //let dealId = 'DIAAAAFFKMKBEAM';
+  // let dealRef = 'JGNNPWYAU8LTYNK';
+  // let dealId = undefined;
+  // let pageSize = 50;
+  // await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
+  //   //console.log(util.inspect(r,false,null));
+  //   if(r.activities.length){
+  //     // r.activities.forEach(activity => {
+  //     //   if(activity.dealId == dealRef ){
+  //     //     console.log(activity);
+  //     //   }
+  //     // });
+  //     r.activities.forEach(activity => {
+  //       if(activity.details.dealReference == dealRef ){
+  //         console.log(activity.details);
+  //       }
+  //     });
+  //   }
+  // }).catch(e => console.log(e));
 
 
   // {

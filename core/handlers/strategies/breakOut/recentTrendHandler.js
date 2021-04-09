@@ -28,7 +28,8 @@ actions.determineRecentTrend = async function(){
   movementValueDiff = Math.abs(movementValue);
   //movementValueDiffPerc = Math.abs(movementValue / pricedata.support[pl-1].close * 100).toFixed(2);
   //UPDATE: Get percentage of recentMovementValue out of difference between the highest and lowest prices (priceDiff) rather than last price bar (as above)
-  movementValueDiffPerc = lib.toNumber(((movementValue / priceDiff) * 100), 'abs');
+  //movementValueDiffPerc = lib.toNumber(((movementValue / priceDiff) * 100), 'abs');
+  movementValueDiffPerc = lib.toNumber(((movementValue / priceDiff)), 'abs');
   for(let i = (pl - recentlimit), len = pl; i < len; i++){
     let movement = pricedata.support[i].open > pricedata.support[i].close ? 'down' : 'up';
     if(movement == 'down') { downs++ } else { ups++ };
