@@ -86,7 +86,8 @@ CHECK MARKET CLOSED
 
 actions.checkMarketStatus = async function(epic){
   return new Promise(async (resolve, reject) => {
-    await api.epicDetails(epic).then(r => {
+    let epics = [epic];
+    await api.epicDetails(epics).then(r => {
         resolve(r.marketDetails[0].snapshot.marketStatus);
       }).catch(e => console.log(e));
   });
