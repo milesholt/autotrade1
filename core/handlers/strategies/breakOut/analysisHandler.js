@@ -72,7 +72,7 @@ actions.finalAnalysis = async function(){
     'beforeRangeTrendDiff': beforeRangeTrendDiff,
     'beforeRangeTrendDiffPerc': beforeRangeTrendDiffPerc,
     'rangedata_indexes': rangeData.support.prices_idx,
-    'lastRangeData': pricedata3.support[rangeData.support.prices_idx[rangeData.support.prices_idx.length -1]],
+    'lastRangeData': pricedata2.support[rangeData.support.prices_idx[rangeData.support.prices_idx.length -1]],
     'recentrange': recentrange,
     'rangeConfirmations':rangeConfirmations,
     'recentTrendArr': recenttrendArr,
