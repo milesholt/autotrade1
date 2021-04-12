@@ -66,7 +66,7 @@ actions.finalAnalysis = async function(){
     'previousTrend' : previousTrend,
     'trend': currenttrend,
     'trendDiff': trendDiff,
-    'trendDiffPerc': trendDiffPerc + '%',
+    'trendDiffPerc': (trendDiffPerc*100) + '% ('+trendDiffPerc+')',
     'beforeRangeTrend': beforeRangeTrend,
     'beforeRangeFirstCloseData' : beforeRangeFirstCloseData,
     'beforeRangeTrendDiff': beforeRangeTrendDiff,
