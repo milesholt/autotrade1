@@ -495,7 +495,7 @@ actions.finalChecks = async function(){
   //range index start needs to be over 6, so there is evidence of some trend before
   //trendDiffPerc must also be on or over 1%
 
-  if(recenttrend !== 'ranging' && (movementValueDiffPerc >= momentLimitPerc) && trend == 'ranging' && rangeData.support.prices_idx[0] >= 6 && trendDiffPerc >= 1){
+  if(recenttrend !== 'ranging' && (movementValueDiffPerc >= momentLimitPerc) && trend == 'ranging' && rangeData.support.prices_idx[0] >= 6 && (trendDiffPerc >= 1 || beforeRangeTrendDiffPerc >= 1)){
     trend = recenttrend;
     isRecentTrendBreaking = true;
   }
