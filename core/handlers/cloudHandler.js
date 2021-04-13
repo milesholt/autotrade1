@@ -130,6 +130,9 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
       });
    });
 
+   console.log('Cloud updated file:');
+   console.log(tmp_cloud);
+
   return tmp_cloud;
 }
 
