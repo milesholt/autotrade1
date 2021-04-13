@@ -102,7 +102,8 @@ actions.sortPriceData = async function(){
     });
 
     //Clean data, remove any price data with 0
-    pricedata = pricedata.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
+    pricedata.support = pricedata.support.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
+    pricedata.resistance = pricedata.resistance.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
 
     //Second pricedata (24 hour range)
     let start = (pricedata.support.length - 25);
