@@ -99,6 +99,8 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
   let tmp_local = lib.deepCopy(localFile);
   let tmp_cloud = lib.deepCopy(cloudFile);
 
+  console.log(tmp_local);
+
    //get array with just epics
   let l = localFile.map(item => item[mapProperty]);
   let c = cloudFile.map(item => item[mapProperty]);
