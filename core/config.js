@@ -36,9 +36,9 @@ markets = [
   {'id':1, 'alias': 'MXNJPY', 'epic': 'CS.D.MXNJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': null, 'type': 'points', "offset": 4}, 'size': 1 , 'marketClosed': [6,0]  },
   //{"id":2, "alias": "Spot Platinum", "epic": "CS.D.PLAT.TODAY.IP", "data": {}, "deal": {}, "tradedbefore" : false, "stopDistancePerc" : "0.85", "minimumStop" : {"value": 10, "type": "points"}  }
   {"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedbefore" : false, "stopDistancePerc" : "0.85", "minimumStop" : {"value": null, "type": "points", "offset": 10}, 'size': 1, 'marketClosed': [6,0]   },
-  {'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': null, 'type': 'points', "offset" : 4}, 'size': 1 , 'marketClosed': [6,0]  },
+  {'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': null, 'type': 'points', "offset" : 4}, 'size': 1 , 'marketClosed': [6,0], 'test':0  },
 //  {'id':4, 'alias': 'INRJPY', 'epic': 'CS.D.INRJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 2, 'type': 'points'}  },
-  {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': null, 'type': 'points', "offset": 4}, 'size': 1, 'marketClosed': [6,0]   },
+  {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': null, 'type': 'points', "offset": 4}, 'size': 1, 'marketClosed': [6,0], 'test':0   },
 ];
 market = {};
 trades = [];
