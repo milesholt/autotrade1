@@ -125,7 +125,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     var timer;
 
                     //check if stream is already running first
-                    //if()
+                    let isStreamRunning = false;
+                    await log.actions.getMonitorLog(monitorData.epic).then(r =>{
+                    }).catch(e => {
+                      isStreamRunning = true;
+                    });
+
+                    if(!isStreamRunning){
 
                     //start stream
                     //use real-time streaming to get latest hour
@@ -616,6 +622,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       actions.stopMonitor(timer,ep);
                       return false;
                     });
+
+                  } else {
+                    console.log('stream is already running');
+                  }
 
           }
       });
