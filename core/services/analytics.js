@@ -63,8 +63,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   //skip first 12 hours
   //let priceData2 = priceData.slice(12, priceData.length);
-  //let priceData2 = priceData.slice(13, priceData.length);
-  let priceData2 = pricedata2;
+  let priceData2 = pricedata2.support;
   let midprices = priceData2.map(r => (parseFloat((r.open+r.close)/2).toFixed(2)));
 
   //customdata[customdata.length-1] = analysis;
@@ -77,7 +76,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   let lastRangeIndex = rangeData.support.prices_idx[rangeData.support.prices_idx.length-1];
   console.log(lastRangeIndex);
 
-  let lastData = pricedata2[lastRangeIndex];
+  //let lastData = pricedata2[lastRangeIndex];
 
   let lastTimeStart = moment(lastTime).subtract(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
   let lastTimeEnd = moment(lastTime).add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss');
