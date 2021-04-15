@@ -35,13 +35,13 @@ actions.notify = async function(notification, msg = ''){
       options.title = 'Trade made. ' + epic;
     break;
     case 'deal-rejected':
-      options.title = 'Deal rejected. Trade could not be made';
+      options.title = 'Deal rejected. ' + epic;
     break;
     case 'deal-ticket-error':
-      options.title = 'Deal ticket error. Trade could not be made';
+      options.title = 'Deal ticket error. ' + ecpic;
     break;
     case 'trade-being-made':
-      options.title = 'Trade being made. Epic: ' + epic;
+      options.title = 'Trade being made. ' + epic;
     break;
   }
 
