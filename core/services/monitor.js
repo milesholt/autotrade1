@@ -180,7 +180,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       var mailOptions = {
                         from: 'contact@milesholt.co.uk',
                         to: 'miles_holt@hotmail.com',
-                        subject: 'Started monitoring trade - ANALYSIS ' + moment().format('LLL'),
+                        subject: 'Started monitoring trade. ' + monitorData.epic,
                         text: JSON.stringify(monitorAnalysis)
                       };
                       mailer.actions.sendMail(mailOptions);
