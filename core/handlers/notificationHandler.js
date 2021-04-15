@@ -32,7 +32,7 @@ actions.notify = async function(notification, msg = ''){
 
   switch(notification){
     case 'deal-success':
-      options.title = 'Trade made. Time is - ' + fulldate + ' Trend -' + trend
+      options.title = 'Trade made. ' + epic;
     break;
     case 'deal-rejected':
       options.title = 'Deal rejected. Trade could not be made';
