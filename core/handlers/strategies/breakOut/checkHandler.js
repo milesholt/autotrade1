@@ -356,9 +356,12 @@ actions.checkOpenTrade = async function(){
           let transactionOpenDate = moment(transaction.openDateUtc).format('LLL');
           console.log('transaction open date: ' +  transactionOpenDate);
           console.log('transaction name: ' + transaction.instrumentName);
+          console.log('transactionOpenDate: ' + transactionOpenDate);
+          console.log('marketDealStartTime: ' + marketDealStartTime);
+          console.log('market alias: ' + market.alias);
 
 
-          if( (transaction.reference == dealId) || (market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime) ){
+          if( market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime ){
 
             isTransactionFound =  true;
 
