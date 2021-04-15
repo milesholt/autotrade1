@@ -367,7 +367,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       var mailOptions = {
                                         from: 'contact@milesholt.co.uk',
                                         to: 'miles_holt@hotmail.com',
-                                        subject: 'Closed position, new limit reached. PROFIT ' + moment().format('LLL'),
+                                        subject: 'Closed position. PROFIT. ' + m.epic,
                                         text: JSON.stringify(closeAnalysis)
                                       };
                                       mailer.actions.sendMail(mailOptions);
@@ -450,7 +450,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       var mailOptions = {
                                         from: 'contact@milesholt.co.uk',
                                         to: 'miles_holt@hotmail.com',
-                                        subject: 'Closed position, hit stop level. LOSS ' + moment().format('LLL'),
+                                        subject: 'Closed position. LOSS. ' + m.epic,
                                         text: JSON.stringify(closeAnalysis)
                                       };
                                       mailer.actions.sendMail(mailOptions);
