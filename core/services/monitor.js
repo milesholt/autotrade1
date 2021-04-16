@@ -125,11 +125,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     var timer;
 
                     //check if stream is already running first
-                    let isStreamRunning = false;
-                    await log.actions.getMonitorLog(monitorData.epic).then(r =>{
-                    }).catch(e => {
-                      isStreamRunning = true;
-                    });
+                    let isStreamRunning = true;
+                    // await log.actions.getMonitorLog(monitorData.epic).then(r =>{
+                    // }).catch(e => {
+                    //   isStreamRunning = true;
+                    // });
+                    //
+                    // await log.actions.getStreamLog(monitorData.epic).then(r => {
+                    //
+                    // }).catch(e => {
+                    //
+                    // });
+
+
 
                     if(!isStreamRunning){
 
