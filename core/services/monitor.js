@@ -138,19 +138,21 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     //   isStreamRunning = true;
                     // }
 
-                    stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                    await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                       if(subscribed){
                         console.log('First check stream is subscribed');
                         isStreamRunning = true;
                       } else {
                         console.log('Stream is not subscribed');
-                        // await log.actions.getMonitorLog(monitorData.epic).then(r =>{
-                        // }).catch(e => {
-                        //   console.log(e);
-                        // });
                       }
                     }).catch(e => {
                       console.log(e);
+                    });
+
+                    await log.actions.getMonitorLog(monitorData.epic).then(r =>{
+                      console.log('Monitor record found')
+                    }).catch(e => {
+                      console.log('Monitor record not found');
                     });
 
 
