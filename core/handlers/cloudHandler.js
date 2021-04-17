@@ -133,6 +133,13 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
    //console.log('Cloud updated file:');
   // console.log(tmp_cloud);
 
+  tmp_cloud = tmp_cloud.map((item, i) => Object.assign({}, item, tmp_local[i]));
+
+  tmp_cloud.forEach((tc,i)=>{
+    if(tc.deal) tc.deal = cloudFile[i].deal;
+    if(tc.data) tc.data = cloudFile[i].data;
+  })
+
   return tmp_cloud;
 }
 
