@@ -391,7 +391,7 @@ actions.checkOpenTrade = async function(){
 
         if(!isTransactionFound){
           console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
-          console.log('If no transaction is found, position must still be open. Somtime getPosition can return an error. Leaving for now.');
+          console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
           market.deal = {};
 
 
