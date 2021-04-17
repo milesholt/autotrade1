@@ -126,6 +126,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                     //check if stream is already running first
                     let isStreamRunning = false;
+
+                    //get modification time of file
+                    let stats = fs.statSync(monitorData.streamLogDir);
+                    let modtime = moment(stats.mtime).format('LT');
+                    let timestamp = Date.now();
+                    let timeonly = moment(timestamp).format('LT');
+                    let timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
+
+                    if(timediff <= 5){
+                      isStreamRunning = true;
+                    }
+
+
                     // await log.actions.getMonitorLog(monitorData.epic).then(r =>{
                     // }).catch(e => {
                     //   isStreamRunning = true;
@@ -478,14 +491,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                   }
 
-                                  //get modification time of file
-                                  const stats = fs.statSync(monitorData.streamLogDir);
-                                  const modtime = moment(stats.mtime).format('LT');
-                                  let timestamp = Date.now();
-                                  let timeonly = moment(timestamp).format('LT');
 
-                                  let timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
-
+                                  stats = fs.statSync(monitorData.streamLogDir);
+                                  modtime = moment(stats.mtime).format('LT');
+                                  timestamp = Date.now();
+                                  timeonly = moment(timestamp).format('LT');
+                                  timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
 
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
