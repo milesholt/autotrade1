@@ -134,15 +134,27 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     let timeonly = moment(timestamp).format('LT');
                     let timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
 
-                    if(timediff <= 5){
-                      isStreamRunning = true;
-                    }
-
-
-                    // await log.actions.getMonitorLog(monitorData.epic).then(r =>{
-                    // }).catch(e => {
+                    // if(timediff <= 5){
                     //   isStreamRunning = true;
-                    // });
+                    // }
+
+                    stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                      if(subscribed){
+                        console.log('First check stream is subscribed');
+                        isStreamRunning = true;
+                      } else {
+                        console.log('Stream is not subscribed');
+                        // await log.actions.getMonitorLog(monitorData.epic).then(r =>{
+                        // }).catch(e => {
+                        //   console.log(e);
+                        // });
+                      }
+                    }).catch(e => {
+                      console.log(e);
+                    });
+
+
+
                     //
                     // await log.actions.getStreamLog(monitorData.epic).then(r => {
                     //
