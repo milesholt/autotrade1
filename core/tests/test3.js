@@ -78,10 +78,10 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Get current open position
-  // let dealId = 'DIAAAAFCLL2TPAQ';
-  // api.getPosition(String(dealId)).then(r => {
-  //   console.log(r);
-  // }).catch(e => console.log(e));
+  let dealId = 'DIAAAAFHBECTTBB';
+  await api.getPosition(String(dealId)).then(async r => {
+    console.log(r);
+  }).catch(e => console.log(e));
 
   //Show open positions
   // await api.showOpenPositions().then(r => {
@@ -103,9 +103,9 @@ async function exec(){
   // let detailed = true;
   // //let dealId = 'DIAAAAFFBKE4KAK';
   // //let dealId = 'DIAAAAFFKMKBEAM';
-  // let dealRef = 'JGNNPWYAU8LTYNK';
-  // let dealId = undefined;
-  // let pageSize = 50;
+  //  let dealRef = 'NWUUU293C38TYN7';
+  //  let dealId = undefined;
+  //  let pageSize = 50;
   // await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
   //   //console.log(util.inspect(r,false,null));
   //   if(r.activities.length){
@@ -117,6 +117,7 @@ async function exec(){
   //     r.activities.forEach(activity => {
   //       if(activity.details.dealReference == dealRef ){
   //         console.log(activity.details);
+  //         console.log(activity.details.actions[0].actionType);
   //       }
   //     });
   //   }
@@ -143,11 +144,11 @@ async function exec(){
 
 
   // let dealId = 'DIAAAAFFBKE4KAK';
-  // let pageSize = 50;
+  // let pageSize = 20;
   // let type = 'ALL_DEAL';
   // let from = undefined;
   // let to = undefined;
-  //
+  // //
   // await api.acctTransaction(type,from, to, pageSize,1).then(r => {
   //   console.log(util.inspect(r,false,null));
   //   // let transactions = r.transactions;

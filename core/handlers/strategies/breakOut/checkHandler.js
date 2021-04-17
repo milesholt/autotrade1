@@ -338,7 +338,7 @@ actions.checkOpenTrade = async function(){
       console.log(e);
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
 
-      await api.acctTransaction('ALL_DEAL',undefined, undefined, 50,1).then(async r => {
+      await api.acctTransaction('ALL_DEAL',undefined, undefined, 20,1).then(async r => {
         //console.log(util.inspect(r,false,null));
         let transactions = r.transactions;
         console.log('Looping through transactions..');
@@ -347,13 +347,13 @@ actions.checkOpenTrade = async function(){
         let isTransactionFound =  false;
 
 
-        let marketDealStartTime = moment(market.deal.start_timestamp).format('LLL');
+        let marketDealStartTime = moment(market.deal.start_timestamp).format('YYYYMDDh');
         console.log('market deal start: ' + marketDealStartTime);
         console.log('epic: ' + epic);
 
         transactions.forEach(transaction =>{
 
-          let transactionOpenDate = moment(transaction.openDateUtc).format('LLL');
+          let transactionOpenDate = moment(transaction.openDateUtc).format('YYYYMDDh');
           console.log('transaction open date: ' +  transactionOpenDate);
           console.log('transaction name: ' + transaction.instrumentName);
           console.log('transactionOpenDate: ' + transactionOpenDate);
@@ -391,11 +391,13 @@ actions.checkOpenTrade = async function(){
 
         if(!isTransactionFound){
           console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
-          console.log('Need to look into why this is. Resetting deal on market data for now...');
+          console.log('If no transaction is found, position must still be open. Somtime getPosition can return an error. Leaving for now.');
           market.deal = {};
+
+
           //Clear any monitoring if any
-          log.closeMonitorLog(market.epic);
-          await cloud.updateFile(markets,marketDataDir);
+          //log.closeMonitorLog(market.epic);
+          //await cloud.updateFile(markets,marketDataDir);
 
           // await actions.checkDealId(dealRef).then(id => {
           //   dealId = id;
