@@ -180,19 +180,16 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     //start stream
                     //use real-time streaming to get latest hour
 
-                    console.log('starting stream, epic: ' + monitorData.epic + ', streamLogDir: ' + monitorData.streamLogDir);
-                    await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
-
-
-                    if(stream.actions.connection == 'CONNECTED'){
-
+                      console.log('starting stream, epic: ' + monitorData.epic + ', streamLogDir: ' + monitorData.streamLogDir);
+                      await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
+                
 
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(monitorData.streamLogDir,false).then(async r => {
 
                       console.log(stream.actions.connection);
 
-
+                    if(stream.actions.connection == 'CONNECTED'){
 
 
 
@@ -664,7 +661,21 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         });
                       },3000);
 
+                    }else{
 
+                      //Handle no stream connection
+
+                      if(!attempt){
+                        setTimeout(()=>{
+                          console.log('Trying stream again after 5 seconds');
+                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
+                        },5000);
+                      } else{
+                          console.log('Tried but still getting no stream connection. No monitor started. Giving up');
+                          return false;
+                      }
+
+                    }
                     }).catch(error => {
                       console.log('Thrown error, stopping monitor - ');
                       console.error(error);
@@ -673,23 +684,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       actions.stopMonitor(timer,ep);
                       return false;
                     });
-
-                    }else{
-
-                      //Handle no stream connection
-
-                      if(!attempt){
-                        setTimeout(()=>{
-                          console.log('No connection yet. Trying stream again after 10 seconds');
-                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
-                        },10000);
-                      } else{
-                          console.log('Tried but still getting no stream connection. No monitor started. Giving up');
-                          return false;
-                      }
-
-                    }
-
 
                   } else {
                     console.log('stream is already running');
