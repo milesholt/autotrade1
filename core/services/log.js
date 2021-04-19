@@ -216,7 +216,7 @@ actions.getMonitorLog = async function(epic){
       });
       if(!!r){
         console.log('found monitor record');
-        console.log(monitor);
+        console.log(r);
         resolve(r);
       } else{
         reject('Could not find monitor');
