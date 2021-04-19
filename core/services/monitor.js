@@ -646,13 +646,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       //     return false;
                                       // }
                                     } else {
-                                      console.log('Connected but stream is not yet subscribed. Could still be subscribing...');
+                                      //console.log('Connected but stream is not yet subscribed. Could still be subscribing...');
                                       //TO DO: Handle if stream error
-                                      // if(api.lsIsError == true){
-                                      //   console.log('Stream error. Stopping.');
-                                      //   actions.stopMonitor(timer,monitorData.epic);
-                                      //   return false;
-                                      // }
+                                      if(api.lsIsError == true){
+                                        console.log('Stream error. Stopping.');
+                                        actions.stopMonitor(timer,monitorData.epic);
+                                        return false;
+                                      }
                                     }
                                   }).catch(e => {
                                     console.log(e);
