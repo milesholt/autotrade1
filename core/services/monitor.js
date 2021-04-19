@@ -620,15 +620,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                   await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                                     if(subscribed){
-                                      console.log('Stream is connected, and there is subscription');
-                                      //TO DO: Move to error handling
-                                      console.log('Subsciption and connection are fine, but no data being received, ignoring.');
-                                      //console.log('streamLogDir: ' + monitorData.streamLogDir);
-                                      //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
-                                      //let ep = monitorData.epic;
-                                      console.log(monitorData.epic);
-                                      console.log(data);
-                                      //reset data
+                                      //Connection and subscription, but no data being receieved could be a drop or lost update
+                                      //Should check status of subscription or use event listener
                                       data = {};
 
                                       //Ignore if no data is being received, this coud be temporary
