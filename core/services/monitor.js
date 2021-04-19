@@ -622,22 +622,29 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                     if(subscribed){
                                       console.log('Stream is connected, and there is subscription');
                                       //TO DO: Move to error handling
-                                      console.log('Subsciption and connection are fine, but error reading stream, likely JSON data incorrect');
+                                      console.log('Subsciption and connection are fine, but no data being received, ignoring.');
                                       //console.log('streamLogDir: ' + monitorData.streamLogDir);
                                       //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
                                       //let ep = monitorData.epic;
                                       console.log(monitorData.epic);
                                       console.log(data);
-                                      if(!attempt){
-                                        setTimeout(()=>{
-                                          console.log('Trying stream again after 5 seconds');
-                                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
-                                        },5000);
-                                      } else{
-                                          console.log('Tried already, still getting error. Stopping stream');
-                                          actions.stopMonitor(timer,monitorData.epic);
-                                          return false;
-                                      }
+                                      //reset data
+                                      data = {};
+
+                                      //Ignore if no data is being received, this coud be temporary
+                                      //Or check status of subscription
+
+
+                                      // if(!attempt){
+                                      //   setTimeout(()=>{
+                                      //     console.log('Trying stream again after 5 seconds');
+                                      //     actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
+                                      //   },5000);
+                                      // } else{
+                                      //     console.log('Tried already, still getting error. Stopping stream');
+                                      //     actions.stopMonitor(timer,monitorData.epic);
+                                      //     return false;
+                                      // }
                                     } else {
                                       console.log('Connected but stream is not yet subscribed. Could still be subscribing...');
                                       //TO DO: Handle if stream error
