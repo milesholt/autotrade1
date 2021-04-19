@@ -138,16 +138,24 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     //   isStreamRunning = true;
                     // }
 
-                    await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
-                      if(subscribed){
-                        console.log('First check stream is subscribed');
-                        isStreamRunning = true;
-                      } else {
-                        console.log('Stream is not subscribed');
-                      }
-                    }).catch(e => {
-                      console.log(e);
-                    });
+                    if(stream.actions.connection == 'CONNECTED'){
+
+                        await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                          if(subscribed){
+                            console.log('First check stream is subscribed');
+                            isStreamRunning = true;
+                          } else {
+                            console.log('Stream is not subscribed');
+                          }
+                        }).catch(e => {
+                          console.log(e);
+                        });
+
+                    }
+
+                    if(stream.actions.connection == 'CONNECTING'){
+                      isStreamRunning = true;
+                    }
 
                     await log.actions.getMonitorLog(monitorData.epic).then(r =>{
                       console.log('Monitor record found')
@@ -628,6 +636,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       }
                                     } else {
                                       console.log('Connected but stream is not yet subscribed. Could still be subscribing...');
+                                      //TO DO: Handle if stream error
+                                      // if(api.lsIsError == true){
+                                      //   console.log('Stream error. Stopping.');
+                                      //   actions.stopMonitor(timer,monitorData.epic);
+                                      //   return false;
+                                      // }
                                     }
                                   }).catch(e => {
                                     console.log(e);
