@@ -604,10 +604,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                   //the json is not ok, reset
                                   //data = {};
 
-                                  //first, are we connected, as lightstreamer could still be connecting
+                                  //Stream is connected, but is there a subscription? This would explain why there is no data
 
+                                  await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                                    if(subscribed){
+                                      console.log('Stream is connected, and there is subscription');
                                       //TO DO: Move to error handling
-                                      console.log('Connected, but error reading stream, likely JSON data incorrect');
+                                      console.log('Subsciption and connection are fine, but error reading stream, likely JSON data incorrect');
                                       //console.log('streamLogDir: ' + monitorData.streamLogDir);
                                       //we dont have data to catch epic, but we can catch it through passed streamLogDir parameter
                                       //let ep = monitorData.epic;
@@ -623,6 +626,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           actions.stopMonitor(timer,monitorData.epic);
                                           return false;
                                       }
+                                    } else {
+                                      console.log('Connected but stream is not yet subscribed. Could still be subscribing...');
+                                    }
+                                  }).catch(e => {
+                                    console.log(e);
+                                  });
+
+
 
 
 
