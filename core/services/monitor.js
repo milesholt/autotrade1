@@ -58,6 +58,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   console.log('dealRef: ' + dealRef);
   console.log('dealId: ' + dealId);
   console.log('epic: ' + epic);
+
   //create global object otherwise variables arent picked up in foreach loops
   var arr = {};
   arr.epic = epic;
@@ -178,10 +179,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                     //start stream
                     //use real-time streaming to get latest hour
-                    if(stream.actions.connection == 'NONE'){
+
                       console.log('starting stream, epic: ' + monitorData.epic + ', streamLogDir: ' + monitorData.streamLogDir);
                       await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
-                    }
+                
 
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(monitorData.streamLogDir,false).then(async r => {
