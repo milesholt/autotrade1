@@ -680,9 +680,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                       if(!attempt){
                         setTimeout(()=>{
-                          console.log('Trying stream again after 5 seconds');
+                          console.log('No connection yet. Trying stream again after 10 seconds');
                           actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
-                        },5000);
+                        },10000);
                       } else{
                           console.log('Tried but still getting no stream connection. No monitor started. Giving up');
                           return false;
