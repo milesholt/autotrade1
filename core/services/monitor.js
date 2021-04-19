@@ -180,16 +180,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     //start stream
                     //use real-time streaming to get latest hour
 
-                      console.log('starting stream, epic: ' + monitorData.epic + ', streamLogDir: ' + monitorData.streamLogDir);
-                      await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
-                
+                    console.log('starting stream, epic: ' + monitorData.epic + ', streamLogDir: ' + monitorData.streamLogDir);
+                    await stream.actions.startStream(monitorData.epic,monitorData.streamLogDir);
+
+
+                    if(stream.actions.connection == 'CONNECTED'){
+
 
                     console.log('streamLogDir: ' + streamLogDir);
                     await stream.actions.readStream(monitorData.streamLogDir,false).then(async r => {
 
                       console.log(stream.actions.connection);
 
-                    if(stream.actions.connection == 'CONNECTED'){
+
 
 
 
@@ -661,6 +664,16 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         });
                       },3000);
 
+
+                    }).catch(error => {
+                      console.log('Thrown error, stopping monitor - ');
+                      console.error(error);
+                      let ep = monitorData.streamLogDir.split('/')[2];
+                      console.log('epic before stopMonitor(): ' + ep);
+                      actions.stopMonitor(timer,ep);
+                      return false;
+                    });
+
                     }else{
 
                       //Handle no stream connection
@@ -676,14 +689,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       }
 
                     }
-                    }).catch(error => {
-                      console.log('Thrown error, stopping monitor - ');
-                      console.error(error);
-                      let ep = monitorData.streamLogDir.split('/')[2];
-                      console.log('epic before stopMonitor(): ' + ep);
-                      actions.stopMonitor(timer,ep);
-                      return false;
-                    });
+
 
                   } else {
                     console.log('stream is already running');
