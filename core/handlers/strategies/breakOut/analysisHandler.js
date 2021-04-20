@@ -97,8 +97,8 @@ let limitDistanceOffset = lib.toNumber(priceDiff * limitDistancePerc);
 
 limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceOffset)),'abs');
 
-if(trend == 'bullish') limitDistanceLevel = lib.toNumber(( lineData.support - stopDistanceOffset), 'abs');
-if(trend == 'bearish') limitDistanceLevel = lib.toNumber(( lineData.resistance + stopDistanceOffset), 'abs');
+if(trend == 'bullish') limitDistanceLevel = lib.toNumber(( lineData.resistance + limitDistanceOffset), 'abs');
+if(trend == 'bearish') limitDistanceLevel = lib.toNumber(( lineData.support - limitDistanceOffset), 'abs');
 
 
 }
