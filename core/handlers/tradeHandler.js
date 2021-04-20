@@ -159,7 +159,7 @@ actions.determineTrade = async function(){
 
         //new Method for stopDistance
         //get stopDistance % of priceDiff
-        //expand this from minimum Stop Distance points
+        //expand this from minimum Stop Distance points / percentage
 
         let points = 0;
 
