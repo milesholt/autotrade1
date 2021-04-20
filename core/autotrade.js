@@ -158,6 +158,10 @@ actions.setDefaults = async function(){
   bumpgroupcount = 0;
   lineDistance = 0;
   rangeConfirmations = 0;
+  stopDistance = 0;
+  stopDistanceLevel = 0;
+  limitDistance = 0;
+  limitDistanceLevel = 0;
 
   //Analysis data
   closes = [];
@@ -291,6 +295,10 @@ actions.exec = async function(){
 
     //Final checks
     await checkHandler.actions.finalChecks();
+
+    //Determine stop and limit distances
+    await analysisHandler.actions.determineStopDistance();
+    await analysisHandler.actions.determineLimitDistance();
 
     //Final analysis
     await analysisHandler.actions.finalAnalysis();

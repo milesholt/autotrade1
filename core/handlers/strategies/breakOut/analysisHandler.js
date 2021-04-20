@@ -43,6 +43,66 @@ actions.analysePriceData = async function(){
   rangelimit = (priceDiff * rangeLimitPerc);
 }
 
+
+/*
+
+DETERMINE STOP DISTANCE
+
+*/
+
+actions.determineStopDistance = async function(){
+
+  //Stop distance to be % of price diff, expanded from support/resistance line
+
+let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
+
+let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
+
+if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( lineData.support - stopDistanceOffset), 'abs');
+if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( lineData.resistance + stopDistanceOffset), 'abs');
+
+stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
+
+}
+
+
+/*
+
+DETERMINE LIMIT DISTANCE
+
+*/
+
+//NEW LOGIC
+/*
+
+The logic is as follows:
+When BUYING the openprice is the askprice, but it closes on bidprice, and vice versa for SELL
+With this in mind, we need to account for the difference between these two prices and adjust it with the distance
+
+The following calculations do the following:
+
+get a percentage of ask/bid price depending on direction
+we then get difference between ask and bid prices
+for limit - we subtract the difference
+for stop - we add the difference
+
+*/
+
+actions.determineLimitDistance = async function(){
+
+let limitDistanceOffset = lib.toNumber(priceDiff * limitDistancePerc);
+
+//This calculation arrives to the same values as the logic above
+//It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
+
+limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceOffset)),'abs');
+
+if(trend == 'bullish') limitDistanceLevel = lib.toNumber(( lineData.support - stopDistanceOffset), 'abs');
+if(trend == 'bearish') limitDistanceLevel = lib.toNumber(( lineData.resistance + stopDistanceOffset), 'abs');
+
+
+}
+
 /*
 
 FINAL ANALYSIS
@@ -114,6 +174,8 @@ actions.finalAnalysis = async function(){
     'tradeLimit': tradelimit,
     'lineDistanceLimit': linedistancelimit,
     'priceDiff': priceDiff,
+    'stopDistance': stopDistance,
+    'limitDistance': limitDistance,
     'ticket': {}
   };
 

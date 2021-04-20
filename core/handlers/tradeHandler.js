@@ -27,6 +27,7 @@ actions.require = async function(){
   util =  core.util;
 }
 
+
 /*
 
 DETERMINE TRADE
@@ -118,15 +119,16 @@ actions.determineTrade = async function(){
         */
 
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
-        let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
+        //let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
 
         //UPDATE we get a percentage area of priceDiff for limit and stop rather than using lastClose values
 
 
-        let limitDistanceArea = parseFloat((priceDiff * limitDistancePerc).toFixed(2));
+        //let limitDistanceArea = parseFloat((priceDiff * limitDistancePerc).toFixed(2));
+        //limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceArea)),'abs');
 
-        let stopDistanceFluctuation = parseFloat((priceDiff * stopDistanceFluctuationPerc).toFixed(2));
-        let stopDistanceArea = parseFloat(((priceDiff * market.stopDistancePerc) + stopDistanceFluctuation).toFixed(2));
+        //let stopDistanceFluctuation = parseFloat((priceDiff * stopDistanceFluctuationPerc).toFixed(2));
+        //let stopDistanceArea = parseFloat(((priceDiff * market.stopDistancePerc) + stopDistanceFluctuation).toFixed(2));
 
         //These calculations arrive to the same values as the logic above
         //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
@@ -134,34 +136,34 @@ actions.determineTrade = async function(){
         //let nl = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid + limitDistance)).toFixed(2));
         //let ns = parseFloat(Math.abs(lastCloseAsk - (lastCloseBid - stopDistance)).toFixed(2));
 
-        let limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceArea)),'abs');
-        let stopDistance = lib.toNumber((lastCloseAsk - (lastCloseBid - stopDistanceArea)),'abs');
+
+        //stopDistance = lib.toNumber((lastCloseAsk - (lastCloseBid - stopDistanceArea)),'abs');
 
         //Handle if minimum stop is in points and check stopDistance isnt less than this
-        let minStop = market.minimumStop;
-        console.log(minStop);
-        if(minStop.type == 'points' && stopDistance <= minStop.value){
-          console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
-          console.log('stopDistance was: ' +  stopDistance);
-          stopDistance = stopDistance + lib.toNumber((minStop.value - stopDistance + 2), 'abs');
-          console.log('stopDistance now: ' + stopDistance);
-        }
-
-        //Handle for percentage
-        const minStopVal = lib.toNumber((trend == 'bullish' ? lastCloseAsk : lastCloseBid) * minStop.value);
-        if(minStop.type == 'percentage' && stopDistance <= minStopVal ){
-          console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
-          console.log('Converted minimumStopVal form percentage: ' + minStopVal);
-          console.log('stopDistance was: ' +  stopDistance);
-          stopDistance = stopDistance + lib.toNumber((minStopVal - stopDistance + 2), 'abs');
-          console.log('stopDistance now: ' + stopDistance);
-        }
+        // let minStop = market.minimumStop;
+        // console.log(minStop);
+        // if(minStop.type == 'points' && stopDistance <= minStop.value){
+        //   console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
+        //   console.log('stopDistance was: ' +  stopDistance);
+        //   stopDistance = stopDistance + lib.toNumber((minStop.value - stopDistance + 2), 'abs');
+        //   console.log('stopDistance now: ' + stopDistance);
+        // }
+        //
+        // //Handle for percentage
+        // const minStopVal = lib.toNumber((trend == 'bullish' ? lastCloseAsk : lastCloseBid) * minStop.value);
+        // if(minStop.type == 'percentage' && stopDistance <= minStopVal ){
+        //   console.log('stopDistance is less than minimum requirement, should be at least: ' + minStop.value + ' ' + minStop.type);
+        //   console.log('Converted minimumStopVal form percentage: ' + minStopVal);
+        //   console.log('stopDistance was: ' +  stopDistance);
+        //   stopDistance = stopDistance + lib.toNumber((minStopVal - stopDistance + 2), 'abs');
+        //   console.log('stopDistance now: ' + stopDistance);
+        // }
 
         //new Method for stopDistance
         //get stopDistance % of priceDiff
         //expand this from minimum Stop Distance points / percentage
 
-        let points = 0;
+        //let points = 0;
 
 
         //UPDATE: set offset to percentage of price diff, not fixed (5% of price diff as default)
@@ -191,13 +193,13 @@ actions.determineTrade = async function(){
         //UPDATE2
         //Stop distance to be % of price diff, expanded from support/resistance line
 
-        let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
-
-        if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( lineData.support - stopDistanceOffset), 'abs');
-        if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( lineData.resistance + stopDistanceOffset), 'abs');
-
-        points = lib.toNumber((cp - stopDistanceLevel), 'abs');
-        stopDistance = points;
+        // let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
+        //
+        // if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( lineData.support - stopDistanceOffset), 'abs');
+        // if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( lineData.resistance + stopDistanceOffset), 'abs');
+        //
+        // points = lib.toNumber((cp - stopDistanceLevel), 'abs');
+        // stopDistance = points;
 
 
         let ticketError = false;

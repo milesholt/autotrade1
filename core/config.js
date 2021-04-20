@@ -26,6 +26,10 @@ confirmationlimit = 3;
 missingHoursLimit = 3;
 bumpgrouplimit = 5;
 size = 1;
+stopDistance = 0;
+stopDistanceLevel = 0;
+limitDistance = 0;
+limitDistanceLevel = 0;
 
 //Main parameters
 markets = [

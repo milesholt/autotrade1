@@ -341,6 +341,43 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
 
 
+  var stopDistanceLine = {
+        type: 'line',
+        y0: stopDistanceLevel,
+        y1:  stopDistanceLevel,
+        x0: starttime2,
+        x1: endtime,
+        line: {
+          color: '#333',
+          width: 4,
+          dash: 'solid'
+        },
+        xref: 'x',
+        yref: 'y',
+        opacity: 0.17,
+        layer: 'above'
+  }
+
+
+  var limitDistanceLine = {
+        type: 'line',
+        y0: limitDistanceLevel,
+        y1: limitDistanceLevel,
+        x0: starttime2,
+        x1: endtime,
+        line: {
+          color: '#333',
+          width: 4,
+          dash: 'solid'
+        },
+        xref: 'x',
+        yref: 'y',
+        opacity: 0.17,
+        layer: 'above'
+  }
+
+
+
   var minimumarea = {
         type: 'rect',
         y0: lineDistanceLimitArea0,
@@ -385,6 +422,8 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
   if(isRange == true) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
+  if(limitDistanceLevel > 0 && stopDistanceLevel > 0) shapes.push(stopDistanceLine, limitDistanceLine);
+
 
   var layout = {
     dragmode: 'zoom',
