@@ -165,28 +165,39 @@ actions.determineTrade = async function(){
 
 
         //UPDATE: set offset to percentage of price diff, not fixed (5% of price diff as default)
+        // let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
+        // console.log(market.stopDistancePerc+'% of priceDiff is: ' + stopDistanceOffset + 'points' );
+        //
+        //
+        // if(minStop.type == 'percentage') {
+        //   //do for percentage
+        //   let p= (market.stopDistancePerc + (minStop.value/100));
+        //   stopDistanceOffset = lib.toNumber(priceDiff * p);
+        // } else{
+        //   //do for points
+        //   points = (minStop.value + stopDistanceOffset);
+        // }
+        //
+        // let stopDistanceLevel = 0
+        // if(trend == 'bullish') stopDistanceLevel = lib.toNumber((cp - points), 'abs');
+        // if(trend == 'bearish') stopDistanceLevel = lib.toNumber((cp + points), 'abs');
+        //
+        // stopDistance = points;
+        //
+        // console.log('test stop distance: ' + stopDistance);
+        // console.log('test new stopDistance level: ' + stopDistanceLevel);
+
+
+        //UPDATE2
+        //Stop distance to be % of price diff, expanded from support/resistance line
+
         let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
-        console.log(market.stopDistancePerc+'% of priceDiff is: ' + stopDistanceOffset + 'points' );
 
+        if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( lineData.support - stopDistanceOffset), 'abs');
+        if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( lineData.resistance + stopDistanceOffset), 'abs');
 
-        if(minStop.type == 'percentage') {
-          //do for percentage
-          let p= (market.stopDistancePerc + (minStop.value/100));
-          stopDistanceOffset = lib.toNumber(priceDiff * p);
-        } else{
-          //do for points
-          points = (minStop.value + stopDistanceOffset);
-        }
-
-        let stopDistanceLevel = 0
-        if(trend == 'bullish') stopDistanceLevel = lib.toNumber((cp - points), 'abs');
-        if(trend == 'bearish') stopDistanceLevel = lib.toNumber((cp + points), 'abs');
-
+        points = lib.toNumber((cp - stopDistanceLevel), 'abs');
         stopDistance = points;
-
-        console.log('test stop distance: ' + stopDistance);
-        console.log('test new stopDistance level: ' + stopDistanceLevel);
-
 
 
         let ticketError = false;
