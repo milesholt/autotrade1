@@ -82,8 +82,8 @@ actions.determineBeforeRangeTrend = async function(){
   //loop through first 11 hours before range data and determine if below or above support/resistance lines
   //this ensures that all price bars are either above/below lines depending on trend to emphasise pattern structure
   for(let i =0; i<=11; i++){
-    if(trend == 'bullish' && pricedata3.support[i].close >= lineData.support) isBeforeRangeTrendBroken = true;
-    if(trend == 'bearish' && pricedata3.support[i].close <= lineData.resistance) isBeforeRangeTrendBroken = true;
+    if(trend == 'bullish' && (lib.toNumber(pricedata3.support[i].close) >= lib.toNumber(lineData.support)) ) isBeforeRangeTrendBroken = true;
+    if(trend == 'bearish' && (lib.toNumber(pricedata3.support[i].close) <= lib.toNumber(lineData.resistance)) ) isBeforeRangeTrendBroken = true;
   }
 
 }
