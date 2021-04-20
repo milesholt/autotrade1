@@ -91,6 +91,7 @@ actions.finalAnalysis = async function(){
     'islastCloseAboveBelowLines': check5,
     'isRecentTrendSameAsTrend': check6,
     'isBeforeRangeSameAsTrend': check7,
+    'isBeforeRangeTrendBroken' : check13,
     'isRecentTrendBreaking' : isRecentTrendBreaking,
     'isBreakingThroughRange': check8,
     'isWithinTradeThreshold': check9,

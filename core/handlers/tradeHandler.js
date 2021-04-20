@@ -37,7 +37,7 @@ actions.determineTrade = async function(){
 
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
-  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12];
+  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12,check13];
   //const checks = [true];
   if(checks.indexOf(false) == -1){
 

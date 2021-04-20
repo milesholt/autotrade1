@@ -568,6 +568,8 @@ actions.finalChecks = async function(){
   }
   if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
   if(market.tradedbefore == true) check12 = false;
+
+  check13 = isBeforeRangeTrendBroken;
 }
 
 module.exports = {

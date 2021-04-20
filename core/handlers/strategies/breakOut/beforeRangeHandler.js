@@ -61,6 +61,33 @@ actions.determineBeforeRangeData = function(){
   }
 }
 
+
+/*
+
+NOT IN USE CURRENTLY
+
+DETERMINE BEFORE RANGE TREND STRENTGH
+
+This determines how many price bars define the trend pattern before range area begins
+If there is enough data here to emphasise a strong trend before range, then this should be a good data to go by and open a trade
+
+*/
+
+actions.determineBeforeRangeTrend = async function(){
+
+  // var rD = rangeData.support.prices_idx;
+  // const firstRangeIdx = rD[0];
+  // var pD =  pricedata.support[firstRangeIdx];
+
+  //loop through first 11 hours before range data and determine if below or above support/resistance lines
+  //this ensures that all price bars are either above/below lines depending on trend to emphasise pattern structure
+  for(let i =0; i<=11; i++){
+    if(trend == 'bullish' && pricedata3.support[i] >= lineData.support) isBeforeRangeTrendBroken = true;
+    if(trend == 'bearish' && pricedata3.support[i] <= lineData.resistance) isBeforeRangeTrendBroken = true;
+  }
+
+}
+
 module.exports = {
   actions: actions
 }
