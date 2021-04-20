@@ -175,7 +175,9 @@ actions.finalAnalysis = async function(){
     'lineDistanceLimit': linedistancelimit,
     'priceDiff': priceDiff,
     'stopDistance': stopDistance,
+    'stopDistanceLevel': stopDistanceLevel,
     'limitDistance': limitDistance,
+    'limitDistanceLevel': limitDistanceLevel,
     'ticket': {}
   };
 
