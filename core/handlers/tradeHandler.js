@@ -171,7 +171,8 @@ actions.determineTrade = async function(){
 
         if(minStop.type == 'percentage') {
           //do for percentage
-          points = cp * (minStop.value + stopDistanceOffset);
+          let p= (market.stopDistancePerc + (minStop.value/100));
+          stopDistanceOffset = lib.toNumber(priceDiff * p);
         } else{
           //do for points
           points = (minStop.value + stopDistanceOffset);

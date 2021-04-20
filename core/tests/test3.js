@@ -78,10 +78,10 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Get current open position
-  let dealId = 'DIAAAAFHBECTTBB';
-  await api.getPosition(String(dealId)).then(async r => {
-    console.log(r);
-  }).catch(e => console.log(e));
+  // let dealId = 'DIAAAAFHBECTTBB';
+  // await api.getPosition(String(dealId)).then(async r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
 
   //Show open positions
   // await api.showOpenPositions().then(r => {
@@ -89,13 +89,13 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Get markets
-  // let epics = ['CC.D.VIX.USS.IP'];
-  // await api.epicDetails(epics).then(r => {
-  //   //console.log(util.inspect(r,false,null));
-  //   //console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
-  //   console.log(r.marketDetails[0].snapshot.marketStatus);
-  //   //
-  // }).catch(e => console.log(e));
+  let epics = ['CS.D.BITCOIN.TODAY.IP'];
+  await api.epicDetails(epics).then(r => {
+    console.log(util.inspect(r,false,null));
+    //console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
+    //console.log(r.marketDetails[0].snapshot.marketStatus);
+    //
+  }).catch(e => console.log(e));
 
   //Get history
   // let from = undefined;
