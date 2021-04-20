@@ -118,7 +118,7 @@ actions.determineTrade = async function(){
         */
 
         //When setting distances, if we are buying, we need to use the bid close price, and selling, use the ask close price
-        //let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
+        let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
 
         //UPDATE we get a percentage area of priceDiff for limit and stop rather than using lastClose values
 
@@ -158,9 +158,10 @@ actions.determineTrade = async function(){
         }
 
         //new Method for stopDistance
-        //start from minimum and expand by 5%
+        //get stopDistance % of priceDiff
+        //expand this from minimum Stop Distance points
+
         let points = 0;
-        //let stopDistanceOffset = minStop.offset;
 
 
         //UPDATE: set offset to percentage of price diff, not fixed (5% of price diff as default)
@@ -170,15 +171,15 @@ actions.determineTrade = async function(){
 
         if(minStop.type == 'percentage') {
           //do for percentage
-          points = (trend == 'bullish' ? lastCloseAsk : lastCloseBid) * (minStop.value * stopDistanceOffset);
+          points = cp * (minStop.value + stopDistanceOffset);
         } else{
           //do for points
-          points = (minStop.value * stopDistanceOffset);
+          points = (minStop.value + stopDistanceOffset);
         }
 
         let stopDistanceLevel = 0
-        if(trend == 'bullish') stopDistanceLevel = lib.toNumber((lastCloseAsk - points), 'abs');
-        if(trend == 'bearish') stopDistanceLevel = lib.toNumber((lastCloseBid + points), 'abs');
+        if(trend == 'bullish') stopDistanceLevel = lib.toNumber((cp - points), 'abs');
+        if(trend == 'bearish') stopDistanceLevel = lib.toNumber((cp + points), 'abs');
 
         stopDistance = points;
 
