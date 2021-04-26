@@ -128,7 +128,7 @@ If dataSet reaches a maximum of 36 hours, delete the first
 */
 
 
-actions.analysisLog - async function(analysis){
+actions.analysisLog = async function(analysis){
   if(analysisDataSet.length == 36) analysisDataSet.shift();
   analysisDataSet.push(analysis);
   cloud.updateFile(analysisDataSet,analysisDataDir);
