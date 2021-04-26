@@ -181,6 +181,12 @@ actions.finalAnalysis = async function(){
     'ticket': {}
   };
 
+  analysisDataSet.push(analysis);
+  if(analysisDataSet.length == 37){
+    analysisDataSet.shift();
+  }
+  analysisDataSet.push(analysis);
+
   log.dataLog(analysis);
 
   //console.log(markets[mid].data);
@@ -188,7 +194,7 @@ actions.finalAnalysis = async function(){
   //set previous trend after everything else (using currenttrend to catch 'ranging' otherwise isBreakingThroughRange is false)
   previousTrend = currenttrend;
   //Draw analytics
-  core.analytics.actions.drawChart(pricedata3.support, lineData, analysis, rangeData);
+  core.analytics.actions.drawChart(pricedata3.support, lineData, analysisDataSet, rangeData);
 }
 
 module.exports = {

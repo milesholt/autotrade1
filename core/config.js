@@ -125,6 +125,7 @@ lineDistance = 0;
 rangeConfirmations = 0;
 
 //Analysis data
+analysisDataSet = [];
 analysis = {};
 closes = [];
 times = [];
