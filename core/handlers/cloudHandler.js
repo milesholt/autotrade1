@@ -60,6 +60,8 @@ actions.getFiles = async function(){
   accountDataSha =  github.sha;
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
+  analysisDataSet = await github.actions.getFile(analysisDataDir);
+  analysisDataSha = github.sha;
   //merge cloud markets with config markets to merge any new additional markets
 
   //markets = await github.actions.getFile(marketDataDir);
