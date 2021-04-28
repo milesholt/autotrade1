@@ -3,6 +3,7 @@ var core;
 var lib;
 var moment;
 var cloud;
+var log;
 
 const { from, range } = require('rxjs');
 const { map, filter } = require('rxjs/operators');
@@ -27,6 +28,7 @@ actions.require = async function(){
   lib = core.lib.actions;
   moment = core.moment;
   cloud = core.cloudHandler.actions;
+  log = core.log.actions;
 }
 
 /*
@@ -472,11 +474,14 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       wavecount: rangeData.wavecount
     }
 
-    let json = 'var plot_'+market.id+'='+JSON.stringify(d);
 
-    var jsonDir = 'core/data/'+market.epic+'/'+market.epic+'_plotdata.js';
-    console.log(jsonDir);
-    cloud.updateFile(json,jsonDir);
+
+
+    //var plotDir = 'core/data/'+market.epic+'/'+market.epic+'_plotdata.js';
+    //console.log(jsonDir);
+    //cloud.updateFile(json,jsonDir);
+
+    log.plotLog(d);
 
 
   // plotly.plot(data, options, function (err, msg) {

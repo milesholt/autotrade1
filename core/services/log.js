@@ -128,10 +128,29 @@ If dataSet reaches a maximum of 36 hours, delete the first
 */
 
 
-actions.analysisLog = async function(analysis){
+actions.analysisLog = async function(data){
   if(analysisDataSet.length == 36) analysisDataSet.shift();
-  analysisDataSet.push(analysis);
-  cloud.updateFile(analysisDataSet,analysisDataDir);
+  analysisDataSet.push(data);
+
+  let analysis = 'var analysis_'+market.id+'='+JSON.stringify(analysisDataSet);
+  cloud.updateFile(analysis,analysisDataDir);
+}
+
+/* PLOT
+
+Update plotDataSet log onto cloud
+
+*/
+
+actions.plotLog = async function(data){
+
+
+
+  if(plotDataSet.length == 36) plotDataSet.shift();
+  plotDataSet.push(data);
+
+  let plots = 'var plots_'+market.id+'='+JSON.stringify(plotDataSet);
+  cloud.updateFile(plots,plotDataDir);
 }
 
 
