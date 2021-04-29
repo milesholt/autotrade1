@@ -314,6 +314,9 @@ actions.exec = async function(){
     markets[mid] = market;
     await cloudHandler.actions.updateFile(markets,marketDataDir);
 
+    //Do any fixes for next run
+    await actions.fixes();
+
   }
 
 
@@ -322,6 +325,14 @@ actions.exec = async function(){
   isLoopRunning = false;
   loopHandler.actions.loop(finalMessage);
   return false;
+
+
+}
+
+action.fixes = async function(){
+
+  //If missing hours, empty price data to re-download for next run
+  if(!isHoursCorrect) await cloudHandler.actions.updateFile([],pricedataDir);
 
 
 }
