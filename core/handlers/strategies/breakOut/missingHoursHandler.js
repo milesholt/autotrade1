@@ -23,12 +23,12 @@ DETERMINE MISSING HOURS
 
 actions.determineMissingHours = async function(){
   //loop through times and ensure no hours / data is missing (on Fridays for example, the market closes, there is a gap in hours which affects the data)
-  let time = moment(pricedata2.support[0].time);
+  let time = moment(pricedata3.support[0].time);
   isHoursCorrect = true;
   totalMissingHours = 0;
   let start = 0, end = 0, diff = 0, d = 0;
 
-  pricedata2.support.forEach((price,index) => {
+  pricedata3.support.forEach((price,index) => {
     //skip the first hour
     if(index !== 0){
       // let ntime = moment(price.time);
