@@ -182,8 +182,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       open: opens,
       type: 'candlestick',
       xaxis: 'x',
-      yaxis: 'y',
-      customdata: analysis
+      yaxis: 'y'
   };
 
   var supportline = {
