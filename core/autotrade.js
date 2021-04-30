@@ -329,7 +329,7 @@ actions.exec = async function(){
 
 }
 
-action.fixes = async function(){
+actions.fixes = async function(){
 
   //If missing hours, empty price data to re-download for next run
   if(!isHoursCorrect) await cloudHandler.actions.updateFile([],pricedataDir);
