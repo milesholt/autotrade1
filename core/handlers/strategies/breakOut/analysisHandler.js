@@ -145,6 +145,7 @@ actions.finalAnalysis = async function(){
     'isRangeAreaGood':check0,
     'isRangeConfirmationsGreaterThanLimit': check2,
     'isRecentRangeOverLimit': recentrange.length >= recentrangelimit,
+    'recentRangeIndex21': recentrange.indexOf(21),
     'recentRangeIndex22': recentrange.indexOf(22),
     'recentRangeIndex23': recentrange.indexOf(23),
     'updatedtrend': trend,
