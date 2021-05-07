@@ -66,7 +66,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   arr.dealRef = dealRef;
   arr.streamLogDir = streamLogDir;
   arr.direction =  direction;
-  arr.isStreamRunning = false;
+
+
+  isStreamRunning[epic] = false;
 
   console.log(arr);
 
@@ -146,7 +148,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                           if(subscribed){
                             console.log('First check stream is subscribed');
-                            monitorData.isStreamRunning = true;
+                            isStreamRunning[monitorData.epic] = true;
                           } else {
                             console.log('Stream is not subscribed');
                           }
@@ -177,7 +179,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
 
-                    if(!monitorData.isStreamRunning){
+                    if(!isStreamRunning[monitorData.epic]){
 
                     //start stream
                     //use real-time streaming to get latest hour
@@ -693,6 +695,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                   } else {
                     console.log('stream is already running');
+                    console.log(isStreamRunning);
                   }
 
           }
