@@ -161,3 +161,4 @@ isHoursCorrect = true;
 isNoVolatileGap = true;
 noError = true;
 isLoopRunning = false;
+isStreamRunning = false;

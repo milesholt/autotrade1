@@ -126,7 +126,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     var timer;
 
                     //check if stream is already running first
-                    let isStreamRunning = false;
+                    isStreamRunning = false;
 
                     //get modification time of file
                     let stats = fs.statSync(monitorData.streamLogDir);
@@ -144,7 +144,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                           if(subscribed){
                             console.log('First check stream is subscribed');
-                            isStreamRunning = false;
+                            isStreamRunning = true;
                           } else {
                             console.log('Stream is not subscribed');
                           }
