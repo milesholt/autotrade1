@@ -233,6 +233,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       mailer.actions.sendMail(mailOptions);
 
                       var counter = 0;
+
+                      //Once this epic is here and has started monitoring, reset isStreamRunning to be allowed for use for other epics that need to be monitored
+                      isStreamRunning = false;
+                      
                       timer = setInterval(()=>{
 
 
