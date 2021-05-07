@@ -144,7 +144,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                           if(subscribed){
                             console.log('First check stream is subscribed');
-                            isStreamRunning = true;
+                            isStreamRunning = false;
                           } else {
                             console.log('Stream is not subscribed');
                           }
@@ -236,7 +236,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                       //Once this epic is here and has started monitoring, reset isStreamRunning to be allowed for use for other epics that need to be monitored
                       isStreamRunning = false;
-                      
+
                       timer = setInterval(()=>{
 
 
