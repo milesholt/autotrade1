@@ -7,6 +7,7 @@ var error;
 var api;
 var analysis;
 var moment;
+var util;
 
 /*
 
@@ -22,6 +23,7 @@ actions.require = async function(){
   analysis = core.analysisHandler.actions;
   moment = core.moment;
   api = core.api;
+    util =  core.util;
 }
 
 /*
@@ -52,6 +54,7 @@ actions.getPriceData = async function(){
     await api.histPrc(epic, resolution, from2, to2).then(r => {
       console.log('from2: ' + from2);
       console.log('day2: ' + to2);
+      console.log(util.inspect(r, false, null));
       if(r.prices.length){
           //Check price bar doesn't already exist on pricedata
           if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
