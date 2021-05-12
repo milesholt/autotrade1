@@ -38,7 +38,11 @@ actions.determineTrade = async function(){
 
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
-  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12,check13];
+
+  //ensure last time traded is 3 hours or more
+  let tradebefore = market.tradedbefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= 3 ? true : false : false;
+
+  const checks = [check0,check1,check2,check5,check6,check7,check8,check9,check10,check11,check12,check13,tradedbefore];
   //const checks = [true];
   if(checks.indexOf(false) == -1){
 
@@ -327,7 +331,7 @@ actions.determineTrade = async function(){
                   await log.startTradeLog(epic, analysis, dealId);
                   await monitor.iniMonitor(dealId,dealRef,epic);
 
-                  market.tradedbefore = true;
+                  market.tradedbefore = moment().valueOf();
                   finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';
 
                } else {

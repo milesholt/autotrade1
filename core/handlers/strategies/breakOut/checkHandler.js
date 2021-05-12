@@ -367,6 +367,9 @@ actions.checkOpenTrade = async function(){
           console.log('transaction open level:' + transaction.openLevel )
 
 
+          //https://jsfiddle.net/FLhpq/4/
+
+
           //if( market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime ){
           if( market.alias == transaction.instrumentName && marketOpenLevel == transaction.openLevel ){
 
