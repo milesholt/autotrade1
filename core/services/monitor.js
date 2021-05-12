@@ -75,7 +75,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   //get open position information
 
   await api.showOpenPositions().then(async (positionsData) => {
-    //console.log(util.inspect(positionsData, false, null));
+    console.log(util.inspect(positionsData, false, null));
 
     if(Object.keys(positionsData).indexOf('confirms') !== -1){
       let status = positionsData.confirms.dealStatus;
@@ -89,6 +89,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
     if(positionsData.positions.length){
 
       positionsData.positions.forEach(async (trade,i) => {
+
+          console.log('trade result:' + trade.position.dealReference);
+          console.log('arr dealRef:' + arr.dealRef);
+
+
           if(trade.position.dealReference == arr.dealRef){
 
                     //retrieve dealId if undefined

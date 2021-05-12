@@ -84,18 +84,18 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Show open positions
-  // await api.showOpenPositions().then(r => {
-  // console.log(util.inspect(r,false,null));
-  // }).catch(e => console.log(e));
+  await api.showOpenPositions().then(r => {
+  console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
 
   //Get markets
-  let epics = ['CS.D.BITCOIN.TODAY.IP'];
-  await api.epicDetails(epics).then(r => {
-    console.log(util.inspect(r,false,null));
-    //console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
-    //console.log(r.marketDetails[0].snapshot.marketStatus);
-    //
-  }).catch(e => console.log(e));
+  // let epics = ['CS.D.BITCOIN.TODAY.IP'];
+  // await api.epicDetails(epics).then(r => {
+  //   console.log(util.inspect(r,false,null));
+  //   //console.log(r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance);
+  //   //console.log(r.marketDetails[0].snapshot.marketStatus);
+  //   //
+  // }).catch(e => console.log(e));
 
   //Get history
   // let from = undefined;
