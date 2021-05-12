@@ -577,9 +577,15 @@ actions.finalChecks = async function(){
     beforeRangeOveridden = true;
   }
   if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) check11 = false;
-  if(market.tradedbefore == true) check12 = false;
+
+  //ensure last time traded is 3 hours or more
+  tradebeforeCheck = market.tradedBefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= 3 ? true : false : true;
+  check12 = tradebeforeCheck;
 
   check13 = isBeforeRangeTrendNotBroken;
+
+
+
 }
 
 module.exports = {

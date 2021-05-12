@@ -163,7 +163,7 @@ actions.finalAnalysis = async function(){
     'bumps': rangeData.bumps,
     'bumpgroupcount': bumpgroupcount,
     'waves': rangeData.wavecount,
-    'notTradedBefore': check12,
+    'tradedBefore': check12,
     'beforeRangeOveridden': beforeRangeOveridden,
     'lastBeforeRangeTrendMovement': bRD.lastBeforeRangeTrendMovement,
     'lastBeforeRangeTrendMovementClose': bRD.lastBeforeRangeTrendMovementClose,
