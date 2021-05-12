@@ -348,7 +348,9 @@ actions.checkOpenTrade = async function(){
 
         let isTransactionFound =  false;
 
-
+        //TODO: There is an issue with the dates not being in sync by 1 hour, when a trade is made, the date is 1 hour behind
+          //going by open levels for now
+        let marketOpenLevel = market.deal.ticket.openLevel;
         let marketDealStartTime = moment(market.deal.start_timestamp).format('YYYYMDDh');
         console.log('market deal start: ' + marketDealStartTime);
         console.log('epic: ' + epic);
@@ -361,9 +363,12 @@ actions.checkOpenTrade = async function(){
           console.log('transactionOpenDate: ' + transactionOpenDate);
           console.log('marketDealStartTime: ' + marketDealStartTime);
           console.log('market alias: ' + market.alias);
+          console.log('marketopenLevel: ' + marketOpenLevel);
+          console.log('transaction open level:' + transaction.openLevel )
 
 
-          if( market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime ){
+          //if( market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime ){
+          if( market.alias == transaction.instrumentName && marketOpenLevel == transaction.openLevel ){
 
             isTransactionFound =  true;
 
