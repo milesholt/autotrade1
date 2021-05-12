@@ -714,10 +714,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
         //check if dealID has changed or is mismatched
         check.actions.checkIncorrectDeal(arr.dealId).then(r => {
           console.log('Found matching position with different dealId, dealID has been updated.');
-          // setTimeout(()=>{
-          //   console.log('No matching positions found. Trying stream again in 1 minute');
-          //   actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
-          // },60000);
+          setTimeout(()=>{
+            console.log('No matching positions found. Trying stream again in 1 minute');
+            actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
+          },60000);
         }).catch(e => {
 
           if(!attempt){
