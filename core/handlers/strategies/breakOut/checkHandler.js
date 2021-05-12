@@ -139,11 +139,13 @@ actions.checkIncorrectDeal = async function(dealId){
         console.log(util.inspect(r,false,null));
         let transactions = r.transactions;
         transactions.forEach(transaction =>{
-          if(transaction.dateUtc == openDate && transaction.openLevel == openLevel && transaction.instrumentName == name){
+          if(transaction.openLevel == openLevel && transaction.instrumentName == name){
             console.log('matching position found with different ID, updating...');
             market.deal.dealId = transaction.reference;
             dealUpdated = true;
             resolve(dealUpdated);
+          } else {
+            reject(dealUpdated);
           }
         });
       }).catch(e => reject(e));
