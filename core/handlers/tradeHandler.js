@@ -348,7 +348,7 @@ actions.determineTrade = async function(){
       //No trade, wait another hour
 
       //if more than enough hours has passed since last trade, reset tradedBefore to false
-      if(market.tradedBefore !== false) if(moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= 3) market.tradedBefore = false;
+      if(market.tradedBefore !== false) if(moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours) market.tradedBefore = false;
       finalMessage = 'Checks not passed. No trade. Waiting 1 hour.'
 
   }

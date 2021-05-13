@@ -24,6 +24,7 @@ recentrangelimit =  5;
 rangeConfirmationLimit = 12;
 confirmationlimit = 3;
 missingHoursLimit = 3;
+tradeBeforeHours = 4;
 bumpgrouplimit = 5;
 size = 1;
 stopDistance = 0;
