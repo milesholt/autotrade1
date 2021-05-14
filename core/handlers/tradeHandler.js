@@ -8,6 +8,7 @@ var util;
 var log;
 var lib;
 var error;
+var moment;
 
 /*
 
@@ -25,6 +26,7 @@ actions.require = async function(){
   lib =  core.lib.actions;
   error = core.errorHandler.actions;
   util =  core.util;
+  moment =  core.moment;
 }
 
 
