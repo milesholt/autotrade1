@@ -163,7 +163,7 @@ actions.finalAnalysis = async function(){
     'bumps': rangeData.bumps,
     'bumpgroupcount': bumpgroupcount,
     'waves': rangeData.wavecount,
-    'tradedBefore': check12,
+    'notTradedBefore': check12,
     'lastTimeTraded': market.tradedBefore !== false ? moment(market.tradedBefore).format('LLL') : false,
     'tradedBeforeHoursDiff': market.tradedBefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") : false,
     'beforeRangeOveridden': beforeRangeOveridden,
