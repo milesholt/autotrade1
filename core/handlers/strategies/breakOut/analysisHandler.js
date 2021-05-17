@@ -164,6 +164,8 @@ actions.finalAnalysis = async function(){
     'bumpgroupcount': bumpgroupcount,
     'waves': rangeData.wavecount,
     'tradedBefore': check12,
+    'lastTimeTraded': moment(market.tradedBefore).format('LLL'),
+    'tradedBeforeHoursDiff': moment().diff(moment(market.tradedBefore).valueOf(), "hours"),
     'beforeRangeOveridden': beforeRangeOveridden,
     'lastBeforeRangeTrendMovement': bRD.lastBeforeRangeTrendMovement,
     'lastBeforeRangeTrendMovementClose': bRD.lastBeforeRangeTrendMovementClose,
