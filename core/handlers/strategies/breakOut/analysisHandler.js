@@ -2,6 +2,7 @@ var actions = {};
 var core;
 var log;
 var lib;
+var moment;
 
 /*
 
@@ -13,6 +14,7 @@ actions.require = async function(){
   core = require.main.exports;
   log = core.log.actions;
   lib = core.lib.actions;
+  moment = core.moment;
 }
 
 /*
