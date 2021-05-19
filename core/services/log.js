@@ -40,6 +40,7 @@ actions.startTradeLog = async function(epic, analysis, dealId){
       t.marketId = market.id;
       t.epic = epic;
       t.startAnalysis = a;
+      t.openLevel = a.openLevel;
       t.start_timestamp = Date.now();
       t.start_date = moment().format('LLL');
       t.dealId = dealId;
