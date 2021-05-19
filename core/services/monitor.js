@@ -654,6 +654,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                     } else {
                                       //console.log('Connected but stream is not yet subscribed. Could still be subscribing...');
                                       //TO DO: Handle if stream error
+                                      console.log(api.lsIsError);
                                       if(api.lsIsError == true){
                                         console.log('Stream error. Stopping.');
                                         actions.stopMonitor(timer,monitorData.epic);
