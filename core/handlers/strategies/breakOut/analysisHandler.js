@@ -143,7 +143,7 @@ actions.finalAnalysis = async function(){
     'recentDowns':downs,
     'recentMovementValue': movementValue,
     'recentMovementValueDiffPerc': movementValueDiffPerc + '%',
-    'isLastDiffGreaterThanMomentumLimit': check1,
+    'isLastDiffGreaterThanMomentumLines': check1,
     'isRangeAreaGood':check0,
     'isRangeConfirmationsGreaterThanLimit': check2,
     'isRecentRangeOverLimit': recentrange.length >= recentrangelimit,

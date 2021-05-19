@@ -554,6 +554,9 @@ actions.finalChecks = async function(){
   console.log('tradeLimitBuyLine: ' + tradeLimitBuyLine);
   console.log('tradeLimitSellLine: ' + tradeLimitSellLine);
 
+  lineData.momentumLimitBuyLine = momentumLimitBuyLine;
+  lineData.momentumLimitSellLine = momentumLimitSellLine;
+
   if(trend == 'bullish' && lastClose >= momentumLimitBuyLine) check1 = true;
   if(trend == 'bearish' && lastClose <= momentumLimitSellLine) check1 = true;
 
