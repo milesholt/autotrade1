@@ -122,6 +122,8 @@ actions.finalAnalysis = async function(){
     'lastClose': lastClose,
     'lastCloseAsk': lastCloseAsk,
     'lastCloseBid': lastCloseBid,
+    'lastHigh': lastHigh,
+    'lastLow': lastLow,
     'lastDiff': lastDiff,
     'lineData': lineData,
     'lineDistance': lineDistance,
