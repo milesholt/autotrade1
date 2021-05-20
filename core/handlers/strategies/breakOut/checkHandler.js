@@ -350,7 +350,8 @@ actions.checkOpenTrade = async function(){
 
         //TODO: There is an issue with the dates not being in sync by 1 hour, when a trade is made, the date is 1 hour behind
           //going by open levels for now
-        let marketOpenLevel = market.deal.ticket.openLevel;
+
+        let marketOpenLevel = market.deal.openLevel;
         let marketDealStartTime = moment(market.deal.start_timestamp).format('YYYYMDDh');
         console.log('market deal start: ' + marketDealStartTime);
         console.log('epic: ' + epic);
