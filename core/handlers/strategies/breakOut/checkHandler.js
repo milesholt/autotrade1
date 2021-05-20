@@ -558,8 +558,8 @@ actions.finalChecks = async function(){
   lineData.momentumLimitBuyLine = momentumLimitBuyLine;
   lineData.momentumLimitSellLine = momentumLimitSellLine;
 
-  if(trend == 'bullish' && lastClose >= momentumLimitBuyLine) check1 = true;
-  if(trend == 'bearish' && lastClose <= momentumLimitSellLine) check1 = true;
+  if(trend == 'bullish' && (lastClose >= momentumLimitBuyLine || lastHigh >= momentumLimitBuyLine)) check1 = true;
+  if(trend == 'bearish' && (lastClose <= momentumLimitSellLine || lastLow <=  momentumLimitSellLine)) check1 = true;
 
 
   //trade threshold check - If the price goes in the right direction, but way beyond expected area of profit (a sudden significant ride or drop). if this happens, it can take longer to recover and usually moves in the opposite direction afterward

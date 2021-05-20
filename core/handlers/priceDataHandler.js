@@ -141,6 +141,8 @@ actions.setPriceData = async function(){
   //Get percentage change of latest price bar to determine if there is a break
   lastOpen = pricedata.support[pricedata.support.length-1].open;
   lastClose = pricedata.support[pricedata.support.length-1].close;
+  lastHigh = pricedata.support[pricedata.support.length-1].high;
+  lastLow = pricedata.support[pricedata.support.length-1].low;
   lastTime = pricedata.support[pricedata.support.length-1].time;
   lastCloseAsk = pricedata.support[pricedata.support.length-1].closeAsk;
   lastCloseBid = pricedata.support[pricedata.support.length-1].closeBid;
