@@ -84,9 +84,9 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Show open positions
-  // await api.showOpenPositions().then(r => {
-  // console.log(util.inspect(r,false,null));
-  // }).catch(e => console.log(e));
+  await api.showOpenPositions().then(r => {
+  console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
 
   //Get markets
   // let epics = ['CS.D.BITCOIN.TODAY.IP'];
@@ -103,7 +103,7 @@ async function exec(){
   // let detailed = true;
   // //let dealId = 'DIAAAAFFBKE4KAK';
   // //let dealId = 'DIAAAAFFKMKBEAM';
-  //  let dealRef = 'NWUUU293C38TYN7';
+  //  let dealRef = '3DCCS3HLUQAT28R';
   //  let dealId = undefined;
   //  let pageSize = 50;
   // await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
@@ -144,30 +144,30 @@ async function exec(){
 
 
   // let dealId = 'DIAAAAFFBKE4KAK';
-let pageSize = 20;
- let type = 'ALL_DEAL';
- let from = undefined;
- let to = undefined;
-  // //
-  await api.acctTransaction(type,from, to, pageSize,1).then(r => {
-    console.log(util.inspect(r,false,null));
-    // let transactions = r.transactions;
-    // transactions.forEach(transaction =>{
-    //   if(transaction.reference == dealId){
-    //     console.log(dealId);
-    //     console.log('dealId found. position has been closed');
-    //     let dateClosed = transaction.dateUtc;
-    //     let profitLoss = transaction.profitAndLoss.split('£')[1];
-    //     let closeLevel = transaction.closeLevel;
-    //     //console.log('dateClosed: ' + dateClosed);
-    //     //console.log('profitLoss: ' + profitLoss);
-    //     console.log(typeof profitLoss);
-    //     console.log(Number(profitLoss).toFixed(2));
-    //     //console.log('closeLevel: ' + closeLevel);
-    //
-    //   }
-    // });
-  }).catch(e => console.log(e));
+// let pageSize = 20;
+//  let type = 'ALL_DEAL';
+//  let from = undefined;
+//  let to = undefined;
+//   // //
+//   await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+//     console.log(util.inspect(r,false,null));
+//     // let transactions = r.transactions;
+//     // transactions.forEach(transaction =>{
+//     //   if(transaction.reference == dealId){
+//     //     console.log(dealId);
+//     //     console.log('dealId found. position has been closed');
+//     //     let dateClosed = transaction.dateUtc;
+//     //     let profitLoss = transaction.profitAndLoss.split('£')[1];
+//     //     let closeLevel = transaction.closeLevel;
+//     //     //console.log('dateClosed: ' + dateClosed);
+//     //     //console.log('profitLoss: ' + profitLoss);
+//     //     console.log(typeof profitLoss);
+//     //     console.log(Number(profitLoss).toFixed(2));
+//     //     //console.log('closeLevel: ' + closeLevel);
+//     //
+//     //   }
+//     // });
+//   }).catch(e => console.log(e));
 
 
   //Get prices

@@ -365,6 +365,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
+                                let posfound = false;
 
 
                                   if(closeprofit){
@@ -409,6 +410,24 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         dealId: x.dealId,
                                         profit:null
                                       }
+
+                                      posfound = false;
+                                      await api.showOpenPositions().then(positions => {
+                                      console.log(util.inspect(r,false,null));
+
+                                        positions.forEach(p => {
+                                          if(p.position.dealId == m.dealId){
+                                            posfound = true;
+                                          }
+                                        });
+
+                                        if(posfound){
+                                          console.log('Position found before closing');
+                                        }else {
+                                          console.log('Tried to close, but no open positions found with dealId:' + m.dealId);
+                                          console.log(positions);
+                                        }
+                                      }).catch(e => console.log(e));
 
                                       await api.closePosition(m.dealId).then(async r =>{
                                         console.log(util.inspect(r, false, null));
@@ -489,6 +508,25 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         dealId: m.dealId,
                                         profit:null
                                       }
+
+
+                                      posfound = false;
+                                      await api.showOpenPositions().then(positions => {
+                                      console.log(util.inspect(r,false,null));
+
+                                        positions.forEach(position => {
+                                          if(position.position.dealId == m.dealId){
+                                            posfound = true;
+                                          }
+                                        });
+
+                                        if(posfound){
+                                          console.log('Position found before closing');
+                                        }else {
+                                          console.log('No positions found with dealId:' + m.dealId);
+                                          console.log(positions);
+                                        }
+                                      }).catch(e => console.log(e));
 
 
                                       await api.closePosition(m.dealId).then(async r =>{
