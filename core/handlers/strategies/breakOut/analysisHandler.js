@@ -56,7 +56,7 @@ actions.determineStopDistance = async function(){
 
   //Stop distance to be % of price diff, expanded from support/resistance line
 
-let cp = trend == 'bullish' ? lastCloseBid : lastCloseAsk;
+let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
 let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
 
@@ -93,14 +93,18 @@ for stop - we add the difference
 actions.determineLimitDistance = async function(){
 
 let limitDistanceOffset = lib.toNumber(priceDiff * limitDistancePerc);
+let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
 //This calculation arrives to the same values as the logic above
 //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
-
-limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceOffset)),'abs');
+//OLD
+//limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceOffset)),'abs');
 
 if(trend == 'bullish') limitDistanceLevel = lib.toNumber(( lineData.resistance + limitDistanceOffset), 'abs');
 if(trend == 'bearish') limitDistanceLevel = lib.toNumber(( lineData.support - limitDistanceOffset), 'abs');
+
+limitDistance = lib.toNumber((cp - limitDistanceLevel), 'abs');
+
 
 
 }
