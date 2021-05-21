@@ -260,7 +260,7 @@ actions.determineTrade = async function(){
                       console.log('orig dealId:' + rc.dealId);
                       let id = rc.affectedDeals.length ? rc.affectedDeals[0].dealId : rc.dealId;
                       analysis.dealId = id;
-                      analysis.openLevel =  rc.open;
+                      analysis.openLevel =  rc.level;
                       console.log(r.confirms);
                       console.log('deal success, dealId should be:' + analysis.dealId);
                     }
