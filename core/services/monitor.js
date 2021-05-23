@@ -66,6 +66,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   arr.dealRef = dealRef;
   arr.streamLogDir = streamLogDir;
   arr.direction =  direction;
+  arr.subscribed = false;
 
 
   isStreamRunning[epic] = false;
@@ -150,16 +151,17 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                     if(stream.actions.connection == 'CONNECTED'){
 
-                        await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
-                          if(subscribed){
+                        //await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                        monitorData.subscribed = await stream.actions.isSubscribed(monitorData.epic);
+                          if(monitorData.subscribed){
                             console.log('First check stream is subscribed');
                             isStreamRunning[monitorData.epic] = true;
                           } else {
                             console.log('Stream is not subscribed');
                           }
-                        }).catch(e => {
-                          console.log(e);
-                        });
+                        // }).catch(e => {
+                        //   console.log(e);
+                        // });
 
                     }
 
@@ -595,8 +597,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                     // });
 
                                     //console.log('Is epic ' + monitorData.epic +' subscribed:');
-                                    stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
-                                      if(subscribed == false){
+                                    monitorData.subscribed = await stream.actions.isSubscribed(monitorData.epic);
+                                    //stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                                      if(monitorData.subscribed == false){
                                         console.log('Epic '+monitorData.epic+' is not subscribed: ' + subscribed);
                                         //check if market is closed
                                         check.actions.checkMarketStatus(monitorData.epic).then(r => {
@@ -611,9 +614,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         });
 
                                       }
-                                    }).catch(e => {
-                                      console.log(e);
-                                    });
+                                    // }).catch(e => {
+                                    //   console.log(e);
+                                    // });
 
                                     //console.log('Is epic ' + monitorData.epic +' active:');
                                     stream.actions.isActive(monitorData.epic).then(active => {
@@ -669,8 +672,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                   //Stream is connected, but is there a subscription? This would explain why there is no data
 
-                                  await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
-                                    if(subscribed){
+                                  monitorData.subscribed = await stream.actions.isSubscribed(monitorData.epic);
+
+                                  //await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
+                                    if(monitorData.subscribed){
                                       //Connection and subscription, but no data being receieved could be a drop or lost update
                                       //Should check status of subscription or use event listener
                                       data = {};
@@ -692,16 +697,26 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                     } else {
                                       //console.log('Connected but stream is not yet subscribed. Could still be subscribing...');
                                       //TO DO: Handle if stream error
-                                      console.log(api.lsIsError);
+                                      //console.log(api.lsIsError);
                                       if(api.lsIsError == true){
                                         console.log('Stream error. Stopping.');
                                         actions.stopMonitor(timer,monitorData.epic);
                                         return false;
+                                      } else {
+                                        if(!attempt){
+                                          setTimeout(()=>{
+                                            console.log('No subscription yet. But no light stream error. Trying stream again after 5 seconds');
+                                            actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
+                                          },5000);
+                                        } else{
+                                            console.log('Tried to subscribed a second time but no subscription. Giving up and returning false.');
+                                            return false;
+                                        }
                                       }
                                     }
-                                  }).catch(e => {
-                                    console.log(e);
-                                  });
+                                  // }).catch(e => {
+                                  //   console.log(e);
+                                  // });
 
 
 
