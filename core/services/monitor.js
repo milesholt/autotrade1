@@ -136,7 +136,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     var timer;
 
                     //check if stream is already running first
-                    isStreamRunning = false;
+                    //isStreamRunning = false;
 
                     //get modification time of file
                     let stats = fs.statSync(monitorData.streamLogDir);
