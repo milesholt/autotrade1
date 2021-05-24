@@ -78,11 +78,17 @@ actions.startStream = async function(epic, streamLogDir = false){
       actions.connection = connection;
       console.log('Stream is connected. Creating subscription.');
       let items = ['CHART:'+epic+':HOUR'];
-      await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
-         if(api.lsIsError == true){
-           console.log('Stream error. Stopping.');
-           return false;
-         }
+      let subscribed = await actions.isSubscribed(epic);
+      if(subscribed == false){
+        await api.subscribeToLightstreamer(subscriptionMode, items, fields, 0.5, streamLogDir, epic);
+           if(api.lsIsError == true){
+             console.log('Stream error. Stopping.');
+             return false;
+           }
+      }else {
+          console.log('Epic: '+epic+' already subscribed');
+      }
+
     break;
   }
 
