@@ -153,7 +153,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                         //await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                         monitorData.subscribed = await stream.actions.isSubscribed(monitorData.epic);
-                          if(monitorData.subscribed){
+                          if(monitorData.subscribed == true){
                             console.log('First check stream is subscribed');
                             isStreamRunning[monitorData.epic] = true;
                           } else {
@@ -186,7 +186,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
 
-                    if(!isStreamRunning[monitorData.epic]){
+                    if(isStreamRunning[monitorData.epic] == false && monitorData.subscribed == false){
 
                     //start stream
                     //use real-time streaming to get latest hour
@@ -234,6 +234,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         openLevel: p.level,
                         direction: p.direction
                       }
+
+
 
                       var mailOptions = {
                         from: 'contact@milesholt.co.uk',
