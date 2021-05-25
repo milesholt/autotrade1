@@ -557,6 +557,8 @@ actions.finalChecks = async function(){
 
   lineData.momentumLimitBuyLine = momentumLimitBuyLine;
   lineData.momentumLimitSellLine = momentumLimitSellLine;
+  lineData.tradeLimitBuyLine = tradeLimitBuyLine;
+  lineData.tradeLimitSellLine = tradeLimitSellLine;
 
   if(trend == 'bullish' && (lastClose >= momentumLimitBuyLine || lastHigh >= momentumLimitBuyLine)) check1 = true;
   if(trend == 'bearish' && (lastClose <= momentumLimitSellLine || lastLow <=  momentumLimitSellLine)) check1 = true;
