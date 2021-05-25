@@ -158,6 +158,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                             isStreamRunning[monitorData.epic] = true;
                           } else {
                             console.log('Stream is not subscribed');
+                            isStreamRunning[monitorData.epic] = false;
+                            monitorData.subscribed == false;
                           }
                         // }).catch(e => {
                         //   console.log(e);
