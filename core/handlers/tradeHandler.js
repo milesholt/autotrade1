@@ -355,7 +355,7 @@ actions.determineTrade = async function(){
         if(moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours){
            console.log(market.tradeBefore);
            console.log('Hour difference: ' +  moment().diff(moment(market.tradedBefore).valueOf(), "hours") );
-           console.log('Resetting tradedBefore to false, as it is greater than tradedBeforeHours: ' + tradedBeforeHours);
+           console.log('Resetting tradedBefore to false, as it is greater than tradedBeforeHours: ' + tradeBeforeHours);
 
            market.tradedBefore = false;
         }
