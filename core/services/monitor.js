@@ -186,6 +186,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     //
                     // });
 
+                    console.log('Epic: ' + monitorData.epic);
                     console.log('isStreamRunning: ' + isStreamRunning[monitorData.epic]);
                     console.log('isSubscribed: ' + monitorData.subscribed);
 
