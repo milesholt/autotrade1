@@ -186,9 +186,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     //
                     // });
 
+                    console.log('isStreamRunning: ' + isStreamRunning[monitorData.epic]);
+                    console.log('isSubscribed: ' + monitorData.subscribed);
 
 
-                    if(isStreamRunning[monitorData.epic] == false && monitorData.subscribed == false){
+
+                    if(isStreamRunning[monitorData.epic] === false && monitorData.subscribed === false){
 
                     //start stream
                     //use real-time streaming to get latest hour
@@ -250,7 +253,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       var counter = 0;
 
                       //Once this epic is here and has started monitoring, reset isStreamRunning to be allowed for use for other epics that need to be monitored
-                      isStreamRunning = false;
+                      isStreamRunning[monitorData.epic]  = false;
 
                       timer = setInterval(()=>{
 
