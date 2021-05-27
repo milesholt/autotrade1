@@ -159,7 +159,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                             console.log('First check. Stream is already subscribed: ' + monitorData.epic);
 
                             //get timestamp from cloud stream log
-                            let streamLog = await cloud.getFile(streamLogDir);
+                            let streamLog = await github.actions.getFile(streamLogDir);
                             console.log(streamLog);
                             let streamTime = lib.actions.isDefined(streamLog,'timestamp') ? streamLog.timestamp : Date.now();
                             console.log(streamTime);
