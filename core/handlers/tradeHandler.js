@@ -214,7 +214,7 @@ actions.determineTrade = async function(){
           //No open positions, begin trade
           ticket = {
           	'currencyCode': 'GBP',
-          	'direction': trend == 'bullish' ? 'SELL' : 'BUY',
+          	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
           	'epic': epic,
           	'expiry': 'DFB',
           	'size': market.size,
