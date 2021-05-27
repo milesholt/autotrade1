@@ -158,13 +158,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                           if(monitorData.subscribed == true){
                             console.log('First check. Stream is already subscribed: ' + monitorData.epic);
 
-                            stats = fs.statSync(monitorData.streamLogDir);
-                            modtime = moment(stats.mtime).format('LT');
-                            timestamp = Date.now();
-                            timeonly = moment(timestamp).format('LT');
-                            timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
-
-
                             //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
                             // if(ep == 'CC.D.LGO.USS.IP'){
@@ -177,6 +170,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                               await stream.actions.unsubscribe(monitorData.epic);
                               isStreamRunning[monitorData.epic] = false;
                             } else {
+                              console.log('Stream path updated less than 5 minutes ago');
                               isStreamRunning[monitorData.epic] = true;
                             }
 
