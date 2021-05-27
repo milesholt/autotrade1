@@ -787,7 +787,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     });
 
                   } else {
-                    console.log('stream is already running');
+                    console.log('stream is already running for epic:' + monitorData.epic);
+                    console.log(monitorData);
                     console.log(isStreamRunning);
                   }
 
