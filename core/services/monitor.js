@@ -156,8 +156,31 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                         //await stream.actions.isSubscribed(monitorData.epic).then(subscribed => {
                         monitorData.subscribed = await stream.actions.isSubscribed(monitorData.epic);
                           if(monitorData.subscribed == true){
-                            console.log('First check stream is subscribed');
-                            isStreamRunning[monitorData.epic] = true;
+                            console.log('First check. Stream is already subscribed: ' + monitorData.epic);
+
+                            stats = fs.statSync(monitorData.streamLogDir);
+                            modtime = moment(stats.mtime).format('LT');
+                            timestamp = Date.now();
+                            timeonly = moment(timestamp).format('LT');
+                            timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
+
+
+                            //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
+
+                            // if(ep == 'CC.D.LGO.USS.IP'){
+                               //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + newlimit + ' stoplevel: ' + p.stopLevel + ' updated: ' + modtime);
+                            // }
+
+                            //if stream date and modification date difference greater than 5 minutes, restart streaming
+                            if(timediff >= 5){
+                              console.log('Stream path is not updating. Unsubscribing and resetting stream.');
+                              await stream.actions.unsubscribe(monitorData.epic);
+                              isStreamRunning[monitorData.epic] = false;
+                            } else {
+                              isStreamRunning[monitorData.epic] = true;
+                            }
+
+
                           } else {
                             console.log('Stream is not subscribed');
                             isStreamRunning[monitorData.epic] = false;
