@@ -178,7 +178,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                             if(streamLogTimeDiff >= 5){
                               console.log('Stream path is not updating but there is a subscription. Unsubscribing and resetting stream.');
                               stream.actions.unsubscribe(monitorData.epic);
-                              monitorData.subscribed == false;
+                              monitorData.subscribed = false;
                               isStreamRunning[monitorData.epic] = false;
                             } else {
                               console.log('Stream path updated less than 5 minutes ago');
@@ -189,7 +189,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                           } else {
                             console.log('Stream is not subscribed');
                             isStreamRunning[monitorData.epic] = false;
-                            monitorData.subscribed == false;
+                            monitorData.subscribed = false;
                           }
                         // }).catch(e => {
                         //   console.log(e);
@@ -219,7 +219,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     console.log('Epic: ' + monitorData.epic);
                     console.log('isStreamRunning: ' + isStreamRunning[monitorData.epic]);
                     console.log('isSubscribed: ' + monitorData.subscribed);
-                    console.log(isStreamRunning[monitorData.epic] == false && monitorData.subscribed == false);
 
 
                     if(isStreamRunning[monitorData.epic] == false && monitorData.subscribed == false){
