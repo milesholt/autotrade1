@@ -72,6 +72,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   isStreamRunning[epic] = false;
 
   console.log(arr);
+  console.log('isStreamRunning:');
+  console.log(isStreamRunning);
 
   //get open position information
 
