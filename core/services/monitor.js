@@ -187,7 +187,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                     // if(stream.actions.connection == 'CONNECTING'){
                     //   isStreamRunning = true;
-                    // }
+                    // } 
 
                     await log.actions.getMonitorLog(monitorData.epic).then(r =>{
                       console.log('Monitor record found')
