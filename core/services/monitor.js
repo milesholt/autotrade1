@@ -158,6 +158,16 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                           if(monitorData.subscribed == true){
                             console.log('First check. Stream is already subscribed: ' + monitorData.epic);
 
+                            //get timestamp from cloud stream log
+                            let streamLog = await github.actions.getFile(streamLogDir);
+                            console.log(streamLog);
+                            let streamTime = lib.actions.isDefined(streamLog,'timestamp') ? streamLog.timestamp : Date.now();
+                            console.log(streamTime);
+                            console.log(Date.now());
+                            let streamLogTimeDiff = moment(Date.now()).diff(moment(streamLog.timestamp), "minutes");
+                            console.log('streamLogTimeDiff: ' + streamLogTimeDiff);
+
+
                             //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);
 
                             // if(ep == 'CC.D.LGO.USS.IP'){
@@ -165,8 +175,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                             // }
 
                             //if stream date and modification date difference greater than 5 minutes, restart streaming
-                            if(timediff >= 5){
-                              console.log('Stream path is not updating but there is a subscription. Resetting stream.');
+                            if(streamLogTimeDiff >= 5){
+                              console.log('Stream log on the cloud is not updating but there is a subscription. Unsubscribing and resetting stream.');
+                              stream.actions.unsubscribe(monitorData.epic);
+                              monitorData.subscribed = false;
                               isStreamRunning[monitorData.epic] = false;
                             } else {
                               console.log('Stream path updated less than 5 minutes ago');
@@ -177,7 +189,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                           } else {
                             console.log('Stream is not subscribed');
                             isStreamRunning[monitorData.epic] = false;
-                            monitorData.subscribed == false;
+                            monitorData.subscribed = false;
                           }
                         // }).catch(e => {
                         //   console.log(e);
@@ -187,7 +199,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                     // if(stream.actions.connection == 'CONNECTING'){
                     //   isStreamRunning = true;
-                    // } 
+                    // }
 
                     await log.actions.getMonitorLog(monitorData.epic).then(r =>{
                       console.log('Monitor record found')
@@ -205,13 +217,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     // });
 
                     console.log('Epic: ' + monitorData.epic);
-                    console.log(isStreamRunning);
                     console.log('isStreamRunning: ' + isStreamRunning[monitorData.epic]);
                     console.log('isSubscribed: ' + monitorData.subscribed);
 
 
-
-                    if(isStreamRunning[monitorData.epic] === false && monitorData.subscribed === false){
+                    if(isStreamRunning[monitorData.epic] == false && monitorData.subscribed == false){
 
                     //start stream
                     //use real-time streaming to get latest hour
