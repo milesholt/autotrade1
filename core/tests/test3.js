@@ -178,6 +178,13 @@ async function exec(){
   //   console.log(util.inspect(r,false,null));
   // }).catch(e => console.log(e));
 
+  const resolution = 'HOUR_4';
+  const from = moment().subtract(8, 'hours').format('YYYY-MM-DD%20HH:00:00');;
+  const to = moment().format('YYYY-MM-DD%20HH:00:00');
+  await api.histPrc('CC.D.VIX.USS.IP', resolution, from, to).then(r => {
+    console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
+
 
   //time check6let timestamp  = moment().format('LLL');
   // let timestamp  = moment().format('LLL');

@@ -68,6 +68,7 @@ Set main paths for storing data
 
 actions.setPaths = async function(){
   pricedataDir = 'core/data/'+epic+'/'+epic+'_pricedata.json';
+  price4HourdataDir = 'core/data/'+epic+'/'+epic+'_pricedata_4hour.json';
   beforeRangeDir = 'core/data/'+epic+'/'+epic+'_beforerangedata.json';
   tradeDataDir = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
@@ -97,20 +98,29 @@ actions.setDefaults = async function(){
   today = moment().format('YYYY-MM-DD');
   fulldate = moment().format('LLL');
   date1 = moment().add(1, 'days').format('YYYY-MM-DD');
-  date2 = moment(date1).subtract(3, 'days').format('YYYY-MM-DD');
+  date2 = moment().subtract(3, 'days').format('YYYY-MM-DD');
+  date_1week = moment().subtract(7, 'days').format('YYYY-MM-DD');
 
   currenthour = moment().format("HH");
   lasthour = moment().subtract(1, 'hours').format("HH");
-  //3 day date range
-  from = date2+'%20'+'00:00:00';
-  to = today+'%20'+currenthour+':00:00';
+  last4hours = moment().subtract(4, 'hours').format("HH");
 
+  //3 day date range
+  //from = date2+'%20'+'00:00:00';
+  //to = today+'%20'+currenthour+':00:00';
   //last hour date range
-  from2 = today+'%20'+lasthour+':00:00';
-  to2 = today+'%20'+currenthour+':00:00';
+  //from2 = today+'%20'+lasthour+':00:00';
+  //to2 = today+'%20'+currenthour+':00:00';
+
+  from_1week = moment().subtract(7, 'days').format('YYYY-MM-DD%2000:00:00');
+  from_3days = moment().subtract(3, 'days').format('YYYY-MM-DD%2000:00:00');
+  from_4hours =  moment().subtract(4, 'hours').format('YYYY-MM-DD%20HH:00:00');
+  from_1hour = moment().subtract(1, 'hours').format('YYYY-MM-DD%20HH:00:00');
+  to = moment().format('YYYY-MM-DD%20HH:00:00');
 
   //Price variables
   prices = [];
+  prices_4hour = [];
   pricedata = {'support': [], 'resistance': []};
   pricedata2 = {'support': [], 'resistance': []};
   pricedata3 = {'support': [], 'resistance': []};
@@ -248,6 +258,9 @@ actions.exec = async function(){
 
   //Handle price data
   await priceDataHandler.actions.getPriceData();
+
+  //Handle price data (4 hour)
+  await priceDataHandler.actions.getPriceData('HOUR_4');
 
   //Only continue exec if no error getting price data
   if(noError){

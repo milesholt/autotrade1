@@ -33,37 +33,103 @@ This pulls key data from API and also updates cloud data file
 
 */
 
-actions.getPriceData = async function(){
-  if(prices.length == 0){
-    let fromDay = moment(date2).format('dddd');
-    from = (fromDay == 'Saturday' || fromDay == 'Sunday') ? moment(date2).subtract(2,'days').format('YYYY-MM-DD') +'%20'+'00:00:00' : from;
+// actions.getPriceData = async function(){
+//   if(prices.length == 0){
+//     let fromDay = moment(date2).format('dddd');
+//     from = (fromDay == 'Saturday' || fromDay == 'Sunday') ? moment(date2).subtract(2,'days').format('YYYY-MM-DD%2000:00:00') : from;
+//
+//     await api.histPrc(epic, resolution, from, to).then(r => {
+//             prices = r.prices;
+//             console.log('getting price data for 3 days....');
+//             console.log(pricedataDir);
+//             if(r.prices.length == 0){
+//               let e = {'body':{'errorCode':'customerror.price-data-empty'}};
+//               error.handleErrors(e);
+//             }
+//             cloud.updateFile(prices,pricedataDir);
+//     }).catch(async e => {
+//       error.handleErrors(e);
+//     });
+//   } else {
+//     await api.histPrc(epic, resolution, from2, to2).then(r => {
+//       console.log('from2: ' + from2);
+//       console.log('day2: ' + to2);
+//       console.log(util.inspect(r, false, null));
+//       if(r.prices.length){
+//           //Check price bar doesn't already exist on pricedata
+//           if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
+//             //If it does, push new price and remove first hour
+//             console.log('New price data: --------');
+//             console.log(r.prices[0]);
+//             prices.push(r.prices[0]);
+//             prices.shift();
+//             cloud.updateFile(prices,pricedataDir);
+//           }
+//       }
+//     }).catch(async e => {
+//        error.handleErrors(e);
+//     });
+//   }
+// }
 
-    await api.histPrc(epic, resolution, from, to).then(r => {
-            prices = r.prices;
-            console.log('getting price data for 3 days....');
+
+actions.getPriceData = async function(res = 'HOUR'){
+  let prc = [];
+  let prcPath = '';
+  let f = '';
+  let f2 = '';
+  let t = '';
+  let duration = '';
+  switch(res){
+    case 'HOUR':
+      prc = prices;
+      prcPath = pricedataDir;
+      f =  from_3days;
+      f2 = from_1hour;
+      t = to;
+      resolution = 'HOUR';
+      duration = '3 days';
+    break;
+    case 'HOUR_4':
+      prc = prices_4hour;
+      prcPath = price4HourdataDir;
+      f = from_1week;
+      f2 = from_4hours;
+      t = to;
+      resolution = 'HOUR_4';
+      duration = '1 week';
+    break;
+  }
+  if(prc.length == 0){
+    let fromDay = moment(f).format('dddd');
+    f = (fromDay == 'Saturday' || fromDay == 'Sunday') ? moment(f).subtract(2,'days').format('YYYY-MM-DD%2000:00:00') : f;
+
+    await api.histPrc(epic, res, f, t).then(r => {
+            prc = r.prices;
+            console.log('getting price data for ' + duration);
             console.log(pricedataDir);
             if(r.prices.length == 0){
               let e = {'body':{'errorCode':'customerror.price-data-empty'}};
               error.handleErrors(e);
             }
-            cloud.updateFile(prices,pricedataDir);
+            cloud.updateFile(prc,prcPath);
     }).catch(async e => {
       error.handleErrors(e);
     });
   } else {
-    await api.histPrc(epic, resolution, from2, to2).then(r => {
-      console.log('from2: ' + from2);
-      console.log('day2: ' + to2);
+    await api.histPrc(epic, res, f2, t).then(r => {
+      console.log('from: ' + f2);
+      console.log('day: ' + t);
       console.log(util.inspect(r, false, null));
       if(r.prices.length){
           //Check price bar doesn't already exist on pricedata
-          if(prices[prices.length-1].snapshotTime !== r.prices[0].snapshotTime){
+          if(prc[prc.length-1].snapshotTime !== r.prices[0].snapshotTime){
             //If it does, push new price and remove first hour
             console.log('New price data: --------');
             console.log(r.prices[0]);
-            prices.push(r.prices[0]);
-            prices.shift();
-            cloud.updateFile(prices,pricedataDir);
+            prc.push(r.prices[0]);
+            prc.shift();
+            cloud.updateFile(prc,prcPath);
           }
       }
     }).catch(async e => {

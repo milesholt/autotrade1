@@ -65,6 +65,7 @@ confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support
 
 //Data files
 pricedataDir = 'core/data/';
+price4HourdataDir = 'core/data/';
 analysisDataDir = 'core/data/';
 plotDataDir = 'core/data/';
 beforeRangeDir = 'core/data/';
@@ -78,6 +79,7 @@ monitorDataDir = 'core/data/monitordata.json';
 
 //Price data variables
 prices = [];
+prices_4hour = [];
 pricedata = {'support': [], 'resistance': []};
 pricedata2 = {'support': [], 'resistance': []};
 pricedata3 = {'support': [], 'resistance': []};
@@ -150,13 +152,22 @@ today = '';
 fulldate = '';
 date1 = '';
 date2 = '';
+date_1week = '';
 currenthour = 0;
 lasthour = 0;
-from = '';
-to = '';
-from2 = '';
-to2 = '';
+last4hours = 0;
+// from = '';
+// to = '';
+// from2 = '';
+// to2 = '';
+// from_4hours = '';
+// to_4hours = '';
 
+from_1week = '';
+from_3days = '';
+from_4hours =  '';
+from_1hour = '';
+to = '';
 
 //Other variables
 totalMissingHours = 0;
