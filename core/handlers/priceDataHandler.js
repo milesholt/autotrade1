@@ -79,10 +79,12 @@ actions.getPriceData = async function(res = 'HOUR'){
   let f = '';
   let f2 = '';
   let t = '';
+  let name = '';
   let duration = '';
   switch(res){
     case 'HOUR':
       prc = prices;
+      name = 'prices';
       prcPath = pricedataDir;
       f =  from_3days;
       f2 = from_1hour;
@@ -92,6 +94,7 @@ actions.getPriceData = async function(res = 'HOUR'){
     break;
     case 'HOUR_4':
       prc = prices_4hour;
+      name = 'prices_4hour';
       prcPath = price4HourdataDir;
       f = from_1week;
       f2 = from_4hours;
@@ -113,6 +116,7 @@ actions.getPriceData = async function(res = 'HOUR'){
               error.handleErrors(e);
             }
             cloud.updateFile(prc,prcPath);
+            eval(name + '= prc');
     }).catch(async e => {
       error.handleErrors(e);
     });
@@ -130,6 +134,7 @@ actions.getPriceData = async function(res = 'HOUR'){
             prc.push(r.prices[0]);
             prc.shift();
             cloud.updateFile(prc,prcPath);
+            eval(name + '= prc');
           }
       }
     }).catch(async e => {
