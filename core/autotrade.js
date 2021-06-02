@@ -75,6 +75,7 @@ actions.setPaths = async function(){
   errorDataDir = 'core/data/'+epic+'/'+epic+'_errordata.json';
   analysisDataDir = 'core/data/'+epic+'/'+epic+'_analysisdata.js';
   plotDataDir = 'core/data/'+epic+'/'+epic+'_plotdata.js';
+  plot4HourDataDir = 'core/data/'+epic+'/'+epic+'_plotdata_4hour.js';
 }
 
 

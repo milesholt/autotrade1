@@ -203,6 +203,8 @@ actions.finalAnalysis = async function(){
   previousTrend = currenttrend;
   //Draw analytics
   await core.analytics.actions.drawChart(pricedata3.support, lineData, analysisDataSet, rangeData);
+  //Draw analytics (4 hour)
+  await core.analytics.actions.drawChart4Hours();
 }
 
 module.exports = {

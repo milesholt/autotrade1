@@ -64,10 +64,19 @@ actions.getFiles = async function(){
   eval(analysis_string);
   analysisDataSet = eval('analysis_'+mid);
   analysisDataSha = github.sha;
+
   let plots_string = await github.actions.getFile(plotDataDir);
   eval(plots_string);
   plotDataSet = eval('plots_'+mid);
   plotDataSha = github.sha;
+
+
+  let plots_string_4hour = await github.actions.getFile(plot4HourDataDir);
+  eval(plots_string_4hour);
+  plot4HourDataSet = eval('plots_4hour_'+mid);
+  plot4HourDataSha = github.sha;
+
+
   //merge cloud markets with config markets to merge any new additional markets
 
   //markets = await github.actions.getFile(marketDataDir);

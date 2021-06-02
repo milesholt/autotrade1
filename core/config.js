@@ -68,6 +68,7 @@ pricedataDir = 'core/data/';
 price4HourdataDir = 'core/data/';
 analysisDataDir = 'core/data/';
 plotDataDir = 'core/data/';
+plot4HourDataDir = 'core/data/';
 beforeRangeDir = 'core/data/';
 marketDataDir = 'core/data/marketdata.json';
 accountDataDir = 'core/data/accountdata.json';
@@ -133,6 +134,8 @@ rangeConfirmations = 0;
 
 //Analysis data
 analysisDataSet = [];
+plotDataSet = [];
+plot4HourDataSet = [];
 analysis = {};
 closes = [];
 times = [];

@@ -155,6 +155,16 @@ actions.plotLog = async function(data){
 }
 
 
+actions.plotLog4Hour = async function(data){
+
+  if(plot4HourDataSet.length == 36) plot4HourDataSet.shift();
+  plot4HourDataSet.push(data);
+
+  let plots = 'var plots_4hour_'+market.id+'='+JSON.stringify(plot4HourDataSet);
+  cloud.updateFile(plots,plot4HourDataDir);
+}
+
+
 
 /*
 
