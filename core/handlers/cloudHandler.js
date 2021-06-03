@@ -51,6 +51,11 @@ actions.getFiles = async function(){
   github.shas = [];
   prices = await github.actions.getFile(pricedataDir);
   pricesSha = github.sha;
+
+  prices_4hour = await github.actions.getFile(price4HourdataDir);
+  prices_4hourSha = github.sha;
+
+
   beforeRangeData = await github.actions.getFile(beforeRangeDir);
   beforeRangeSha = github.sha;
   bRD = beforeRangeData;
