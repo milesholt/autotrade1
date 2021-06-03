@@ -175,13 +175,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                             // }
 
                             //if stream date and modification date difference greater than 5 minutes, restart streaming
-                            if(streamLogTimeDiff >= 5){
+                            if(streamLogTimeDiff >= 1){
                               console.log('Stream log on the cloud is not updating but there is a subscription. Unsubscribing and resetting stream.');
                               stream.actions.unsubscribe(monitorData.epic);
                               monitorData.subscribed = false;
                               isStreamRunning[monitorData.epic] = false;
                             } else {
-                              console.log('Stream path updated less than 5 minutes ago');
+                              console.log('Stream path updated less than 1 minutes ago');
                               isStreamRunning[monitorData.epic] = true;
                             }
 
