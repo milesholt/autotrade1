@@ -545,7 +545,7 @@ actions.finalChecks = async function(){
 
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
   let isPivoting = (recentTrend !== 'ranging' && recentTrend !== trend4Hours);
-  let enoughWaves = (rangeData.wavecount > 1);
+  let enoughWaves = (rangeData.waves.length >= 4);
   if(trendBenchmark && enoughWaves && isPivoting ) {
     trend = trend4Hours;
     recenttrend = trend4Hours;
