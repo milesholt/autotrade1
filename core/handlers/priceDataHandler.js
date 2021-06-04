@@ -8,6 +8,7 @@ var api;
 var analysis;
 var moment;
 var util;
+var lib;
 
 /*
 
@@ -23,7 +24,8 @@ actions.require = async function(){
   analysis = core.analysisHandler.actions;
   moment = core.moment;
   api = core.api;
-    util =  core.util;
+  util =  core.util;
+  lib = core.lib.actions;
 }
 
 /*
