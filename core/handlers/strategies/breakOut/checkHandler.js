@@ -539,6 +539,23 @@ actions.finalChecks = async function(){
     check8 = true;
   }
 
+  //Using 4 hour trend as new benchmark of trend
+  //Also using number of waves to confirm ranging (needs to be more than 1)
+  //And predicting that if the recent trend is in opposite direction of trend, the market will pivot
+
+  let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
+  let isPivoting = (recentTrend !== 'ranging' && recentTrend !== trend4Hours);
+  let enoughWaves = (rangeData.wavecount > 1);
+  if(trendBenchmark && enoughWaves && isPivoting ) {
+    trend = trend4Hours;
+    recenttrend = trend4Hours;
+    beforeRangeTrend = trend4Hours;
+    isRecentTrendBreaking = true;
+    is4HoursTrendOveride = true;
+  }
+
+
+
   //lastDiff is how much by percentage the lastClose is above/below resistance/support lines
   //if(lastDiff > momentumLimit) check1 = true;
 

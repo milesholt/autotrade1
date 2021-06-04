@@ -218,6 +218,10 @@ actions.setPriceData = async function(){
   lastCloseAsk = pricedata.support[pricedata.support.length-1].closeAsk;
   lastCloseBid = pricedata.support[pricedata.support.length-1].closeBid;
   lastDiff = lastClose > resistanceline ? Math.abs(100 - (resistanceline / lastClose * 100)).toFixed(2) : Math.abs(100 - (supportline / lastClose * 100)).toFixed(2);
+
+  first4HoursClose = lib.toNumber(((prices_4hour[0].closePrice.ask - prices_4hour[0].closePrice.bid) / 2) + prices_4hour[0].closePrice.bid);
+  let last4Hours = prices_4hour[prices_4hour.length - 1];
+  last4HoursClose = lib.toNumber(((last4Hours.closePrice.ask - last4Hours.closePrice.bid) / 2) + last4Hours.closePrice.bid);
 }
 
 

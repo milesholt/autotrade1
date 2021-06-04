@@ -132,6 +132,8 @@ actions.finalAnalysis = async function(){
     'lineData': lineData,
     'lineDistance': lineDistance,
     'previousTrend' : previousTrend,
+    'trend4Hours':trend4Hours,
+    'is4HoursTrendOveride': is4HoursTrendOveride,
     'trend': currenttrend,
     'trendDiff': trendDiff,
     'trendDiffPerc': (trendDiffPerc*100) + '% ('+trendDiffPerc+')',

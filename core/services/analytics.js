@@ -551,6 +551,35 @@ actions.drawChart4Hours = async function(){
   var traces = [trace1];
   var data = traces;
 
+  //trend for 4 hours graph
+  // var first4HoursClose = close4[0];
+  // var last4HoursClose = close4[ close4.length-1];
+  //
+  // let trend4HoursDiff = parseFloat(Math.abs(first4HoursClose - last4HoursClose).toFixed(2));
+  // let trend4HoursDiffPerc = Math.abs(100 - (first4HoursClose / last4HoursClose * 100)).toFixed(2);
+  //
+  // //if prices have moved and over significant distance (range area limit)
+  // if((first4HoursClose > last4HoursClose) && (trend4HoursDiff >= rangelimit)) trend4Hours = 'bearish';
+  // if((first4HoursClose > last4HoursClose) && (trend4HoursDiff >= rangelimit)) trend4Hours = 'bullish';
+
+
+  var trendLine = {
+        type: 'line',
+        y0: first4HoursClose,
+        y1: last4HoursClose,
+        x0: starttime,
+        x1: endtime,
+        line: {
+          color: '#333',
+          width: 4,
+          dash: 'solid'
+        },
+        xref: 'x',
+        yref: 'y',
+        opacity: 0.17,
+        layer: 'above'
+  }
+  shapes.push(trendLine);
 
   var layout = {
     dragmode: 'zoom',

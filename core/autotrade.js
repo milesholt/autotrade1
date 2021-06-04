@@ -128,6 +128,7 @@ actions.setDefaults = async function(){
   supportline = 0;
   resistanceline = 0;
   trend = 'ranging';
+  trend4Hours = 'ranging';
   trendDiff = 0;
   rendDiffPerc = 0;
   firstClose = 0;
@@ -140,6 +141,8 @@ actions.setDefaults = async function(){
   lastCloseAsk = 0;
   lastCloseBid = 0;
   lastDiff = 0;
+  first4HoursClose = 0;
+  last4HoursClose = 0;
   rangeAreaLimit=0;
   beforeRangeData = {};
   beforeRangeSha = '';
@@ -177,6 +180,7 @@ actions.setDefaults = async function(){
   stopDistanceLevel = 0;
   limitDistance = 0;
   limitDistanceLevel = 0;
+  is4HoursTrendOveride = false;
 
   //Analysis data
   closes = [];
@@ -289,6 +293,9 @@ actions.exec = async function(){
 
     //Handle trend
     await trendHandler.actions.determineTrend();
+
+    //Handle 4 hour trend
+    await trendHandler.actions.determine4HourTrend();
 
     //Handle beforeRangeData
     await beforeRangeHandler.actions.determineBeforeRangeData();

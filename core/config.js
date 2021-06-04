@@ -87,10 +87,13 @@ pricedata3 = {'support': [], 'resistance': []};
 supportline = 0;
 resistanceline = 0;
 trend = 'ranging';
+trend4Hours = 'ranging';
 trendDiff = 0;
 trendDiffPerc = 0;
 firstClose = 0;
 firstDiff = 0;
+first4HoursClose = 0;
+last4HoursClose = 0;
 lastOpen = 0;
 lastClose = 0;
 lastHigh = 0;
@@ -131,6 +134,7 @@ bRD = {};
 bumpgroupcount = 0;
 lineDistance = 0;
 rangeConfirmations = 0;
+is4HoursTrendOveride = false;
 
 //Analysis data
 analysisDataSet = [];
