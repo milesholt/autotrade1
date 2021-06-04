@@ -535,9 +535,9 @@ actions.finalChecks = async function(){
 
   if(trend == recenttrend) check6 = true;
   if(trend == beforeRangeTrend) check7 = true;
-  if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
-    check8 = true;
-  }
+  // if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
+  //   check8 = true;
+  // }
 
   //Using 4 hour trend as new benchmark of trend
   //Also using number of waves to confirm ranging (needs to be more than 1)
@@ -552,6 +552,11 @@ actions.finalChecks = async function(){
     beforeRangeTrend = trend4Hours;
     isRecentTrendBreaking = true;
     is4HoursTrendOveride = true;
+  }
+
+
+  if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
+    check8 = true;
   }
 
 

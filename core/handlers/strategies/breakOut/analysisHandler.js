@@ -164,7 +164,7 @@ actions.finalAnalysis = async function(){
     'isBeforeRangeSameAsTrend': check7,
     'isBeforeRangeTrendNotBroken' : check13,
     'isRecentTrendBreaking' : isRecentTrendBreaking,
-    //'isBreakingThroughRange': check8,
+    'isBreakingThroughRange': check8,
     'isWithinTradeThreshold': check9,
     'isNoVolatileGap': check10,
     'volatilityGapAnalysis': volatilityGapAnalysis,
