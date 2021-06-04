@@ -544,7 +544,7 @@ actions.finalChecks = async function(){
   //And predicting that if the recent trend is in opposite direction of trend, the market will pivot
 
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
-  let isPivoting = (recentTrend !== 'ranging' && recentTrend !== trend4Hours);
+  let isPivoting = (recenttrend !== 'ranging' && recenttrend !== trend4Hours);
   let enoughWaves = (rangeData.waves.length >= 4);
   if(trendBenchmark && enoughWaves && isPivoting ) {
     trend = trend4Hours;
