@@ -613,6 +613,8 @@ actions.finalChecks = async function(){
 
   check13 = isBeforeRangeTrendNotBroken;
 
+  check14 = trend4Hours !== 'ranging';
+
 
 
 }
