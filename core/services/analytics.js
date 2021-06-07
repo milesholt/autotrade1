@@ -503,33 +503,8 @@ DRAW CHART
 actions.drawChart4Hours = async function(){
 
   let shapes = [];
-  let highs4 = [];
-  let lows4 = [];
-  let close4 = [];
-  let open4 = [];
-  let range4 = [];
-
-  prices_4hour.forEach((price, i) =>{
-
-    let midHigh = lib.toNumber(((price.highPrice.ask - price.highPrice.bid) / 2) + price.highPrice.bid);
-    let midLow = lib.toNumber(((price.lowPrice.ask - price.lowPrice.bid) / 2) + price.lowPrice.bid);
-    let midClose = lib.toNumber(((price.closePrice.ask - price.closePrice.bid) / 2) + price.closePrice.bid);
-    let midOpen = lib.toNumber(((price.openPrice.ask - price.openPrice.bid) / 2) + price.openPrice.bid);
-
-    highs4.push(midHigh);
-    lows4.push(midLow);
-    close4.push(midClose);
-    open4.push(midOpen);
-
-    range4.push(midLow);
-    range4.push(midHigh);
-
-  });
-
-  range4.sort(lib.sortNumber);
-
-  let lowest4 = range4[0];
-  let highest4 = range4[range4.length-1];
+  let lowest4 = lowest4HourPrice;
+  let highest4 = highest4HourPrice;
   let starttime =  prices_4hour[0].snapshotTime.replace(/\//g, '-');
   let endtime = prices_4hour[ prices_4hour.length-1].snapshotTime.replace(/\//g, '-');
 

@@ -33,7 +33,9 @@ actions.determineTrend = async function(){
 actions.determine4HourTrend = async function(){
   //trend for 4 hours graph
   trend4HoursDiff = parseFloat(Math.abs(first4HoursClose - last4HoursClose).toFixed(2));
-  trend4HoursDiffPerc = Math.abs(100 - (first4HoursClose / last4HoursClose * 100)).toFixed(2);
+  trend4HoursDiffPerc = parseFloat(Math.abs((trend4HoursDiff / priceDiff4Hours) * 100).toFixed(2));
+
+  //trend4HoursDiffPerc = Math.abs(100 - (first4HoursClose / last4HoursClose * 100)).toFixed(2);
 
   //if prices have moved and over significant distance (range area limit)
   if((first4HoursClose > last4HoursClose) && (trend4HoursDiffPerc  >= 2)) trend4Hours = 'bearish';

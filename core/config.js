@@ -90,7 +90,7 @@ trend = 'ranging';
 trend4Hours = 'ranging';
 trendDiff = 0;
 trendDiffPerc = 0;
-trend4HoursDiff = 0; 
+trend4HoursDiff = 0;
 trend4HoursDiffPerc = 0;
 firstClose = 0;
 firstDiff = 0;
@@ -153,6 +153,14 @@ opens = [];
 lowestPrice = 0;
 highestPrice = 0;
 priceDiff = 0;
+highs4 = [];
+lows4 = [];
+close4 = [];
+open4 = [];
+range4 = [];
+lowest4HourPrice = 0;
+highest4HourPrice = 0;
+priceDiff4Hours = 0;
 
 //Dates
 resolution = 'HOUR';

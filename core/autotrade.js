@@ -195,6 +195,14 @@ actions.setDefaults = async function(){
   lowestPrice = 0;
   highestPrice = 0;
   priceDiff = 0;
+  highs4 = [];
+  lows4 = [];
+  close4 = [];
+  open4 = [];
+  range4 = [];
+  lowest4HourPrice = 0;
+  highest4HourPrice = 0;
+  priceDiff4Hours = 0;
 
 
   //Other variables
