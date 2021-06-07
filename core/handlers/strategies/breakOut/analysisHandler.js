@@ -134,6 +134,7 @@ actions.finalAnalysis = async function(){
     'previousTrend' : previousTrend,
     'trend4Hours':trend4Hours,
     'trend4HoursDiff':trend4HoursDiff,
+    'trend4HoursDiffPerc':trend4HoursDiffPerc,
     'first4HoursClose':first4HoursClose,
     'last4HoursClose':last4HoursClose,
     'is4HoursTrendOveride': is4HoursTrendOveride,
