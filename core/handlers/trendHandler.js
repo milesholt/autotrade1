@@ -37,7 +37,7 @@ actions.determine4HourTrend = async function(){
 
   //if prices have moved and over significant distance (range area limit)
   if((first4HoursClose > last4HoursClose) && (trend4HoursDiff >= rangelimit)) trend4Hours = 'bearish';
-  if((first4HoursClose > last4HoursClose) && (trend4HoursDiff >= rangelimit)) trend4Hours = 'bullish';
+  if((last4HoursClose > first4HoursClose) && (trend4HoursDiff >= rangelimit)) trend4Hours = 'bullish';
 }
 
 module.exports = {
