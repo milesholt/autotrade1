@@ -36,8 +36,8 @@ actions.determine4HourTrend = async function(){
   trend4HoursDiffPerc = Math.abs(100 - (first4HoursClose / last4HoursClose * 100)).toFixed(2);
 
   //if prices have moved and over significant distance (range area limit)
-  if((first4HoursClose > last4HoursClose) && (trend4HoursDiff >= rangelimit)) trend4Hours = 'bearish';
-  if((last4HoursClose > first4HoursClose) && (trend4HoursDiff >= rangelimit)) trend4Hours = 'bullish';
+  if((first4HoursClose > last4HoursClose) && (trend4HoursDiffPerc  >= 2)) trend4Hours = 'bearish';
+  if((last4HoursClose > first4HoursClose) && (trend4HoursDiffPerc >= 2)) trend4Hours = 'bullish';
 }
 
 module.exports = {
