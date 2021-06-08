@@ -226,7 +226,7 @@ actions.finalAnalysis = async function(){
     'stopDistanceLevel': stopDistanceLevel,
     'limitDistance': limitDistance,
     'limitDistanceLevel': limitDistanceLevel,
-    'ticket': {}
+    'ticket': lib.isDefined(market.deal,'ticket') ? market.deal.ticket : {}
   };
 
 
