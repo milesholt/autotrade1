@@ -51,6 +51,9 @@ actions.analysePriceData = async function(){
     let midLow = lib.toNumber(((price.lowPrice.ask - price.lowPrice.bid) / 2) + price.lowPrice.bid);
     let midClose = lib.toNumber(((price.closePrice.ask - price.closePrice.bid) / 2) + price.closePrice.bid);
     let midOpen = lib.toNumber(((price.openPrice.ask - price.openPrice.bid) / 2) + price.openPrice.bid);
+    let time = price.snapshotTime.replace(/\//g, '-');
+
+    times4.push(time);
 
     highs4.push(midHigh);
     lows4.push(midLow);

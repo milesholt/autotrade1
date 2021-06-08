@@ -509,7 +509,7 @@ actions.drawChart4Hours = async function(){
   let endtime = prices_4hour[ prices_4hour.length-1].snapshotTime.replace(/\//g, '-');
 
   var trace1 = {
-      x: times,
+      x: times4,
       close: close4,
       decreasing: {line: {color: '#F75D7C'}},
       high: highs4,

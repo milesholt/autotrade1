@@ -158,6 +158,7 @@ lows4 = [];
 close4 = [];
 open4 = [];
 range4 = [];
+times4 = [];
 lowest4HourPrice = 0;
 highest4HourPrice = 0;
 priceDiff4Hours = 0;
