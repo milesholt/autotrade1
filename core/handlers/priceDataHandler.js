@@ -134,7 +134,7 @@ actions.getPriceData = async function(res = 'HOUR'){
             console.log('New price data: --------');
             console.log(r.prices[0]);
             prc.push(r.prices[0]);
-            prc.shift();
+            if(prc.length == 60) prc.shift();
             cloud.updateFile(prc,prcPath);
             eval(name + '= prc');
           }
