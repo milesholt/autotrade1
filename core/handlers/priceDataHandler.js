@@ -83,6 +83,7 @@ actions.getPriceData = async function(res = 'HOUR'){
   let t = '';
   let name = '';
   let duration = '';
+  let pointsLimit = 0;
   switch(res){
     case 'HOUR':
       prc = prices;
@@ -92,6 +93,7 @@ actions.getPriceData = async function(res = 'HOUR'){
       f2 = from_1hour;
       t = to;
       resolution = 'HOUR';
+      pointsLimit = resolutionPointsLimit_1Hour;
       duration = '3 days';
     break;
     case 'HOUR_4':
@@ -102,6 +104,7 @@ actions.getPriceData = async function(res = 'HOUR'){
       f2 = from_4hours;
       t = to;
       resolution = 'HOUR_4';
+      pointsLimit = resolutionPointsLimit_4Hours;
       duration = '1 week';
     break;
   }
@@ -134,7 +137,7 @@ actions.getPriceData = async function(res = 'HOUR'){
             console.log('New price data: --------');
             console.log(r.prices[0]);
             prc.push(r.prices[0]);
-            if(prc.length == 60) prc.shift();
+            if(prc.length == pointsLimit) prc.shift();
             cloud.updateFile(prc,prcPath);
             eval(name + '= prc');
           }
