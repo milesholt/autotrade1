@@ -625,6 +625,9 @@ actions.finalChecks = async function(){
 
   check14 = trend4Hours !== 'ranging';
 
+  //if there are not enough waves dont allow
+  if(!enoughWaves) check15 = false;
+
 
 
 }

@@ -88,7 +88,7 @@ This resets any default variables for each loop
 
 actions.setDefaults = async function(){
   //Main variables
-  check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true; check13 = false; check14 = false;
+  check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true; check13 = false; check14 = false; check15 = false;
   rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
   lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
