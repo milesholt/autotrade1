@@ -543,6 +543,11 @@ actions.finalChecks = async function(){
   //Also using number of waves to confirm ranging (needs to be more than 1)
   //And predicting that if the recent trend is in opposite direction of trend, the market will pivot
 
+
+  if(beforeRangeTrend == trend4Hours && currenttrend == 'ranging'){
+      trend = trend4Hours;
+  }
+
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
   let isPivoting = (recenttrend !== 'ranging' && recenttrend !== trend4Hours);
   let enoughWaves = (rangeData.waves.length >= 4);
@@ -553,6 +558,7 @@ actions.finalChecks = async function(){
     isRecentTrendBreaking = true;
     is4HoursTrendOveride = true;
   }
+
 
 
   if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
@@ -609,6 +615,10 @@ actions.finalChecks = async function(){
 
   //ensure last time traded is 3 hours or more
   tradebeforeCheck = market.tradedBefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
+
+
+
+
   check12 = tradebeforeCheck;
 
   check13 = isBeforeRangeTrendNotBroken;
