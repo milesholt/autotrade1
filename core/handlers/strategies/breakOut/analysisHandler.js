@@ -120,7 +120,7 @@ for stop - we add the difference
 
 actions.determineLimitDistance = async function(){
 
-let limitDistanceOffset = lib.toNumber(priceDiff * limitDistancePerc);
+let limitDistanceOffset = lib.toNumber(priceDiff * market.limitDistancePerc);
 let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
 //This calculation arrives to the same values as the logic above
