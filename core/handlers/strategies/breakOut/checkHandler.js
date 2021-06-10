@@ -647,8 +647,9 @@ actions.finalChecks = async function(){
 
   //collate which checks are false and true, any which are false prevents deal being made
   Object.keys(checks).forEach(check =>{
+    let c = { [check] : checks[check] };
+
     if(checks[check].is == false) {
-      let c = { [check] : checks[check] };
       falseChecks.push(c);
       isDeal = false;
     }else {
