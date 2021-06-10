@@ -479,7 +479,7 @@ CHECK LINES
 actions.checkLines = async function(){
   lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
   console.log('lineDistance: ' + lineDistance);
-  if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) checks.isRangeAreaGood.is = true;
+  if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) checks.___rangeAreaGood.is = true;
 }
 
 /*
@@ -490,7 +490,7 @@ CHECK RANGE
 
 actions.checkRangeConfirmations = async function(){
   rangeConfirmations = rangeData.support.prices_idx.length;
-  if(rangeConfirmations >= rangeConfirmationLimit) checks.isRangeConfirmationsGreaterThanLimit.is = true;
+  if(rangeConfirmations >= rangeConfirmationLimit) checks.___rangeConfirmationsGreaterThanLimit.is = true;
 }
 
 /*
@@ -536,8 +536,8 @@ actions.finalChecks = async function(){
 
 
 
-  if(trend == recenttrend) checks.isRecentTrendSameAsTrend.is = true;
-  if(trend == beforeRangeTrend) checks.isBeforeRangeSameAsTrend.is = true;
+  if(trend == recenttrend) checks.___recentTrendSameAsTrend.is = true;
+  if(trend == beforeRangeTrend) checks.___beforeRangeSameAsTrend.is = true;
   // if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
   //   check8 = true;
   // }
@@ -568,8 +568,8 @@ actions.finalChecks = async function(){
   //   check8 = true;
   // }
 
-  if((previousTrend == 'ranging' || (checks.isRangeConfirmationsGreaterThanLimit.is == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
-    checks.isBreakingThroughRange.is = true;
+  if((previousTrend == 'ranging' || (checks.___rangeConfirmationsGreaterThanLimit.is == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
+    checks.___breakingThroughRange.is = true;
   }
 
 
@@ -604,11 +604,11 @@ actions.finalChecks = async function(){
   //if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   //if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
 
-  if(trend == 'bullish' && lastClose > tradeLimitBuyLine) checks.isWithinTradeThreshold.is = false;
-  if(trend == 'bearish' && lastClose < tradeLimitSellLine) checks.isWithinTradeThreshold.is = false;
+  if(trend == 'bullish' && lastClose > tradeLimitBuyLine) checks.___withinTradeThreshold.is = false;
+  if(trend == 'bearish' && lastClose < tradeLimitSellLine) checks.___withinTradeThreshold.is = false;
 
   //if(Math.abs(lastClose - lastOpen) >= tradelimit) check9 = false;
-  checks.isNoVolatileGap.is = isNoVolatileGap;
+  checks.___noVolatileGap.is = isNoVolatileGap;
   //if a number of checks are passed, we overide beforeRangeTrend and pass only if lastBeforeRangeMovement is also the same as trend
   //lastBeforeRangeMovement only holds 'bullish' or 'bearish' when last recorded as beforeRangeTrend
   //this is to capture longer ranging staircase patterns, where the beforeRangeTrend might be outside number of hours we set as parameter
@@ -620,27 +620,25 @@ actions.finalChecks = async function(){
   // }
 
 
-  if(beforeRangeTrend == 'ranging' && trend == bRD.lastBeforeRangeTrendMovement && checks.isBreakingThroughRange.is == true && bRD.lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
+  if(beforeRangeTrend == 'ranging' && trend == bRD.lastBeforeRangeTrendMovement && checks.___breakingThroughRange.is == true && bRD.lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
     checks.isBeforeRangeSameAsTrend.is = true;
     beforeRangeOveridden = true;
   }
-  if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) checks.noBumpInRange.is = false;
+  if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) checks.___noBumpInRange.is = false;
 
   //ensure last time traded is 3 hours or more
   tradebeforeCheck = market.tradedBefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
 
 
+  checks.___notTradedBefore.is = tradebeforeCheck;
 
+  checks.___beforeRangeTrendNotBroken.is = isBeforeRangeTrendNotBroken;
 
-  checks.notTradedBefore.is = tradebeforeCheck;
-
-  checks.isBeforeRangeTrendNotBroken.is = isBeforeRangeTrendNotBroken;
-
-  checks.is4HoursNotRanging.is = (trend4Hours !== 'ranging');
+  checks.___4HoursNotRanging.is = (trend4Hours !== 'ranging');
 
   //if there are not enough waves dont allow
-  checks.isEnoughWaves.is = enoughWaves;
-  checks.isEnoughWaves.value = rangeData.waves.length;
+  checks.___enoughWaves.is = enoughWaves;
+  checks.___enoughWaves.value = rangeData.waves.length;
 
 
   //collate which checks are false and true, any which are false prevents deal being made
