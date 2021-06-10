@@ -620,7 +620,7 @@ actions.finalChecks = async function(){
   // }
 
 
-  if(beforeRangeTrend == 'ranging' && trend == bRD.lastBeforeRangeTrendMovement && checks.isBreakingThroughRange.is == true && && bRD.lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
+  if(beforeRangeTrend == 'ranging' && trend == bRD.lastBeforeRangeTrendMovement && checks.isBreakingThroughRange.is == true && bRD.lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
     checks.isBeforeRangeSameAsTrend.is = true;
     beforeRangeOveridden = true;
   }
