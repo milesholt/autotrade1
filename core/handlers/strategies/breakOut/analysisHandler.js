@@ -319,7 +319,7 @@ FINAL ANALYSIS
       'stopDistanceLevel': stopDistanceLevel,
       'limitDistance': limitDistance,
       'limitDistanceLevel': limitDistanceLevel,
-      'ticket': lib.isEmpty(market.deal) == false ? market.deal : {},
+      'ticket': lib.isEmpty(market.deal) == false ? market.deal.ticket : {},
       'isDeal' : isDeal,
       'falseChecks' : falseChecks,
       'trueChecks' : trueChecks
