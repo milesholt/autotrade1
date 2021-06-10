@@ -475,7 +475,7 @@ actions.configLimits = async function(){
 CHECK LINES
 
 */
- 
+
 actions.checkLines = async function(){
   lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
   console.log('lineDistance: ' + lineDistance);
@@ -644,10 +644,10 @@ actions.finalChecks = async function(){
   //collate which checks are false and true, any which are false prevents deal being made
   Object.keys(checks).forEach(check =>{
     if(checks[check].is == false) {
-      falseChecks.push(checks[check]);
+      falseChecks.push({ check : checks[check]});
       isDeal = false;
     }else {
-      trueChecks.push(checks[check]);
+      trueChecks.push({ check : checks[check]});
     }
   });
 
