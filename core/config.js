@@ -1,5 +1,39 @@
 //Checks
 check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true; check13 = false; check14 = false; check15 = false;
+//checks = [check0,check2,check6,check7,check8,check9,check10,check11,check12,check13,check14,check15]
+
+checks = {
+  'is4HoursNotRanging': {'is':false}, //check14
+  'noBumpInRange': {'is':true}, //check11
+  'isNoVolatileGap': {'is':false}, //check10
+  'isBreakingThroughRange': {'is':false}, //check8
+  'isWithinTradeThreshold': {'is':true}, //check9
+  'isBeforeRangeTrendNotBroken': {'is':false}, //check13
+  'isRecentTrendSameAsTrend': {'is':false}, //check6
+  'isBeforeRangeSameAsTrend': {'is':false}, //check7
+  'isRangeConfirmationsGreaterThanLimit': {'is':false}, //check2
+  'isRangeAreaGood': {'is':false}, //check0
+  'isEnoughWaves': {'is':false}, //check15
+  'notTradedBefore': {'is':false}, //check12
+}
+
+
+/*
+
+check0 -  isRangeAreaGood
+check2 - isRangeConfirmationsGreaterThanLimit
+check6 - isRecentTrendSameAsTrend
+check7 - isBeforeRangeSameAsTrend
+check8 - isBreakingThroughRange
+check9 - isWithinTradeThreshold
+check10 - isNoVolatileGap
+check11 - noBumpInRange
+check12 - notTradedBefore
+check13 - isBeforeRangeTrendNotBroken
+check14 - is4HoursNotRanging
+check15 - enoughWaves
+
+*/
 
 //Main limits
 momentLimitPerc = 0.1;
@@ -164,6 +198,9 @@ times4 = [];
 lowest4HourPrice = 0;
 highest4HourPrice = 0;
 priceDiff4Hours = 0;
+falseChecks = [];
+trueChecks = [];
+isDeal = true;
 
 //Dates
 resolution = 'HOUR';

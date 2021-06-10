@@ -204,6 +204,9 @@ actions.setDefaults = async function(){
   lowest4HourPrice = 0;
   highest4HourPrice = 0;
   priceDiff4Hours = 0;
+  falseChecks = [];
+  trueChecks = [];
+  isDeal = true;
 
 
   //Other variables
