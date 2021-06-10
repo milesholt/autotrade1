@@ -522,8 +522,40 @@ actions.drawChart4Hours = async function(){
       yaxis: 'y'
   };
 
-
   var traces = [trace1];
+
+  if(trend4Hours !== 'ranging'){
+    var trace2 = {
+          x: confirmationData.waves.x,
+          y: confirmationData.waves.y,
+          mode: 'lines+markers',
+          name: 'spline',
+          opacity: 0.5,
+          line: { shape: 'spline', width: 2, color:'#000000'},
+          type: 'scatter'
+    };
+
+    var trace3 = {
+            x: confirmationData.trendPoints.x,
+            y: confirmationData.trendPoints.y,
+            mode: 'lines',
+            line: { width: 2, color:'rgb(219, 64, 82)'}
+    };
+
+    var trace4 = {
+            x: confirmationData.confirmationPoints.x,
+            y: confirmationData.confirmationPoints.y,
+            mode: 'markers',
+            marker: {
+              size: 12,
+              opacity: 0.8,
+              color:'rgb(300, 164, 82)'
+            }
+     };
+
+     traces.push(trace2,trace4);
+  }
+
   var data = traces;
 
   //trend for 4 hours graph

@@ -641,6 +641,10 @@ actions.finalChecks = async function(){
   checks.___enoughWaves.value = rangeData.waves.length;
 
 
+  //check for confirmations
+  checks.___enoughConfirmations.is = confirmationData.confirmationPoints.length >= 2;
+
+
   //collate which checks are false and true, any which are false prevents deal being made
   Object.keys(checks).forEach(check =>{
     if(checks[check].is == false) {

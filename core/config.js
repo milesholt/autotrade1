@@ -15,6 +15,7 @@ checks = {
   '___rangeAreaGood': {'is':false}, //check0
   '___enoughWaves': {'is':false}, //check15
   '___notTradedBefore': {'is':false}, //check12
+  '___enoughConfirmations': {'is':false}
 }
 
 
@@ -95,6 +96,7 @@ finalMessage = '';
 
 rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
 lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
+confirmationData = { 'waves':[], 'confirmationPoints': [], 'trendPoints' : [] };
 confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
 //Data files

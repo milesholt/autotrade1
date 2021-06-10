@@ -300,6 +300,8 @@ FINAL ANALYSIS
       'bumpgroupcount': bumpgroupcount,
       'waves': rangeData.wavecount,
       'wavePoints':rangeData.waves.length,
+      'confirmations':confirmationData.confirmationPoints.length,
+      'isEnoughConfirmations':checks.___enoughConfirmations.is,
       'enoughWaves':checks.___enoughWaves.is,
       'notTradedBefore': checks.___notTradedBefore.is,
       'lastTimeTraded': market.tradedBefore !== false ? moment(market.tradedBefore).format('LLL') : false,

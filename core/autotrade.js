@@ -20,7 +20,8 @@ Core services
 
 */
 
-const strategy = require('./strategies/breakoutStrategy.js');
+const breakoutStrategy = require('./strategies/breakoutStrategy.js');
+const confirmationStrategy = require('./strategies/confirmationStrategy.js');
 const analytics = require('./services/analytics.js');
 const mailer = require('./services/mailer.js');
 const testmailer = require('./tests/mailer.js');
@@ -91,6 +92,7 @@ actions.setDefaults = async function(){
   check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true; check13 = false; check14 = false; check15 = false;
   rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
   lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
+  confirmationData = { 'waves':[], 'confirmationPoints': [], 'trendPoints' : [] };
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
   //Date variables
@@ -291,8 +293,8 @@ actions.exec = async function(){
     await checkHandler.actions.configLimits();
 
     //Setup lines
-    supportline = await strategy.actions.calcResistSupport(pricedata2,'support');
-    resistanceline = await strategy.actions.calcResistSupport(pricedata2,'resistance');
+    supportline = await breakoutStrategy.actions.calcResistSupport(pricedata2,'support');
+    resistanceline = await breakoutStrategy.actions.calcResistSupport(pricedata2,'resistance');
     lineData.support = supportline;
     lineData.resistance = resistanceline;
 
@@ -310,6 +312,9 @@ actions.exec = async function(){
 
     //Handle 4 hour trend
     await trendHandler.actions.determine4HourTrend();
+
+    //Handle confirmations
+    await confirmationStrategy.actions.determineConfirmations();
 
     //Handle beforeRangeData
     await beforeRangeHandler.actions.determineBeforeRangeData();
@@ -384,7 +389,7 @@ module.exports = {
   path:path,
   fs:fs,
   util:util,
-  strategy:strategy,
+  strategy:breakoutStrategy,
   analytics:analytics,
   mailer:mailer,
   testmailer:testmailer,
