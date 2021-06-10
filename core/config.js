@@ -3,18 +3,18 @@ check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false
 //checks = [check0,check2,check6,check7,check8,check9,check10,check11,check12,check13,check14,check15]
 
 checks = {
-  'is4HoursNotRanging': {'is':false}, //check14
-  'noBumpInRange': {'is':true}, //check11
-  'isNoVolatileGap': {'is':false}, //check10
-  'isBreakingThroughRange': {'is':false}, //check8
-  'isWithinTradeThreshold': {'is':true}, //check9
-  'isBeforeRangeTrendNotBroken': {'is':false}, //check13
-  'isRecentTrendSameAsTrend': {'is':false}, //check6
-  'isBeforeRangeSameAsTrend': {'is':false}, //check7
-  'isRangeConfirmationsGreaterThanLimit': {'is':false}, //check2
-  'isRangeAreaGood': {'is':false}, //check0
-  'isEnoughWaves': {'is':false}, //check15
-  'notTradedBefore': {'is':false}, //check12
+  '___4HoursNotRanging': {'is':false}, //check14
+  '___noBumpInRange': {'is':true}, //check11
+  '___noVolatileGap': {'is':false}, //check10
+  '___breakingThroughRange': {'is':false}, //check8
+  '___withinTradeThreshold': {'is':true}, //check9
+  '___beforeRangeTrendNotBroken': {'is':false}, //check13
+  '___recentTrendSameAsTrend': {'is':false}, //check6
+  '___beforeRangeSameAsTrend': {'is':false}, //check7
+  '___rangeConfirmationsGreaterThanLimit': {'is':false}, //check2
+  '___rangeAreaGood': {'is':false}, //check0
+  '___enoughWaves': {'is':false}, //check15
+  '___notTradedBefore': {'is':false}, //check12
 }
 
 

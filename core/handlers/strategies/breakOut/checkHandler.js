@@ -475,7 +475,7 @@ actions.configLimits = async function(){
 CHECK LINES
 
 */
-
+ 
 actions.checkLines = async function(){
   lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
   console.log('lineDistance: ' + lineDistance);
