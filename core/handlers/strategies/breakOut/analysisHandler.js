@@ -320,9 +320,9 @@ FINAL ANALYSIS
       'limitDistance': limitDistance,
       'limitDistanceLevel': limitDistanceLevel,
       'ticket': lib.isEmpty(market.deal) == false ? market.deal : {},
-      'isDeal' : isDeal;
-      'falseChecks' : falseChecks;
-      'trueChecks' : trueChecks;
+      'isDeal' : isDeal,
+      'falseChecks' : falseChecks,
+      'trueChecks' : trueChecks
     };
 
   await log.analysisLog(analysis);
