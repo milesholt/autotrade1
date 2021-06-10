@@ -176,3 +176,7 @@ actions.determineConfirmations = async function(){
  }
 
 }
+
+module.exports = {
+  actions: actions
+}
