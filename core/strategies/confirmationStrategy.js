@@ -11,6 +11,9 @@ actions.determineConfirmations = async function(){
     var wavedata = [];
     var prices = close4;
 
+    console.log('Confirmation price data:');
+    console.log(prices);
+
     prices.forEach((closePrice,i) => {
 
       var close = closePrice;
