@@ -299,7 +299,7 @@ FINAL ANALYSIS
       'bumps': rangeData.bumps,
       'bumpgroupcount': bumpgroupcount,
       'waves': rangeData.wavecount,
-      'wavePoints':rangeData.waves.length,
+      'wavePoints':rangeData.waves.length, 
       'confirmations':confirmationData.confirmationPoints.length,
       'isEnoughConfirmations':checks.___enoughConfirmations.is,
       'enoughWaves':checks.___enoughWaves.is,
