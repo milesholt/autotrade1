@@ -124,6 +124,9 @@ actions.determineConfirmations = async function(){
   });
   waves = waves.filter(point => point.remove == false);
 
+  console.log('Confirmation waves:');
+  console.log(waves);
+
 
 
  if(trend4Hours !== 'ranging'){
