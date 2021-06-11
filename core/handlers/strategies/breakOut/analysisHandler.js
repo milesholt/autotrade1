@@ -302,7 +302,7 @@ FINAL ANALYSIS
       'wavePoints':rangeData.waves.length,
       'confirmations':trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.x.length : 'none',
       'confirmationData':trend4Hours !== 'ranging' ? confirmationData : 'none',
-      'confirmationWaves': trend4Hours !== 'ranging' ? confirmationData.waves.y : 'none',
+      'confirmationWaves': trend4Hours !== 'ranging' ? confirmationData.waves : 'none',
       'confirmationTrendPoints': trend4Hours !== 'ranging' ? confirmationData.trendPoints.y : 'none',
       'confirmationPoints': trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.y : 'none',
       'isEnoughConfirmations':checks.___enoughConfirmations.is,
