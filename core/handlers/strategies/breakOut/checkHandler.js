@@ -621,7 +621,7 @@ actions.finalChecks = async function(){
 
 
   if(beforeRangeTrend == 'ranging' && trend == bRD.lastBeforeRangeTrendMovement && checks.___breakingThroughRange.is == true && bRD.lastBeforeRangeTrendMovementDiff >= (rangelimit/2)) {
-    checks.isBeforeRangeSameAsTrend.is = true;
+    checks.___beforeRangeSameAsTrend.is = true;
     beforeRangeOveridden = true;
   }
   if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) checks.___noBumpInRange.is = false;
