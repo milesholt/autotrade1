@@ -60,7 +60,7 @@ actions.determineConfirmations = async function(){
 
 
 
-  let rangeArea = analysis.highest4HourPrice - analysis.lowest4HourPrice;
+  let rangeArea = highest4HourPrice - lowest4HourPrice;
   let pointPercLimit = 0.1;
 
   // //2) Remove any points that are within percentage of the rangeArea to one another
