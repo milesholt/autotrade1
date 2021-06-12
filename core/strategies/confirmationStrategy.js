@@ -74,6 +74,9 @@ actions.determineConfirmations = async function(){
   waves = waves.filter(point => point.remove == false);
 
 
+  console.log(waves);
+
+
   // //3) Remove any duplicate points that are in the same direction and not a pivot point
   waves.forEach((point,idx)=>{
     if(idx > 0 && idx < waves.length-1){
