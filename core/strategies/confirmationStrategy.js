@@ -17,7 +17,7 @@ actions.determineConfirmations = async function(){
     prices.forEach((closePrice,i) => {
 
       var close = closePrice;
-      var open = open4;
+      var open = open4[i];
       var dir = 'NEUTRAL';
       if(open > close) dir = 'DOWN';
       if(close > open) dir = 'UP'
