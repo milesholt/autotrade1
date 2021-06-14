@@ -536,8 +536,7 @@ actions.finalChecks = async function(){
 
 
 
-  if(trend == recenttrend) checks.___recentTrendSameAsTrend.is = true;
-  if(trend == beforeRangeTrend) checks.___beforeRangeSameAsTrend.is = true;
+
   // if((previousTrend == 'ranging' || (check2 == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
   //   check8 = true;
   // }
@@ -604,6 +603,9 @@ actions.finalChecks = async function(){
   //if(trend == 'bullish' && (Math.abs(lastClose - resistanceline) >= tradelimit)) check9 = false;
   //if(trend == 'bearish' && (Math.abs(lastClose - supportline) >= tradelimit)) check9 = false;
 
+  if(trend == recenttrend) checks.___recentTrendSameAsTrend.is = true;
+  if(trend == beforeRangeTrend) checks.___beforeRangeSameAsTrend.is = true;
+
   if(trend == 'bullish' && lastClose > tradeLimitBuyLine) checks.___withinTradeThreshold.is = false;
   if(trend == 'bearish' && lastClose < tradeLimitSellLine) checks.___withinTradeThreshold.is = false;
 
@@ -657,6 +659,26 @@ actions.finalChecks = async function(){
     }
   });
 
+
+
+
+  //Handle Checks
+  // falseChecks.forEach(f => {
+  //   switch(f){
+  //     case '___enoughConfirmations':
+  //
+  //     break;
+  //     case '___enoughWave':
+  //
+  //     break;
+  //     case '___beforeRangeSameAsTrend':
+  //
+  //     break;
+  //     case '___beforeRangeSameAsTrend':
+  //
+  //     break;
+  //   }
+  // });
 
 
 }
