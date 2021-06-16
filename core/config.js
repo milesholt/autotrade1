@@ -15,7 +15,8 @@ checks = {
   '___rangeAreaGood': {'is':false}, //check0
   '___enoughWaves': {'is':false}, //check15
   '___notTradedBefore': {'is':false}, //check12
-  '___enoughConfirmations': {'is':false}
+  '___enoughConfirmations': {'is':false},
+  '___isRecentTrendPivoting':{'is':false}
 }
 
 

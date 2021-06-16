@@ -643,6 +643,9 @@ actions.finalChecks = async function(){
   checks.___enoughWaves.is = enoughWaves;
   checks.___enoughWaves.value = rangeData.waves.length;
 
+  //Check recent trend is pivoting against overall trend
+  checks.___isRecentTrendPivoting = isPivoting;
+
 
   //check for confirmations
   checks.___enoughConfirmations.is = trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.y.length >= 2 : false;
