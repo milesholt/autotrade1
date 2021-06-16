@@ -552,6 +552,7 @@ actions.finalChecks = async function(){
 
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
   let isPivoting = (recenttrend !== 'ranging' && recenttrend !== trend4Hours);
+  let tmp_recentrend = recenttrend;
   let enoughWaves = (rangeData.waves.length >= 4);
   if(trendBenchmark === true && enoughWaves === true && isPivoting === true ) {
     console.log('is4hoursTrendOveriding is being set to true.');
@@ -644,7 +645,7 @@ actions.finalChecks = async function(){
   checks.___enoughWaves.value = rangeData.waves.length;
 
   //Check recent trend is pivoting against overall trend
-  checks.___isRecentTrendPivoting = isPivoting;
+  checks.___isRecentTrendPivoting.is = isPivoting;
 
 
   //check for confirmations
