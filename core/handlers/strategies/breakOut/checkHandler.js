@@ -646,6 +646,7 @@ actions.finalChecks = async function(){
 
   //Check recent trend is pivoting against overall trend
   checks.___isRecentTrendPivoting.is = isPivoting;
+  checks.___isRecentTrendPivoting.value = tmp_recentrend;
 
 
   //check for confirmations
