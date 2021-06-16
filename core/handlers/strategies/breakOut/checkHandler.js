@@ -645,8 +645,8 @@ actions.finalChecks = async function(){
   checks.___enoughWaves.value = rangeData.waves.length;
 
   //Check recent trend is pivoting against overall trend
-  checks.___isRecentTrendPivoting.is = isPivoting;
-  checks.___isRecentTrendPivoting.value = tmp_recentrend;
+  checks.___recentTrendPivoting.is = isPivoting;
+  checks.___recentTrendPivoting.value = tmp_recentrend;
 
 
   //check for confirmations
