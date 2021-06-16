@@ -644,7 +644,7 @@ actions.finalChecks = async function(){
 
 
   //check for confirmations
-  checks.___enoughConfirmations.is = confirmationData.confirmationPoints.y.length >= 2;
+  checks.___enoughConfirmations.is = trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.y.length >= 2 : false;
 
 
   //collate which checks are false and true, any which are false prevents deal being made
