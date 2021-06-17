@@ -61,7 +61,7 @@ actions.determineConfirmations = async function(){
 
 
   let rangeArea = highest4HourPrice - lowest4HourPrice;
-  let pointPercLimit = 0.1;
+  let pointPercLimit = 0.07;
 
   // //2) Remove any points that are within percentage of the rangeArea to one another
   waves.forEach((point,idx)=>{
@@ -157,23 +157,33 @@ actions.determineConfirmations = async function(){
    //do confirmations
    let confirmations_arr = {
      x:[],
-     y:[]
+     y:[],
+     idx:[]
    }
 
    waves.forEach((wave,idx) =>{
      let linePoint  = parseFloat(line_arr.y[idx].toFixed(2));
      let offset = 0.18;
      let margin = (rangeArea * offset);
+     let prevIdx = (idx-1) > 0 ?  (idx-1) : false;
+
+     let prevConfirm = ((idx-1) > 0) && (confirmations_arr.idx.length)  ? confirmations_arr.idx[confirmations_arr.idx.length-1] : false;
 
      if(trend4Hours == 'bullish'){
        if(wave.close < linePoint - margin){
-         confirmations_arr.y.push(wave.close);
-         confirmations_arr.x.push(wave.time);
+         if(prevConfirm !== (idx-1)){
+           confirmations_arr.y.push(wave.close);
+           confirmations_arr.x.push(wave.time);
+           confirmations_arr.idx.push(idx);
+         }
        }
      } else {
        if(wave.close > linePoint + margin){
-         confirmations_arr.y.push(wave.close);
-         confirmations_arr.x.push(wave.time);
+          if(prevConfirm !== (idx-1)){
+            confirmations_arr.y.push(wave.close);
+            confirmations_arr.x.push(wave.time);
+            confirmations_arr.idx.push(idx);
+          }
        }
      }
    });
