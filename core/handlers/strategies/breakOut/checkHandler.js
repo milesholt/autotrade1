@@ -634,7 +634,7 @@ actions.finalChecks = async function(){
 
   checks.___notTradedBefore.is = tradebeforeCheck;
 
-  checks.___beforeRangeTrendNotBroken.is = isBeforeRangeTrendNotBroken;
+  //checks.___beforeRangeTrendNotBroken.is = isBeforeRangeTrendNotBroken;
 
   checks.___4HoursNotRanging.is = (trend4Hours !== 'ranging');
 
