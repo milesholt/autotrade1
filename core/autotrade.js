@@ -97,7 +97,7 @@ actions.setDefaults = async function(){
     '___noVolatileGap': {'is':false}, //check10
     '___breakingThroughRange': {'is':false}, //check8
     '___withinTradeThreshold': {'is':true}, //check9
-  //  '___beforeRangeTrendNotBroken': {'is':false}, //check13
+    '___beforeRangeTrendNotBroken': {'is':false}, //check13
     '___recentTrendSameAsTrend': {'is':false}, //check6
     '___beforeRangeSameAsTrend': {'is':false}, //check7
     '___rangeConfirmationsGreaterThanLimit': {'is':false}, //check2
