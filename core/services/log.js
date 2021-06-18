@@ -134,6 +134,10 @@ actions.analysisLog = async function(data){
   delete data.pricedata;
 
   if(analysisDataSet.length == 36) analysisDataSet.shift();
+
+  console.log('ticket info:');
+  console.log(data.ticket);
+
   analysisDataSet.push(data);
 
   let analysis = 'var analysis_'+market.id+'='+JSON.stringify(analysisDataSet);
