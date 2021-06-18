@@ -309,6 +309,7 @@ FINAL ANALYSIS
       'isEnoughConfirmations':checks.___enoughConfirmations.is,
       'enoughWaves':checks.___enoughWaves.is,
       'notTradedBefore': checks.___notTradedBefore.is,
+      'tradedBeforeTimestamp': market.tradedBefore,
       'lastTimeTraded': market.tradedBefore !== false ? moment(market.tradedBefore).format('LLL') : false,
       'tradedBeforeHoursDiff': market.tradedBefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") : false,
       'beforeRangeOveridden': beforeRangeOveridden,
