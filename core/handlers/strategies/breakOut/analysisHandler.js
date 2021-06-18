@@ -88,8 +88,8 @@ let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
 let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
 
-if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( lineData.support - stopDistanceOffset), 'abs');
-if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( lineData.resistance + stopDistanceOffset), 'abs');
+if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( cp - stopDistanceOffset), 'abs');
+if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( cp + stopDistanceOffset), 'abs');
 
 stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
 
@@ -128,8 +128,8 @@ let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 //OLD
 //limitDistance = lib.toNumber((lastCloseAsk - (lastCloseBid + limitDistanceOffset)),'abs');
 
-if(trend == 'bullish') limitDistanceLevel = lib.toNumber(( lineData.resistance + limitDistanceOffset), 'abs');
-if(trend == 'bearish') limitDistanceLevel = lib.toNumber(( lineData.support - limitDistanceOffset), 'abs');
+if(trend == 'bullish') limitDistanceLevel = lib.toNumber(( cp + limitDistanceOffset), 'abs');
+if(trend == 'bearish') limitDistanceLevel = lib.toNumber(( cp - limitDistanceOffset), 'abs');
 
 limitDistance = lib.toNumber((cp - limitDistanceLevel), 'abs');
 
