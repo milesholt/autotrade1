@@ -520,8 +520,8 @@ actions.finalChecks = async function(){
   //Possible addition of check5
   //this checks to ensure last price bar is either above support/resistance depending on trend
   //eg. you wouldn't want last price bar to bearish, matching with initial direction but far above resistance line, which would actually suggest it was bullish overall
-  // if(lastClose < supportline && lastClose < resistanceline) check5 = true;
-  // if(lastClose > supportline && lastClose > resistanceline) check5 = true;
+  if(lastClose < supportline && lastClose < resistanceline) checks.___lastCloseAboveBelowLines.is = true;
+  if(lastClose > supportline && lastClose > resistanceline) checks.___lastCloseAboveBelowLines.is = true;
 
   //if number of range confirmations is over limit
   //if price bar is within horizontal lines

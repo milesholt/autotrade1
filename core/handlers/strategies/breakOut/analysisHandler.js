@@ -285,7 +285,7 @@ FINAL ANALYSIS
       'recentRangeIndex22': recentrange.indexOf(22),
       'recentRangeIndex23': recentrange.indexOf(23),
       'updatedtrend': trend,
-      //'islastCloseAboveBelowLines': check5,
+      'islastCloseAboveBelowLines': checks.___lastCloseAboveBelowLines.is,
       'isRecentTrendPivoting': checks.___recentTrendPivoting.is,
       'isRecentTrendSameAsTrend': checks.___recentTrendSameAsTrend.is,
       'isBeforeRangeSameAsTrend': checks.___beforeRangeSameAsTrend.is,
