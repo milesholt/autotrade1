@@ -17,7 +17,9 @@ checks = {
   '___notTradedBefore': {'is':false}, //check12
   '___enoughConfirmations': {'is':false},
   '___recentTrendPivoting':{'is':true}, // overridden for now / disabled
-  '___lastCloseAboveBelowLines':{'is':false}
+  '___lastCloseAboveBelowLines':{'is':false},
+  '___beforeRangeSameAs4HourTrend':{'is':false},
+  '___recentTrendSameAs4HourTrend':{'is':false}
 }
 
 

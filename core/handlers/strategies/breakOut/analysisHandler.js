@@ -290,6 +290,8 @@ FINAL ANALYSIS
       'isRecentTrendSameAsTrend': checks.___recentTrendSameAsTrend.is,
       'isBeforeRangeSameAsTrend': checks.___beforeRangeSameAsTrend.is,
       'isBeforeRangeTrendNotBroken' : checks.___beforeRangeTrendNotBroken.is,
+      'isBeforeRangeSameAs4HourTrend' : checks.___beforeRangeSameAs4HourTrend.is,
+      'isRecentTrendSameAs4HourTrend' : checks.___recentTrendSameAs4HourTrend.is,
       //'isRecentTrendBreaking' : isRecentTrendBreaking,
       'isBreakingThroughRange': checks.___breakingThroughRange.is,
       'isWithinTradeThreshold': checks.___withinTradeThreshold.is,
