@@ -551,6 +551,7 @@ actions.finalChecks = async function(){
   }
 
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
+
   let tmp_recentrend = recenttrend;
   if(trendBenchmark === true) {
     console.log('is4hoursTrendOveriding is being set to true.');
@@ -641,7 +642,7 @@ actions.finalChecks = async function(){
 
   //make sure beforerange and recent range (if they are both not ranging) are not in the opposite direction as trend4hours
   if(beforeRangeTrend !== 'ranging' && beforeRangeTrend == trend4Hours)  checks.___beforeRangeSameAs4HourTrend.is = true;
-  if(recenttrend !== 'ranging' && recenttrend == trend4hours) checks.___recentTrendSameAs4HourTrend.is = true;
+  if(recenttrend !== 'ranging' && recenttrend == trend4Hours) checks.___recentTrendSameAs4HourTrend.is = true;
 
 
 
