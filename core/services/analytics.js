@@ -41,18 +41,18 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   //priceData = priceData.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
 
-  let toDelete = [];
+  //let toDelete = [];
 
   priceData.forEach((price,idx) =>{
       if(price.closeAsk == null || price.closeBid == null){
         console.log('--------------price data has zero');
-        toDelete.push(idx);
+        //toDelete.push(idx);
       }
     });
 
-  toDelete.forEach(didx =>{
-    priceData.splice(didx,1);
-  });
+  // toDelete.forEach(didx =>{
+  //   priceData.splice(didx,1);
+  // });
 
 
   let isRange = true;
@@ -510,11 +510,16 @@ DRAW CHART
 
 actions.drawChart4Hours = async function(){
 
+
+
+
   let shapes = [];
   let lowest4 = lowest4HourPrice;
   let highest4 = highest4HourPrice;
   let starttime =  prices_4hour[0].snapshotTime.replace(/\//g, '-');
   let endtime = prices_4hour[ prices_4hour.length-1].snapshotTime.replace(/\//g, '-');
+
+
 
   var trace1 = {
       x: times4,
