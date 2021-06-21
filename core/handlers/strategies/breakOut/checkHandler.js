@@ -638,15 +638,10 @@ actions.finalChecks = async function(){
 
   checks.___4HoursNotRanging.is = (trend4Hours !== 'ranging');
 
-  if(beforeRangeTrend !== 'ranging' && beforeRangeTrend == trend4Hours){
-    //make sure beforerange and recent range (if they are both not ranging) are not in the opposite direction as trend4hours
-    checks.___beforeRangeSameAs4HourTrend.is = true;
-  }
 
-  if(recenttrend !== 'ranging' && recenttrend == trend4hours){
-    //make sure beforerange and recent range (if they are both not ranging) are not in the opposite direction as trend4hours
-    checks.___recentTrendSameAs4HourTrend.is = true;
-  }
+  //make sure beforerange and recent range (if they are both not ranging) are not in the opposite direction as trend4hours
+  if(beforeRangeTrend !== 'ranging' && beforeRangeTrend == trend4Hours)  checks.___beforeRangeSameAs4HourTrend.is = true;
+  if(recenttrend !== 'ranging' && recenttrend == trend4hours) checks.___recentTrendSameAs4HourTrend.is = true;
 
 
 

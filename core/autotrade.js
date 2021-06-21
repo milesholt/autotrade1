@@ -106,7 +106,9 @@ actions.setDefaults = async function(){
     '___notTradedBefore': {'is':false}, //check12
     '___enoughConfirmations': {'is':false},
     '___recentTrendPivoting':{'is':true},
-    '___lastCloseAboveBelowLines':{'is':false}
+    '___lastCloseAboveBelowLines':{'is':false},
+    '___beforeRangeSameAs4HourTrend':{'is':false},
+    '___recentTrendSameAs4HourTrend':{'is':false}
   }
 
   rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
