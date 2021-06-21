@@ -186,7 +186,7 @@ actions.sortPriceData = async function(){
     pricedata.support = pricedata.support.filter(price => price.askClose !== null || price.bidClose !== null);
     pricedata.resistance = pricedata.resistance.filter(price => price.askClose !== null || price.bidClose !== null);
 
-    prices_4hour = prices_4hour.filter(price => price.highPrice.ask !== null || price.highPrice.bid !== null || price.lowPrice.ask !== null || price.lowPrice.bid !== null || price.closePrice.ask !== null || price.closePrice.bid !== null || price.openPrice.ask !== null || price.openPrice.bid !== null);
+    prices_4hour = prices_4hour.filter(price => price.highPrice.ask !== null && price.highPrice.bid !== null && price.lowPrice.ask !== null && price.lowPrice.bid !== null && price.closePrice.ask !== null && price.closePrice.bid !== null && price.openPrice.ask !== null && price.openPrice.bid !== null);
 
     //Second pricedata (24 hour range)
     let start = (pricedata.support.length - 25);
