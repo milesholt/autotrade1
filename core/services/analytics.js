@@ -41,11 +41,19 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   //priceData = priceData.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
 
-  priceData.forEach(price =>{
-    if(price.closeAsk == null || price.closeBid == null){
-      console.log('--------------price data has zero');
-    }
+  let toDelete = [];
+
+  priceData.forEach((price,idx) =>{
+      if(price.closeAsk == null || price.closeBid == null){
+        console.log('--------------price data has zero');
+        toDelete.push(idx);
+      }
+    });
+
+  toDelete.forEach(didx =>{
+    priceData.splice(didx,1);
   });
+
 
   let isRange = true;
 
