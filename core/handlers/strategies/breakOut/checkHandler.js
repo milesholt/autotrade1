@@ -556,10 +556,19 @@ actions.finalChecks = async function(){
   if(trendBenchmark === true) {
     console.log('is4hoursTrendOveriding is being set to true.');
     trend = trend4Hours;
-    recenttrend = trend4Hours;
-    beforeRangeTrend = trend4Hours;
-    isRecentTrendBreaking = true;
-    is4HoursTrendOveride = true;
+
+    //we also need to make sure the lastClose is on the right side of the lines before we overide
+    let trendLinesCheck = false;
+    if(trend == 'bullish' && lastClose > resistanceline) trendLinesCheck = true;
+    if(trend == 'bearish' && lastClose < supportline) trendLinesCheck = true;
+
+    if(trendLinesCheck == true){
+      recenttrend = trend4Hours;
+      beforeRangeTrend = trend4Hours;
+      isRecentTrendBreaking = true;
+      is4HoursTrendOveride = true;
+    }
+
   }
 
 
