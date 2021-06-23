@@ -96,6 +96,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   });
 
   markets[mid_tmp].deal = {};
+  markets[mid_tmp].tradedBefore = moment().valueOf();
 
   const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
