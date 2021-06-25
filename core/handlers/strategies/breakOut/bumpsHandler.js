@@ -57,17 +57,51 @@ actions.determineBumpVolatility = async function(){
   let group = [];
   let bidx = 0;
 
-  rangeData.bumps.forEach(bump => {
-    if(bump.idx == (bidx+1)){
-      group.push(bump);
-    }else {
-      //new group
-      bumpGroups.push(group);
-      group = [];
-      group.push(bump);
-    }
-    bidx = bump.idx;
-  });
+  // rangeData.bumps.forEach(bump => {
+  //   if(bump.idx == (bidx+1)){
+  //     group.push(bump);
+  //   }else {
+  //     //new group
+  //     bumpGroups.push(group);
+  //     group = [];
+  //     group.push(bump);
+  //   }
+  //   bidx = bump.idx;
+  // });
+
+
+  // rangeData.bumps.forEach((bump,idx) => {
+  //   if((idx+1) < rangeData.bumps.length-1){
+  //       let next = rangeData.bumps[idx+1];
+  //       if(next.idx == bump.idx+1){
+  //         group.push(bump)
+  //       }else{
+  //         bumpGroups.push(group);
+  //         group = [];
+  //       }
+  //   }
+  //
+  //
+  // });
+
+  rangeData.bumps.forEach((bump,idx)=>{
+     if((idx-1) >= 0){
+       let prev = rangeData.bumps[idx-1];
+       if(prev.idx == bump.idx-1){
+         group.push(bump);
+       }else{
+         bumpGroups.push(group);
+         group = [];
+         group.push(bump);
+       }
+   } else {
+       group.push(bump);
+   }
+
+   if(idx == rangeData.bumps.length-1){
+     bumpGroups.push(group);
+   }
+});
 
 
   /* Step2: Determine volatility for each group */
