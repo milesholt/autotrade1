@@ -303,7 +303,7 @@ FINAL ANALYSIS
       'bumpgroupcount': bumpgroupcount,
       'bumpVolatilityData': {
         'bumpVolatilityPerc': bumpVolatilityPerc,
-        'bumpVolatilityLimit' : bumpVolatilityLimit,
+        'bumpVolatilityDiff' : bumpVolatilityDiff,
         'bumpVolatilityIndex': bumpVolatilityIndex
       },
       'isbumpVolatility': checks.___bumpVolatility.is,
