@@ -77,29 +77,31 @@ actions.determineBumpVolatility = async function(){
   let lowest = 0;
   let highest = 0;
 
-  bumpGroups.forEach((group, i) => {
-    closes = [];
-    group.forEach((bump,i) => {
-      closes.push(bump.close);
+  if(bumpGroups.length > 0){
+    bumpGroups.forEach((group, i) => {
+      closes = [];
+      group.forEach((bump,i) => {
+        closes.push(bump.close);
+      });
+      closes.sort(lib.sortNumber);
+      lowest = closes[0];
+      highest = closes[closes.length-1];
+      let bumpVolatilityIndex = group[group.length-1].idx;
+      let bumpVolatility = highest - lowest;
+      bumpVolatilities.push(bumpVolatility);
+      bumpVolatilityIndexes.push(bumpVolatilityIndex);
     });
-    closes.sort(lib.sortNumber);
-    lowest = closes[0];
-    highest = closes[closes.length-1];
-    let bumpVolatilityIndex = group[group.length-1].idx;
-    let bumpVolatility = highest - lowest;
-    bumpVolatilities.push(bumpVolatility);
-    bumpVolatilityIndexes.push(bumpVolatilityIndex);
-  });
 
-  //choose the bump group with the highest volatility difference
-  bumpVolatilities.sort(lib.sortNumber);
-  bumpVolatilityIndexes.sort(lib.sortNumber);
-  bumpVolatilityDiff = bumpVolatilities[bumpVolatilities.length -1];
-  bumpVolatilityIndex = bumpVolatilityIndexes[bumpVolatilityIndexes.length -1];
+    //choose the bump group with the highest volatility difference
+    bumpVolatilities.sort(lib.sortNumber);
+    bumpVolatilityIndexes.sort(lib.sortNumber);
+    bumpVolatilityDiff = bumpVolatilities[bumpVolatilities.length -1];
+    bumpVolatilityIndex = bumpVolatilityIndexes[bumpVolatilityIndexes.length -1];
 
-  /* Step3: get percentage of highest bump volatility difference */
+    /* Step3: get percentage of highest bump volatility difference */
 
-  bumpVolatilityPerc = lib.toNumber(bumpVolatilityDiff / priceDiff);
+    bumpVolatilityPerc = lib.toNumber(bumpVolatilityDiff / priceDiff);
+  }
 
 }
 

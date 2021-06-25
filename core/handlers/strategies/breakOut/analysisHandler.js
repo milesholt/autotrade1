@@ -306,7 +306,7 @@ FINAL ANALYSIS
         'bumpVolatilityDiff' : bumpVolatilityDiff,
         'bumpVolatilityIndex': bumpVolatilityIndex
       },
-      'isbumpVolatility': checks.___bumpVolatility.is,
+      'isNoBumpVolatility': checks.___noBumpVolatility.is,
       'waves': rangeData.wavecount,
       'wavePoints':rangeData.waves.length,
       'confirmations':trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.x.length : 'none',
