@@ -159,8 +159,8 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
 
   tmp_cloud.forEach((tc,i)=>{
     if(tc.deal) tc.deal = cloudFile[i].deal;
-    if(tc.data) tc.data = cloudFile[i].data; 
-    if(tc.tradedBefore){
+    if(tc.data) tc.data = cloudFile[i].data;
+    if(cloudFile[i].tradedBefore !== false){
       tc.tradedBefore = cloudFile[i].tradedBefore;
       console.log('using cloude traded Before:' + cloudFile[i].tradedBefore);
     }
