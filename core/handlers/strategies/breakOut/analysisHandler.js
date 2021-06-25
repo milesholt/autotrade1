@@ -301,6 +301,12 @@ FINAL ANALYSIS
       'noBumpInRange': checks.___noBumpInRange.is,
       'bumps': rangeData.bumps,
       'bumpgroupcount': bumpgroupcount,
+      'bumpInfo': {
+        'bumpVolatilityPerc': bumpVolatilityPerc,
+        'bumpVolatilityLimit' : bumpVolatilityLimit,
+        'bumpVolatilityIndex': bumpVolatilityIndex
+      },
+      'isbumpVolatility': checks.___bumpVolatility.is,
       'waves': rangeData.wavecount,
       'wavePoints':rangeData.waves.length,
       'confirmations':trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.x.length : 'none',

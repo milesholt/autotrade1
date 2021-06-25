@@ -1,5 +1,6 @@
 var actions = {};
 var core;
+var lib;
 
 /*
 
@@ -9,6 +10,7 @@ REQUIRE
 
 actions.require = async function(){
   core = require.main.exports;
+  lib = core.lib.actions;
 }
 
 /*
@@ -32,6 +34,73 @@ actions.determineBumps = async function(){
     if(bump.idx == (bidx+1)) bumpgroupcount++;
     bidx = bump.idx;
   });
+}
+
+/*
+
+DETERMINE HIGHEST BUMP VOLATILITY
+
+*/
+
+
+actions.determineBumpVolatility = async function(){
+
+  /*
+    Loop through bump groups
+    for each group, get the difference between highest and lowest points
+    We then get a percentage of the price difference, which becomes the threshold
+    If the bump difference is greater than this threshold, then bump volatility is true
+  */
+
+  /* Step 1: Create bump groups */
+  let bumpGroups = [];
+  let group = [];
+  let bidx = 0;
+
+  rangeData.bumps.forEach(bump => {
+    if(bump.idx == (bidx+1)){
+      group.push(bump);
+    }else {
+      //new group
+      bumpGroups.push(group);
+      group = [];
+      group.push(bump);
+    }
+    bidx = bump.idx;
+  });
+
+
+  /* Step2: Determine volatility for each group */
+
+  let bumpVolatilities = [];
+  let bumpVolatilityIndexes = [];
+  let lowest = 0;
+  let highest = 0;
+
+  bumpGroups.forEach((group, i) => {
+    closes = [];
+    group.forEach((bump,i) => {
+      closes.push(bump.close);
+    });
+    closes.sort(lib.sortNumber);
+    lowest = closes[0];
+    highest = closes[closes.length-1];
+    let bumpVolatilityIndex = group[group.length-1].idx;
+    let bumpVolatility = highest - lowest;
+    bumpVolatilities.push(bumpVolatility);
+    bumpVolatilityIndexes.push(bumpVolatilityIndex);
+  });
+
+  //choose the bump group with the highest volatility difference
+  bumpVolatilities.sort(lib.sortNumber);
+  bumpVolatilityIndexes.sort(lib.sortNumber);
+  bumpVolatilityDiff = bumpVolatilities[bumpVolatilities.length -1];
+  bumpVolatilityIndex = bumpVolatilityIndexes[bumpVolatilityIndexes.length -1];
+
+  /* Step3: get percentage of highest bump volatility difference */
+
+  bumpVolatilityPerc = lib.toNumber(bumpVolatilityDiff / priceDiff);
+
 }
 
 module.exports = {

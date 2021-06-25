@@ -671,6 +671,11 @@ actions.finalChecks = async function(){
   checks.___enoughConfirmations.is = trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.y.length >= 2 : false;
 
 
+  //Check bump volatility and that bump is recent
+
+  checks.___bumpVolatility.is = (bumpVolatilityPerc > bumpVolatilityLimit) && (bumpVolatilityIndex >= 20);
+
+
   //collate which checks are false and true, any which are false prevents deal being made
   Object.keys(checks).forEach(check =>{
     let c = { [check] : checks[check] };

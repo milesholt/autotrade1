@@ -108,7 +108,8 @@ actions.setDefaults = async function(){
     '___recentTrendPivoting':{'is':true},
     '___lastCloseAboveBelowLines':{'is':false},
     '___beforeRangeSameAs4HourTrend':{'is':false},
-    '___recentTrendSameAs4HourTrend':{'is':false}
+    '___recentTrendSameAs4HourTrend':{'is':false},
+    '___bumpVolatility':{'is':false}
   }
 
   rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
@@ -199,6 +200,9 @@ actions.setDefaults = async function(){
   previousTrend = 'ranging';
   bRD = {};
   bumpgroupcount = 0;
+  bumpVolatilityDiff = 0;
+  bumpVolatilityPerc = 0;
+  bumpVolatilityIndex = 0;
   lineDistance = 0;
   rangeConfirmations = 0;
   stopDistance = 0;

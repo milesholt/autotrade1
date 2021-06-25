@@ -19,7 +19,8 @@ checks = {
   '___recentTrendPivoting':{'is':true}, // overridden for now / disabled
   '___lastCloseAboveBelowLines':{'is':false},
   '___beforeRangeSameAs4HourTrend':{'is':false},
-  '___recentTrendSameAs4HourTrend':{'is':false}
+  '___recentTrendSameAs4HourTrend':{'is':false},
+  '___bumpVolatility':{'is':false}
 }
 
 
@@ -48,6 +49,7 @@ lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
 limitClosePerc = 0.65;
 stopClosePerc = 1;
+bumpVolatilityLimit = 0.6;
 
 momentumLimit = 0;
 rangelimit = 0;
@@ -65,6 +67,9 @@ confirmationlimit = 3;
 missingHoursLimit = 3;
 tradeBeforeHours = 4;
 bumpgrouplimit = 5;
+bumpVolatilityDiff = 0;
+bumpVolatilityPerc = 0;
+bumpVolatilityIndex = 0;
 size = 1;
 stopDistance = 0;
 stopDistanceLevel = 0;
