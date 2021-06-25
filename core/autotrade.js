@@ -361,6 +361,7 @@ actions.exec = async function(){
 
     //Handle bumps
     await bumpsHandler.actions.determineBumps();
+    await bumpsHandler.actions.determineBumpVolatility();
 
     //Final checks
     await checkHandler.actions.finalChecks();
