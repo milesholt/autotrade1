@@ -301,7 +301,7 @@ FINAL ANALYSIS
       'noBumpInRange': checks.___noBumpInRange.is,
       'bumps': rangeData.bumps,
       'bumpgroupcount': bumpgroupcount,
-      'bumpInfo': {
+      'bumpVolatilityData': {
         'bumpVolatilityPerc': bumpVolatilityPerc,
         'bumpVolatilityLimit' : bumpVolatilityLimit,
         'bumpVolatilityIndex': bumpVolatilityIndex
