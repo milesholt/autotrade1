@@ -183,8 +183,8 @@ actions.sortPriceData = async function(){
     //Clean data, remove any price data with 0
     pricedata.support = pricedata.support.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
     pricedata.resistance = pricedata.resistance.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
-    pricedata.support = pricedata.support.filter(price => price.askClose !== null || price.bidClose !== null);
-    pricedata.resistance = pricedata.resistance.filter(price => price.askClose !== null || price.bidClose !== null);
+    pricedata.support = pricedata.support.filter(price => price.askClose !== null && price.bidClose !== null);
+    pricedata.resistance = pricedata.resistance.filter(price => price.askClose !== null && price.bidClose !== null);
 
     prices_4hour = prices_4hour.filter(price => price.highPrice.ask !== null && price.highPrice.bid !== null && price.lowPrice.ask !== null && price.lowPrice.bid !== null && price.closePrice.ask !== null && price.closePrice.bid !== null && price.openPrice.ask !== null && price.openPrice.bid !== null);
 
