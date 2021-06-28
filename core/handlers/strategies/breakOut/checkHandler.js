@@ -672,8 +672,7 @@ actions.finalChecks = async function(){
 
 
   //Check bump volatility and that bump is recent
-
-  checks.___noBumpVolatility.is = (bumpVolatilityPerc < bumpVolatilityLimit) && (bumpVolatilityIndex < 20);
+  if (bumpVolatilityPerc < bumpVolatilityLimit) if ((bumpVolatilityIndex < 20)) checks.___noBumpVolatility.is = false;
 
 
   //collate which checks are false and true, any which are false prevents deal being made
