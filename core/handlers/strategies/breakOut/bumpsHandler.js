@@ -110,16 +110,17 @@ actions.determineBumpVolatility = async function(){
   let bumpVolatilityIndexes = [];
   let lowest = 0;
   let highest = 0;
+  let bumpCloses = [];
 
   if(bumpGroups.length > 0){
     bumpGroups.forEach((group, i) => {
-      closes = [];
+      bumpCloses = [];
       group.forEach((bump,i) => {
-        closes.push(bump.close);
+        bumpCloses.push(bump.close);
       });
-      closes.sort(lib.sortNumber);
-      lowest = closes[0];
-      highest = closes[closes.length-1];
+      bumpCloses.sort(lib.sortNumber);
+      lowest = bumpCloses[0];
+      highest = bumpCloses[bumpCloses.length-1];
       let bumpVolatilityIndex = group[group.length-1].idx;
       let bumpVolatility = highest - lowest;
       bumpVolatilities.push(bumpVolatility);
