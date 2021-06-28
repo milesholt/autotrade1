@@ -130,7 +130,7 @@ actions.determineBumpVolatility = async function(){
     //choose the bump group with the highest volatility difference
     bumpVolatilities.sort(lib.sortNumber);
     bumpVolatilityIndexes.sort(lib.sortNumber);
-    bumpVolatilityDiff = bumpVolatilities[bumpVolatilities.length -1];
+    bumpVolatilityDiff = lib.toNumber(bumpVolatilities[bumpVolatilities.length -1]);
     bumpVolatilityIndex = bumpVolatilityIndexes[bumpVolatilityIndexes.length -1];
 
     /* Step3: get percentage of highest bump volatility difference */
