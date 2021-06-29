@@ -90,7 +90,7 @@ actions.determineStopDistance = async function(){
   let minStopValPerc = lib.toNumber(minStop.value); //by default type is assumed percent
 
   //if type is points, we convert this to percentage by getting minimum value of 1 point
-  if(minStop.type == 'points') minStopValPerc = lib.toNumber((lib.toNumber(minStop.value)/1);
+  if(minStop.type == 'points') minStopValPerc = lib.toNumber((lib.toNumber(minStop.value))/1);
 
   //if the minimum value is less than offset, we can ignore it
   if(minStopValPerc < market.stopDistancePerc) minStopValPerc = 0;
