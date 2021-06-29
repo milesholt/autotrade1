@@ -564,7 +564,7 @@ actions.finalChecks = async function(){
 
     if(trendLinesCheck == true){
       recenttrend = trend4Hours;
-      beforeRangeTrend = trend4Hours;
+      //beforeRangeTrend = trend4Hours;
       isRecentTrendBreaking = true;
       is4HoursTrendOveride = true;
     }
