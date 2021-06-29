@@ -83,15 +83,26 @@ DETERMINE STOP DISTANCE
 actions.determineStopDistance = async function(){
 
   //Stop distance to be % of price diff, expanded from support/resistance line
+  let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
-let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
+  //Here we calculate the minimum stop and ensure the stop distance isnt less than this otherwise we get an ORDER LEVEL ERROR
+  let minStop = market.minimumStop;
+  let minStopValPerc = minStop.value; //by default type is assumed percent
 
-let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
+  //if type is points, we convert this to percentage by getting minimum value of 1 point
+  if(minStop.type == 'points') minStopValPerc = (minStop.value/1);
 
-if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( cp - stopDistanceOffset), 'abs');
-if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( cp + stopDistanceOffset), 'abs');
+  //if the minimum value is less than offset, we can ignore it
+  if(minStopValPerc < market.stopDistancePerc) minStopValPerc = 0;
 
-stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
+  market.stopDistancePerc = market.stopDistancePerc + minStopValPerc;
+
+  let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
+
+  if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( cp - stopDistanceOffset), 'abs');
+  if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( cp + stopDistanceOffset), 'abs');
+
+  stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
 
 }
 
