@@ -87,35 +87,27 @@ actions.determineStopDistance = async function(){
 
   //Here we calculate the minimum stop and ensure the stop distance isnt less than this otherwise we get an ORDER LEVEL ERROR
   let minStop = market.minimumStop;
-  let minStopVal = lib.toNumber(market.minimumStop.value); //by default type is assumed percent
-
+  let minStopVal = lib.toNumber(market.minimumStop.value); //by default type is assumed points
+  //if minimum stop is percentage, convert this to points
+  if(market.minimumStop.type == 'percent') minStopVal = lib.toNumber(cp * minStopVal);
 
   //if type is points, we convert this to percentage by getting minimum value of 1 point
-  if(market.minimumStop.type == 'points') minStopVal = lib.toNumber(minStopVal/1);
-
-
-
-  //if the minimum value is less than offset, we can ignore it
-  if(minStopVal < market.stopDistancePerc){
-    console.log('minStopVal is less then stopDistancePerc, setting to 0');
-    minStopVal = 0;
-  }
-
-  console.log('cp:');
-  console.log(minStopVal);
-
-  console.log('minimStop value:');
-  console.log(cp);
-
-  console.log('stopDistancePerc:');
-  console.log(market.stopDistancePerc);
-
-  market.stopDistancePerc = lib.toNumber(lib.toNumber(market.stopDistancePerc) + minStopVal);
-
-  console.log('updated stopDistancePerc:');
-  console.log(market.stopDistancePerc);
+  // if(market.minimumStop.type == 'points') minStopVal = lib.toNumber(minStopVal/1);
+  //
+  // //if the minimum value is less than offset, we can ignore it
+  // if(minStopVal < market.stopDistancePerc) minStopVal = 0;
+  //
+  // market.stopDistancePerc = lib.toNumber(lib.toNumber(market.stopDistancePerc) + minStopVal);
 
   let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
+
+
+
+  //if stop offset is less than minimum points, get minimum difference and double it as an offset
+  if(stopDistanceOffset < minStopVal){
+    let minDiff = lib.toNumber(minStopVal - stopDistanceOffset);
+    stopDistanceOffset = lib.toNumber(stopDistanceOffset + (minDiff * 2));
+  }
 
   if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( cp - stopDistanceOffset), 'abs');
   if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( cp + stopDistanceOffset), 'abs');
