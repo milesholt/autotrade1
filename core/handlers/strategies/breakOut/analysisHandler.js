@@ -95,12 +95,17 @@ actions.determineStopDistance = async function(){
   //if type is points, we convert this to percentage by getting minimum value of 1 point
   if(market.minimumStop.type == 'points') minStopVal = lib.toNumber(minStopVal/1);
 
-  console.log(minStopVal);
+
 
   //if the minimum value is less than offset, we can ignore it
   if(minStopVal < market.stopDistancePerc) minStopVal = 0;
 
-  market.stopDistancePerc = lib.toNumber(market.stopDistancePerc + minStopVal);
+  console.log(minStopVal);
+
+  market.stopDistancePerc = lib.toNumber(lib.toNumber(market.stopDistancePerc) + minStopVal);
+
+  console.log('stopDistancePerc:');
+  console.log(market.stopDistancePerc);
 
   let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
 
