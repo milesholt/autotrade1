@@ -54,6 +54,9 @@ actions.determineConfirmations = async function(){
         w.dir = dir;
       }
       if(idx == last) waves.push(point);
+    } else {
+      //push first point
+      waves.push(point);
     }
   });
 
