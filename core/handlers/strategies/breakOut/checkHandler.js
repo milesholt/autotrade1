@@ -668,7 +668,8 @@ actions.finalChecks = async function(){
 
 
   //check for confirmations
-  checks.___enoughConfirmations.is = trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.y.length >= 2 : false;
+  if ((trend4HoursDiffPerc >= 60 && confirmationData.confirmationPoints.y.length >= 1)) checks.___enoughConfirmations.note = 'Overidden. trend4HoursDiffPerc is over 60% with 1 confirmation.';
+  checks.___enoughConfirmations.is = trend4Hours !== 'ranging' ? (confirmationData.confirmationPoints.y.length >= 2) || (trend4HoursDiffPerc >= 60 && confirmationData.confirmationPoints.y.length >= 1) : false;
 
 
   //Check bump volatility and that bump is recent
