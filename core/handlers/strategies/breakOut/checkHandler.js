@@ -676,6 +676,10 @@ actions.finalChecks = async function(){
   if (bumpVolatilityPerc >= bumpVolatilityLimit) if ((bumpVolatilityIndex >= 20)) checks.___noBumpVolatility.is = false;
 
 
+  //if lastCloseDiff (highest lowest difference) is above 50% percentage of priceDiff, lastClose is volatile and dont go
+  //if (  lib.toNumber((lastHigh - lastLow)/priceDiff) > 0.5)  checks.___lastCloseVolatile = true;
+
+
   //collate which checks are false and true, any which are false prevents deal being made
   Object.keys(checks).forEach(check =>{
     let c = { [check] : checks[check] };
