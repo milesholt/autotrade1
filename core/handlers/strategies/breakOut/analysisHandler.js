@@ -268,6 +268,7 @@ FINAL ANALYSIS
       'lastHigh': lastHigh,
       'lastLow': lastLow,
       'lastDiff': lastDiff,
+      'lastPriceVolatile': checks.___lastPriceVolatile.is,
       'lineData': lineData,
       'lineDistance': lineDistance,
       'previousTrend' : previousTrend,

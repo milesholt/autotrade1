@@ -20,7 +20,8 @@ checks = {
   '___lastCloseAboveBelowLines':{'is':false},
   '___beforeRangeSameAs4HourTrend':{'is':false},
   '___recentTrendSameAs4HourTrend':{'is':false},
-  '___noBumpVolatility':{'is':true}
+  '___noBumpVolatility':{'is':true},
+  '___lastPriceVolatile':{'is':false}
 }
 
 
