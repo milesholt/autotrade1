@@ -677,7 +677,7 @@ actions.finalChecks = async function(){
 
 
   //if lastCloseDiff (highest lowest difference) is above 50% percentage of priceDiff, lastClose is volatile and dont go
-  if (  lib.toNumber((lastHigh - lastLow)/priceDiff) >= 0.5)  checks.___lastPriceVolatile.is = true;
+  if (  lib.toNumber((lastHigh - lastLow)/priceDiff) >= 0.5)  checks.___lastPriceVolatile.is = false;
 
 
   //collate which checks are false and true, any which are false prevents deal being made
