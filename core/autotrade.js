@@ -110,7 +110,7 @@ actions.setDefaults = async function(){
     '___beforeRangeSameAs4HourTrend':{'is':false},
     '___recentTrendSameAs4HourTrend':{'is':false},
     '___noBumpVolatility':{'is':true},
-    '___lastPriceVolatile':{'is':true}
+    '___nolastPriceVolatile':{'is':true}
   }
 
   rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
