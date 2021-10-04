@@ -1,1 +1,1 @@
-[]
+[{"timestamp":1633351590176,"date":"October 4, 2021 1:46 PM","limitLevel":689.56,"stopLevel":662.04,"newLimit":684.74,"lastClose":684.8,"direction":"BUY","openLevel":675.8,"data":{"snapshotTime":"2021-10-04 13:46:28","openPrice":{"bid":681.3,"ask":681.9,"lastTraded":null},"closePrice":{"bid":684.8,"ask":685.4,"lastTraded":null},"highPrice":{"bid":684.9,"ask":685.5,"lastTraded":null},"lowPrice":{"bid":680.5,"ask":681.1,"lastTraded":null},"lastTradedVolume":5827},"dealId":"DIAAAAGM9KAY6AG","profit":9,"amount":9,"result":"PROFIT","epic":"CC.D.LGO.USS.IP"}]
