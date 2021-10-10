@@ -470,6 +470,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       await api.closePosition(m.dealId).then(async r =>{
                                         console.log(util.inspect(r, false, null));
+                                        if(r.dealStatus == 'REJECTED' && r.reason == 'MARKET_CLOSED_WITH_EDITS'){
+                                          console.log('Market is closed, cannot close position. Stopping.');
+                                          actions.stopMonitor(timer, m.epic);
+                                          return false;
+                                        }
                                         closeAnalysis.profit = r.confirms.profit;
 
                                         //get confirmation of position with recorded profit price from server
@@ -570,6 +575,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       await api.closePosition(m.dealId).then(async r =>{
                                         console.log(util.inspect(r, false, null));
+                                        if(r.dealStatus == 'REJECTED' && r.reason == 'MARKET_CLOSED_WITH_EDITS'){
+                                          console.log('Market is closed, cannot close position. Stopping.');
+                                          actions.stopMonitor(timer, m.epic);
+                                          return false;
+                                        }
                                         closeAnalysis.profit = r.confirms.profit;
 
 
@@ -742,7 +752,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       } else {
                                         if(!attempt){
                                           setTimeout(()=>{
-                                            console.log('No subscription yet. But no light stream error. Trying stream again after 5 seconds');
+                                            console.log('No subscription yet. But no light stream error. Trying stream again after 5 seconds. Attempt is:' + attempt);
                                             actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
                                           },5000);
                                         } else{
