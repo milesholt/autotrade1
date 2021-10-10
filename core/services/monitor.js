@@ -476,9 +476,26 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           console.log('Market is closed, cannot close position. Stopping.');
                                           marketIsClosed = true;
                                           actions.stopMonitor(timer, m.epic);
-                                          return false;
                                         }
                                         closeAnalysis.profit = r.confirms.profit;
+
+                                        if(marketIsClosed == false){
+                                          var mailOptions = {
+                                            from: 'contact@milesholt.co.uk',
+                                            to: 'miles_holt@hotmail.com',
+                                            subject: 'Closed position. PROFIT. ' + m.epic,
+                                            text: JSON.stringify(closeAnalysis)
+                                          };
+                                          mailer.actions.sendMail(mailOptions);
+                                          actions.stopMonitor(timer, m.epic);
+                                          log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                          github.actions.updateFile({}, m.streamLogDir);
+
+                                        } else {
+                                          console.log('Market is closed, not closing or stopping anything, returning false.');
+                                        }
+
+                                        return false;
 
                                         //get confirmation of position with recorded profit price from server
                                         // await api.confirmPosition(dealRef).then(async positionData =>{
@@ -490,20 +507,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       }).catch(e => console.log(e));
 
-                                      if(!marketIsClosed){
-                                        var mailOptions = {
-                                          from: 'contact@milesholt.co.uk',
-                                          to: 'miles_holt@hotmail.com',
-                                          subject: 'Closed position. PROFIT. ' + m.epic,
-                                          text: JSON.stringify(closeAnalysis)
-                                        };
-                                        mailer.actions.sendMail(mailOptions);
-                                        actions.stopMonitor(timer, m.epic);
-                                        log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                        github.actions.updateFile({}, m.streamLogDir);
 
-                                        return false;
-                                      }
 
 
                                     } else {
@@ -588,10 +592,27 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           console.log('Market is closed, cannot close position. Stopping.');
                                           actions.stopMonitor(timer, m.epic);
                                           marketIsClosed = true;
-                                          return false;
                                         }
                                         closeAnalysis.profit = r.confirms.profit;
 
+                                        if(marketIsClosed == false){
+                                          var mailOptions = {
+                                            from: 'contact@milesholt.co.uk',
+                                            to: 'miles_holt@hotmail.com',
+                                            subject: 'Closed position. LOSS. ' + m.epic,
+                                            text: JSON.stringify(closeAnalysis)
+                                          };
+                                          mailer.actions.sendMail(mailOptions);
+                                          actions.stopMonitor(timer, m.epic);
+                                          log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                          //update stream data
+                                          github.actions.updateFile({}, m.streamLogDir);
+
+                                        } else{
+                                          console.log('Market is closed, not closing or stopping anything, returning false.');
+                                        }
+
+                                        return false;
 
 
                                         //get confirmation of position with recorded profit price from server
@@ -604,20 +625,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       }).catch(e => console.log(e));
 
-                                      if(!marketIsClosed){
-                                        var mailOptions = {
-                                          from: 'contact@milesholt.co.uk',
-                                          to: 'miles_holt@hotmail.com',
-                                          subject: 'Closed position. LOSS. ' + m.epic,
-                                          text: JSON.stringify(closeAnalysis)
-                                        };
-                                        mailer.actions.sendMail(mailOptions);
-                                        actions.stopMonitor(timer, m.epic);
-                                        log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                        //update stream data
-                                        github.actions.updateFile({}, m.streamLogDir);
-                                        return false;
-                                      }
+
 
 
 
