@@ -470,7 +470,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       await api.closePosition(m.dealId).then(async r =>{
                                         console.log(util.inspect(r, false, null));
-                                        if(r.dealStatus == 'REJECTED' && r.reason == 'MARKET_CLOSED_WITH_EDITS'){
+                                        if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
                                           console.log('Market is closed, cannot close position. Stopping.');
                                           actions.stopMonitor(timer, m.epic);
                                           return false;
@@ -575,7 +575,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       await api.closePosition(m.dealId).then(async r =>{
                                         console.log(util.inspect(r, false, null));
-                                        if(r.dealStatus == 'REJECTED' && r.reason == 'MARKET_CLOSED_WITH_EDITS'){
+                                        if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
                                           console.log('Market is closed, cannot close position. Stopping.');
                                           actions.stopMonitor(timer, m.epic);
                                           return false;
