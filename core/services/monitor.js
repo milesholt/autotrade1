@@ -450,6 +450,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         profit:null
                                       }
 
+                                      let marketIsClosed = false;
+
                                       posfound = false;
                                       await api.showOpenPositions().then(positions => {
                                       console.log(util.inspect(r,false,null));
@@ -472,6 +474,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         console.log(util.inspect(r, false, null));
                                         if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
                                           console.log('Market is closed, cannot close position. Stopping.');
+                                          marketIsClosed = true;
                                           actions.stopMonitor(timer, m.epic);
                                           return false;
                                         }
@@ -487,18 +490,22 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       }).catch(e => console.log(e));
 
-                                      var mailOptions = {
-                                        from: 'contact@milesholt.co.uk',
-                                        to: 'miles_holt@hotmail.com',
-                                        subject: 'Closed position. PROFIT. ' + m.epic,
-                                        text: JSON.stringify(closeAnalysis)
-                                      };
-                                      mailer.actions.sendMail(mailOptions);
-                                      actions.stopMonitor(timer, m.epic);
-                                      log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                      github.actions.updateFile({}, m.streamLogDir);
+                                      if(!marketIsClosed){
+                                        var mailOptions = {
+                                          from: 'contact@milesholt.co.uk',
+                                          to: 'miles_holt@hotmail.com',
+                                          subject: 'Closed position. PROFIT. ' + m.epic,
+                                          text: JSON.stringify(closeAnalysis)
+                                        };
+                                        mailer.actions.sendMail(mailOptions);
+                                        actions.stopMonitor(timer, m.epic);
+                                        log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                        github.actions.updateFile({}, m.streamLogDir);
 
-                                      return false;
+                                        return false;
+                                      }
+
+
                                     } else {
 
                                       console.log('Couldnt find monitor data, doing nothing');
@@ -553,6 +560,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         profit:null
                                       }
 
+                                      let marketIsClosed = false;
+
 
                                       posfound = false;
                                       await api.showOpenPositions().then(positions => {
@@ -578,6 +587,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
                                           console.log('Market is closed, cannot close position. Stopping.');
                                           actions.stopMonitor(timer, m.epic);
+                                          marketIsClosed = true;
                                           return false;
                                         }
                                         closeAnalysis.profit = r.confirms.profit;
@@ -594,18 +604,22 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       }).catch(e => console.log(e));
 
-                                      var mailOptions = {
-                                        from: 'contact@milesholt.co.uk',
-                                        to: 'miles_holt@hotmail.com',
-                                        subject: 'Closed position. LOSS. ' + m.epic,
-                                        text: JSON.stringify(closeAnalysis)
-                                      };
-                                      mailer.actions.sendMail(mailOptions);
-                                      actions.stopMonitor(timer, m.epic);
-                                      log.actions.closeTradeLog(m.epic,closeAnalysis);
-                                      //update stream data
-                                      github.actions.updateFile({}, m.streamLogDir);
-                                      return false;
+                                      if(!marketIsClosed){
+                                        var mailOptions = {
+                                          from: 'contact@milesholt.co.uk',
+                                          to: 'miles_holt@hotmail.com',
+                                          subject: 'Closed position. LOSS. ' + m.epic,
+                                          text: JSON.stringify(closeAnalysis)
+                                        };
+                                        mailer.actions.sendMail(mailOptions);
+                                        actions.stopMonitor(timer, m.epic);
+                                        log.actions.closeTradeLog(m.epic,closeAnalysis);
+                                        //update stream data
+                                        github.actions.updateFile({}, m.streamLogDir);
+                                        return false;
+                                      }
+
+
 
                                     } else {
                                       console.log('Couldnt find monitor data, doing nothing');
