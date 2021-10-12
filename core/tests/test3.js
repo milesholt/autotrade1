@@ -61,15 +61,15 @@ async function exec(){
   //Rolls-Royce Holdings PLC - KA.D.RR.DAILY.IP
   //INR/JPY - CS.D.INRJPY.TODAY.IP
   //MXN/JPY - CS.D.MXNJPY.TODAY.IP
-
+  //Clean Energy - KA.D.INRG.DAILY.IP'
 
 
 
   // console.log('-------Searching for Epics');
-  // const searchterm = encodeURI('INR JPY');
-  // await api.search(searchterm).then(r => {
-  //   console.log(r);
-  // }).catch(e => console.log(e));
+  const searchterm = encodeURI('iShares Global Clean Energy UCITS ETF USD');
+  await api.search(searchterm).then(r => {
+    console.log(r);
+  }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = '2XMFTXH4WH644TP';
@@ -174,16 +174,16 @@ async function exec(){
   // const resolution = 'HOUR';
   // const from = '2021-01-06%2000:00:00';
   // const to = '2021-01-09%2009:00:00';
-  // await api.histPrc('CC.D.VIX.USS.IP', resolution, from, to).then(r => {
+  // await api.histPrc('CS.D.USCGC.TODAY.IP', resolution, from, to).then(r => {
   //   console.log(util.inspect(r,false,null));
   // }).catch(e => console.log(e));
 
-  const resolution = 'HOUR_4';
-  const from = moment().subtract(8, 'hours').format('YYYY-MM-DD%20HH:00:00');;
-  const to = moment().format('YYYY-MM-DD%20HH:00:00');
-  await api.histPrc('CC.D.VIX.USS.IP', resolution, from, to).then(r => {
-    console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
+  // const resolution = 'HOUR_4';
+  // const from = moment().subtract(8, 'hours').format('YYYY-MM-DD%20HH:00:00');;
+  // const to = moment().format('YYYY-MM-DD%20HH:00:00');
+  // await api.histPrc('CC.D.VIX.USS.IP', resolution, from, to).then(r => {
+  //   console.log(util.inspect(r,false,null));
+  // }).catch(e => console.log(e));
 
 
   //time check6let timestamp  = moment().format('LLL');
