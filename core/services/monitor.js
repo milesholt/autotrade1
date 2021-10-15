@@ -456,17 +456,20 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       await api.showOpenPositions().then(positions => {
                                       console.log(util.inspect(r,false,null));
 
-                                        positions.forEach(p => {
-                                          if(p.position.dealId == m.dealId){
-                                            posfound = true;
-                                          }
-                                        });
-
+                                        if(positions.length){
+                                          positions.forEach(p => {
+                                            if(p.position.dealId == m.dealId){
+                                              posfound = true;
+                                            }
+                                          });
+                                        }
+                                        
                                         if(posfound){
                                           console.log('Position found before closing');
                                         }else {
                                           console.log('Tried to close, but no open positions found with dealId:' + m.dealId);
                                           console.log(positions);
+                                          return false;
                                         }
                                       }).catch(e => console.log(e));
 
@@ -571,17 +574,21 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       await api.showOpenPositions().then(positions => {
                                       console.log(util.inspect(r,false,null));
 
-                                        positions.forEach(position => {
-                                          if(position.position.dealId == m.dealId){
-                                            posfound = true;
-                                          }
-                                        });
+
+                                        if(positions.length){
+                                          positions.forEach(position => {
+                                            if(position.position.dealId == m.dealId){
+                                              posfound = true;
+                                            }
+                                          });
+                                        }
 
                                         if(posfound){
                                           console.log('Position found before closing');
                                         }else {
                                           console.log('No positions found with dealId:' + m.dealId);
                                           console.log(positions);
+                                          return false;
                                         }
                                       }).catch(e => console.log(e));
 
