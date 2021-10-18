@@ -332,6 +332,8 @@ actions.checkOpenTrade = async function(){
               await monitor.iniMonitor(dealId, dealRef, epic);
             }
 
+          } else {
+             console.log('Deal has been closed. handle here.');
           }
 
     }).catch(async e => {
