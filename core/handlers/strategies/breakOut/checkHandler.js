@@ -332,8 +332,6 @@ actions.checkOpenTrade = async function(){
               await monitor.iniMonitor(dealId, dealRef, epic);
             }
 
-          } else {
-             console.log('Deal has been closed. handle here.');
           }
 
     }).catch(async e => {
@@ -342,87 +340,172 @@ actions.checkOpenTrade = async function(){
       console.log(e);
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
 
-      await api.acctTransaction('ALL_DEAL',undefined, undefined, 20,1).then(async r => {
-        //console.log(util.inspect(r,false,null));
-        let transactions = r.transactions;
-        console.log('Looping through transactions..');
-        console.log('DealId: ' + dealId);
+      //Get history
+      let from2 = undefined;
+      let to2 = undefined;
+      let detailed = true;
+      let dealId2 = null;
+      let pageSize2 = 50;
+      await api.acctActivity(from2, to2, detailed, undefined, pageSize2).then(r => {
+       if(r.activities.length){
+         r.activities.forEach(activity => {
+             if(activity.details.actions.length){
+               if(activity.details.actions[0].affectedDealId == dealId && activity.details.actions[0].actionType == 'POSITION_CLOSED'){
+                 console.log('Position has been found and has been closed');
+                 dealId2 = activity.dealId;
+                 console.log('Updated dealId: ' + activity.dealId);
+               }
+             }
+         });
+       }
+     }).catch(e => console.log(e));
 
-        let isTransactionFound =  false;
+     if(dealId2 !== null){
 
-        //TODO: There is an issue with the dates not being in sync by 1 hour, when a trade is made, the date is 1 hour behind
-          //going by open levels for now
+       let pageSize = 20;
+       let type = 'ALL_DEAL';
+       let from = undefined;
+       let to = undefined;
+       await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+           let transactions = r.transactions;
+           transactions.forEach(transaction =>{
+             if(transaction.reference == dealId2){
+               console.log(dealId2);
+               console.log('dealId found. position has been closed');
 
-        let marketOpenLevel = market.deal.openLevel;
-        let marketDealStartTime = moment(market.deal.start_timestamp).format('YYYYMDDh');
-        console.log('market deal start: ' + marketDealStartTime);
-        console.log('epic: ' + epic);
+               let closeAnalysis = {
+                 timestamp: moment(transaction.dateUTC).valueOf(),
+                 date: moment(transaction.dateUTC).format('LLL'),
+                 lastClose: transaction.closeLevel,
+                 direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
+                 openLevel: transaction.openLevel,
+                 amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
+                 result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
+                 data: 'NO DATA',
+                 dealId: dealId,
+                 transactionDealId: transaction.reference
+               }
 
-        transactions.forEach(transaction =>{
+               console.log(closeAnalysis);
+               console.log('closing trade log...');
 
-          let transactionOpenDate = moment(transaction.openDateUtc).format('YYYYMDDh');
-          console.log('transaction open date: ' +  transactionOpenDate);
-          console.log('transaction name: ' + transaction.instrumentName);
-          console.log('transactionOpenDate: ' + transactionOpenDate);
-          console.log('marketDealStartTime: ' + marketDealStartTime);
-          console.log('market alias: ' + market.alias);
-          console.log('marketopenLevel: ' + marketOpenLevel);
-          console.log('transaction open level:' + transaction.openLevel )
+               log.closeTradeLog(market.epic, closeAnalysis);
+               log.closeMonitorLog(market.epic);
+           }
+         });
+       }).catch(e => console.log(e));
 
+     } else {
 
-          //https://jsfiddle.net/FLhpq/4/
+       console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
+       console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
+       market.deal = {};
 
-
-          //if( market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime ){
-          if( market.alias == transaction.instrumentName && marketOpenLevel == transaction.openLevel ){
-
-            isTransactionFound =  true;
-
-            console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
-
-            let closeAnalysis = {
-              timestamp: moment(transaction.dateUTC).valueOf(),
-              date: moment(transaction.dateUTC).format('LLL'),
-              lastClose: transaction.closeLevel,
-              direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
-              openLevel: transaction.openLevel,
-              amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
-              result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
-              data: 'NO DATA',
-              dealId: dealId,
-              transactionDealId: transaction.reference
-            }
-
-            console.log(closeAnalysis);
-            console.log('closing trade log...');
-
-            log.closeTradeLog(market.epic, closeAnalysis);
-            log.closeMonitorLog(market.epic);
-
-          }
-        });
-
-        if(!isTransactionFound){
-          console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
-          console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
-          market.deal = {};
+     }
 
 
-          //Clear any monitoring if any
-          //log.closeMonitorLog(market.epic);
-          //await cloud.updateFile(markets,marketDataDir);
 
-          // await actions.checkDealId(dealRef).then(id => {
-          //   dealId = id;
-          //   console.log('got dealId: ' + dealId);
-          // }).catch(e => {
-          //   console.log(e);
-          //   return false;
-          // });
 
-        }
 
-      }).catch(e => console.log(e));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // await api.acctTransaction('ALL_DEAL',undefined, undefined, 20,1).then(async r => {
+      //   //console.log(util.inspect(r,false,null));
+      //   let transactions = r.transactions;
+      //   console.log('Looping through transactions..');
+      //   console.log('DealId: ' + dealId);
+      //
+      //   let isTransactionFound =  false;
+      //
+      //   //TODO: There is an issue with the dates not being in sync by 1 hour, when a trade is made, the date is 1 hour behind
+      //     //going by open levels for now
+      //
+      //   let marketOpenLevel = market.deal.openLevel;
+      //   let marketDealStartTime = moment(market.deal.start_timestamp).format('YYYYMDDh');
+      //   console.log('market deal start: ' + marketDealStartTime);
+      //   console.log('epic: ' + epic);
+      //
+      //   transactions.forEach(transaction =>{
+      //
+      //     let transactionOpenDate = moment(transaction.openDateUtc).format('YYYYMDDh');
+      //     console.log('transaction open date: ' +  transactionOpenDate);
+      //     console.log('transaction name: ' + transaction.instrumentName);
+      //     console.log('transactionOpenDate: ' + transactionOpenDate);
+      //     console.log('marketDealStartTime: ' + marketDealStartTime);
+      //     console.log('market alias: ' + market.alias);
+      //     console.log('marketopenLevel: ' + marketOpenLevel);
+      //     console.log('transaction open level:' + transaction.openLevel )
+      //
+      //
+      //     //https://jsfiddle.net/FLhpq/4/
+      //
+      //
+      //     //if( market.alias == transaction.instrumentName && transactionOpenDate == marketDealStartTime ){
+      //     if( market.alias == transaction.instrumentName && marketOpenLevel == transaction.openLevel ){
+      //
+      //       isTransactionFound =  true;
+      //
+      //       console.log('dealId found and position has been closed on IG server. Cleaning up and closing position.');
+      //
+      //       let closeAnalysis = {
+      //         timestamp: moment(transaction.dateUTC).valueOf(),
+      //         date: moment(transaction.dateUTC).format('LLL'),
+      //         lastClose: transaction.closeLevel,
+      //         direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
+      //         openLevel: transaction.openLevel,
+      //         amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
+      //         result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
+      //         data: 'NO DATA',
+      //         dealId: dealId,
+      //         transactionDealId: transaction.reference
+      //       }
+      //
+      //       console.log(closeAnalysis);
+      //       console.log('closing trade log...');
+      //
+      //       log.closeTradeLog(market.epic, closeAnalysis);
+      //       log.closeMonitorLog(market.epic);
+      //
+      //     }
+      //   });
+      //
+      //   if(!isTransactionFound){
+      //     console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
+      //     console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
+      //     market.deal = {};
+      //
+      //
+      //     //Clear any monitoring if any
+      //     //log.closeMonitorLog(market.epic);
+      //     //await cloud.updateFile(markets,marketDataDir);
+      //
+      //     // await actions.checkDealId(dealRef).then(id => {
+      //     //   dealId = id;
+      //     //   console.log('got dealId: ' + dealId);
+      //     // }).catch(e => {
+      //     //   console.log(e);
+      //     //   return false;
+      //     // });
+      //
+      //   }
+      //
+      // }).catch(e => console.log(e));
 
       //markets[mid].deal = {};
       //log.closeMonitorLog(market.epic);
