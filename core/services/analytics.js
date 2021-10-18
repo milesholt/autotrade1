@@ -601,6 +601,37 @@ actions.drawChart4Hours = async function(){
   }
   shapes.push(trendLine);
 
+//hide hours outside of 8am-4pm
+// {
+//   enabled:true,
+//   bounds: [16, 8],
+//   pattern: "hour"
+// }
+
+let rBreak = [];
+
+if(epic == 'KA.D.INRG.DAILY.IP'){
+  rBreak = [
+    {
+      enabled:true,
+      bounds: ['sat', 'mon']
+    },
+    {
+      enabled:true,
+      bounds: [16,8],
+      pattern: "hour"
+    }
+  ]
+}else{
+  rBreak = [
+    {
+      enabled:true,
+      bounds: ['sat', 'mon']
+    }
+  ]
+}
+
+
   var layout = {
     dragmode: 'zoom',
     margin: {
@@ -615,12 +646,7 @@ actions.drawChart4Hours = async function(){
       domain: [0, 1],
       range: [starttime, endtime],
       rangeslider: {range: [starttime, endtime]},
-      rangebreaks: [
-        {
-          enabled:true,
-          bounds: ['sat', 'mon']
-        }
-      ],
+      rangebreaks: rBreak,
       title: 'Date',
       type: 'date'
     },
