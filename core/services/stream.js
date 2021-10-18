@@ -101,6 +101,7 @@ actions.checkConnection = function(){
     console.log('------------------STREAM IS CONNECTED');
   }).catch(e => {
     console.log('still not connected');
+    actions.connectStream();
   });
 }
 
