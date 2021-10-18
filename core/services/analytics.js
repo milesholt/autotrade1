@@ -434,7 +434,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   if(limitDistanceLevel > 0 && stopDistanceLevel > 0) shapes.push(stopDistanceLine, limitDistanceLine);
 
  
-Let rBreak = [];
+var rBreak = [];
  
 if(epic == 'KA.D.INRG.DAILY.IP'){
   rBreak = [
@@ -627,7 +627,7 @@ actions.drawChart4Hours = async function(){
 //   pattern: "hour"
 // }
 
-let rBreak = [];
+var rBreak = [];
 
 if(epic == 'KA.D.INRG.DAILY.IP'){
   rBreak = [
