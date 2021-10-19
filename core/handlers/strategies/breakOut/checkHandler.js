@@ -765,6 +765,17 @@ actions.finalChecks = async function(){
   if (  lib.toNumber((lastHigh - lastLow)/priceDiff) >= 0.5)  checks.___nolastPriceVolatile.is = false;
 
 
+  //overide ___beforeRangeTrendNotBroken if trend4Hours, recentTrend and updatedtrend are the same
+  //this takes a risk based on all trends being in the same direction
+  if(trend4Hours == recentTrend == trend){
+    //also make sure they are not ranging
+    if(trend !== 'ranging'){
+        checks.___beforeRangeTrendNotBroken.is = true;
+        checks.___beforeRangeTrendNotBroken.note = '___beforeRangeTrendNotBroken overidden as trend4Hours, recentTrend and trend are the same.';
+    }
+  }
+
+
   //collate which checks are false and true, any which are false prevents deal being made
   Object.keys(checks).forEach(check =>{
     let c = { [check] : checks[check] };
