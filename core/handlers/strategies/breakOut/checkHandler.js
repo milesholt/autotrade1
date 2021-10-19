@@ -767,7 +767,7 @@ actions.finalChecks = async function(){
 
   //overide ___beforeRangeTrendNotBroken if trend4Hours, recentTrend and updatedtrend are the same
   //this takes a risk based on all trends being in the same direction
-  if(trend4Hours == recentTrend == trend){
+  if(checks.___beforeRangeSameAsTrend.is == true && checks.___recentTrendSameAsTrend.is == true){
     //also make sure they are not ranging
     if(trend !== 'ranging'){
         checks.___beforeRangeTrendNotBroken.is = true;
