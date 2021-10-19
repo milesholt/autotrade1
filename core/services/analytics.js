@@ -433,9 +433,9 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
   if(isRange == true) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
   if(limitDistanceLevel > 0 && stopDistanceLevel > 0) shapes.push(stopDistanceLine, limitDistanceLine);
 
- 
+
 var rBreak = [];
- 
+
 if(epic == 'KA.D.INRG.DAILY.IP'){
   rBreak = [
     {
@@ -448,7 +448,22 @@ if(epic == 'KA.D.INRG.DAILY.IP'){
       pattern: "hour"
     }
   ]
-}else{
+
+} else if (epic == 'CC.D.W.USS.IP'){
+
+  rBreak = [
+    {
+      enabled:true,
+      bounds: ['sat', 'mon']
+    },
+    {
+      enabled:true,
+      bounds: [19,1],
+      pattern: "hour"
+    }
+  ]
+
+} else {
   rBreak = [
     {
       enabled:true,
@@ -641,7 +656,22 @@ if(epic == 'KA.D.INRG.DAILY.IP'){
       pattern: "hour"
     }
   ]
-}else{
+
+} else if (epic == 'CC.D.W.USS.IP'){
+
+  rBreak = [
+    {
+      enabled:true,
+      bounds: ['sat', 'mon']
+    },
+    {
+      enabled:true,
+      bounds: [19,1],
+      pattern: "hour"
+    }
+  ]
+
+} else {
   rBreak = [
     {
       enabled:true,
