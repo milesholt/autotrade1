@@ -424,15 +424,17 @@ actions.checkOpenTrade = async function(){
 
       await actions.checkCloseTrade(dealId).then(async r => {
         console.log('closed position found on API. Closed position.');
-      }).catch(e => { console.log('No closed positions found.'); });
+      }).catch(e => {
+        console.log('No closed positions found.');
+      });
 
-     } else {
-
-       console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
-       console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
-       market.deal = {};
-
-     }
+     // } else {
+     //
+     //   console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
+     //   console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
+     //   market.deal = {};
+     //
+     // }
 
 
 
