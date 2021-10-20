@@ -251,7 +251,7 @@ actions.checkDeal = async function(){
           console.log('Checking on monitor if any position is logged.');
           //check monitor
           if(monitors.length > 0){
-            monitors.forEach(monitor => {
+            monitors.forEach(async monitor => {
               if(monitor.epic == epic){
                 console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
                 await actions.checkCloseTrade(monitor.dealId).then(async r => {
