@@ -463,7 +463,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                             }
                                           });
                                         }
-                                        
+
                                         if(posfound){
                                           console.log('Position found before closing');
                                         }else {
@@ -842,27 +842,36 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
         console.log('position not found with dealId: ' + arr.dealId + ' but should be, going again in 1 minute...');
         if(typeof arr.dealId == 'undefined'){ console.log('dealId is undefined, stopping monitoring.'); return false; }
 
+        //Check for closed position
+        await actions.checkCloseTrade(arr.dealId).then(async r => {
+          console.log('Closed position found on API. Closed position.');
+        }).catch(e => { console.log('No closed positions found.'); });
+
+
+        //THIS IS INCORRECT. An open position has a different DealId to a closed position, that was the confusion
         //check if dealID has changed or is mismatched
-        check.actions.checkIncorrectDeal(arr.dealId).then(r => {
-          console.log('Found matching position with different dealId, dealID has been updated.');
-          setTimeout(()=>{
-            console.log('No matching positions found. Trying stream again in 1 minute');
-            actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
-          },60000);
-        }).catch(e => {
+        // check.actions.checkIncorrectDeal(arr.dealId).then(r => {
+        //   console.log('Found matching position with different dealId, dealID has been updated.');
+        //   setTimeout(()=>{
+        //     console.log('No matching positions found. Trying stream again in 1 minute');
+        //     actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
+        //   },60000);
+        // }).catch(e => {
+        //
+        //   if(!attempt){
+        //     setTimeout(()=>{
+        //       console.log('No matching positions found. Trying stream again after 5 seconds');
+        //       actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
+        //     },5000);
+        //   } else{
+        //       console.log('Tried stream already, no matching positions found, giving up.');
+        //       actions.stopMonitor(timer,monitorData.epic);
+        //       return false;
+        //   }
+        //
+        // });
 
-          if(!attempt){
-            setTimeout(()=>{
-              console.log('No matching positions found. Trying stream again after 5 seconds');
-              actions.beginMonitor(arr.dealId,arr.dealRef,arr.epic,streamLogDir,true);
-            },5000);
-          } else{
-              console.log('Tried stream already, no matching positions found, giving up.');
-              actions.stopMonitor(timer,monitorData.epic);
-              return false;
-          }
 
-        });
       }
 
       // const position = positionsData.positions[0].position;

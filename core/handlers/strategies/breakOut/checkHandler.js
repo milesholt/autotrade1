@@ -254,7 +254,9 @@ actions.checkDeal = async function(){
             monitors.forEach(monitor => {
               if(monitor.epic == epic){
                 console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
-                await actions.checkCloseTrade(monitor.dealId);
+                await actions.checkCloseTrade(monitor.dealId).then(async r => {
+                  console.log('Closed position found on API. Closed position.');
+                }).catch(e => { console.log('No closed positions found.'); });
               } else {
                 console.log('No open position found, no deal on market or monitors, all fine.');
               }
@@ -278,7 +280,7 @@ CHECK CLOSED TRADE
 
 
 actions.checkCloseTrade = async function(dealId){
-
+  return new Promise(async (resolve, reject) => {
 
   //Get history
   let from2 = undefined;
@@ -298,7 +300,7 @@ actions.checkCloseTrade = async function(dealId){
          }
      });
    }
- }).catch(e => console.log(e));
+ }).catch(e => reject(e));
 
  if(dealId2 !== null){
 
@@ -331,9 +333,19 @@ actions.checkCloseTrade = async function(dealId){
 
            log.closeTradeLog(market.epic, closeAnalysis);
            log.closeMonitorLog(market.epic);
+
+           resolve(true);
+       } else {
+          reject(false);
        }
      });
-   }).catch(e => console.log(e));
+   }).catch(e => reject(e));
+
+ } else {
+   reject(false);
+ }
+
+ });
 }
 
 /*
@@ -410,7 +422,9 @@ actions.checkOpenTrade = async function(){
 
       //check and close positions
 
-      await actions.checkCloseTrade(dealId);
+      await actions.checkCloseTrade(dealId).then(async r => {
+        console.log('closed position found on API. Closed position.');
+      }).catch(e => { console.log('No closed positions found.'); });
 
      } else {
 
