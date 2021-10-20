@@ -248,6 +248,19 @@ actions.checkDeal = async function(){
         }
       } else {
           console.log('No position found for epic: ' + market.epic);
+          console.log('Checking on monitor if any position is logged.');
+          //check monitor
+          if(monitors.length > 0){
+            monitors.forEach(monitor => {
+              if(monitor.epic == epic){
+                console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
+                await actions.checkCloseTrade(monitor.dealId);
+              } else {
+                console.log('No open position found, no deal on market or monitors, all fine.');
+              }
+            });
+          }
+
       }
 
 
@@ -264,8 +277,63 @@ CHECK CLOSED TRADE
 */
 
 
-actions.checkCloseTrade = async function(){
+actions.checkCloseTrade = async function(dealId){
 
+
+  //Get history
+  let from2 = undefined;
+  let to2 = undefined;
+  let detailed = true;
+  let dealId2 = null;
+  let pageSize2 = 50;
+  await api.acctActivity(from2, to2, detailed, undefined, pageSize2).then(r => {
+   if(r.activities.length){
+     r.activities.forEach(activity => {
+         if(activity.details.actions.length){
+           if(activity.details.actions[0].affectedDealId == dealId && activity.details.actions[0].actionType == 'POSITION_CLOSED'){
+             console.log('Position has been found and has been closed');
+             dealId2 = activity.dealId;
+             console.log('Updated dealId: ' + activity.dealId);
+           }
+         }
+     });
+   }
+ }).catch(e => console.log(e));
+
+ if(dealId2 !== null){
+
+   let pageSize = 20;
+   let type = 'ALL_DEAL';
+   let from = undefined;
+   let to = undefined;
+   await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+       let transactions = r.transactions;
+       transactions.forEach(transaction =>{
+         if(transaction.reference == dealId2){
+           console.log(dealId2);
+           console.log('dealId found. position has been closed');
+
+           let closeAnalysis = {
+             timestamp: moment(transaction.dateUTC).valueOf(),
+             date: moment(transaction.dateUTC).format('LLL'),
+             lastClose: transaction.closeLevel,
+             direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
+             openLevel: transaction.openLevel,
+             amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
+             result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
+             data: 'NO DATA',
+             dealId: dealId,
+             transactionDealId: transaction.reference
+           }
+
+           console.log(closeAnalysis);
+           console.log('closing trade log...');
+
+           log.closeTradeLog(market.epic, closeAnalysis);
+           log.closeMonitorLog(market.epic);
+       }
+     });
+   }).catch(e => console.log(e));
 }
 
 /*
@@ -340,60 +408,9 @@ actions.checkOpenTrade = async function(){
       console.log(e);
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
 
-      //Get history
-      let from2 = undefined;
-      let to2 = undefined;
-      let detailed = true;
-      let dealId2 = null;
-      let pageSize2 = 50;
-      await api.acctActivity(from2, to2, detailed, undefined, pageSize2).then(r => {
-       if(r.activities.length){
-         r.activities.forEach(activity => {
-             if(activity.details.actions.length){
-               if(activity.details.actions[0].affectedDealId == dealId && activity.details.actions[0].actionType == 'POSITION_CLOSED'){
-                 console.log('Position has been found and has been closed');
-                 dealId2 = activity.dealId;
-                 console.log('Updated dealId: ' + activity.dealId);
-               }
-             }
-         });
-       }
-     }).catch(e => console.log(e));
+      //check and close positions
 
-     if(dealId2 !== null){
-
-       let pageSize = 20;
-       let type = 'ALL_DEAL';
-       let from = undefined;
-       let to = undefined;
-       await api.acctTransaction(type,from, to, pageSize,1).then(r => {
-           let transactions = r.transactions;
-           transactions.forEach(transaction =>{
-             if(transaction.reference == dealId2){
-               console.log(dealId2);
-               console.log('dealId found. position has been closed');
-
-               let closeAnalysis = {
-                 timestamp: moment(transaction.dateUTC).valueOf(),
-                 date: moment(transaction.dateUTC).format('LLL'),
-                 lastClose: transaction.closeLevel,
-                 direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
-                 openLevel: transaction.openLevel,
-                 amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
-                 result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
-                 data: 'NO DATA',
-                 dealId: dealId,
-                 transactionDealId: transaction.reference
-               }
-
-               console.log(closeAnalysis);
-               console.log('closing trade log...');
-
-               log.closeTradeLog(market.epic, closeAnalysis);
-               log.closeMonitorLog(market.epic);
-           }
-         });
-       }).catch(e => console.log(e));
+      await actions.checkCloseTrade(dealId);
 
      } else {
 
