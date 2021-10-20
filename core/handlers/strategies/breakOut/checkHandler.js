@@ -268,6 +268,20 @@ actions.checkDeal = async function(){
 
     } else {
       console.log('No open positions found for any epic.');
+      console.log('Checking on monitor if any position is logged.');
+      //check monitor
+      if(monitors.length > 0){
+        monitors.forEach(async monitor => {
+          if(monitor.epic == epic){
+            console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
+            await actions.checkCloseTrade(monitor.dealId).then(async r => {
+              console.log('Closed position found on API. Closed position.');
+            }).catch(e => { console.log('No closed positions found.'); });
+          } else {
+            console.log('No open position found, no deal on market or monitors, all fine.');
+          }
+        });
+      }
     }
   }).catch(e => console.log(e));
 }
@@ -424,17 +438,13 @@ actions.checkOpenTrade = async function(){
 
       await actions.checkCloseTrade(dealId).then(async r => {
         console.log('closed position found on API. Closed position.');
+        market.deal = {};
       }).catch(e => {
         console.log('No closed positions found.');
+        console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
+        console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
       });
 
-     // } else {
-     //
-     //   console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
-     //   console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
-     //   market.deal = {};
-     //
-     // }
 
 
 
