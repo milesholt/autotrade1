@@ -590,7 +590,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           console.log(positions);
                                           console.log('Checking if position has been closed..');
                                           //Check for closed position
-                                          await actions.checkCloseTrade(arr.dealId).then(async r => {
+                                          await actions.checkCloseTrade(m.dealId).then(async r => {
                                             console.log('Closed position found on API. Closed position.');
                                           }).catch(e => { console.log('No closed positions found.'); });
                                           return false;
