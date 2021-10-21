@@ -571,7 +571,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
                                       posfound = false;
-                                      await api.showOpenPositions().then(positions => {
+                                      await api.showOpenPositions().then(async positions => {
                                       console.log(util.inspect(r,false,null));
 
 
