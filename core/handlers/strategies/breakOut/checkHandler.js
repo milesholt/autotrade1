@@ -820,6 +820,7 @@ actions.finalChecks = async function(){
 
   //overide - if not enough waves, but there was on the before and the only FALSE checks are isWithinTradeThreshold, isRangeAreaGood and enoughWaves, go with that previous one -
   //This is because there might be an issue with the wave calculation where none is recorded, even though there was one an hour before
+  //This overirde resolves the issue where a trade could have gone but no wave was calculated, even though there was one on the previous hour.
 
   let previousAnalysisData = require(analysisDataDir);
   let previousAnalysis = previousAnalysisData[previousAnalysisData.length-1];
