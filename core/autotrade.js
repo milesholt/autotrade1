@@ -244,6 +244,7 @@ actions.setDefaults = async function(){
   noError = true;
   finalMessage = '';
   analysis = {};
+  isWaveOveride = false;
 }
 
 /*

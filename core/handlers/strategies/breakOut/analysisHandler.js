@@ -331,6 +331,7 @@ FINAL ANALYSIS
       'isNoBumpVolatility': checks.___noBumpVolatility.is,
       'waves': rangeData.wavecount,
       'wavePoints':rangeData.waves.length,
+      'isWaveOveride': isWaveOveride,
       'primariesLength':rangeData.primaries,
       'confirmations':trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.x.length : 'none',
       //'confirmationData':trend4Hours !== 'ranging' ? confirmationData : 'none',

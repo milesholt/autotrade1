@@ -296,3 +296,4 @@ noError = true;
 isLoopRunning = false;
 isStreamRunning = {};
 tradebeforeCheck = false;
+isWaveOveride = false;
