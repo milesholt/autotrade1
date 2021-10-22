@@ -247,6 +247,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
     rangeData.waves = waves;
     rangeData.wavecount = w.wavecount;
+    rangeData.primaries = primaries.length;
 
 
     midrangeprice = (primary.highest + primary.lowest) / 2;
