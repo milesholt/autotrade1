@@ -822,8 +822,8 @@ actions.finalChecks = async function(){
   //This is because there might be an issue with the wave calculation where none is recorded, even though there was one an hour before
   //This overirde resolves the issue where a trade could have gone but no wave was calculated, even though there was one on the previous hour.
 
-  let previousAnalysisData = require(analysisDataDir);
-  let previousAnalysis = previousAnalysisData[previousAnalysisData.length-1];
+
+  let previousAnalysis = analysisDataSet[analysisDataSet.length-1];
   console.log('Previous analysis checks:');
   console.log('previousEnoughWaves: ' + previousAnalysis.enoughWaves.is);
   console.log('isRangeAreaGood: ' + previousAnalysis.isRangeAreaGood.is);
