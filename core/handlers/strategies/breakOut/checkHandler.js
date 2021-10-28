@@ -640,7 +640,7 @@ actions.finalChecks = async function(){
   //trendDiffPerc must also be on or over 1%
 
   //if(recenttrend !== 'ranging' && (movementValueDiffPerc >= momentLimitPerc) && trend == 'ranging' && rangeData.support.prices_idx[0] >= 6 && (trendDiffPerc >= 1 || beforeRangeTrendDiffPerc >= 1)){
-  if(recenttrend !== 'ranging' && (movementValueDiffPerc >= momentLimitPerc) && trend == 'ranging' && (trendDiffPerc >= 1 || beforeRangeTrendDiffPerc >= 1)){
+  if(recenttrend !== 'ranging' && (movementValueDiffPerc >= momentLimitPerc) && trend == 'ranging' && (trendDiffPerc >= 1)){
     trend = recenttrend;
     isRecentTrendBreaking = true;
   }
@@ -673,10 +673,10 @@ actions.finalChecks = async function(){
   //Also using number of waves to confirm ranging (needs to be more than 1)
   //And predicting that if the recent trend is in opposite direction of trend, the market will pivot
 
-
-  if(beforeRangeTrend == trend4Hours && currenttrend == 'ranging'){
-      trend = trend4Hours;
-  }
+  //UPDATE - Removing beforeRange, as this is now overidden by trend 4hours
+  // if(beforeRangeTrend == trend4Hours && currenttrend == 'ranging'){
+  //     trend = trend4Hours;
+  // }
 
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
 
@@ -844,13 +844,15 @@ actions.finalChecks = async function(){
 
   //collate which checks are false and true, any which are false prevents deal being made
   Object.keys(checks).forEach(check =>{
-    let c = { [check] : checks[check] };
+    if(checks[check].enabled == true){
+      let c = { [check] : checks[check] };
 
-    if(checks[check].is == false) {
-      falseChecks.push(c);
-      isDeal = false;
-    }else {
-      trueChecks.push(c);
+      if(checks[check].is == false) {
+        falseChecks.push(c);
+        isDeal = false;
+      }else {
+        trueChecks.push(c);
+      }
     }
   });
 
