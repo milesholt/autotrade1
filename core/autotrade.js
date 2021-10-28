@@ -91,26 +91,48 @@ actions.setDefaults = async function(){
   //Main variables
   check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true; check13 = false; check14 = false; check15 = false;
 
+  // checks = {
+  //   '___4HoursNotRanging': {'is':false}, //check14
+  //   '___noBumpInRange': {'is':true}, //check11
+  //   '___noVolatileGap': {'is':false}, //check10
+  //   '___breakingThroughRange': {'is':false}, //check8
+  //   '___withinTradeThreshold': {'is':true}, //check9
+  //   '___beforeRangeTrendNotBroken': {'is':false}, //check13
+  //   '___recentTrendSameAsTrend': {'is':false}, //check6
+  //   '___beforeRangeSameAsTrend': {'is':false}, //check7
+  //   '___rangeConfirmationsGreaterThanLimit': {'is':false}, //check2
+  //   '___rangeAreaGood': {'is':false}, //check0
+  //   '___enoughWaves': {'is':false}, //check15
+  //   '___notTradedBefore': {'is':false}, //check12
+  //   '___enoughConfirmations': {'is':false},
+  //   '___recentTrendPivoting':{'is':true},
+  //   '___lastCloseAboveBelowLines':{'is':false},
+  //   '___beforeRangeSameAs4HourTrend':{'is':false},
+  //   '___recentTrendSameAs4HourTrend':{'is':false},
+  //   '___noBumpVolatility':{'is':true},
+  //   '___nolastPriceVolatile':{'is':true}
+  // }
+
   checks = {
-    '___4HoursNotRanging': {'is':false}, //check14
-    '___noBumpInRange': {'is':true}, //check11
-    '___noVolatileGap': {'is':false}, //check10
-    '___breakingThroughRange': {'is':false}, //check8
-    '___withinTradeThreshold': {'is':true}, //check9
-    '___beforeRangeTrendNotBroken': {'is':false}, //check13
-    '___recentTrendSameAsTrend': {'is':false}, //check6
-    '___beforeRangeSameAsTrend': {'is':false}, //check7
-    '___rangeConfirmationsGreaterThanLimit': {'is':false}, //check2
-    '___rangeAreaGood': {'is':false}, //check0
-    '___enoughWaves': {'is':false}, //check15
-    '___notTradedBefore': {'is':false}, //check12
-    '___enoughConfirmations': {'is':false},
-    '___recentTrendPivoting':{'is':true},
-    '___lastCloseAboveBelowLines':{'is':false},
-    '___beforeRangeSameAs4HourTrend':{'is':false},
-    '___recentTrendSameAs4HourTrend':{'is':false},
-    '___noBumpVolatility':{'is':true},
-    '___nolastPriceVolatile':{'is':true}
+    '___4HoursNotRanging': {'is':false, 'enabled':true}, //check14
+    '___noBumpInRange': {'is':true, 'enabled':true}, //check11
+    '___noVolatileGap': {'is':false, 'enabled':true}, //check10
+    '___breakingThroughRange': {'is':false, 'enabled':true}, //check8
+    '___withinTradeThreshold': {'is':true, 'enabled':true}, //check9
+    '___beforeRangeTrendNotBroken': {'is':false, 'enabled':false}, //check13
+    '___recentTrendSameAsTrend': {'is':false, 'enabled':true}, //check6
+    '___beforeRangeSameAsTrend': {'is':false, 'enabled':false}, //check7
+    '___rangeConfirmationsGreaterThanLimit': {'is':false, 'enabled':true}, //check2
+    '___rangeAreaGood': {'is':false, 'enabled':true}, //check0
+    '___enoughWaves': {'is':false, 'enabled':true}, //check15
+    '___notTradedBefore': {'is':false, 'enabled':true}, //check12
+    '___enoughConfirmations': {'is':false, 'enabled':true},
+    '___recentTrendPivoting':{'is':true, 'enabled':true}, // overridden for now / disabled
+    '___lastCloseAboveBelowLines':{'is':false, 'enabled':true},
+    '___beforeRangeSameAs4HourTrend':{'is':false, 'enabled':false},
+    '___recentTrendSameAs4HourTrend':{'is':false, 'enabled':true},
+    '___noBumpVolatility':{'is':true, 'enabled':true},
+    '___nolastPriceVolatile':{'is':true, 'enabled':true}
   }
 
   rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
