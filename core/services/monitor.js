@@ -550,6 +550,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                       console.log('closing price was: ' + closePrice);
                                       console.log('closing price (ask) was: ' + d.closePrice.ask);
                                       console.log('closing price (bid) was: ' + d.closePrice.bid);
+                                      console.log('direction: ' + dir);
 
                                       console.log('LOSS - Finished monitoring, positions should be closed. Ending stream.');
 
