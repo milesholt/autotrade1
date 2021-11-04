@@ -253,8 +253,7 @@ FINAL ANALYSIS
 //     'ticket': lib.isEmpty(market.deal) == false ? market.deal : {}
 //   };
 
-console.log('pricedata: ------------------------');
-console.log(pricedata)
+
 
 
   actions.finalAnalysis = async function(){
