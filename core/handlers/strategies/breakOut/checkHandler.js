@@ -766,7 +766,7 @@ actions.finalChecks = async function(){
   }
   if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) checks.___noBumpInRange.is = false;
 
-  //ensure last time traded is 3 hours or more
+  //ensure last time traded is 8 hours or more
   tradebeforeCheck = market.tradedBefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
 
 
