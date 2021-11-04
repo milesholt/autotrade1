@@ -132,7 +132,7 @@ If dataSet reaches a maximum of 36 hours, delete the first
 
 actions.analysisLog = async function(data){
 
-  delete data.pricedata;
+  //delete data.pricedata;
 
   if(analysisDataSet.length == 36) analysisDataSet.shift();
 
