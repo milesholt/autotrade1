@@ -515,8 +515,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                     } else {
 
-                                      console.log('Couldnt find monitor data, doing nothing');
+                                      console.log('Couldnt find monitor data, stopping');
+                                      actions.stopMonitor(timer, m.epic);
                                       return false;
+
                                     }
 
 
@@ -539,7 +541,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                       }
                                       foundMonitor = true;
-                                    }).catch(e => { console.log(e) });
+                                    }).catch(e => { console.log(e)
+
+                                    });
 
                                     if(foundMonitor == true){
                                       console.log(m);
@@ -644,6 +648,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                     } else {
                                       console.log('Couldnt find monitor data, doing nothing');
+                                      actions.stopMonitor(timer, m.epic);
                                       return false;
                                     }
 
