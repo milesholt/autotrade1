@@ -99,7 +99,7 @@ actions.determineStopDistance = async function(){
   //
   // market.stopDistancePerc = lib.toNumber(lib.toNumber(market.stopDistancePerc) + minStopVal);
 
-  let stopDistanceOffset = lib.toNumber(priceDiff * market.stopDistancePerc);
+  let stopDistanceOffset = lib.toNumber(priceDiff4Hours * market.stopDistancePerc);
 
 
 
@@ -141,7 +141,7 @@ for stop - we add the difference
 
 actions.determineLimitDistance = async function(){
 
-let limitDistanceOffset = lib.toNumber(priceDiff * market.limitDistancePerc);
+let limitDistanceOffset = lib.toNumber(priceDiff4Hours * market.limitDistancePerc);
 let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
 //This calculation arrives to the same values as the logic above
