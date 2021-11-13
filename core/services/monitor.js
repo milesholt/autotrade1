@@ -797,6 +797,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           },5000);
                                         } else{
                                             console.log('Tried to subscribed a second time but no subscription. Giving up and returning false.');
+                                            actions.stopMonitor(timer,monitorData.epic);
                                             return false;
                                         }
                                       }
