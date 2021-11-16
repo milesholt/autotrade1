@@ -334,7 +334,7 @@ FINAL ANALYSIS
       'waves': rangeData.wavecount,
       'wavePoints':rangeData.waves.length,
       'isWaveOveride': isWaveOveride,
-      'primariesLength':rangeData.primaries.length,
+      'primariesLength': lib.isDefined(rangeData, 'primaries') ? rangeData.primaries.length : 'none',
       'primaries':rangeData.primaries,
       'confirmations':trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.x.length : 'none',
       //'confirmationData':trend4Hours !== 'ranging' ? confirmationData : 'none',
