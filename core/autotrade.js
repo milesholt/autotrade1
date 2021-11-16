@@ -335,6 +335,9 @@ actions.exec = async function(){
   //Only continue exec if no error getting price data
   if(noError){
 
+    //Get availableLoss
+    await checkHandler.actions.checkMarginAvailability();
+
     //Sort price data
     await priceDataHandler.actions.sortPriceData();
 

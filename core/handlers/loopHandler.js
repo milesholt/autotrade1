@@ -75,6 +75,7 @@ actions.loopMarkets = async function(){
       market.minimumStop.type = String(stopDistance.unit).toLowerCase();
     }).catch(e => console.log(e));
 
+
     //dealId = m.dealId;
     console.log('looping markets: ' + epic);
 

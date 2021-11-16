@@ -44,9 +44,9 @@ async function exec(){
 
   //Check account
   // console.log('-------Checking account');
-  // await api.acctInfo().then(r => {
-  //   console.log(r);
-  // }).catch(e => console.log(e));
+  await api.acctInfo().then(r => {
+    console.log(r);
+  }).catch(e => console.log(e));
 
   //Search contract
   //Bitcoin - CS.D.BITCOIN.TODAY.IP
@@ -84,9 +84,9 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Show open positions
-  await api.showOpenPositions().then(r => {
-  console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
+  // await api.showOpenPositions().then(r => {
+  // console.log(util.inspect(r,false,null));
+  // }).catch(e => console.log(e));
 
   //Get markets
   // let epics = ['CS.D.BITCOIN.TODAY.IP'];
@@ -98,43 +98,43 @@ async function exec(){
   // }).catch(e => console.log(e));
 
    //Get history
-   let from2 = undefined;
-   let to2 = undefined;
-   let detailed = true;
-   //let dealId = 'DIAAAAFFBKE4KAK';
-   //let dealId = 'DIAAAAGSNHQ7PAR';
-   let dealRef2 = 'BCCK8DMRV5WT28R';
-   let dealId = 'DIAAAAGSCLX37AV';
-   let dealId2;
-   let pageSize2 = 50;
-   await api.acctActivity(from2, to2, detailed, undefined, pageSize2).then(r => {
-    //console.log(util.inspect(r,false,null));
-    if(r.activities.length){
-      // r.activities.forEach(activity => {
-      //   if(activity.dealId == dealRef ){
-      //     console.log(activity);
-      //   }
-      // });
-      r.activities.forEach(activity => {
-
-          //console.log(activity);
-          //console.log(util.inspect(activity,false,null));
-
-          if(activity.details.actions.length){
-            if(activity.details.actions[0].affectedDealId == dealId && activity.details.actions[0].actionType == 'POSITION_CLOSED'){
-              console.log('Position has been found and has been closed');
-              dealId2 = activity.dealId;
-              console.log('Updated dealId: ' + activity.dealId);
-            }
-          }
-
-        // if(activity.details.dealReference == dealRef ){
-        //   console.log(activity.details);
-        //   console.log(activity.details.actions[0].actionType);
-        // }
-      });
-    }
-  }).catch(e => console.log(e));
+  //  let from2 = undefined;
+  //  let to2 = undefined;
+  //  let detailed = true;
+  //  //let dealId = 'DIAAAAFFBKE4KAK';
+  //  //let dealId = 'DIAAAAGSNHQ7PAR';
+  //  let dealRef2 = 'BCCK8DMRV5WT28R';
+  //  let dealId = 'DIAAAAGSCLX37AV';
+  //  let dealId2;
+  //  let pageSize2 = 50;
+  //  await api.acctActivity(from2, to2, detailed, undefined, pageSize2).then(r => {
+  //   //console.log(util.inspect(r,false,null));
+  //   if(r.activities.length){
+  //     // r.activities.forEach(activity => {
+  //     //   if(activity.dealId == dealRef ){
+  //     //     console.log(activity);
+  //     //   }
+  //     // });
+  //     r.activities.forEach(activity => {
+  //
+  //         //console.log(activity);
+  //         //console.log(util.inspect(activity,false,null));
+  //
+  //         if(activity.details.actions.length){
+  //           if(activity.details.actions[0].affectedDealId == dealId && activity.details.actions[0].actionType == 'POSITION_CLOSED'){
+  //             console.log('Position has been found and has been closed');
+  //             dealId2 = activity.dealId;
+  //             console.log('Updated dealId: ' + activity.dealId);
+  //           }
+  //         }
+  //
+  //       // if(activity.details.dealReference == dealRef ){
+  //       //   console.log(activity.details);
+  //       //   console.log(activity.details.actions[0].actionType);
+  //       // }
+  //     });
+  //   }
+  // }).catch(e => console.log(e));
 
 
   // {
@@ -157,30 +157,30 @@ async function exec(){
 
 
 //let dealId = 'DIAAAAGSNHQ7PAR';
-let pageSize = 20;
-let type = 'ALL_DEAL';
-let from = undefined;
-let to = undefined;
-  // //
-  await api.acctTransaction(type,from, to, pageSize,1).then(r => {
-    //console.log(util.inspect(r,false,null));
-    let transactions = r.transactions;
-    transactions.forEach(transaction =>{
-      if(transaction.reference == dealId2){
-        console.log(dealId2);
-        console.log('dealId found. position has been closed');
-        let dateClosed = transaction.dateUtc;
-        let profitLoss = transaction.profitAndLoss.split('£')[1];
-        let closeLevel = transaction.closeLevel;
-        //console.log('dateClosed: ' + dateClosed);
-        //console.log('profitLoss: ' + profitLoss);
-        console.log(typeof profitLoss);
-        console.log(Number(profitLoss).toFixed(2));
-        //console.log('closeLevel: ' + closeLevel);
-
-      }
-    });
-  }).catch(e => console.log(e));
+// let pageSize = 20;
+// let type = 'ALL_DEAL';
+// let from = undefined;
+// let to = undefined;
+//   // //
+//   await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+//     //console.log(util.inspect(r,false,null));
+//     let transactions = r.transactions;
+//     transactions.forEach(transaction =>{
+//       if(transaction.reference == dealId2){
+//         console.log(dealId2);
+//         console.log('dealId found. position has been closed');
+//         let dateClosed = transaction.dateUtc;
+//         let profitLoss = transaction.profitAndLoss.split('£')[1];
+//         let closeLevel = transaction.closeLevel;
+//         //console.log('dateClosed: ' + dateClosed);
+//         //console.log('profitLoss: ' + profitLoss);
+//         console.log(typeof profitLoss);
+//         console.log(Number(profitLoss).toFixed(2));
+//         //console.log('closeLevel: ' + closeLevel);
+//
+//       }
+//     });
+//   }).catch(e => console.log(e));
 
 
   //Get prices

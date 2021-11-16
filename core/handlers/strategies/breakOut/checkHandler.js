@@ -621,6 +621,21 @@ actions.checkRangeConfirmations = async function(){
   if(rangeConfirmations >= rangeConfirmationLimit) checks.___rangeConfirmationsGreaterThanLimit.is = true;
 }
 
+
+/* CHECK MARGIN AVAILABILITY */
+
+actions.checkMarginAvailability = async function(){
+  await api.acctInfo().then(async accounts => {
+    accounts.forEach(async account=>{
+      if(account.accountId == 'Z3MUI3'){
+      //if(account.accountAlias == 'demo'){
+        let margin = account.balance.available;
+        availableLoss = margin / markets.length;
+      }
+    });
+  }).catch(e => console.log(e));
+}
+
 /*
 
 FINAL CHECKS

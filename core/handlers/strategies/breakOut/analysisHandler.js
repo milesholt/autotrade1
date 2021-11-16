@@ -114,6 +114,13 @@ actions.determineStopDistance = async function(){
 
   stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
 
+   let potentialLossAmount = stopDistance * market.size;
+   let newStopDistance = (availableLoss / market.size);
+
+   console.log('potentialLossAmount: ' + potentialLossAmount);
+   console.log('newStopDistance: ' + newStopDistance);
+  // if(potentialLossAmount >= availableLoss) stopDistance = newStopDistance;
+
 }
 
 
@@ -364,6 +371,7 @@ FINAL ANALYSIS
       'limitDistanceLevel': limitDistanceLevel,
       'ticket': lib.isEmpty(market.deal) == false ? market.deal : {},
       'isDeal' : isDeal,
+      'availableLoss': availableLoss,
       'falseChecks' : falseChecks,
       'trueChecks' : trueChecks
     };
