@@ -122,7 +122,7 @@ actions.determineConfirmations = async function(){
       let nextTimeDiff = Math.abs(moment(wave.time).diff(moment(nextTime), "hours"));
       let prevTimeDiff = Math.abs(moment(wave.time).diff(moment(prevTime), "hours"));
 
-      if(nextTimeDiff == 4 && prevTimeDiff == 4){
+      if(nextTimeDiff == 6 && prevTimeDiff == 6){
         //wavegroup.push([prev,wave,next]);
         let averageClose = (prev.close + wave.close + next.close)/3;
         wave.close = averageClose;
