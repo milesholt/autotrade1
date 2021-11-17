@@ -373,11 +373,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 //if monitoring a position over the weekend when market is closed, the monitoring will freeze. So we need to stop monitoring when a value is undefined (market has closed).
                                 //in this case, either d.closePrice.ask or d.closePrice.bid will be 'NaN' when this happens
 
-                                if ((isNaN(d.closePrice.ask) || isNaN(d.closePrice.bid)) && (moment(data[0]).format('ddd') == 'Sat' || moment(data[0]).format('ddd') == 'Sun')) {
-                                  console.log(moment(data[0]).format('ddd'));
-                                  console.log('price data is returning NaN, market has potentially closed while monitoring. Stopping monitoring...');
-                                  actions.stopMonitor(timer,ep);
-                                  return false;
+                                if (isNaN(d.closePrice.ask) || isNaN(d.closePrice.bid)) {
+                                  let day = moment(data[0]).format('ddd');
+                                  if( day == 'Sat' || day == 'Sun'){
+                                    console.log('Should be the weekend. Day is: ' + day);
+                                    console.log('price data is returning NaN, market has potentially closed while monitoring. Stopping monitoring...');
+                                    actions.stopMonitor(timer,ep);
+                                    return false;
+                                  }
                                 }
 
                                 //if stream price goes beyond settings, take action
