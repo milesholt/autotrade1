@@ -631,6 +631,7 @@ actions.checkMarginAvailability = async function(){
     accounts.forEach(async account=>{
       if(account.accountId == 'Z3MUI3'){
         console.log('here');
+        console.log(account);
 
       //if(account.accountAlias == 'demo'){
         let margin = account.balance.available;
