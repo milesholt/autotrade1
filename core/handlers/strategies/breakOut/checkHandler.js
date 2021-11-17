@@ -625,11 +625,17 @@ actions.checkRangeConfirmations = async function(){
 /* CHECK MARGIN AVAILABILITY */
 
 actions.checkMarginAvailability = async function(){
+  console.log('checkMarginAvailability');
   await api.acctInfo().then(async accounts => {
+    console.log(accounts);
     accounts.forEach(async account=>{
       if(account.accountId == 'Z3MUI3'){
+        console.log('here');
+
       //if(account.accountAlias == 'demo'){
         let margin = account.balance.available;
+        console.log(margin);
+        console.log(markets.length);
         availableLoss = margin / markets.length;
       }
     });
