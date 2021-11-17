@@ -48,7 +48,7 @@ rangeLimitPerc = 0.45;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
-limitClosePerc = 0.95;
+limitClosePerc = 0.75;
 stopClosePerc = 0.95;
 bumpVolatilityLimit = 0.6;
 
