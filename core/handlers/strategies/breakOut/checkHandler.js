@@ -626,9 +626,9 @@ actions.checkRangeConfirmations = async function(){
 
 actions.checkMarginAvailability = async function(){
   console.log('checkMarginAvailability');
-  await api.acctInfo().then(async accounts => {
-    console.log(accounts);
-    accounts.forEach(async account=>{
+  await api.acctInfo().then(async r => {
+    console.log(r.accounts);
+    r.accounts.forEach(async account=>{
       if(account.accountId == 'Z3MUI3'){
         console.log('here');
         console.log(account);
