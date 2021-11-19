@@ -142,16 +142,16 @@ actions.setDefaults = async function(){
 
   //Date variables
   resolution = 'HOUR';
-  timestamp  = moment().format('LLL');
-  today = moment().format('YYYY-MM-DD');
-  fulldate = moment().format('LLL');
-  date1 = moment().add(1, 'days').format('YYYY-MM-DD');
-  date2 = moment().subtract(3, 'days').format('YYYY-MM-DD');
-  date_1week = moment().subtract(7, 'days').format('YYYY-MM-DD');
+  timestamp  = moment.utc().format('LLL');
+  today = moment.utc().format('YYYY-MM-DD');
+  fulldate = moment.utc().format('LLL');
+  date1 = moment.utc().add(1, 'days').format('YYYY-MM-DD');
+  date2 = moment.utc().subtract(3, 'days').format('YYYY-MM-DD');
+  date_1week = moment.utc().subtract(7, 'days').format('YYYY-MM-DD');
 
-  currenthour = moment().format("HH");
-  lasthour = moment().subtract(1, 'hours').format("HH");
-  last4hours = moment().subtract(4, 'hours').format("HH");
+  currenthour = moment.utc().format("HH");
+  lasthour = moment.utc().subtract(1, 'hours').format("HH");
+  last4hours = moment.utc().subtract(4, 'hours').format("HH");
 
   //3 day date range
   //from = date2+'%20'+'00:00:00';
@@ -160,11 +160,11 @@ actions.setDefaults = async function(){
   //from2 = today+'%20'+lasthour+':00:00';
   //to2 = today+'%20'+currenthour+':00:00';
 
-  from_1week = moment().subtract(7, 'days').format('YYYY-MM-DD%2000:00:00');
-  from_3days = moment().subtract(3, 'days').format('YYYY-MM-DD%2000:00:00');
-  from_4hours =  moment().subtract(4, 'hours').format('YYYY-MM-DD%20HH:00:00');
-  from_1hour = moment().subtract(1, 'hours').format('YYYY-MM-DD%20HH:00:00');
-  to = moment().format('YYYY-MM-DD%20HH:00:00');
+  from_1week = moment.utc().subtract(7, 'days').format('YYYY-MM-DD%2000:00:00');
+  from_3days = moment.utc().subtract(3, 'days').format('YYYY-MM-DD%2000:00:00');
+  from_4hours =  moment.utc().subtract(4, 'hours').format('YYYY-MM-DD%20HH:00:00');
+  from_1hour = moment.utc().subtract(1, 'hours').format('YYYY-MM-DD%20HH:00:00');
+  to = moment.utc().format('YYYY-MM-DD%20HH:00:00');
 
   //Price variables
   prices = [];
