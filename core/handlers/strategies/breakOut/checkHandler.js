@@ -846,21 +846,24 @@ actions.finalChecks = async function(){
   //This is because there might be an issue with the wave calculation where none is recorded, even though there was one an hour before
   //This overirde resolves the issue where a trade could have gone but no wave was calculated, even though there was one on the previous hour.
 
+  if(analysisDataSet.length){
+    let previousAnalysis = analysisDataSet[analysisDataSet.length-1];
+    if(previousAnalysis){
+      console.log('Previous analysis checks:');
+      console.log('previousEnoughWaves: ' + previousAnalysis.enoughWaves.is);
+      console.log('isRangeAreaGood: ' + previousAnalysis.isRangeAreaGood.is);
+      console.log('previousWithinTradeThreshold: ' + previousAnalysis.isWithinTradeThreshold.is);
 
-  let previousAnalysis = analysisDataSet[analysisDataSet.length-1];
-  console.log('Previous analysis checks:');
-  console.log('previousEnoughWaves: ' + previousAnalysis.enoughWaves.is);
-  console.log('isRangeAreaGood: ' + previousAnalysis.isRangeAreaGood.is);
-  console.log('previousWithinTradeThreshold: ' + previousAnalysis.isWithinTradeThreshold.is);
-
-  if(checks.___enoughWaves.is == false && checks.___rangeAreaGood.is == false && checks.___withinTradeThreshold.is == false){
-    if(previousAnalysis.enoughWaves.is == true && previousAnalysis.isRangeAreaGood.is == true && previousAnalysis.isWithinTradeThreshold.is == true){
-      if(lib.isDefined(previousAnalysis,'isWaveOveride') == true){
-        if(previousAnalysis.isWaveOveride == false){
-          checks.___enoughWave.is = true; checks.___enoughWaves.note = 'Overiding, using previous analysis of waves calculation';
-          checks.___withinTradeThreshold.is = true; checks.___withinTradeThreshold.note = 'Overiding, using previous analysis of waves calculation';
-          checks.___rangeAreaGood.is = true; checks.___rangeAreaGood.note = 'Overiding, using previous analysis of waves calculation';
-          isWaveOveride = true;
+      if(checks.___enoughWaves.is == false && checks.___rangeAreaGood.is == false && checks.___withinTradeThreshold.is == false){
+        if(previousAnalysis.enoughWaves.is == true && previousAnalysis.isRangeAreaGood.is == true && previousAnalysis.isWithinTradeThreshold.is == true){
+          if(lib.isDefined(previousAnalysis,'isWaveOveride') == true){
+            if(previousAnalysis.isWaveOveride == false){
+              checks.___enoughWave.is = true; checks.___enoughWaves.note = 'Overiding, using previous analysis of waves calculation';
+              checks.___withinTradeThreshold.is = true; checks.___withinTradeThreshold.note = 'Overiding, using previous analysis of waves calculation';
+              checks.___rangeAreaGood.is = true; checks.___rangeAreaGood.note = 'Overiding, using previous analysis of waves calculation';
+              isWaveOveride = true;
+            }
+          }
         }
       }
     }
