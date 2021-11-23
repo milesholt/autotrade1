@@ -147,9 +147,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     let timeonly = moment(timestamp).format('LT');
                     let timediff = moment(timestamp).diff(moment(stats.mtime), "minutes");
 
-                    // if(timediff <= 5){
-                    //   isStreamRunning = true;
-                    // }
+                    if(timediff <= 5){
+                      //isStreamRunning = true;
+                      monitorData.subscribed = true;
+                    }
 
                     if(stream.actions.connection == 'CONNECTED'){
 
@@ -183,6 +184,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                             } else {
                               console.log('Stream path updated less than 1 minutes ago');
                               isStreamRunning[monitorData.epic] = true;
+                              monitorData.subscribed = true;
                             }
 
 
