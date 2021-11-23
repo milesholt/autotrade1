@@ -284,6 +284,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                       var counter = 0;
 
+                      //update monitor log
+                      await log.actions.startMonitorLog(monitorData);
+
                       //Once this epic is here and has started monitoring, reset isStreamRunning to be allowed for use for other epics that need to be monitored
                       //isStreamRunning[monitorData.epic]  = false;
 
