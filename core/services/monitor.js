@@ -191,7 +191,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                           } else {
                             console.log('Stream is not subscribed');
                             isStreamRunning[monitorData.epic] = false;
-                            monitorData.subscribed = false;
+                            
                           }
                         // }).catch(e => {
                         //   console.log(e);
@@ -855,6 +855,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     console.log('stream is already running for epic:' + monitorData.epic);
                     console.log(monitorData);
                     console.log(isStreamRunning);
+
                   }
 
           }
