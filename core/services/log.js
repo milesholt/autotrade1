@@ -248,7 +248,7 @@ actions.startMonitorLog = async function(monitorData){
 
   if(isChanged == true){
     console.log('monitor has changed, updating...');
-    cloud.updateFile(monitors,monitorDataDir);
+    await cloud.updateFile(monitors,monitorDataDir);
   }
 
   //write monitor data to tmp_file stored on server
