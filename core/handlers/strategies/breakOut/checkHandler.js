@@ -418,8 +418,18 @@ actions.checkOpenTrade = async function(){
             //console.log(monitors);
 
             monitors.forEach(monitor => {
-              if(monitor.epic == epic) isMonitoring = true;
+              if(monitor.epic == epic && monitor.subscribed == true) isMonitoring = true;
             });
+
+            //monitor might be logged, but also check time of last stream
+            // stats = fs.statSync(monitorData.streamLogDir);
+            // modtime = moment.utc(stats.mtime).format('LT');
+            // timestamp = Date.now();
+            // timeonly = moment.utc(timestamp).format('LT');
+            // timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
+            // if(timediff >= 5) isMonitoring == false;
+
+
 
             if(isMonitoring == false){
               console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
