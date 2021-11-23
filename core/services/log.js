@@ -233,6 +233,8 @@ actions.startMonitorLog = async function(monitorData){
       }
       if(monitor.subscribed !== m.subscribed){
         console.log('monitor subscribed status is different');
+        console.log(m.subscribed);
+        monitor.subscribed = m.subscribed;
         isChanged = true;
       }
     }
