@@ -77,7 +77,7 @@ actions.updateFile = async function(data,path,retry=false){
   let dataToStr = typeof data === 'string' ? data : JSON.stringify(data);
   let dataTo64 = Buffer.from(dataToStr).toString("base64");
 
-  console.log(dataToStr);
+  //console.log(dataToStr);
 
   //update SHA
   //console.log(shas);
