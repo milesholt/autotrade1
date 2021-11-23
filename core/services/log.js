@@ -198,6 +198,7 @@ Log new monitor
 actions.startMonitorLog = async function(monitorData){
 
   console.log('starting monitor log: ' + monitorData.epic);
+  console.log(monitorData);
   // console.log('dealRef: ' + dealRef);
   // console.log('epic: ' + epic);
   // console.log('dealId: ' + dealId);
@@ -235,7 +236,7 @@ actions.startMonitorLog = async function(monitorData){
         console.log('monitor subscribed status is different');
         console.log('monitor.subscibed: ' + monitor.subscribed);
         console.log('m.subscribed: ' + m.subscribed);
-        monitor.subscribed = m.subscribed;
+        //monitor.subscribed = m.subscribed;
         isChanged = true;
       }
     }
@@ -251,6 +252,7 @@ actions.startMonitorLog = async function(monitorData){
 
   if(isChanged == true){
     console.log('monitor has changed, updating...');
+    console.log(monitors);
     await cloud.updateFile(monitors,monitorDataDir);
   }
 
