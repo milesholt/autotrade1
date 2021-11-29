@@ -312,6 +312,7 @@ FINAL ANALYSIS
       'isRangeAreaGood':checks.___rangeAreaGood.is,
       'isRangeConfirmationsGreaterThanLimit': checks.___rangeConfirmationsGreaterThanLimit.is,
       'isRecentRangeOverLimit': recentrange.length >= recentrangelimit,
+      'recentRangeIndex20': recentrange.indexOf(20),
       'recentRangeIndex21': recentrange.indexOf(21),
       'recentRangeIndex22': recentrange.indexOf(22),
       'recentRangeIndex23': recentrange.indexOf(23),

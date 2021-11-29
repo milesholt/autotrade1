@@ -737,7 +737,7 @@ actions.finalChecks = async function(){
   //   check8 = true;
   // }
 
-  if((previousTrend == 'ranging' || (checks.___rangeConfirmationsGreaterThanLimit.is == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
+  if((previousTrend == 'ranging' || (checks.___rangeConfirmationsGreaterThanLimit.is == true && recentrange.length >= recentrangelimit)) && (recentrange.indexOf(20) !== -1 || recentrange.indexOf(21) !== -1 || recentrange.indexOf(22) !== -1 || recentrange.indexOf(23) !== -1) && trend !== 'ranging'){
     checks.___breakingThroughRange.is = true;
   }
 
