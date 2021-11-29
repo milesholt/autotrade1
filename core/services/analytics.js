@@ -436,41 +436,53 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
 var rBreak = [];
 
-if(epic == 'KA.D.INRG.DAILY.IP'){
-  rBreak = [
-    {
-      enabled:true,
-      bounds: ['sat', 'mon']
-    },
-    {
-      enabled:true,
-      bounds: [16,8],
-      pattern: "hour"
-    }
-  ]
+// if(epic == 'KA.D.INRG.DAILY.IP'){
+//   rBreak = [
+//     {
+//       enabled:true,
+//       bounds: ['sat', 'mon']
+//     },
+//     {
+//       enabled:true,
+//       bounds: [16,8],
+//       pattern: "hour"
+//     }
+//   ]
+//
+// } else if (epic == 'CC.D.W.USS.IP'){
+//
+//   rBreak = [
+//     {
+//       enabled:true,
+//       bounds: ['sat', 'mon']
+//     },
+//     {
+//       enabled:true,
+//       bounds: [19,1],
+//       pattern: "hour"
+//     }
+//   ]
+//
+// } else {
+//   rBreak = [
+//     {
+//       enabled:true,
+//       bounds: ['sat', 'mon']
+//     }
+//   ]
+// }
 
-} else if (epic == 'CC.D.W.USS.IP'){
-
-  rBreak = [
-    {
-      enabled:true,
-      bounds: ['sat', 'mon']
-    },
-    {
-      enabled:true,
-      bounds: [19,1],
-      pattern: "hour"
-    }
-  ]
-
-} else {
-  rBreak = [
-    {
-      enabled:true,
-      bounds: ['sat', 'mon']
-    }
-  ]
-}
+rBreak = [
+  {
+    enabled:true,
+    bounds: ['sat', 'mon']
+  },
+  {
+    enabled:true,
+    bounds: market.marketClosed,
+    pattern: "hour"
+  }
+]
 
 
   var layout = {
@@ -644,41 +656,53 @@ actions.drawChart4Hours = async function(){
 
 var rBreak = [];
 
-if(epic == 'KA.D.INRG.DAILY.IP'){
-  rBreak = [
-    {
-      enabled:true,
-      bounds: ['sat', 'mon']
-    },
-    {
-      enabled:true,
-      bounds: [16,8],
-      pattern: "hour"
-    }
-  ]
+// if(epic == 'KA.D.INRG.DAILY.IP'){
+//   rBreak = [
+//     {
+//       enabled:true,
+//       bounds: ['sat', 'mon']
+//     },
+//     {
+//       enabled:true,
+//       bounds: [16,8],
+//       pattern: "hour"
+//     }
+//   ]
+//
+// } else if (epic == 'CC.D.W.USS.IP'){
+//
+//   rBreak = [
+//     {
+//       enabled:true,
+//       bounds: ['sat', 'mon']
+//     },
+//     {
+//       enabled:true,
+//       bounds: [19,1],
+//       pattern: "hour"
+//     }
+//   ]
+//
+// } else {
+//   rBreak = [
+//     {
+//       enabled:true,
+//       bounds: ['sat', 'mon']
+//     }
+//   ]
+// }
 
-} else if (epic == 'CC.D.W.USS.IP'){
-
-  rBreak = [
-    {
-      enabled:true,
-      bounds: ['sat', 'mon']
-    },
-    {
-      enabled:true,
-      bounds: [19,1],
-      pattern: "hour"
-    }
-  ]
-
-} else {
-  rBreak = [
-    {
-      enabled:true,
-      bounds: ['sat', 'mon']
-    }
-  ]
-}
+rBreak = [
+  {
+    enabled:true,
+    bounds: ['sat', 'mon']
+  },
+  {
+    enabled:true,
+    bounds: market.marketClosed,
+    pattern: "hour"
+  }
+]
 
 
   var layout = {
