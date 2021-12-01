@@ -345,10 +345,19 @@ actions.checkCloseTrade = async function(dealId){
            console.log(closeAnalysis);
            console.log('closing trade log...');
 
-           log.closeTradeLog(market.epic, closeAnalysis);
-           log.closeMonitorLog(market.epic);
+           //precaution - check if already closed due to loop cross overs
+           //we'll just check last closed position, as a market can only trade one position at a time, so if it is already been closed, it would be the last one on the account.
+          if(accounts[accounts.length-1].transactionDealId !== transaction.reference){
+            log.closeTradeLog(market.epic, closeAnalysis);
+            log.closeMonitorLog(market.epic);
+            resolve(true);
+          } else {
+            console.log('Position already closed, same transactionDealId: ' + transactionDealId);
+            reject(false);
+          }
 
-           resolve(true);
+
+
        } else {
           reject(false);
        }
