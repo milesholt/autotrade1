@@ -58,7 +58,7 @@ tradelimit = 0;
 linedistancelimit = 0;
 
 //Specific Strategy Limits
-breakoutMaxMargin = 0.17;
+breakoutMaxMargin = 0.3;
 
 stopDistanceFluctuationPerc = 0.1;
 recentlimit = 4;
