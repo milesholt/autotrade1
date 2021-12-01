@@ -523,6 +523,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         }else {
                                           console.log('Tried to close, but no open positions found with dealId:' + m.dealId);
                                           console.log(positions);
+                                          console.log('Checking if position has been closed..');
+                                          //Check for closed position
+                                          await check.actions.checkCloseTrade(m.dealId).then(async r => {
+                                            console.log('Closed position found on API. Closed position. Already logged, stopping monitor.');
+                                            actions.stopMonitor(timer, m.epic);
+                                          }).catch(e => { console.log('No closed positions found.'); });
                                           return false;
                                         }
                                       }).catch(e => console.log(e));
