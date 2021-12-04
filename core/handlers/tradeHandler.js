@@ -38,6 +38,13 @@ DETERMINE TRADE
 
 actions.determineTrade = async function(){
 
+  let day = moment().format('ddd');
+  if( day == 'Sat' || day == 'Sun'){
+    console.log('Should be the weekend. Day is: ' + day);
+    console.log('Not beginning trade because it is the weekend and markets will be closed.');
+    return false;
+  }
+
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
 
