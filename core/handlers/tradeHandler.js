@@ -42,6 +42,7 @@ actions.determineTrade = async function(){
   if( day == 'Sat' || day == 'Sun'){
     console.log('Should be the weekend. Day is: ' + day);
     console.log('Not beginning trade because it is the weekend and markets will be closed.');
+    isDeal = false;
     return false;
   }
 
