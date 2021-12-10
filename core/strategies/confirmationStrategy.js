@@ -64,7 +64,7 @@ actions.determineConfirmations = async function(){
 
 
   let rangeArea = highest4HourPrice - lowest4HourPrice;
-  let pointPercLimit = 0.07;
+  let pointPercLimit = confirmationPointPercLimit;
 
   // //2) Remove any points that are within percentage of the rangeArea to one another
   waves.forEach((point,idx)=>{
@@ -166,7 +166,7 @@ actions.determineConfirmations = async function(){
 
    waves.forEach((wave,idx) =>{
      let linePoint  = parseFloat(line_arr.y[idx].toFixed(2));
-     let offset = 0.18;
+     let offset = confirmationMarginOffset;
      let margin = (rangeArea * offset);
      let prevIdx = (idx-1) > 0 ?  (idx-1) : false;
 
