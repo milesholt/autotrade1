@@ -122,7 +122,8 @@ actions.determineStopDistance = async function(){
    console.log('potentialLossAmount: ' + potentialLossAmount);
    console.log('calculatedAvailableLoss: ' + availableLoss);
    console.log('newStopDistance: ' + newStopDistance);
-  // if(potentialLossAmount >= availableLoss) stopDistance = newStopDistance;
+
+  if(potentialLossAmount >= availableLoss) stopDistance = newStopDistance;
 
 
   /* logic
