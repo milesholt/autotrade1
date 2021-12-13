@@ -653,10 +653,17 @@ actions.checkMarginAvailability = async function(){
         console.log(account);
 
       //if(account.accountAlias == 'demo'){
-        let margin = account.balance.available;
-        console.log(margin);
+        /*balance{
+          balance:
+          deposit:
+          profitLoss:
+          available:
+        }*/
+
+        let available = account.balance.available; 
+        console.log(available);
         console.log(markets.length);
-        availableLoss = margin / markets.length;
+        availableLoss = available / markets.length;
       }
     });
   }).catch(e => console.log(e));
