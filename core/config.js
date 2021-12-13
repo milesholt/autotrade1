@@ -51,6 +51,7 @@ limitDistancePerc = 0.4;
 limitClosePerc = 0.75;
 stopClosePerc = 0.95;
 bumpVolatilityLimit = 0.6;
+percRiskLoss = 0.25;
 
 momentumLimit = 0;
 rangelimit = 0;

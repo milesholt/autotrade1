@@ -660,10 +660,10 @@ actions.checkMarginAvailability = async function(){
           available:
         }*/
 
-        let available = account.balance.available; 
+        let available = account.balance.available;
         console.log(available);
         console.log(markets.length);
-        availableLoss = available / markets.length;
+        availableLoss = lib.toNumber((available / markets.length) * percRiskLoss);
       }
     });
   }).catch(e => console.log(e));

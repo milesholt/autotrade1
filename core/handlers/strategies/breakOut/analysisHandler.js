@@ -114,12 +114,31 @@ actions.determineStopDistance = async function(){
 
   stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
 
+
+
    let potentialLossAmount = stopDistance * market.size;
    let newStopDistance = (availableLoss / market.size);
 
    console.log('potentialLossAmount: ' + potentialLossAmount);
+   console.log('calculatedAvailableLoss: ' + availableLoss);
    console.log('newStopDistance: ' + newStopDistance);
   // if(potentialLossAmount >= availableLoss) stopDistance = newStopDistance;
+
+
+  /* logic
+
+  We want to assign a percentage of funds available as the amount we are risking to lose
+
+  Example
+  Say the full amount we have invested is £1000
+  £1000 / 5 markets would be £200 available each
+
+  Say we allowed only 25% as a percentage of loss for each market
+  So it woud £200 * 0.25 = £50 as availableloss
+
+  so availableLoss = lib.toNumber((available / markets.length) * percRiskLoss);
+
+  */
 
 }
 
