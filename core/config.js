@@ -57,6 +57,7 @@ momentumLimit = 0;
 rangelimit = 0;
 tradelimit = 0;
 linedistancelimit = 0;
+trend4HourLimitPerc = 40;
 
 //Specific Strategy Limits
 breakoutMaxMargin = 0.3;
