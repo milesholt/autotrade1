@@ -833,7 +833,7 @@ actions.finalChecks = async function(){
 
 
   //if there are not enough wave points dont allow
-   let enoughWaves = (rangeData.waves.length >= 5);
+   let enoughWaves = (rangeData.waves.length >= waveLimit);
   //UPDATED - Now uses waves needing to be more than one, rather than wave points
   //let enoughWaves = (rangeData.wavecount > 1);
   checks.___enoughWaves.is = enoughWaves;
