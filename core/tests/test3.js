@@ -62,14 +62,14 @@ async function exec(){
   //INR/JPY - CS.D.INRJPY.TODAY.IP
   //MXN/JPY - CS.D.MXNJPY.TODAY.IP
   //Clean Energy - KA.D.INRG.DAILY.IP'
-
+  //Carbon Emissions - CO.D.CFI.Month1.IP
 
 
   // console.log('-------Searching for Epics');
-  // const searchterm = encodeURI('iShares Global Clean Energy UCITS ETF USD');
-  // await api.search(searchterm).then(r => {
-  //   console.log(r);
-  // }).catch(e => console.log(e));
+  const searchterm = encodeURI('Carbon Emissions');
+  await api.search(searchterm).then(r => {
+    console.log(r);
+  }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = '2XMFTXH4WH644TP';
