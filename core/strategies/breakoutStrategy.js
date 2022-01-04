@@ -3,6 +3,7 @@ let actions = {};
 const { from, range } = require('rxjs');
 const { map, filter } = require('rxjs/operators');
 const util = require('util');
+const moment=require('moment');
 
 actions.calcResistSupport = async function(pricedata,type){
 
@@ -242,13 +243,62 @@ actions.calcResistSupport = async function(pricedata,type){
       }
     });
 
+    //skip weekends
+    waves.forEach(wave =>{
+      //skip weekends
+      let day = moment.utc(wave.time,'YYYY-MM-DD hh:mm:ss').format('ddd');
+      wave.remove = false;
+      if(day == 'Sat' || day == 'Sun') wave.remove = true;
+    });
+
+    waves = waves.filter(point => point.remove == false);
+
+    // //remove points in close proximity and choose highest/lowest
+    let wavegroup = [];
+    let removes = [];
+    waves.forEach((wave,idx) =>{
+      wave.remove=false;
+    });
+
+    //loop throgh waves and collect all points that are 1 hour next to each other as a group to remove
+    waves.forEach((wave,idx) =>{
+      if(idx > 0 && idx < waves.length-1){
+
+        let next = waves[idx+1];
+        let prev =waves[idx-1];
+        let nextTime = next.time;
+        let prevTime = prev.time;
+        let nextTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(nextTime), "hours"));
+        let prevTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(prevTime), "hours"));
+
+        if(nextTimeDiff == 1 && prevTimeDiff == 1){
+          //wavegroup.push([prev,wave,next]);
+          let averageClose = (prev.close + wave.close + next.close)/3;
+          wave.close = averageClose;
+          prev.remove = true;
+          next.remove = true;
+          removes.push(idx);
+        }
+      }
+    });
+
+    //but from the group, we combine into one point instead, so keep the middle one as a point
+    let keepidx = Math.round(removes.length/2);
+    console.log('keepidx: ' + keepidx);
+
+    waves.forEach((wave,idx) =>{
+      if(idx == removes[keepidx]) wave.remove = false;
+    });
+
+    waves = waves.filter(point => point.remove == false);
+
     //console.log(waves);
     //console.log(w.wavecount);
 
     rangeData.waves = waves;
     rangeData.wavecount = w.wavecount;
     rangeData.primaries = primaries;
-  
+
 
 
     midrangeprice = (primary.highest + primary.lowest) / 2;
