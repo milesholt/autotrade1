@@ -312,6 +312,19 @@ actions.calcResistSupport = async function(pricedata,type){
 
     waves = waves.filter(point => point.remove == false);
 
+    //loop again, check points are in alternating directions (so remove any middle points if three points are in the same direction)
+    waves.forEach((wave,idx) =>{
+      if(idx > 0 && idx < waves.length-1){
+
+      let next = waves[idx+1];
+      let prev =waves[idx-1];
+      if(prev.close < wave.close && wave.close < next.close) wave.remove = true;
+      if(prev.close > wave.close && wave.close > next.close) wave.remove = true;
+      }
+    });
+
+    waves = waves.filter(point => point.remove == false);
+
     //console.log(waves);
     //console.log(w.wavecount);
 
