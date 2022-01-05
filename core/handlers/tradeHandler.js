@@ -223,7 +223,7 @@ actions.determineTrade = async function(){
           	'currencyCode': 'GBP',
           	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
           	'epic': epic,
-          	'expiry': 'DFB',
+          	'expiry': market.expiry,
           	'size': market.size,
           	'forceOpen': true,
           	'orderType': 'MARKET',
