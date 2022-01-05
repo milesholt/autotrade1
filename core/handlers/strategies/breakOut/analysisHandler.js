@@ -397,7 +397,8 @@ FINAL ANALYSIS
       'isDeal' : isDeal,
       'availableLoss': availableLoss,
       'falseChecks' : falseChecks,
-      'trueChecks' : trueChecks
+      'trueChecks' : trueChecks,
+      'marketClosed': market.marketClosed
     };
 
   await log.analysisLog(analysis);
