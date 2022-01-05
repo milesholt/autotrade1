@@ -287,7 +287,27 @@ actions.calcResistSupport = async function(pricedata,type){
     console.log('keepidx: ' + keepidx);
 
     waves.forEach((wave,idx) =>{
-      if(idx == removes[keepidx]) wave.remove = false;
+      wave.remove = false;
+      if(idx == removes[keepidx]) wave.remove = true;
+    });
+
+    waves = waves.filter(point => point.remove == false);
+
+    //loop again and double check if there are still any points next to each other and remove last one
+    waves.forEach((wave,idx) =>{
+      if(idx > 0 && idx < waves.length-1){
+
+        let next = waves[idx+1];
+        let prev =waves[idx-1];
+        let nextTime = next.time;
+        let prevTime = prev.time;
+        let nextTimeDiff = Math.abs(moment(wave.time).diff(moment(nextTime), "hours"));
+        let prevTimeDiff = Math.abs(moment(wave.time).diff(moment(prevTime), "hours"));
+
+        if(prevTimeDiff == 1 && nextTimeDiff > 1){
+          wave.remove = true;
+        }
+      }
     });
 
     waves = waves.filter(point => point.remove == false);
