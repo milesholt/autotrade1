@@ -132,6 +132,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     monitorData.newLimit = direction == 'BUY' ? monitorData.newlimitBuy : monitorData.newlimitSell;
                     monitorData.newStop = direction == 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
 
+                    //convert newlimit to have only one decimal place
+                    monitorData.newLimit = parseFloat(monitorData.newLimit.toFixed(2).slice(0, -1));
+
 
                     console.log(arr.epic);
                     epic = arr.epic;
