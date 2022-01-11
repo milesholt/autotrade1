@@ -348,6 +348,7 @@ actions.checkCloseTrade = async function(dealId){
            //precaution - check if already closed due to loop cross overs
            //we'll just check last closed position, as a market can only trade one position at a time, so if it is already been closed, it would be the last one on the account.
           if(accounts[accounts.length-1].transactionDealId !== transaction.reference){
+            console.log('position not properly closed our end, transactionDealId does not equal API transaction reference');
             log.closeTradeLog(market.epic, closeAnalysis);
             log.closeMonitorLog(market.epic);
             resolve(true);
@@ -649,7 +650,6 @@ actions.checkMarginAvailability = async function(){
     console.log(r.accounts);
     r.accounts.forEach(async account=>{
       if(account.accountId == 'Z3MUI3'){
-        console.log('here');
         console.log(account);
 
       //if(account.accountAlias == 'demo'){
