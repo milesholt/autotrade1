@@ -310,7 +310,7 @@ actions.closeMonitorLog = async function(epic){
       monitors.splice(i,1);
     }
   });
-  cloud.updateFile(monitors,monitorDataDir);
+  await cloud.updateFile(monitors,monitorDataDir);
   const tmpMonitorPath = 'core/data/tmpMonitor.json';
   fs.writeFile(tmpMonitorPath, JSON.stringify(monitors), { flag: 'w' }, function (err) {
     if (err) throw err;
