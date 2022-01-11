@@ -322,9 +322,9 @@ actions.checkCloseTrade = async function(dealId){
    let type = 'ALL_DEAL';
    let from = undefined;
    let to = undefined;
-   await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+   await api.acctTransaction(type,from, to, pageSize,1).then(async r => {
        let transactions = r.transactions;
-       transactions.forEach(transaction =>{
+       transactions.forEach(async transaction =>{
          if(transaction.reference == dealId2){
            console.log(dealId2);
            console.log('dealId found. position has been closed');
@@ -349,8 +349,8 @@ actions.checkCloseTrade = async function(dealId){
            //we'll just check last closed position, as a market can only trade one position at a time, so if it is already been closed, it would be the last one on the account.
           if(accounts[accounts.length-1].transactionDealId !== transaction.reference){
             console.log('position not properly closed our end, transactionDealId does not equal API transaction reference');
-            log.closeTradeLog(market.epic, closeAnalysis);
-            log.closeMonitorLog(market.epic);
+            await log.closeTradeLog(market.epic, closeAnalysis);
+            await log.closeMonitorLog(market.epic);
             resolve(true);
           } else {
             console.log('Position already closed, same transactionDealId: ' + transactionDealId);
