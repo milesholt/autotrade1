@@ -213,7 +213,7 @@ actions.calcResistSupport = async function(pricedata,type){
     });
 
     let rangeArea = primary.highest - primary.lowest;
-    let pointPercLimit = 0.3;
+    let pointPercLimit = 0.4;
 
     //2) Remove any points that are close to each other, or within percentage of the rangeArea to one another
     waves.forEach((point,idx)=>{
