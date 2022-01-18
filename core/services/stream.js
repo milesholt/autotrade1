@@ -163,15 +163,16 @@ actions.checkSubscriptions = async function(epic){
   //Re-check subscriptions
   setTimeout(async ()=>{
     try{
-      subscriptions =  await api.getActiveSubscriptions();
+      ch_subscriptions =  await api.getActiveSubscriptions();
       //Update stream master file
-      streams[epic].noSubscriptions = ch_subscriptions;
+      console.log('No of subscriptions: ' + ch_subscriptions);
+      streams.noSubscriptions = ch_subscriptions;
       await github.actions.updateFile(streams, streamDataDir);
 
     } catch(e) {
       console.log(e);
     }
-  },20000);
+  },60000);
 
 }
 
