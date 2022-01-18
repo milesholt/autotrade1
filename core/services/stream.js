@@ -165,8 +165,8 @@ actions.checkSubscriptions = async function(epic){
     try{
       ch_subscriptions =  await api.getActiveSubscriptions();
       //Update stream master file
-      console.log('No of subscriptions: ' + ch_subscriptions);
-      streams.noSubscriptions = ch_subscriptions;
+      console.log('No of subscriptions: ' + ch_subscriptions.length);
+      streams.noSubscriptions = ch_subscriptions.length;
       await github.actions.updateFile(streams, streamDataDir);
 
     } catch(e) {
