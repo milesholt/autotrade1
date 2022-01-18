@@ -151,6 +151,7 @@ market = {};
 trades = [];
 accounts = [];
 monitors = [];
+streams = [];
 monitor = { 'epic': '', 'dealId': '', 'dealRef': '', 'streamLogDir' : '' , 'direction': '' }
 trade = { 'marketId' : 0, 'epic':'', 'direction': '', 'dealId': '', 'dealRef': '', 'startAnalysis': '', 'closeAnalysis': '', 'start_timestamp': '', 'start_date':'', 'end_timestamp': '', 'end_date': '', 'error': {} };
 mid = 0;

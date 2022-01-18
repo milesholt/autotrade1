@@ -136,7 +136,7 @@ actions.checkSubscriptions = async function(epic){
   if(!lib.actions.isDefined(streams,epic)) streams[epic] = {};
 
   let subscriptions = [];
-  let epics = [];
+  let checkepics = [];
   setTimeout(async ()=>{
     try{
       //Return active subscriptions
@@ -145,7 +145,7 @@ actions.checkSubscriptions = async function(epic){
       //Loop through and check EPIC ID, if ID is already listed as a subscription, unsubscribe one
       subscriptions.forEach(subscription => {
         id = subscription.ik.LS_id;
-        epics.forEach(ep=>{
+        checkepics.forEach(ep=>{
             if(id == ep){
               console.log('subscription already exists, unsubscribing');
               api.unsubscribeToLightstreamer(epic);
