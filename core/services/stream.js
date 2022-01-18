@@ -131,7 +131,7 @@ actions.isActive = async function(epic){
   return api.isActive(epic);
 }
 
-action.checkSubscriptions = async function(epic){
+actions.checkSubscriptions = async function(epic){
 //  let stream = await github.actions.getFile({}, streamDataDir);
   if(!lib.actions.isDefined(streams,epic)) streams[epic] = {};
 
