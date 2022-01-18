@@ -135,24 +135,24 @@ actions.checkSubscriptions = async function(epic){
 //  let stream = await github.actions.getFile({}, streamDataDir);
   if(!lib.actions.isDefined(streams,epic)) streams[epic] = {};
 
-  let subscriptions = [];
-  let checkepics = [];
+  let ch_subscriptions = [];
+  let ch_epics = [];
   setTimeout(async ()=>{
     try{
       //Return active subscriptions
-      subscriptions =  await api.getActiveSubscriptions();
+      ch_subscriptions =  await api.getActiveSubscriptions();
 
       //Loop through and check EPIC ID, if ID is already listed as a subscription, unsubscribe one
-      subscriptions.forEach(subscription => {
+      ch_subscriptions.forEach(subscription => {
         id = subscription.ik.LS_id;
-        checkepics.forEach(ep=>{
+        ch_epics.forEach(ep=>{
             if(id == ep){
               console.log('subscription already exists, unsubscribing');
               api.unsubscribeToLightstreamer(epic);
             }
         });
 
-        epics.push(id);
+        ch_epics.push(id);
       });
     } catch(e) {
       console.log(e);
