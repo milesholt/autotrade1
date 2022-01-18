@@ -166,6 +166,8 @@ actions.setDefaults = async function(){
   from_1hour = moment.utc().subtract(1, 'hours').format('YYYY-MM-DD%20HH:00:00');
   to = moment.utc().format('YYYY-MM-DD%20HH:00:00');
 
+
+
   //Price variables
   prices = [];
   prices_4hour = [];

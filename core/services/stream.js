@@ -133,7 +133,7 @@ actions.isActive = async function(epic){
 
 actions.checkSubscriptions = async function(epic){
 //  let stream = await github.actions.getFile({}, streamDataDir);
-  if(!lib.actions.isDefined(streams,epic)) streams[epic] = {};
+  //if(!lib.actions.isDefined(streams,epic)) streams[epic] = {};
 
   let ch_subscriptions = [];
   let ch_epics = [];
@@ -157,7 +157,7 @@ actions.checkSubscriptions = async function(epic){
     } catch(e) {
       console.log(e);
     }
-  },10000);
+  },40000);
 
 
   //Re-check subscriptions
@@ -167,6 +167,7 @@ actions.checkSubscriptions = async function(epic){
       //Update stream master file
       console.log('No of subscriptions: ' + ch_subscriptions.length);
       streams.noSubscriptions = ch_subscriptions.length;
+      streams.epics = ch_epics;
       await github.actions.updateFile(streams, streamDataDir);
 
     } catch(e) {

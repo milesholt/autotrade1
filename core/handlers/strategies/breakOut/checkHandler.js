@@ -447,6 +447,7 @@ actions.checkOpenTrade = async function(){
             if(isMonitoring == false){
               console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
               await monitor.iniMonitor(dealId, dealRef, epic);
+              await stream.checkSubscriptions(epic);
             }
 
           }
