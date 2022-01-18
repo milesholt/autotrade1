@@ -155,7 +155,10 @@ actions.checkSubscriptions = async function(){
             }
         });
 
-        if(add) ch_epics.push(id);
+        if(add) {
+          console.log('adding epic');
+          ch_epics.push(id);
+        }
       });
     } catch(e) {
       console.log(e);
