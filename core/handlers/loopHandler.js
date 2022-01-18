@@ -87,6 +87,9 @@ actions.loopMarkets = async function(){
 
   }
 
+  //after looping through markets, execute these functions to finish / clean up -
+  await stream.checkSubscriptions();
+
   //another method
   //https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
   // await Promise.all(files.map(async (file) => {

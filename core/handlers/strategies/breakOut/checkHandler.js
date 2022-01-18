@@ -52,9 +52,6 @@ actions.checkOpenTrades = async function(){
            core.actions.setPaths();
            await monitor.iniMonitor(dealId,dealRef,epic);
 
-           await stream.checkSubscriptions(epic);
-
-
            if(i == (positionsData.positions.length-1)){
              console.log('Finished looping through open positions');
              //run through any deals which aren't empty on market data
@@ -77,7 +74,7 @@ actions.checkOpenTrades = async function(){
        }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 
-
+    await stream.checkSubscriptions();
 }
 
 
@@ -447,7 +444,7 @@ actions.checkOpenTrade = async function(){
             if(isMonitoring == false){
               console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
               await monitor.iniMonitor(dealId, dealRef, epic);
-              await stream.checkSubscriptions(epic);
+              //await stream.checkSubscriptions(epic);
             }
 
           }

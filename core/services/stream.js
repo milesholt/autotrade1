@@ -131,7 +131,7 @@ actions.isActive = async function(epic){
   return api.isActive(epic);
 }
 
-actions.checkSubscriptions = async function(epic){
+actions.checkSubscriptions = async function(){
 //  let stream = await github.actions.getFile({}, streamDataDir);
   //if(!lib.actions.isDefined(streams,epic)) streams[epic] = {};
 
@@ -149,11 +149,13 @@ actions.checkSubscriptions = async function(epic){
         ch_epics.forEach(ep=>{
             if(id == ep){
               console.log('subscription already exists, unsubscribing');
-              api.unsubscribeToLightstreamer(epic);
+              api.unsubscribeToLightstreamer(ep);
+            } else {
+              ch_epics.push(id);
             }
         });
 
-        ch_epics.push(id);
+
       });
     } catch(e) {
       console.log(e);
