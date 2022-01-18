@@ -161,17 +161,17 @@ actions.checkSubscriptions = async function(epic){
 
 
   //Re-check subscriptions
-  // setTimeout(async ()=>{
-  //   try{
-  //     subscriptions =  await api.getActiveSubscriptions();
-  //     //Update stream master file
-  //     streams[epic].noSubscriptions = subscriptions;
-  //     await github.actions.updateFile(streams, streamDataDir);
-  //
-  //   } catch(e) {
-  //     console.log(e);
-  //   }
-  // },20000);
+  setTimeout(async ()=>{
+    try{
+      subscriptions =  await api.getActiveSubscriptions();
+      //Update stream master file
+      streams[epic].noSubscriptions = ch_subscriptions;
+      await github.actions.updateFile(streams, streamDataDir);
+
+    } catch(e) {
+      console.log(e);
+    }
+  },20000);
 
 }
 
