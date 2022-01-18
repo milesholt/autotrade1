@@ -51,7 +51,7 @@ actions.checkOpenTrades = async function(){
            core.actions.setPaths();
            await monitor.iniMonitor(dealId,dealRef,epic);
 
-           //await stream.checkSubscriptions(epic);
+           await stream.checkSubscriptions(epic);
 
 
            if(i == (positionsData.positions.length-1)){
