@@ -146,16 +146,16 @@ actions.checkSubscriptions = async function(){
       //Each subscription we log the IP into epics array, and if it occurs again, we remove that one
       ch_subscriptions.forEach(subscription => {
         id = subscription.ik.LS_id;
+        let add = true;
         ch_epics.forEach(ep=>{
             if(id == ep){
               console.log('subscription already exists, unsubscribing');
               api.unsubscribeToLightstreamer(ep);
-            } else {
-              ch_epics.push(id);
+              add = false;
             }
         });
 
-
+        if(add) ch_epics.push(id);
       });
     } catch(e) {
       console.log(e);
