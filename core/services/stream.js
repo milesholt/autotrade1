@@ -15,6 +15,9 @@ var subscriptionMode = 'MERGE';
 var items = ['CHART:'+epic+':HOUR'];
 var fields = ['UTM','LTV', 'OFR_OPEN','OFR_CLOSE','OFR_HIGH','OFR_LOW','BID_OPEN','BID_CLOSE','BID_HIGH','BID_LOW'];
 
+const github = require('./github.js');
+const lib = require('./library.js');
+
 //todo: setup monitoring when deal is made to monitor status as it's being processed
 //sometimes a deal will be created but the confirm will be dealnotfound and it wont be processed, we need to subscribe to stream to see whats happening
 //var streamLogDir = path.join(__dirname, 'stream_DealCreateMonitor.json');
@@ -126,6 +129,50 @@ actions.isSubscribed = async function(epic){
 
 actions.isActive = async function(epic){
   return api.isActive(epic);
+}
+
+action.checkSubscriptions = async function(epic){
+//  let stream = await github.actions.getFile({}, streamDataDir);
+  if(!lib.actions.isDefined(streams,epic)) streams[epic] = {};
+
+  let subscriptions = [];
+  let epics = [];
+  setTimeout(async ()=>{
+    try{
+      //Return active subscriptions
+      subscriptions =  await api.getActiveSubscriptions();
+
+      //Loop through and check EPIC ID, if ID is already listed as a subscription, unsubscribe one
+      subscriptions.forEach(subscription => {
+        id = subscription.ik.LS_id;
+        epics.forEach(ep=>{
+            if(id == ep){
+              console.log('subscription already exists, unsubscribing');
+              api.unsubscribeToLightstreamer(epic);
+            }
+        });
+
+        epics.push(id);
+      });
+    } catch(e) {
+      console.log(e);
+    }
+  },10000);
+
+
+  //Re-check subscriptions
+  setTimeout(async ()=>{
+    try{
+      subscriptions =  await api.getActiveSubscriptions();
+      //Update stream master file
+      streams[epic].noSubscriptions = subscriptions;
+      await github.actions.updateFile(streams, streamDataDir);
+
+    } catch(e) {
+      console.log(e);
+    }
+  },20000);
+
 }
 
 actions.readStream = function(streamLogDir,single){

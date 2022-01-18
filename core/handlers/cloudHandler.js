@@ -65,6 +65,8 @@ actions.getFiles = async function(){
   accountDataSha =  github.sha;
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
+  streams = await github.actions.getFile(streamDataDir);
+  streamDataSha = github.sha;
   let analysis_string = await github.actions.getFile(analysisDataDir);
   eval(analysis_string);
   analysisDataSet = eval('analysis_'+mid);
@@ -102,6 +104,8 @@ actions.getMainFiles = async function(){
   accountDataSha =  github.sha;
   monitors = await github.actions.getFile(monitorDataDir);
   monitorDataSha = github.sha;
+  streams = await github.actions.getFile(streamDataDir);
+  streamDataSha = github.sha;
   //let cld_markets = await github.actions.getFile(marketDataDir);
   //markets = markets.map((item, i) => Object.assign({}, item, cld_markets[i]));
   markets = await actions.syncFile(marketDataDir, markets, 'epic');

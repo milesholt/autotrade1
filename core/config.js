@@ -179,6 +179,7 @@ tradeDataDir = 'core/data/';
 streamLogDir = 'core/data/';
 errorDataDir = 'core/data/';
 monitorDataDir = 'core/data/monitordata.json';
+streamDataDir = 'core/data/streamdata.json';
 
 
 //Price data variables
