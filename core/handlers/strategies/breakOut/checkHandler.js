@@ -117,7 +117,7 @@ actions.checkIncorrectDeal = async function(dealId){
     let type = 'ALL_DEAL';
 
     await api.acctActivity(from, to, detailed, dealId, pageSize).then(r => {
-      console.log(util.inspect(r,false,null));
+      //console.log(util.inspect(r,false,null));
       if(r.activities.length){
         r.activities.forEach(activity => {
           if(activity.dealId == dealId){
@@ -136,7 +136,7 @@ actions.checkIncorrectDeal = async function(dealId){
     if(positionFound){
 
       await api.acctTransaction(type,from, to, pageSize,1).then(r => {
-        console.log(util.inspect(r,false,null));
+        //console.log(util.inspect(r,false,null));
         let transactions = r.transactions;
         transactions.forEach(transaction =>{
           if(transaction.openLevel == openLevel && transaction.instrumentName == name){
@@ -342,7 +342,7 @@ actions.checkCloseTrade = async function(dealId){
              transactionDealId: transaction.reference
            }
 
-           console.log(closeAnalysis);
+           //console.log(closeAnalysis);
            console.log('closing trade log...');
 
            //precaution - check if already closed due to loop cross overs
@@ -648,10 +648,10 @@ actions.checkRangeConfirmations = async function(){
 actions.checkMarginAvailability = async function(){
   console.log('checkMarginAvailability');
   await api.acctInfo().then(async r => {
-    console.log(r.accounts);
+    //console.log(r.accounts);
     r.accounts.forEach(async account=>{
       if(account.accountId == 'Z3MUI3'){
-        console.log(account);
+        //console.log(account);
 
       //if(account.accountAlias == 'demo'){
         /*balance{
