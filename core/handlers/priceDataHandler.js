@@ -129,7 +129,7 @@ actions.getPriceData = async function(res = 'HOUR'){
     await api.histPrc(epic, res, f2, t).then(r => {
       console.log('from: ' + f2);
       console.log('day: ' + t);
-      console.log(util.inspect(r, false, null));
+      //console.log(util.inspect(r, false, null));
       if(r.prices.length){
           //Check price bar doesn't already exist on pricedata
           if(prc[prc.length-1].snapshotTime !== r.prices[0].snapshotTime){
