@@ -64,6 +64,7 @@ breakoutMaxMargin = 0.3;
 confirmationPointPercLimit = 0.04;
 confirmationMarginOffset = 0.14;
 waveLimit = 6;
+wavePointPercLimit = 0.5;
 
 stopDistanceFluctuationPerc = 0.1;
 recentlimit = 4;
