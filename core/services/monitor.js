@@ -254,8 +254,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
 
-                      markets[epic].closeprofit = false;
-                      markets[epic].closeloss = false;
+                      markets[monitorData.epic].closeprofit = false;
+                      markets[monitorData.epic].closeloss = false;
 
                       // console.log('position data:');
                       // console.log(p);
