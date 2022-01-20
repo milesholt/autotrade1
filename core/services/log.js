@@ -136,8 +136,8 @@ actions.analysisLog = async function(data){
 
   if(analysisDataSet.length == 36) analysisDataSet.shift();
 
-  console.log('ticket info:');
-  console.log(data.ticket);
+  //console.log('ticket info:');
+  //console.log(data.ticket);
 
   analysisDataSet.push(data);
 
