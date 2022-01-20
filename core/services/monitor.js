@@ -69,6 +69,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   //create global object otherwise variables arent picked up in foreach loops
   var arr = {};
   arr.epic = epic;
+  arr.marketId = mid;
   arr.dealId = dealId;
   arr.dealRef = dealRef;
   arr.streamLogDir = streamLogDir;
@@ -256,8 +257,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                       console.log('markets:');
                       console.log(markets);
-                      markets[monitorData.epic].closeprofit = false;
-                      markets[monitorData.epic].closeloss = false;
+                      markets[monitorData.marketId].closeprofit = false;
+                      markets[monitorData.marketId].closeloss = false;
 
                       // console.log('position data:');
                       // console.log(p);
@@ -423,19 +424,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                 //our settings
                                 //use new limit level
-                                if(dir == 'BUY' && d.closePrice.bid >= x.newLimit) markets[ep].closeprofit = true;
-                                if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) markets[ep].closeprofit = true;
+                                if(dir == 'BUY' && d.closePrice.bid >= x.newLimit) markets[x.marketId].closeprofit = true;
+                                if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) markets[x.marketId].closeprofit = true;
 
                                 //suse new stop level
-                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) markets[ep].closeloss = true;
-                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop) markets[ep].closeloss = true;
+                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) markets[x.marketId].closeloss = true;
+                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop) markets[x.marketId].closeloss = true;
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
                                 let posfound = false;
 
 
-                                  if(markets[ep].closeprofit === true){
+                                  if(markets[x.marketId].closeprofit === true){
 
                                     console.log('close profit');
                                     console.log('direction: ' + dir);
@@ -552,7 +553,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                   }
 
-                                  if(markets[ep].closeloss === true){
+                                  if(markets[x.marketId].closeloss === true){
 
                                     console.log('close loss');
                                     console.log('direction: ' + dir);
