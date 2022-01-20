@@ -216,12 +216,26 @@ actions.determineTrade = async function(){
 
         //if(!positionOpen && positionsData.positions.length === 0){
         console.log('positionOpen before making trade: ' + positionOpen);
-        if(positionOpen == false && lib.isEmpty(market.deal)){
+
+        let go = positionOpen == false && lib.isEmpty(market.deal) ? true : false;
+        let dir = trend == 'bullish' ? 'BUY' : 'SELL';
+
+        //overide if possible trade is in opposite direction
+        //close existing trade at loss and begin new trade in other direction
+        if(!lib.isEmpty(market.deal)){
+          if(dir !== market.deal.direction){
+            console.log('Closing open trade as loss, and beginning new one in other direction');
+            go = true;
+            markets[epic].closeloss = true;
+          }
+        }
+
+        if(go === true){
 
           //No open positions, begin trade
           ticket = {
           	'currencyCode': 'GBP',
-          	'direction': trend == 'bullish' ? 'BUY' : 'SELL',
+          	'direction': dir,
           	'epic': epic,
           	'expiry': market.expiry,
           	'size': market.size,

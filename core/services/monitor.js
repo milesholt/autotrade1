@@ -254,8 +254,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
 
-                      let closeprofit = false;
-                      let closeloss = false;
+                      markets[epic].closeprofit = false;
+                      markets[epic].closeloss = false;
 
                       // console.log('position data:');
                       // console.log(p);
@@ -421,19 +421,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                 //our settings
                                 //use new limit level
-                                if(dir == 'BUY' && d.closePrice.bid >= x.newLimit) closeprofit = true;
-                                if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) closeprofit = true;
+                                if(dir == 'BUY' && d.closePrice.bid >= x.newLimit) markets[ep].closeprofit = true;
+                                if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) markets[ep].closeprofit = true;
 
                                 //suse new stop level
-                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) closeloss = true;
-                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop) closeloss = true;
+                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) markets[ep].closeloss = true;
+                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop) markets[ep].closeloss = true;
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
                                 let posfound = false;
 
 
-                                  if(closeprofit){
+                                  if(markets[ep].closeprofit === true){
 
                                     console.log('close profit');
                                     console.log('direction: ' + dir);
@@ -550,7 +550,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                   }
 
-                                  if(closeloss){
+                                  if(markets[ep].closeloss === true){
 
                                     console.log('close loss');
                                     console.log('direction: ' + dir);
