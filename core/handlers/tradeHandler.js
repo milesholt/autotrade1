@@ -226,7 +226,7 @@ actions.determineTrade = async function(){
           if(dir !== market.deal.direction){
             console.log('Closing open trade as loss, and beginning new one in other direction');
             go = true;
-            markets[epic].closeloss = true;
+            markets[mid].closeloss = true;
           }
         }
 
