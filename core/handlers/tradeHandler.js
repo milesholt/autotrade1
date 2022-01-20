@@ -220,13 +220,17 @@ actions.determineTrade = async function(){
         let go = positionOpen == false && lib.isEmpty(market.deal) ? true : false;
         let dir = trend == 'bullish' ? 'BUY' : 'SELL';
 
+        /* REPAIR COUNTER TRADE METHOD */
+
         //overide if possible trade is in opposite direction
         //close existing trade at loss and begin new trade in other direction
+        let repairdelay = 0;
         if(!lib.isEmpty(market.deal)){
           if(dir !== market.deal.direction){
             console.log('Closing open trade as loss, and beginning new one in other direction');
             go = true;
             markets[mid].closeloss = true;
+            repairdelay = 20000; //wait 2 minutes for it to detect closeloss in stream, before starting a new one
           }
         }
 
@@ -343,14 +347,19 @@ actions.determineTrade = async function(){
 
                   console.log('Notification actioned. Beginning monitor and logging trade, dealId: ' + analysis.dealId);
 
-                  dealId = analysis.dealId;
-                  dealRef = analysis.dealReference;
-                  direction = analysis.ticket.direction;
+                  //add a delay here if we are waiting for an existing trade to close (counter trade repair method)
+                  setTimeout(()=>{
+                    console.log('repairdelay: ' + repairdelay);
+                    dealId = analysis.dealId;
+                    dealRef = analysis.dealReference;
+                    direction = analysis.ticket.direction;
 
 
-                  //Log trade first before monitoring
-                  await log.startTradeLog(epic, analysis, dealId);
-                  await monitor.iniMonitor(dealId,dealRef,epic);
+                    //Log trade first before monitoring
+                    await log.startTradeLog(epic, analysis, dealId);
+                    await monitor.iniMonitor(dealId,dealRef,epic);
+                  }, repairdelay );
+
 
                   market.tradedBefore = moment().valueOf();
                   finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';
