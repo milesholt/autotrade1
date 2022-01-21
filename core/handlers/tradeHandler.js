@@ -348,7 +348,7 @@ actions.determineTrade = async function(){
                   console.log('Notification actioned. Beginning monitor and logging trade, dealId: ' + analysis.dealId);
 
                   //add a delay here if we are waiting for an existing trade to close (counter trade repair method)
-                  setTimeout(()=>{
+                  setTimeout(async ()=>{
                     console.log('repairdelay: ' + repairdelay);
                     dealId = analysis.dealId;
                     dealRef = analysis.dealReference;
