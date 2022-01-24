@@ -7,6 +7,7 @@ var cloud;
 var lib;
 var log;
 var moment;
+var fs;
 
 /*
 
@@ -24,6 +25,7 @@ actions.require = async function(){
   lib = core.lib.actions;
   log = core.log.actions;
   moment = core.moment;
+  fs = core.fs;
 }
 
 /*
@@ -432,12 +434,12 @@ actions.checkOpenTrade = async function(){
             });
 
             //monitor might be logged, but also check time of last stream
-            // stats = fs.statSync(monitorData.streamLogDir);
-            // modtime = moment.utc(stats.mtime).format('LT');
-            // timestamp = Date.now();
-            // timeonly = moment.utc(timestamp).format('LT');
-            // timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
-            // if(timediff >= 5) isMonitoring == false;
+            let stats = fs.statSync(monitorData.streamLogDir);
+            let modtime = moment.utc(stats.mtime).format('LT');
+            let timestamp = Date.now();
+            let timeonly = moment.utc(timestamp).format('LT');
+            let timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
+            if(timediff >= 5) isMonitoring == false;
 
 
 

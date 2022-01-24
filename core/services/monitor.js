@@ -256,7 +256,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
                       console.log('markets:');
-                      console.log(markets);
+                      //console.log(markets);
                       markets[monitorData.marketId].closeprofit = false;
                       markets[monitorData.marketId].closeloss = false;
 
@@ -264,7 +264,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       // console.log(p);
 
                       console.log('response:');
-                      console.log(r);
+                      //console.log(r);
 
 
                       console.log(limitDiff);
