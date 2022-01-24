@@ -233,15 +233,6 @@ actions.calcResistSupport = async function(pricedata,type){
     });
     waves = waves.filter(point => point.remove == false);
 
-
-    //4) Count how many waves based on UP pivots within first and last
-    waves.forEach((point,idx) =>{
-      if(idx > 0 && idx < waves.length-1){
-        let prev = waves[idx-1];
-        if(point.direction == 'UP' || (point.direction == 'NEUTRAL' && point.close > prev.close)) w.wavecount++;
-      }
-    });
-
     //skip weekends
     waves.forEach(wave =>{
       //skip weekends
@@ -323,6 +314,14 @@ actions.calcResistSupport = async function(pricedata,type){
     });
 
     waves = waves.filter(point => point.remove == false);
+
+    //4) Count how many waves based on UP pivots within first and last
+    waves.forEach((point,idx) =>{
+      if(idx > 0 && idx < waves.length-1){
+        let prev = waves[idx-1];
+        if(point.direction == 'UP' || (point.direction == 'NEUTRAL' && point.close > prev.close)) w.wavecount++;
+      }
+    });
 
     //console.log(waves);
     //console.log(w.wavecount);
