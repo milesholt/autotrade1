@@ -501,7 +501,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           return false;
                                         }
                                       }).catch(e => {
-                                          await error.handleErrors(e);
+                                          error.handleErrors(e);
                                       });
 
                                       await api.closePosition(m.dealId).then(async r =>{
@@ -540,7 +540,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
                                       }).catch(e => {
-                                        await error.handleErrors(e);
+                                        error.handleErrors(e);
                                       });
 
 
@@ -634,7 +634,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           return false;
                                         }
                                       }).catch(e => {
-                                        await error.handleErrors(e);
+                                        error.handleErrors(e);
                                       });
 
 
@@ -676,7 +676,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
 
                                       }).catch(e => {
-                                        await error.handleErrors(e);
+                                        error.handleErrors(e);
                                       });
 
 
