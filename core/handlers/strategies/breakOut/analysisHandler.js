@@ -118,7 +118,7 @@ actions.determineStopDistance = async function(){
 
    let potentialLossAmount = stopDistance * market.size;
    let newStopDistance = (availableLoss / market.size);
-   let maxStopDistance = (maxLoss / market.size);
+   let maxStopDistance = (maxStop / market.size);
 
    console.log('potentialLossAmount: ' + potentialLossAmount);
    console.log('calculatedAvailableLoss: ' + availableLoss);
@@ -129,8 +129,8 @@ actions.determineStopDistance = async function(){
     stopDistance = newStopDistance;
   }
 
-  if(potentialLossAmount >= maxLoss){
-    console.log('potentialLossAmount greater than or equal to maxLoss, using maxStopDistance based on maximum loss.');
+  if(potentialLossAmount >= maxStop){
+    console.log('potentialLossAmount greater than or equal to maxStop, using maxStopDistance based on maximum loss.');
     stopDistance = maxStopDistance;
   }
 
