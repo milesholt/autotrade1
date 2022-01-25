@@ -500,7 +500,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           console.log(positions);
                                           return false;
                                         }
-                                      }).catch(e => console.log(e));
+                                      }).catch(e => {
+                                          await error.handleErrors(e);
+                                      });
 
                                       await api.closePosition(m.dealId).then(async r =>{
                                         console.log(util.inspect(r, false, null));
@@ -537,7 +539,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         // }).catch(e => console.log(e));
 
 
-                                      }).catch(e => console.log(e));
+                                      }).catch(e => {
+                                        await error.handleErrors(e);
+                                      });
 
 
 
@@ -629,7 +633,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                           }).catch(e => { console.log('No closed positions found.'); });
                                           return false;
                                         }
-                                      }).catch(e => console.log(e));
+                                      }).catch(e => {
+                                        await error.handleErrors(e);
+                                      });
 
 
                                       await api.closePosition(m.dealId).then(async r =>{
@@ -669,7 +675,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         // }).catch(e => console.log(e));
 
 
-                                      }).catch(e => console.log(e));
+                                      }).catch(e => {
+                                        await error.handleErrors(e);
+                                      });
 
 
 
