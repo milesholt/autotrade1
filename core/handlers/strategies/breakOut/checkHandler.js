@@ -430,16 +430,20 @@ actions.checkOpenTrade = async function(){
             //console.log(monitors);
 
             monitors.forEach(monitor => {
-              if(monitor.epic == epic && monitor.subscribed == true) isMonitoring = true;
+              if(monitor.epic == epic && monitor.subscribed == true) {
+                isMonitoring = true;
+
+                //monitor might be logged, but also check time of last stream
+                let stats = fs.statSync(monitor.streamLogDir);
+                let modtime = moment.utc(stats.mtime).format('LT');
+                let timestamp = Date.now();
+                let timeonly = moment.utc(timestamp).format('LT');
+                let timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
+                if(timediff >= 5) isMonitoring == false;
+              }
             });
 
-            //monitor might be logged, but also check time of last stream
-            let stats = fs.statSync(monitorData.streamLogDir);
-            let modtime = moment.utc(stats.mtime).format('LT');
-            let timestamp = Date.now();
-            let timeonly = moment.utc(timestamp).format('LT');
-            let timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
-            if(timediff >= 5) isMonitoring == false;
+
 
 
 
