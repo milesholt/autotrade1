@@ -355,7 +355,7 @@ actions.checkCloseTrade = async function(dealId){
             await log.closeMonitorLog(market.epic);
             resolve(true);
           } else {
-            console.log('Position already closed, same transactionDealId: ' + transactionDealId);
+            console.log('Position already closed, same transactionDealId: ' + transaction.reference);
             reject(false);
           }
 
