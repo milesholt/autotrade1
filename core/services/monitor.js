@@ -134,7 +134,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     monitorData.newStop = direction == 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
 
                     //convert newlimit to have only one decimal place
-                    monitorData.newLimit = parseFloat(monitorData.newLimit.toFixed(2).slice(0, -1));
+                    //monitorData.newLimit = parseFloat(monitorData.newLimit.toFixed(2).slice(0, -1));
+
+                    //Update - No remove any decimal place
+                    monitorData.newLimit = Math.round(monitorData.newLimit);
 
 
                     console.log(arr.epic);
