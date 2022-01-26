@@ -471,7 +471,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                     //is current price in profit
                                     let isProfit = dir == 'BUY' (d.closePrice.bid - d.openPrice) > 0 : (d.openPrice -  d.closePrice.ask) > 0;
                                     if(isProfit){
-                                        markets[x.marketId].closeprofit = true;
+                                        console.log('closing, is near profit and trend is changing.')
+                                        //markets[x.marketId].closeprofit = true;
                                     }
                                   }
                                 }
