@@ -430,13 +430,51 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 if(dir == 'BUY' && d.closePrice.bid >= x.newLimit) markets[x.marketId].closeprofit = true;
                                 if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) markets[x.marketId].closeprofit = true;
 
-                                //suse new stop level
+                                //use new stop level
                                 if(dir == 'BUY' && d.closePrice.bid <= x.newStop) markets[x.marketId].closeloss = true;
                                 if(dir == 'SELL' && d.closePrice.ask >= x.newStop) markets[x.marketId].closeloss = true;
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
                                 let posfound = false;
+
+
+                                //Save from loss by deciding if it is close enough from newlimit, but on an opposite trend
+
+                                /*
+
+                                1) Is the price close enough to newlimit?
+                                2) Has a number of hours passed (12)
+                                3) Does the last number of hours show an opposing trend
+
+                                */
+
+                                //1)
+                                let nearoffsetPerc = 0.5; //set near offset to 5%
+                                let nearoffset = dir == 'BUY' ? x.newLimit - (x.newLimit * nearoffsetPerc) : x.newLimit + (x.newLimit * nearoffsetPerc);
+
+                                //get price 12 hours ago
+                                let hourspassed = 12;
+                                let closePrice12HoursAgo = dir == 'BUY' ? pricedata3.support[pricedata3.support.length-hourspassed].closeBid : pricedata3.support[pricedata3.support.length-hourspassed].closeAsk;
+
+                                let isNearProfit = dir == 'BUY' ? closePrice12HoursAgo >= nearoffset : closePrice12HoursAgo <= nearoffset
+
+                                if(isNearProfit) {
+                                  //3)
+                                  let checkPriceDiff = Math.abs(closePrice12HoursAgo - closePrice);
+                                  let checkPriceDiffPerc = priceDiff / checkPriceDiff * 100;
+                                  const priceDiffThreshold = 50;
+                                  let isOpposing = dir == 'BUY' ?  (closePrice - closePrice12HoursAgo) < 0 : (closePrice12HoursAgo - closePrice) < 0;
+
+                                  if(isOpposing && checkPriceDiffPerc > priceDiffThreshold){
+                                    console.log('Opposing trend detected in last set number of hours');
+                                    //is current price in profit
+                                    let isProfit = dir == 'BUY' (d.closePrice.bid - d.openPrice) > 0 : (d.openPrice -  d.closePrice.ask) > 0;
+                                    if(isProfit){
+                                        markets[x.marketId].closeprofit = true;
+                                    }
+                                  }
+                                }
 
 
                                   if(markets[x.marketId].closeprofit === true){
