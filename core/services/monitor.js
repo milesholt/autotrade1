@@ -439,64 +439,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 let posfound = false;
 
 
-                                //Save from loss by deciding if it is close enough from newlimit, but on an opposite trend
-
-                                /*
-
-                                1) Is the price close enough to newlimit?
-                                2) Has a number of hours passed (12)
-                                3) Does the last number of hours show an opposing trend
-
-                                */
-
-                                // const nearoffsetPerc = 0.05; //set near offset to 5%
-                                // const hourspassed = 4;
-                                // const priceDiffThreshold = 40;
-                                //
-                                // //Determine near offset  based on direction. If BUY, the offset is % below newlimit, if SELL offset is % above
-                                // let nearoffset = dir == 'BUY' ? x.newLimit - (x.newLimit * nearoffsetPerc) : x.newLimit + (x.newLimit * nearoffsetPerc);
-                                //
-                                // //Determine pre close price (the close price a set number of hours before to determine trend)
-                                // let preClosePrice = dir == 'BUY' ? pricedata3.support[pricedata3.support.length-hourspassed].closeBid : pricedata3.support[pricedata3.support.length-hourspassed].closeAsk;
-                                //
-                                // //Caluclate if preClosePrice is within nearoffset
-                                // let isNearProfit = dir == 'BUY' ? preClosePrice >= nearoffset : preClosePrice <= nearoffset
-                                //
-                                // //if preClosePrice was within offset and near profit
-                                // if(isNearProfit) {
-                                //
-                                //   //First, get difference of current closePrice with preClosePrice
-                                //   let checkPriceDiff = Math.abs(preClosePrice - closePrice);
-                                //
-                                //   //Get percentage of this difference
-                                //   let checkPriceDiffPerc = parseFloat(Number(priceDiff / checkPriceDiff * 100).toFixed(2));
-                                //
-                                //   //Determine if this difference is negative or in opposite direction to hitting profit
-                                //   let isOpposing = dir == 'BUY' ?  (closePrice - preClosePrice) < 0 : (preClosePrice - closePrice) < 0;
-                                //
-                                //   //If trend is now moving in opposite direction and trend percentage is above threshold
-                                //   if(isOpposing && checkPriceDiffPerc >= priceDiffThreshold){
-                                //
-                                //     //If current price is still in profit
-                                //     let isProfit = dir == 'BUY' ? (d.closePrice.bid - d.openPrice) > 0 : (d.openPrice -  d.closePrice.ask) > 0;
-                                //
-                                //     if(isProfit){
-                                //
-                                //         //Close as profit
-                                //         console.log('closing, is near profit and trend is changing.')
-                                //         markets[x.marketId].closeprofit = true;
-                                //
-                                //     } else {
-                                //         console.log('not closing');
-                                //     }
-                                //   } else {
-                                //     console.log('No opposite trend');
-                                //   }
-                                // } else {
-                                //   console.log('Not near profit');
-                                // }
-
-
+                  
                                   if(markets[x.marketId].closeprofit === true){
 
                                     console.log('close profit');

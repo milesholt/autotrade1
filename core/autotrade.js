@@ -328,6 +328,9 @@ actions.exec = async function(){
   //Check for an open trade on this market
   await checkHandler.actions.checkOpenTrade();
 
+  //Do any checks for existing trades
+  await tradeHandler.actions.determineNearProfit();
+
   //Handle price data
   await priceDataHandler.actions.getPriceData();
 

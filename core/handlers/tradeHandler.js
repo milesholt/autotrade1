@@ -396,6 +396,87 @@ actions.determineTrade = async function(){
 
 }
 
+
+/*
+
+Determine if trade was near profit and now going in opposite direction
+
+*/
+
+actions.determineNearProfit = async function(){
+  //Save from loss by deciding if it is close enough from newlimit, but on an opposite trend
+
+  /*
+
+  1) Is the price close enough to newlimit?
+  2) Has a number of hours passed (12)
+  3) Does the last number of hours show an opposing trend
+
+  */
+  let x = {};
+  monitors.forEach(monitor =>{
+     if(monitor.epic == epic) x = monitor;
+  });
+
+  if(!lib.isEmpty(x)){
+
+  const dir = x.direction;
+
+  const nearoffsetPerc = 0.05; //set near offset to 5%
+  const hourspassed = 4;
+  const priceDiffThreshold = 40;
+
+  let closePrice = dir == 'BUY' ? lastCloseBid : lastCloseAsk;
+
+  //Determine near offset  based on direction. If BUY, the offset is % below newlimit, if SELL offset is % above
+  let nearoffset = dir == 'BUY' ? x.newLimit - (x.newLimit * nearoffsetPerc) : x.newLimit + (x.newLimit * nearoffsetPerc);
+
+  //Determine pre close price (the close price a set number of hours before to determine trend)
+  let preClosePrice = dir == 'BUY' ? pricedata3.support[pricedata3.support.length-hourspassed].closeBid : pricedata3.support[pricedata3.support.length-hourspassed].closeAsk;
+
+  //Caluclate if preClosePrice is within nearoffset
+  let isNearProfit = dir == 'BUY' ? preClosePrice >= nearoffset : preClosePrice <= nearoffset
+
+  //if preClosePrice was within offset and near profit
+  if(isNearProfit) {
+
+    //First, get difference of current closePrice with preClosePrice
+    let checkPriceDiff = Math.abs(preClosePrice - closePrice);
+
+    //Get percentage of this difference
+    let checkPriceDiffPerc = parseFloat(Number(priceDiff / checkPriceDiff * 100).toFixed(2));
+
+    //Determine if this difference is negative or in opposite direction to hitting profit
+    let isOpposing = dir == 'BUY' ?  (closePrice - preClosePrice) < 0 : (preClosePrice - closePrice) < 0;
+
+    //If trend is now moving in opposite direction and trend percentage is above threshold
+    if(isOpposing && checkPriceDiffPerc >= priceDiffThreshold){
+
+      //If current price is still in profit
+      let isProfit = dir == 'BUY' ? (lastCloseBid - x.level) > 0 : (x.level -  lastCloseAsk) > 0;
+
+      if(isProfit){
+
+          //Close as profit
+          console.log('Near Profit check: closing trade, is near profit and trend is changing.')
+          markets[x.marketId].closeprofit = true;
+
+      } else {
+          console.log('Near Profit check: not closing');
+      }
+    } else {
+      console.log('Near Profit check: No opposite trend');
+    }
+  } else {
+    console.log('Near Profit check: Not near profit');
+  }
+
+} else {
+  console.log('Could not check near profit as no trade on monitor was found');
+}
+
+}
+
 module.exports = {
   actions: actions
 }
