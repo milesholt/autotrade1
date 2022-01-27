@@ -848,7 +848,7 @@ actions.finalChecks = async function(){
   //UPDATED - Now uses waves needing to be more than one, rather than wave points
   //let enoughWaves = (rangeData.wavecount > 1);
   checks.___enoughWaves.is = enoughWaves;
-  checks.___enoughWaves.value = rangeData.waves.length;
+  checks.___enoughWaves.value = rangeData.wavecount;
 
   //Check recent trend is pivoting against overall trend
   //let isPivoting = (recenttrend !== 'ranging' && recenttrend !== trend4Hours);
