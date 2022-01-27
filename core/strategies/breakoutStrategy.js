@@ -199,6 +199,8 @@ actions.calcResistSupport = async function(pricedata,type){
         let pw = primary.range.wavedata;
         let prev = pw[idx-1];
         let last = pw.length-1;
+        prev.idx = [idx-1];
+        point.idx =idx;
         if(point.close > prev.close) dir = 'UP';
         if(point.close < prev.close) dir = 'DOWN';
         if(point.close == prev.close) dir = 'NEUTRAL';
