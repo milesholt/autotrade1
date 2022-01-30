@@ -141,50 +141,52 @@ actions.checkSubscriptions = async function(){
   let ch_epics = [];
   //try{
       if(actions.checkConnection() === true){
+
+        // setTimeout(async ()=>{
+        //   try{
+        //     //Return active subscriptions
+        //     ch_subscriptions =  await api.getActiveSubscriptions();
+        //
+        //     //Loop through all active subscriptions and check EPIC ID, if there is more than one ID, then remove.
+        //     //Each subscription we log the IP into epics array, and if it occurs again, we remove that one
+        //     ch_subscriptions.forEach(subscription => {
+        //       id = subscription.ik.LS_id;
+        //       let add = true;
+        //       ch_epics.forEach(ep=>{
+        //           if(id == ep){
+        //             console.log('subscription already exists, unsubscribing');
+        //             api.unsubscribeToLightstreamer(ep);
+        //             add = false;
+        //           }
+        //       });
+        //
+        //       if(add) ch_epics.push(id);
+        //
+        //     });
+        //   } catch(e) {
+        //     console.log(e);
+        //   }
+        // },40000);
+        //
+        //
+        // //Re-check subscriptions
+        // setTimeout(async ()=>{
+        //   try{
+        //     ch_subscriptions =  await api.getActiveSubscriptions();
+        //     //Update stream master file
+        //     console.log('No of subscriptions: ' + ch_subscriptions.length);
+        //     streams.noSubscriptions = ch_subscriptions.length;
+        //     streams.epics = ch_epics;
+        //     await github.actions.updateFile(streams, streamDataDir);
+        //
+        //   } catch(e) {
+        //     console.log(e);
+        //   }
+        // },60000);
+
       } else {
         console.log('No active subscriptions. Lightstreamer is not connected.')
       }
-        setTimeout(async ()=>{
-          try{
-            //Return active subscriptions
-            ch_subscriptions =  await api.getActiveSubscriptions();
-
-            //Loop through all active subscriptions and check EPIC ID, if there is more than one ID, then remove.
-            //Each subscription we log the IP into epics array, and if it occurs again, we remove that one
-            ch_subscriptions.forEach(subscription => {
-              id = subscription.ik.LS_id;
-              let add = true;
-              ch_epics.forEach(ep=>{
-                  if(id == ep){
-                    console.log('subscription already exists, unsubscribing');
-                    api.unsubscribeToLightstreamer(ep);
-                    add = false;
-                  }
-              });
-
-              if(add) ch_epics.push(id);
-
-            });
-          } catch(e) {
-            console.log(e);
-          }
-        },40000);
-
-
-        //Re-check subscriptions
-        setTimeout(async ()=>{
-          try{
-            ch_subscriptions =  await api.getActiveSubscriptions();
-            //Update stream master file
-            console.log('No of subscriptions: ' + ch_subscriptions.length);
-            streams.noSubscriptions = ch_subscriptions.length;
-            streams.epics = ch_epics;
-            await github.actions.updateFile(streams, streamDataDir);
-
-          } catch(e) {
-            console.log(e);
-          }
-        },60000);
 
   // } catch(e) {
   //   console.log('here');
