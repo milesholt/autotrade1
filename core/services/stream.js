@@ -144,31 +144,32 @@ actions.checkSubscriptions = async function(){
   //try{
       if(actions.checkConnection() === true){
 
-        // setTimeout(async ()=>{
-        //   try{
-        //     //Return active subscriptions
-        //     ch_subscriptions =  await api.getActiveSubscriptions();
-        //
-        //     //Loop through all active subscriptions and check EPIC ID, if there is more than one ID, then remove.
-        //     //Each subscription we log the IP into epics array, and if it occurs again, we remove that one
-        //     ch_subscriptions.forEach(subscription => {
-        //       id = subscription.ik.LS_id;
-        //       let add = true;
-        //       ch_epics.forEach(ep=>{
-        //           if(id == ep){
-        //             console.log('subscription already exists, unsubscribing');
-        //             api.unsubscribeToLightstreamer(ep);
-        //             add = false;
-        //           }
-        //       });
-        //
-        //       if(add) ch_epics.push(id);
-        //
-        //     });
-        //   } catch(e) {
-        //     console.log(e);
-        //   }
-        // },40000);
+        setTimeout(async ()=>{
+          try{
+            //Return active subscriptions
+            ch_subscriptions =  await api.getActiveSubscriptions();
+
+            //Loop through all active subscriptions and check EPIC ID, if there is more than one ID, then remove.
+            //Each subscription we log the IP into epics array, and if it occurs again, we remove that one
+            ch_subscriptions.forEach(subscription => {
+              id = subscription.ik.LS_id;
+              let add = true;
+              ch_epics.forEach(ep=>{
+                  if(id == ep){
+                    console.log('subscription already exists, unsubscribing');
+                    api.unsubscribeToLightstreamer(ep);
+                    add = false;
+                  }
+              });
+
+              if(add) ch_epics.push(id);
+
+            });
+          } catch(e) {
+            console.log(e);
+          }
+        },40000);
+        
         //
         //
         // //Re-check subscriptions
