@@ -99,15 +99,17 @@ actions.startStream = async function(epic, streamLogDir = false){
 
 
 actions.checkConnection = function(){
+  var res = false;
   actions.isConnected().then(r => {
     connection = 'CONNECTED';
     console.log('------------------STREAM IS CONNECTED');
-    return true;
+    res = true;
   }).catch(e => {
     //console.log('still not connected');
     //actions.connectStream();
-    return false;
+    res = false;
   });
+  return res;
 }
 
 actions.unsubscribe = function(epic){
