@@ -140,7 +140,10 @@ actions.checkSubscriptions = async function(){
   let ch_subscriptions = [];
   let ch_epics = [];
   //try{
-      //if(actions.isConnected() === true){
+      if(actions.checkConnection() === true){
+      } else {
+        console.log('No active subscriptions. Lightstreamer is not connected.')
+      }
         setTimeout(async ()=>{
           try{
             //Return active subscriptions
@@ -182,9 +185,7 @@ actions.checkSubscriptions = async function(){
             console.log(e);
           }
         },60000);
-      // } else {
-      //   console.log('No active subscriptions. Lightstreamer is not connected.')
-      // }
+
   // } catch(e) {
   //   console.log('here');
   // }
