@@ -168,7 +168,7 @@ actions.checkSubscriptions = async function(){
           } catch(e) {
             console.log(e);
           }
-        },1000);
+        },40000);
 
         //
         //
@@ -185,7 +185,7 @@ actions.checkSubscriptions = async function(){
           } catch(e) {
             console.log(e);
           }
-        },3000);
+        },60000);
 
       } else {
         console.log('No active subscriptions. Lightstreamer is not connected.')
