@@ -168,24 +168,24 @@ actions.checkSubscriptions = async function(){
           } catch(e) {
             console.log(e);
           }
-        },40000);
-        
+        },1000);
+
         //
         //
-        // //Re-check subscriptions
-        // setTimeout(async ()=>{
-        //   try{
-        //     ch_subscriptions =  await api.getActiveSubscriptions();
-        //     //Update stream master file
-        //     console.log('No of subscriptions: ' + ch_subscriptions.length);
-        //     streams.noSubscriptions = ch_subscriptions.length;
-        //     streams.epics = ch_epics;
-        //     await github.actions.updateFile(streams, streamDataDir);
-        //
-        //   } catch(e) {
-        //     console.log(e);
-        //   }
-        // },60000);
+        //Re-check subscriptions
+        setTimeout(async ()=>{
+          try{
+            ch_subscriptions =  await api.getActiveSubscriptions();
+            //Update stream master file
+            console.log('No of subscriptions: ' + ch_subscriptions.length);
+            streams.noSubscriptions = ch_subscriptions.length;
+            streams.epics = ch_epics;
+            await github.actions.updateFile(streams, streamDataDir);
+
+          } catch(e) {
+            console.log(e);
+          }
+        },3000);
 
       } else {
         console.log('No active subscriptions. Lightstreamer is not connected.')
