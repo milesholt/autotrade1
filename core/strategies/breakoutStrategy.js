@@ -322,57 +322,57 @@ actions.calcResistSupport = async function(pricedata,type){
     //remove points in close proximity and choose highest/lowest
 
     //let wavegroup = [];
-    let hourthreshold = 5; //no waves if only 5 or less hours
-    waves.forEach((wave,idx) =>{
-      wave.remove=false;
-    });
-    waves.forEach((wave,idx) =>{
-      if(idx > 0 && idx < waves.length-1){
-
-        let next = waves[idx+1];
-        let prev =waves[idx-1];
-        let nextTime = next.time;
-        let prevTime = prev.time;
-        let nextTimeDiff = Math.abs(moment(wave.time).diff(moment(nextTime), "hours"));
-        let prevTimeDiff = Math.abs(moment(wave.time).diff(moment(prevTime), "hours"));
-
-        if(nextTimeDiff <= hourthreshold && prevTimeDiff <= hourthreshold){
-          //wavegroup.push([prev,wave,next]);
-          let averageClose = (prev.close + wave.close + next.close)/3;
-          wave.close = averageClose;
-          prev.remove = true;
-          next.remove = true;
-        }
-      }
-    });
-    waves = waves.filter(point => point.remove == false);
+    // let hourthreshold = 5; //no waves if only 5 or less hours
+    // waves.forEach((wave,idx) =>{
+    //   wave.remove=false;
+    // });
+    // waves.forEach((wave,idx) =>{
+    //   if(idx > 0 && idx < waves.length-1){
+    //
+    //     let next = waves[idx+1];
+    //     let prev =waves[idx-1];
+    //     let nextTime = next.time;
+    //     let prevTime = prev.time;
+    //     let nextTimeDiff = Math.abs(moment(wave.time).diff(moment(nextTime), "hours"));
+    //     let prevTimeDiff = Math.abs(moment(wave.time).diff(moment(prevTime), "hours"));
+    //
+    //     if(nextTimeDiff <= hourthreshold && prevTimeDiff <= hourthreshold){
+    //       //wavegroup.push([prev,wave,next]);
+    //       let averageClose = (prev.close + wave.close + next.close)/3;
+    //       wave.close = averageClose;
+    //       prev.remove = true;
+    //       next.remove = true;
+    //     }
+    //   }
+    // });
+    // waves = waves.filter(point => point.remove == false);
 
 
     //Remove any points if indexes are close as well
-    let indexthreshold = 4; //no waves if only 4 or less points
-    waves.forEach((wave,idx) =>{
-      wave.remove=false;
-    });
-    waves.forEach((wave,idx) =>{
-      if(idx > 0 && idx < waves.length-1){
-
-        let next = waves[idx+1];
-        let prev =waves[idx-1];
-        let nextTime = next.time;
-        let prevTime = prev.time;
-        let nextIndexDiff = Math.abs(wave.idx - next.idx);
-        let prevIndexDiff = Math.abs(wave.idx - prev.idx);
-
-        if(nextIndexDiff <= indexthreshold && prevIndexDiff <= indexthreshold){
-          //wavegroup.push([prev,wave,next]);
-          let averageClose = (prev.close + wave.close + next.close)/3;
-          wave.close = averageClose;
-          prev.remove = true;
-          next.remove = true;
-        }
-      }
-    });
-    waves = waves.filter(point => point.remove == false);
+    // let indexthreshold = 4; //no waves if only 4 or less points
+    // waves.forEach((wave,idx) =>{
+    //   wave.remove=false;
+    // });
+    // waves.forEach((wave,idx) =>{
+    //   if(idx > 0 && idx < waves.length-1){
+    //
+    //     let next = waves[idx+1];
+    //     let prev =waves[idx-1];
+    //     let nextTime = next.time;
+    //     let prevTime = prev.time;
+    //     let nextIndexDiff = Math.abs(wave.idx - next.idx);
+    //     let prevIndexDiff = Math.abs(wave.idx - prev.idx);
+    //
+    //     if(nextIndexDiff <= indexthreshold && prevIndexDiff <= indexthreshold){
+    //       //wavegroup.push([prev,wave,next]);
+    //       let averageClose = (prev.close + wave.close + next.close)/3;
+    //       wave.close = averageClose;
+    //       prev.remove = true;
+    //       next.remove = true;
+    //     }
+    //   }
+    // });
+    // waves = waves.filter(point => point.remove == false);
 
     //4) Count how many waves based on UP pivots within first and last
     waves.forEach((point,idx) =>{
