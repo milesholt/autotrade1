@@ -840,7 +840,9 @@ actions.finalChecks = async function(){
 
 
   //if there are not enough wave points dont allow
-  let enoughWaves = (rangeData.waves.length >= waveLimit);
+  let enoughWaves = (rangeData.waves.length >= waveLimit || rangeData.bumps.length <= 2 && rangeData.waves.length >= (waveLimit-1) );
+  //also allow one less than wavelimit if hardly any bumps
+
    //Note waves.length is number of points not waves
 
   //if there are not enough waves dont allow
