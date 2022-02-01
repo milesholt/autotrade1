@@ -843,7 +843,7 @@ actions.finalChecks = async function(){
   //but also allow one less than wavelimit if hardly any bumps
 
   let enoughWavesCheck1 = rangeData.waves.length >= waveLimit;
-  let enoughWavesCheck2 = rangeData.bumps.length <= 2 && rangeData.waves.length >= (waveLimit-1)
+  let enoughWavesCheck2 = rangeData.bumps.length <= 2 && rangeData.waves.length >= (waveLimit-1);
   let enoughWaves = (enoughWavesCheck1 || enoughWavesCheck2);
 
 
