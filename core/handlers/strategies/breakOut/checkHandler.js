@@ -840,8 +840,12 @@ actions.finalChecks = async function(){
 
 
   //if there are not enough wave points dont allow
-  let enoughWaves = (rangeData.waves.length >= waveLimit || rangeData.bumps.length <= 2 && rangeData.waves.length >= (waveLimit-1) );
-  //also allow one less than wavelimit if hardly any bumps
+  //but also allow one less than wavelimit if hardly any bumps
+
+  let enoughWavesCheck1 = rangeData.waves.length >= waveLimit;
+  let enoughWavesCheck2 = rangeData.bumps.length <= 2 && rangeData.waves.length >= (waveLimit-1)
+  let enoughWaves = (enoughWavesCheck1 || enoughWavesCheck2);
+
 
    //Note waves.length is number of points not waves
 
@@ -851,6 +855,8 @@ actions.finalChecks = async function(){
   //let enoughWaves = (rangeData.wavecount > 1);
   checks.___enoughWaves.is = enoughWaves;
   checks.___enoughWaves.value = rangeData.waves.length + ' wave points';
+
+  if(enoughWavesCheck2) checks.___enoughWaves.note = 'Overidden wavesLimit check. Less than 2 bumps and waveLimit is 5 or more';
 
   //Check recent trend is pivoting against overall trend
   //let isPivoting = (recenttrend !== 'ranging' && recenttrend !== trend4Hours);
