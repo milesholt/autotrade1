@@ -63,10 +63,10 @@ async function exec(){
   //MXN/JPY - CS.D.MXNJPY.TODAY.IP
   //Clean Energy - KA.D.INRG.DAILY.IP'
   //Carbon Emissions - CO.D.CFI.Month1.IP
-
+  //NOK/JPY - CS.D.NOKJPY.TODAY.IP
 
   // console.log('-------Searching for Epics');
-  const searchterm = encodeURI('Carbon Emissions');
+  const searchterm = encodeURI('NOKJPY');
   await api.search(searchterm).then(r => {
     console.log(r);
   }).catch(e => console.log(e));
