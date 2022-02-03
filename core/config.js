@@ -60,20 +60,20 @@ linedistancelimit = 0;
 trend4HourLimitPerc = 40;
 
 //Specific Strategy Limits
-breakoutMaxMargin = 0.3;
+breakoutMaxMargin = 0.2;
 confirmationPointPercLimit = 0.04;
 confirmationMarginOffset = 0.14;
 waveLimit = 6;
 wavePointPercLimit = 0.1;
+bumpgrouplimit = 2;
+rangeConfirmationLimit = 18;
 
 stopDistanceFluctuationPerc = 0.1;
 recentlimit = 4;
 recentrangelimit =  5;
-rangeConfirmationLimit = 12;
 confirmationlimit = 3;
 missingHoursLimit = 3;
 tradeBeforeHours = 8;
-bumpgrouplimit = 5;
 bumpVolatilityDiff = 0;
 bumpVolatilityPerc = 0;
 bumpVolatilityIndex = 0;
