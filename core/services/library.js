@@ -36,6 +36,7 @@ actions.isDefined = function(obj,prop){
   if(typeof obj !== 'undefined'){
     return obj.hasOwnProperty(prop);
   } else {
+    console.log('Parent object is not defined, so could not check for property');
     return false;
   }
 }
