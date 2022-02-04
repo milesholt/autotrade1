@@ -141,6 +141,9 @@ actions.checkSubscriptions = async function(){
 
   let ch_subscriptions = [];
   let ch_epics = [];
+
+  //wait a minute in case still making connection
+  setTimeout(
   //try{
       if(actions.checkConnection() === true){
 
@@ -190,6 +193,8 @@ actions.checkSubscriptions = async function(){
       } else {
         console.log('No active subscriptions. Lightstreamer is not connected.')
       }
+
+    },10000);
 
   // } catch(e) {
   //   console.log('here');
