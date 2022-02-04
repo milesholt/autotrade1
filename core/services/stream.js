@@ -92,6 +92,9 @@ actions.startStream = async function(epic, streamLogDir = false){
           console.log('Epic: '+epic+' already subscribed');
       }
 
+      await actions.checkSubscriptions();
+
+
     break;
   }
 
