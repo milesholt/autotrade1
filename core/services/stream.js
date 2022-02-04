@@ -162,6 +162,9 @@ actions.checkSubscriptions = async function(){
             //Return active subscriptions
             ch_subscriptions =  await api.getActiveSubscriptions();
 
+            console.log('subscriptions:');
+            console.log(ch_subscriptions);
+
             //Loop through all active subscriptions and check EPIC ID, if there is more than one ID, then remove.
             //Each subscription we log the IP into epics array, and if it occurs again, we remove that one
             ch_subscriptions.forEach(subscription => {
