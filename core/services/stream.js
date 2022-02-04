@@ -150,6 +150,8 @@ actions.checkSubscriptions = async function(){
   //wait a minute in case still making connection
   //setTimeout(()=>{
   //try{
+  console.log('Checking connection......');
+  console.log(await actions.checkConnection());
       if(await actions.checkConnection() === true){
 
         setTimeout(async ()=>{
