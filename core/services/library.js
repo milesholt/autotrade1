@@ -33,7 +33,7 @@ actions.isEmpty = function(obj){
 }
 
 actions.isDefined = function(obj,prop){
-  if(obj){
+  if(typeof obj !== 'undefined'){
     return obj.hasOwnProperty(prop);
   } else {
     return false;
