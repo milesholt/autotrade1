@@ -162,8 +162,8 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
   tmp_cloud = tmp_cloud.map((item, i) => Object.assign({}, item, tmp_local[i]));
 
   tmp_cloud.forEach((tc,i)=>{
-    if(lib.isDefined(tc,'deal')) tc.deal = cloudFile[i].deal;
-    if(lib.isDefined(tc,'data')) tc.data = cloudFile[i].data;
+    if(lib.isDefined(tc,'deal') && lib.isDefined(cloudFile[i],'deal')) tc.deal = cloudFile[i].deal;
+    if(lib.isDefined(tc,'data') && lib.isDefined(cloudFile[i],'data')) tc.data = cloudFile[i].data;
     if(lib.isDefined(tc,'tradedBefore')){
       tc.tradedBefore = cloudFile[i].tradedBefore;
       console.log('using cloude traded Before:' + cloudFile[i].tradedBefore);
