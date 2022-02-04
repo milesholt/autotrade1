@@ -235,7 +235,7 @@ actions.readStream = function(streamLogDir,single){
             let d = {};
             if(Array.isArray(data)){
               //console.log(data);
-              let time = moment(data[0]).format('YYYY-MM-DD HH:mm:ss');
+              let time = moment.utc(data[0]).format('YYYY-MM-DD HH:mm:ss');
               d = {
                 'snapshotTime':time,
                 'openPrice': {

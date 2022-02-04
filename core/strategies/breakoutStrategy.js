@@ -293,8 +293,8 @@ actions.calcResistSupport = async function(pricedata,type){
         let prev =waves[idx-1];
         let nextTime = next.time;
         let prevTime = prev.time;
-        let nextTimeDiff = Math.abs(moment(wave.time).diff(moment(nextTime), "hours"));
-        let prevTimeDiff = Math.abs(moment(wave.time).diff(moment(prevTime), "hours"));
+        let nextTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(nextTime), "hours"));
+        let prevTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(prevTime), "hours"));
 
         if(prevTimeDiff == 1 && nextTimeDiff > 1){
           wave.remove = true;

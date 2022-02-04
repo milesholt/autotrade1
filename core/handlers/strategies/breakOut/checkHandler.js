@@ -232,8 +232,8 @@ actions.checkDeal = async function(){
             t.marketId = market.id;
             t.epic = market.epic;
             t.startAnalysis = {};
-            t.start_timestamp = moment(startDate).valueOf();
-            t.start_date = moment(startDate).format('LLL');
+            t.start_timestamp = moment.utc(startDate).valueOf();
+            t.start_date = moment.utc(startDate).format('LLL');
             t.dealId = dId;
             t.dealRef = dRef;
             t.direction = posDirection;
@@ -332,8 +332,8 @@ actions.checkCloseTrade = async function(dealId){
            console.log('dealId found. position has been closed');
 
            let closeAnalysis = {
-             timestamp: moment(transaction.dateUTC).valueOf(),
-             date: moment(transaction.dateUTC).format('LLL'),
+             timestamp: moment.utc(transaction.dateUTC).valueOf(),
+             date: moment.utc(transaction.dateUTC).format('LLL'),
              lastClose: transaction.closeLevel,
              direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
              openLevel: transaction.openLevel,
@@ -822,7 +822,7 @@ actions.finalChecks = async function(){
   if(rangeData.bumps.length > 0 && bumpgroupcount >= bumpgrouplimit) checks.___noBumpInRange.is = false;
 
   //ensure last time traded is 8 hours or more
-  tradebeforeCheck = market.tradedBefore !== false ? moment().diff(moment(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
+  tradebeforeCheck = market.tradedBefore !== false ? moment.utc().diff(moment.utc(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
 
 
   checks.___notTradedBefore.is = tradebeforeCheck;

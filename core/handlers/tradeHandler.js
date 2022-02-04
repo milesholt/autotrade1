@@ -38,7 +38,7 @@ DETERMINE TRADE
 
 actions.determineTrade = async function(){
 
-  let day = moment().format('ddd');
+  let day = moment.utc().format('ddd');
   if( day == 'Sat' || day == 'Sun'){
     console.log('Should be the weekend. Day is: ' + day);
     console.log('Not beginning trade because it is the weekend and markets will be closed.');
@@ -361,7 +361,7 @@ actions.determineTrade = async function(){
                   }, repairdelay );
 
 
-                  market.tradedBefore = moment().valueOf();
+                  market.tradedBefore = moment.utc().valueOf();
                   finalMessage = 'Checks passed and trade has been made. Will go again in 1 hour.';
 
                } else {
