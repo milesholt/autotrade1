@@ -114,7 +114,7 @@ actions.checkConnection = async function(){
     res = false;
     return false;
   });
-  console('res:' + res);
+  console.log('res:' + res);
 }
 
 actions.unsubscribe = function(epic){
