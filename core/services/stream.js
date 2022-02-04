@@ -143,7 +143,7 @@ actions.checkSubscriptions = async function(){
   let ch_epics = [];
 
   //wait a minute in case still making connection
-  setTimeout(
+  setTimeout(()=>{
   //try{
       if(actions.checkConnection() === true){
 
