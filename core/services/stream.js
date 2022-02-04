@@ -107,12 +107,12 @@ actions.checkConnection = async function(){
     connection = 'CONNECTED';
     console.log('------------------STREAM IS CONNECTED');
     res = true;
-    return res;
+    return true;
   }).catch(e => {
     //console.log('still not connected');
     //actions.connectStream();
     res = false;
-    return res;
+    return false;
   });
 
 }
