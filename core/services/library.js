@@ -33,7 +33,11 @@ actions.isEmpty = function(obj){
 }
 
 actions.isDefined = function(obj,prop){
-  return obj.hasOwnProperty(prop);
+  if(obj){
+    return obj.hasOwnProperty(prop);
+  } else {
+    return false;
+  }
 }
 
 actions.sortNumber = function(a, b) {
