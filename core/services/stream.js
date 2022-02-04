@@ -155,6 +155,8 @@ actions.checkSubscriptions = async function(){
   console.log(await actions.checkConnection());
       if(await actions.checkConnection() === true){
 
+        console.log('Connected, checking active subscriptions');
+
         setTimeout(async ()=>{
           try{
             //Return active subscriptions
