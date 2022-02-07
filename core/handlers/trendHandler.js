@@ -42,6 +42,20 @@ actions.determine4HourTrend = async function(){
   if((last4HoursClose > first4HoursClose) && (trend4HoursDiffPerc >= trend4HourLimitPerc)) trend4Hours = 'bullish';
 }
 
+/* DETERMINE HALF 4 HOUR TREND */
+
+actions.determineMid4HourTrend = async function(){
+  //trend for 4 hours graph
+  midtrend4HoursDiff = parseFloat(Math.abs(mid4HoursClose - last4HoursClose).toFixed(2));
+  midtrend4HoursDiffPerc = parseFloat(Math.abs((midtrend4HoursDiff / priceDiff4Hours) * 100).toFixed(2));
+
+  //trend4HoursDiffPerc = Math.abs(100 - (first4HoursClose / last4HoursClose * 100)).toFixed(2);
+
+  //if prices have moved and over significant distance (range area limit) - 40%
+  if((mid4HoursClose > last4HoursClose) && (midtrend4HoursDiffPerc  >= midtrend4HourLimitPerc)) midtrend4Hours = 'bearish';
+  if((last4HoursClose > mid4HoursClose) && (midtrend4HoursDiffPerc >= midtrend4HourLimitPerc)) midtrend4Hours = 'bullish';
+}
+
 module.exports = {
   actions: actions
 }

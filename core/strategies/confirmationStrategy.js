@@ -199,6 +199,37 @@ actions.determineConfirmations = async function(){
 
 }
 
+// actions.determineMidTrend = async function(gidx,pidx,epic,params){
+//   //console.log(epic);
+//
+//   console.log('doing half trend');
+//
+//     //do waves
+//     var wavedata = [];
+//
+//     const startTime = times4[0];
+//     const midTime = times4[Math.round(times4.length/2)];
+//     const endTime = times4[times4.length-1];
+//
+//     let firstClose = first4HoursClose;
+//     let midClose = close4[Math.round(close4.length/2)];
+//     let lastClose = last4HoursClose;
+//
+//     let trend = trend4Hours;
+//
+//     if(trend !== 'ranging'){
+//
+//       confirmationData.midTrend = {
+//         'midClose': midClose,
+//         'lastClose' : lastClose,
+//         'midTime' : midTime,
+//         'endTime': endTime,
+//         'isNotRanging':
+//       };
+//
+//     }
+// }
+
 module.exports = {
   actions: actions
 }

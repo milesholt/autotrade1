@@ -58,6 +58,7 @@ rangelimit = 0;
 tradelimit = 0;
 linedistancelimit = 0;
 trend4HourLimitPerc = 40;
+midtrend4HourLimitPerc = 40;
 
 //Specific Strategy Limits
 breakoutMaxMargin = 0.2;
@@ -191,13 +192,17 @@ supportline = 0;
 resistanceline = 0;
 trend = 'ranging';
 trend4Hours = 'ranging';
+midtrend4Hours = 'ranging';
 trendDiff = 0;
 trendDiffPerc = 0;
 trend4HoursDiff = 0;
 trend4HoursDiffPerc = 0;
+midtrend4HoursDiff = 0;
+midtrend4HoursDiffPerc = 0;
 firstClose = 0;
 firstDiff = 0;
 first4HoursClose = 0;
+mid4HoursClose = 0;
 last4HoursClose = 0;
 lastOpen = 0;
 lastClose = 0;

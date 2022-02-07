@@ -367,6 +367,9 @@ actions.exec = async function(){
     //Handle 4 hour trend
     await trendHandler.actions.determine4HourTrend();
 
+    //Handle mid 4 hour trend
+    await trendHandler.actions.determineMid4HourTrend();
+
     //Handle confirmations
     await confirmationStrategy.actions.determineConfirmations();
 

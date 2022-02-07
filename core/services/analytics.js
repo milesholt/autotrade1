@@ -647,6 +647,27 @@ actions.drawChart4Hours = async function(){
   }
   shapes.push(trendLine);
 
+  if(midtrend4Hours !== 'ranging'){
+    var midtrendLine = {
+                   type: 'line',
+                   y0: mid4HoursClose,
+                   y1: last4HoursClose,
+                   x0: times4[Math.round(times4/2)],
+                   x1: endtime,
+                   line: {
+                     color: 'rgb(219, 64, 82)',
+                     width: 4,
+                     dash: 'solid'
+                   },
+                   xref: 'x',
+                   yref: 'y',
+                   opacity: 0.5,
+                   layer: 'above'
+             }
+
+    shapes.push(midtrendLine);
+  }
+
 //hide hours outside of 8am-4pm
 // {
 //   enabled:true,
