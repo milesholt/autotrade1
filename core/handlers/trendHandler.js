@@ -53,10 +53,13 @@ actions.determineMid4HourTrend = async function(){
 
   //if prices have moved and over significant distance (range area limit) - 40%
   if((mid4HoursClose > last4HoursClose) && (midtrend4HoursDiffPerc  >= midtrend4HourLimitPerc)) {
-   console.log('mid4hours is bearish');
-   midtrend4Hours = 'bearish';
+    console.log('mid4hours is bearish');
+    midtrend4Hours = 'bearish';
   }
-  if((last4HoursClose > mid4HoursClose) && (midtrend4HoursDiffPerc >= midtrend4HourLimitPerc)) midtrend4Hours = 'bullish';
+  if((last4HoursClose > mid4HoursClose) && (midtrend4HoursDiffPerc >= midtrend4HourLimitPerc)){
+    console.log('mid4hours is bullish');
+    midtrend4Hours = 'bullish';
+  }
   console.log('mid4hourstrend: ' + midtrend4Hours + ' last4HoursClose: ' + last4HoursClose + ' mid4HoursClose: ' + mid4HoursClose);
 }
 
