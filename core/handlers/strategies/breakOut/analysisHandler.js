@@ -319,6 +319,7 @@ FINAL ANALYSIS
       'lineData': lineData,
       'lineDistance': lineDistance,
       'previousTrend' : previousTrend,
+      'midtrend4Hours':midtrend4Hours,
       'trend4Hours':trend4Hours,
       'trend4HoursDiff':trend4HoursDiff,
       'trend4HoursDiffPerc':trend4HoursDiffPerc,
