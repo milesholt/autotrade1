@@ -733,6 +733,13 @@ actions.finalChecks = async function(){
   //     trend = trend4Hours;
   // }
 
+  //Overide trend4hours first (before overiding other trends) if mid4hourtrend is changing direction
+  //if midtrend4Hours is not ranging, and opposing direction to 4hour trend, means there is a change of direction, this trend should overide 4hourtrend
+  if(midtrend4Hours !== 'ranging') && (midtrend4Hours !== trend4Hours){
+    trend4Hours = midtrend4Hours;
+    checks.___4HoursNotRanging.note = 'Overidden by mid4hourtrend, trend is changing direction';
+  }
+
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
 
   let tmp_recentrend = recenttrend;
@@ -830,12 +837,6 @@ actions.finalChecks = async function(){
   checks.___beforeRangeTrendNotBroken.is = isBeforeRangeTrendNotBroken;
 
   checks.___4HoursNotRanging.is = (trend4Hours !== 'ranging');
-
-  //if midtrend4Hours is not ranging, and opposing direction to 4hour trend, means there is a change of direction, this trend should overide 4hourtrend
-  if(midtrend4Hours !== 'ranging') && (midtrend4Hours !== trend4Hours){
-    trend4Hours = midtrend4Hours;
-    checks.___4HoursNotRanging.note = 'Overidden by mid4hourtrend, trend is changing direction';
-  }
 
 
   //make sure beforerange and recent range (if they are both not ranging) are not in the opposite direction as trend4hours
