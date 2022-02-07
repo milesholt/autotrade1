@@ -163,7 +163,7 @@ finalMessage = '';
 
 rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
 lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
-confirmationData = { 'waves':[], 'confirmationPoints': [], 'trendPoints' : [] };
+confirmationData = { 'waves':[], 'confirmationPoints': {}, 'trendPoints' : {} };
 confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
 //Data files
