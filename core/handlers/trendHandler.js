@@ -57,7 +57,7 @@ actions.determineMid4HourTrend = async function(){
    midtrend4Hours = 'bearish';
   }
   if((last4HoursClose > mid4HoursClose) && (midtrend4HoursDiffPerc >= midtrend4HourLimitPerc)) midtrend4Hours = 'bullish';
-  console.log('mid4hourstrend: ' + midtrend4Hours);
+  console.log('mid4hourstrend: ' + midtrend4Hours + ' last4HoursClose: ' + last4HoursClose + ' mid4HoursClose: ' + mid4HoursClose);
 }
 
 module.exports = {
