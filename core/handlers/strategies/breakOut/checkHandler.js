@@ -735,7 +735,7 @@ actions.finalChecks = async function(){
 
   //Overide trend4hours first (before overiding other trends) if mid4hourtrend is changing direction
   //if midtrend4Hours is not ranging, and opposing direction to 4hour trend, means there is a change of direction, this trend should overide 4hourtrend
-  if((midtrend4Hours !== 'ranging') && (midtrend4Hours !== trend4Hours)){
+  if((midtrend4Hours !== 'ranging') && (trend4Hours !== 'ranging') && (midtrend4Hours !== trend4Hours)){
     trend4Hours = midtrend4Hours;
     checks.___4HoursNotRanging.note = 'Overidden by mid4hourtrend, trend is changing direction';
   }
