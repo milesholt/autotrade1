@@ -383,7 +383,7 @@ FINAL ANALYSIS
       'isWaveOveride': isWaveOveride,
       'primariesLength': lib.isDefined(rangeData, 'primaries') ? rangeData.primaries.length : 'none',
       //'primaries': lib.isDefined(rangeData, 'primaries') ? rangeData.primaries : 'none',
-      'confirmations':trend4Hours !== 'ranging' ? confirmationData.confirmationPoints.x.length : 'none',
+      'confirmations':trend4Hours !== 'ranging' && !lib.isEmpty(confirmationData.confirmationPoints) ? confirmationData.confirmationPoints.x.length : 'none',
       //'confirmationData':trend4Hours !== 'ranging' ? confirmationData : 'none',
       //'confirmationWaves': trend4Hours !== 'ranging' ? confirmationData.waves : 'none',
       //'confirmationTrendPoints': trend4Hours !== 'ranging' ? confirmationData.trendPoints.y : 'none',
