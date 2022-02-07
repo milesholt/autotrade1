@@ -45,8 +45,14 @@ async function exec(){
   //Check account
   // console.log('-------Checking account');
   await api.acctInfo().then(r => {
-    console.log(r);
+    console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
+
+  //App info (requests etc)
+  await api.apiInfo().then(r => {
+    console.log(util.inspect(r,false,null));
+  }).catch(e => console.log(e));
+
 
   //Search contract
   //Bitcoin - CS.D.BITCOIN.TODAY.IP
@@ -66,10 +72,10 @@ async function exec(){
   //NOK/JPY - CS.D.NOKJPY.TODAY.IP
 
   // console.log('-------Searching for Epics');
-  const searchterm = encodeURI('NOKJPY');
-  await api.search(searchterm).then(r => {
-    console.log(r);
-  }).catch(e => console.log(e));
+  // const searchterm = encodeURI('NOKJPY');
+  // await api.search(searchterm).then(r => {
+  //   console.log(r);
+  // }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = '2XMFTXH4WH644TP';
