@@ -652,7 +652,7 @@ actions.drawChart4Hours = async function(){
                    type: 'line',
                    y0: mid4HoursClose,
                    y1: last4HoursClose,
-                   x0: times4[Math.round(times4/2)],
+                   x0: times4[Math.round(times4.length / 2)],
                    x1: endtime,
                    line: {
                      color: 'rgb(219, 64, 82)',
