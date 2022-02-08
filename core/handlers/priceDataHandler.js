@@ -109,8 +109,8 @@ actions.getPriceData = async function(res = 'HOUR'){
     break;
   }
   if(prc.length == 0){
-    let fromDay = moment(f).format('dddd');
-    f = (fromDay == 'Saturday' || fromDay == 'Sunday') ? moment(f).subtract(2,'days').format('YYYY-MM-DD%2000:00:00') : f;
+    let fromDay = f.format('dddd');
+    f = (fromDay == 'Saturday' || fromDay == 'Sunday') ? f.subtract(2,'days').format('YYYY-MM-DD%2000:00:00') : f;
 
     await api.histPrc(epic, res, f, t).then(r => {
             prc = r.prices;
@@ -127,15 +127,15 @@ actions.getPriceData = async function(res = 'HOUR'){
     });
   } else {
     await api.histPrc(epic, res, f2, t).then(r => {
-      console.log('from: ' + f2);
-      console.log('day: ' + t);
+      //console.log('from: ' + f2);
+      //console.log('day: ' + t);
       //console.log(util.inspect(r, false, null));
       if(r.prices.length){
           //Check price bar doesn't already exist on pricedata
           if(prc[prc.length-1].snapshotTime !== r.prices[0].snapshotTime){
             //If it does, push new price and remove first hour
-            console.log('New price data: --------');
-            console.log(r.prices[0]);
+            //console.log('New price data: --------');
+            //console.log(r.prices[0]);
             prc.push(r.prices[0]);
             if(prc.length == pointsLimit) prc.shift();
             cloud.updateFile(prc,prcPath);

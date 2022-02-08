@@ -27,10 +27,10 @@ actions.determineBeforeRangeData = function(){
   beforeRangeTrendDiffPerc = lib.toNumber((100 - (beforeRangeFirstClose / lastClose * 100)), 'abs');
 
   let oldlastBeforeRangeTrendMovementPerc = lib.isDefined(markets[mid].data,'lastBeforeRangeTrendMovementPerc') ? lib.deepCopy(markets[mid].data.lastBeforeRangeTrendMovementPerc) : beforeRangeTrendDiffPerc;
-  console.log('old lastBeforeRangeTrendMovementPerc: ' + oldlastBeforeRangeTrendMovementPerc);
+  //console.log('old lastBeforeRangeTrendMovementPerc: ' + oldlastBeforeRangeTrendMovementPerc);
 
 
-  console.log('new beforeRangeTrendDiffPerc: ' + beforeRangeTrendDiffPerc);
+  //console.log('new beforeRangeTrendDiffPerc: ' + beforeRangeTrendDiffPerc);
   //if((beforeRangeFirstClose > resistanceline) && (beforeRangeTrendDiff >= (rangelimit/2))) beforeRangeTrend = 'bearish';
   //if((beforeRangeFirstClose < supportline) && (beforeRangeTrendDiff >= (rangelimit/2))) beforeRangeTrend = 'bullish';
 
@@ -55,7 +55,7 @@ actions.determineBeforeRangeData = function(){
       'lastBeforeRangeTrendMovementPerc' : bRD.lastBeforeRangeTrendMovementPerc
     }
     setTimeout(()=>{
-      console.log('updating beforeRangeData file after 10 seconds');
+      //console.log('updating beforeRangeData file after 10 seconds');
       cloud.updateFile(beforeRangeData,beforeRangeDir);
     },10000);
   }

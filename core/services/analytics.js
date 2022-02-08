@@ -57,19 +57,19 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   let isRange = true;
 
-  console.log(lineData.resistance);
-  console.log(lineData.support);
-  console.log(lineData.midrange);
+  //console.log(lineData.resistance);
+  //console.log(lineData.support);
+  //console.log(lineData.midrange);
 
 
   if(lineData.support === lineData.midrange && lineData.midrange === lineData.resistance) isRange = false;
 
-  console.log('isRange: ' + isRange);
+  //console.log('isRange: ' + isRange);
 
   let shapes = [];
 
   const circleheight = parseFloat((priceDiff * 0.013).toFixed(3)); //get fraction of height, so it's in proportion to data range
-  console.log('circleheight: ' + circleheight);
+  //console.log('circleheight: ' + circleheight);
 
   //skip first 12 hours
   //let priceData2 = priceData.slice(12, priceData.length);

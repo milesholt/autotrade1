@@ -45,7 +45,7 @@ actions.checkOpenTrades = async function(){
         if(positionsData.positions.length > 0){
          //Loop through any open trades and begin monitoring
          for (const [i, td] of positionsData.positions.entries()) {
-           console.log(td);
+           //console.log(td);
            epic = td.market.epic;
            dealId = td.position.dealId;
            dealRef = td.position.dealReference;
@@ -123,7 +123,7 @@ actions.checkIncorrectDeal = async function(dealId){
       if(r.activities.length){
         r.activities.forEach(activity => {
           if(activity.dealId == dealId){
-            console.log(activity);
+            //console.log(activity);
             openLevel = activity.details.level;
             openDate = activity.date;
             name = activity.instrumentName;
@@ -783,12 +783,12 @@ actions.finalChecks = async function(){
   let tradeLimitBuyLine = lib.toNumber((resistanceline + tradelimit),'abs');
   let tradeLimitSellLine = lib.toNumber((supportline - tradelimit),'abs');
 
-  console.log('trend: ' + trend);
-  console.log('lastClose: ' + lastClose);
-  console.log('momentumLimitBuyLine: ' + momentumLimitBuyLine);
-  console.log('momentumLimitSellLine: ' + momentumLimitSellLine);
-  console.log('tradeLimitBuyLine: ' + tradeLimitBuyLine);
-  console.log('tradeLimitSellLine: ' + tradeLimitSellLine);
+  //console.log('trend: ' + trend);
+  //console.log('lastClose: ' + lastClose);
+  //console.log('momentumLimitBuyLine: ' + momentumLimitBuyLine);
+  //console.log('momentumLimitSellLine: ' + momentumLimitSellLine);
+  //console.log('tradeLimitBuyLine: ' + tradeLimitBuyLine);
+  //console.log('tradeLimitSellLine: ' + tradeLimitSellLine);
 
   lineData.momentumLimitBuyLine = momentumLimitBuyLine;
   lineData.momentumLimitSellLine = momentumLimitSellLine;
@@ -902,10 +902,10 @@ actions.finalChecks = async function(){
   if(analysisDataSet.length){
     let previousAnalysis = analysisDataSet[analysisDataSet.length-1];
     if(previousAnalysis){
-      console.log('Previous analysis checks:');
-      console.log('previousEnoughWaves: ' + previousAnalysis.enoughWaves.is);
-      console.log('isRangeAreaGood: ' + previousAnalysis.isRangeAreaGood.is);
-      console.log('previousWithinTradeThreshold: ' + previousAnalysis.isWithinTradeThreshold.is);
+      //console.log('Previous analysis checks:');
+      //console.log('previousEnoughWaves: ' + previousAnalysis.enoughWaves.is);
+      //console.log('isRangeAreaGood: ' + previousAnalysis.isRangeAreaGood.is);
+      //console.log('previousWithinTradeThreshold: ' + previousAnalysis.isWithinTradeThreshold.is);
 
       if(checks.___enoughWaves.is == false && checks.___rangeAreaGood.is == false && checks.___withinTradeThreshold.is == false){
         if(previousAnalysis.enoughWaves.is == true && previousAnalysis.isRangeAreaGood.is == true && previousAnalysis.isWithinTradeThreshold.is == true){
