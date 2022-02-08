@@ -109,8 +109,8 @@ actions.getPriceData = async function(res = 'HOUR'){
     break;
   }
   if(prc.length == 0){
-    let fromDay = f.format('dddd');
-    f = (fromDay == 'Saturday' || fromDay == 'Sunday') ? f.subtract(2,'days').format('YYYY-MM-DD%2000:00:00') : f;
+    let fromDay = moment(f).format('dddd');
+    f = (fromDay == 'Saturday' || fromDay == 'Sunday') ? moment(f).subtract(2,'days').format('YYYY-MM-DD%2000:00:00') : f;
 
     await api.histPrc(epic, res, f, t).then(r => {
             prc = r.prices;
