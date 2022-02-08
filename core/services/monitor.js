@@ -434,14 +434,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 if(dir == 'BUY' && d.closePrice.bid <= x.newStop) {
                                     console.log('direction is buy.');
                                     console.log('bid price less than new stop');
-                                    console.log('d.closePrice.bid: ' + d.closePrice.bid):
+                                    console.log('d.closePrice.bid: ' + d.closePrice.bid);
                                     console.log('x.newStop: ' + x.newStop);
                                     markets[x.marketId].closeloss = true;
                                 }
                                 if(dir == 'SELL' && d.closePrice.ask >= x.newStop){
                                     console.log('direction is sell.');
                                     console.log('ask price greater than new stop');
-                                    console.log('d.closePrice.ask: ' + d.closePrice.ask):
+                                    console.log('d.closePrice.ask: ' + d.closePrice.ask);
                                     console.log('x.newStop: ' + x.newStop);
                                     markets[x.marketId].closeloss = true;
                                 }
