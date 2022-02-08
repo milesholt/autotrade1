@@ -495,7 +495,7 @@ rBreak = [
     },
     showlegend: false,
     xaxis: {
-      autorange: false,
+      autorange: true,
       domain: [0, 1],
       range: [starttime, endtime],
       rangeslider: {range: [starttime, endtime]},
@@ -504,7 +504,7 @@ rBreak = [
       type: 'date'
     },
     yaxis: {
-      autorange: true,
+      autorange: false,
       domain: [0, 1],
       range:[lowestPrice,highestPrice],
       type: 'linear'
