@@ -165,11 +165,12 @@ actions.syncFile = async function(cloudDataDir, localFile, mapProperty){
     if(lib.isDefined(tc,'deal') && lib.isDefined(cloudFile[i],'deal')) tc.deal = cloudFile[i].deal;
     if(lib.isDefined(tc,'data') && lib.isDefined(cloudFile[i],'data')) tc.data = cloudFile[i].data;
     if(lib.isDefined(tc,'tradedBefore')){
-      console.log('syncing tradedBefore');      
-      if(typeof cloudFile[i].tradedBefore == 'undefined') cloudFile[i].tradedBefore = false;
-      console.log('cloud tradedBefore: ' +  cloudFile[i].tradedBefore);
-      tc.tradedBefore = cloudFile[i].tradedBefore;
-      //console.log('using cloude traded Before:' + cloudFile[i].tradedBefore);
+      console.log('syncing tradedBefore');
+      if(cloudFile[i]){
+        if(typeof cloudFile[i].tradedBefore == 'undefined') cloudFile[i].tradedBefore = false;
+        tc.tradedBefore = cloudFile[i].tradedBefore;
+        //console.log('using cloude traded Before:' + cloudFile[i].tradedBefore);
+      }
     }
   })
 
