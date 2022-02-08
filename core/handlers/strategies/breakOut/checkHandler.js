@@ -619,9 +619,9 @@ actions.configLimits = async function(){
   rangelimit = lib.toNumber(priceDiff * rangeLimitPerc);
   tradelimit = lib.toNumber(priceDiff * tradeLimitPerc);
   linedistancelimit = lib.toNumber(priceDiff * lineDistanceLimitPerc);
-  console.log('momentumLimit: ' + momentumLimit);
-  console.log('tradeLimit: ' + momentumLimit);
-  console.log('lineDistanceLimit: ' + linedistancelimit);
+  //console.log('momentumLimit: ' + momentumLimit);
+  //console.log('tradeLimit: ' + momentumLimit);
+  //console.log('lineDistanceLimit: ' + linedistancelimit);
 }
 
 
@@ -633,7 +633,7 @@ CHECK LINES
 
 actions.checkLines = async function(){
   lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
-  console.log('lineDistance: ' + lineDistance);
+  //console.log('lineDistance: ' + lineDistance);
   if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) checks.___rangeAreaGood.is = true;
 }
 
@@ -652,7 +652,7 @@ actions.checkRangeConfirmations = async function(){
 /* CHECK MARGIN AVAILABILITY */
 
 actions.checkMarginAvailability = async function(){
-  console.log('checkMarginAvailability');
+  //console.log('checkMarginAvailability');
   await api.acctInfo().then(async r => {
     //console.log(r.accounts);
     r.accounts.forEach(async account=>{
