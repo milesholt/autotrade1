@@ -831,7 +831,7 @@ actions.finalChecks = async function(){
   //ensure last time traded is 8 hours or more
   console.log('doing tradedbefore check....');
   console.log('tradedbefore: ' + market.tradedBefore);
-  tradebeforeCheck = market.tradedBefore !== false ? moment.utc().diff(moment.utc(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
+  tradebeforeCheck =  market.tradedBefore !== false ? moment.utc().diff(moment.utc(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
 
 
   checks.___notTradedBefore.is = tradebeforeCheck;
