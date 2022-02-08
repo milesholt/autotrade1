@@ -45,13 +45,13 @@ async function exec(){
   //Check account
   // console.log('-------Checking account');
   await api.acctInfo().then(r => {
-    console.log(util.inspect(r,false,null));
+    //console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
 
   //App info (requests etc)
-  await api.apiInfo().then(r => {
-    console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
+  // await api.apiInfo().then(r => {
+  //   console.log(util.inspect(r,false,null));
+  // }).catch(e => console.log(e));
 
 
   //Search contract
@@ -70,12 +70,15 @@ async function exec(){
   //Clean Energy - KA.D.INRG.DAILY.IP'
   //Carbon Emissions - CO.D.CFI.Month1.IP
   //NOK/JPY - CS.D.NOKJPY.TODAY.IP
+  //Lloyds Bank PLC - KA.D.LLOY.DAILY.IP
+  //Alto Ingredients - UC.D.PEIXUS.DAILY.IP
+
 
   // console.log('-------Searching for Epics');
-  // const searchterm = encodeURI('NOKJPY');
-  // await api.search(searchterm).then(r => {
-  //   console.log(r);
-  // }).catch(e => console.log(e));
+ const searchterm = encodeURI('Alto Ingredients');
+  await api.search(searchterm).then(r => {
+    console.log(r);
+  }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = '2XMFTXH4WH644TP';
