@@ -495,7 +495,7 @@ rBreak = [
     },
     showlegend: false,
     xaxis: {
-      autorange: true,
+      autorange: false,
       domain: [0, 1],
       range: [starttime, endtime],
       rangeslider: {range: [starttime, endtime]},
