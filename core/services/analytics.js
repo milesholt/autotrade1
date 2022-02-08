@@ -84,7 +84,7 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
 
   //let lastClose =  parseFloat(closes[closes.length-1]);
   let lastRangeIndex = rangeData.support.prices_idx[rangeData.support.prices_idx.length-1];
-  console.log(lastRangeIndex);
+  //console.log(lastRangeIndex);
 
   //let lastData = pricedata2[lastRangeIndex];
 

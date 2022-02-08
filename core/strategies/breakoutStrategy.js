@@ -276,7 +276,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
     //but from the group, we combine into one point instead, so keep the middle one as a point
     let keepidx = Math.round(removes.length/2);
-    console.log('keepidx: ' + keepidx);
+    //console.log('keepidx: ' + keepidx);
 
     waves.forEach((wave,idx) =>{
       wave.remove = false;
@@ -399,7 +399,7 @@ actions.calcResistSupport = async function(pricedata,type){
 
     line = type == 'support' ? primary.lowest : primary.highest;
   } else{
-    console.log('No range detected');
+    //console.log('No range detected');
 
     line = lowestnum;
     lineData.midrange = lowestnum;

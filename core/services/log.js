@@ -47,7 +47,7 @@ actions.startTradeLog = async function(epic, analysis, dealId){
       t.dealRef = dealRef;
       t.direction = direction;
 
-      console.log(t);
+      //console.log(t);
       trades.push(t);
       market.deal = t;
     }
@@ -198,7 +198,7 @@ Log new monitor
 actions.startMonitorLog = async function(monitorData){
 
   console.log('starting monitor log: ' + monitorData.epic);
-  console.log(monitorData);
+  //console.log(monitorData);
   // console.log('dealRef: ' + dealRef);
   // console.log('epic: ' + epic);
   // console.log('dealId: ' + dealId);
@@ -252,7 +252,7 @@ actions.startMonitorLog = async function(monitorData){
 
   if(isChanged == true){
     console.log('monitor has changed, updating...');
-    console.log(monitors);
+    //console.log(monitors);
     await cloud.updateFile(monitors,monitorDataDir);
   }
 
@@ -281,7 +281,7 @@ actions.getMonitorLog = async function(epic){
       });
       if(!!r){
         console.log('found monitor record');
-        console.log(r);
+        //console.log(r);
         resolve(r);
       } else{
         reject('Could not find monitor');
@@ -302,7 +302,7 @@ Log new monitor
 actions.closeMonitorLog = async function(epic){
   console.log('closeMonitorLog');
   console.log('path: ' + monitorDataDir);
-  console.log(epic);
+  //console.log(epic);
   monitors = await cloud.getFile(monitorDataDir);
   monitors.forEach((monitor,i) => {
     if(monitor.epic == epic){

@@ -125,12 +125,12 @@ actions.determineStopDistance = async function(){
    //console.log('newStopDistance: ' + newStopDistance);
 
   if(potentialLossAmount >= availableLoss){
-    console.log('potentialLossAmount greater than or equal to availableLoss, using newStopDistance based on availabe loss.');
+    //console.log('potentialLossAmount greater than or equal to availableLoss, using newStopDistance based on availabe loss.');
     stopDistance = newStopDistance;
   }
 
   if(potentialLossAmount >= maxStop){
-    console.log('potentialLossAmount greater than or equal to maxStop, using maxStopDistance based on maximum loss.');
+    //console.log('potentialLossAmount greater than or equal to maxStop, using maxStopDistance based on maximum loss.');
     stopDistance = maxStopDistance;
   }
 
@@ -195,7 +195,7 @@ limitDistance = lib.toNumber((cp - limitDistanceLevel), 'abs');
  let potentialProfitAmount = limitDistance * market.size;
 
 if(potentialProfitAmount >= maxLimit){
-  console.log('potentialProfitAmount greater than or equal to maxLimit, using maxLimitDistance based on maximum limit.');
+  //console.log('potentialProfitAmount greater than or equal to maxLimit, using maxLimitDistance based on maximum limit.');
   limitDistance = maxLimitDistance;
 }
 
