@@ -138,9 +138,9 @@ markets = [
    {"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedBefore" : false, "stopDistancePerc" : 0.4, 'limitDistancePerc' : 0.4, "minimumStop" : {"value": null, "type": "points"}, 'size': 5, 'marketClosed' : [21,23], 'expiry': 'DFB'   },
    {'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB'  },
    {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [22,1], 'expiry': 'DFB'  },
-   {'id':5, 'alias': 'Spot Platinum', 'epic': 'CS.D.PLAT.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [0,0], 'expiry': 'DFB' },
-   {'id':6, 'alias': 'Rolls Royce', 'epic': 'KA.D.RR.DAILY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [16,8], 'expiry': 'DFB' },
-   {'id':7, 'alias': 'NOKJPY', 'epic': 'CS.D.NOKJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [16,8], 'expiry': 'DFB' }
+   {'id':5, 'alias': 'Spot Platinum', 'epic': 'CS.D.PLAT.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [0,0], 'expiry': 'DFB' },
+   {'id':6, 'alias': 'Rolls Royce', 'epic': 'KA.D.RR.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [16,8], 'expiry': 'DFB' },
+   {'id':7, 'alias': 'NOKJPY', 'epic': 'CS.D.NOKJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [16,8], 'expiry': 'DFB' }
  ];
 
 
