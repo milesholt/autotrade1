@@ -320,6 +320,7 @@ FINAL ANALYSIS
       'lineDistance': lineDistance,
       'previousTrend' : previousTrend,
       'midtrend4Hours':midtrend4Hours,
+      'midtrend4HoursDiffPerc': midtrend4HoursDiffPerc,
       'midClose': mid4HoursClose,
       'midTime': times4[Math.round(times4.length / 2)],
       'trend4Hours':trend4Hours,
