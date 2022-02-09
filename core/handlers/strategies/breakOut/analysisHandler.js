@@ -324,6 +324,7 @@ FINAL ANALYSIS
       'midClose': mid4HoursClose,
       'midTime': times4[Math.round(times4.length / 2)],
       'isMidTrendOveride': isMidTrendOveride,
+      'prevtrend4Hours' : prevtrend4Hours,
       'trend4Hours':trend4Hours,
       'trend4HoursDiff':trend4HoursDiff,
       'trend4HoursDiffPerc':trend4HoursDiffPerc,
