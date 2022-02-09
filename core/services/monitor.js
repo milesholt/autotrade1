@@ -36,6 +36,8 @@ actions.iniMonitor = async function(dealId,dealRef,epic){
   let data = '';
 
 
+
+
   console.log(process.env.HOME);
   console.log(__dirname);
 
@@ -76,6 +78,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   arr.direction =  direction;
   arr.subscribed = false;
 
+  markets[mid].closeprofit = false;
+  markets[mid].closeloss = false;
 
   isStreamRunning[epic] = false;
 
@@ -264,8 +268,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                       console.log('markets:');
                       //console.log(markets);
-                      markets[monitorData.marketId].closeprofit = false;
-                      markets[monitorData.marketId].closeloss = false;
+
 
                       // console.log('position data:');
                       // console.log(p);
