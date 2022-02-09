@@ -40,7 +40,7 @@ actions.handleErrors = async function(e){
       case 'deal-rejected':
         await actions.handleDealRejected(e.body.error);
       break;
-      case 'error.public-api.exceeded-api-key-allowance';
+      case 'error.public-api.exceeded-api-key-allowance':
         //handle key allowance
         console.log('Handling api key allowance limit, not resetting loop');
         dontLoop = true;
