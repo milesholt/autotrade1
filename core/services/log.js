@@ -46,6 +46,8 @@ actions.startTradeLog = async function(epic, analysis, dealId){
       t.dealId = dealId;
       t.dealRef = dealRef;
       t.direction = direction;
+      t.closeloss =  false;
+      t.closeprofit  false;
 
       //console.log(t);
       trades.push(t);
@@ -97,6 +99,8 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   markets[mid_tmp].deal = {};
   markets[mid_tmp].tradedBefore = moment().valueOf();
+  markets[mid_tmp].closeloss = false;
+  markets[mid_tmp].closeprofit = false;
 
   const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
