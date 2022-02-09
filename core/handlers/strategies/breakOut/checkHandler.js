@@ -742,7 +742,7 @@ actions.finalChecks = async function(){
   if((first4HoursClose > last4HoursClose)) prevtrend4Hours = 'bearish';
   if((last4HoursClose > first4HoursClose)) prevtrend4Hours = 'bullish';
 
-  if((midtrend4Hours !== 'ranging') && (midtrend4Hours !== prevtrend4Hours)){
+  if((midtrend4Hours !== 'ranging')){
     isMidTrendOveride = true;
     trend4Hours = midtrend4Hours;
   }
