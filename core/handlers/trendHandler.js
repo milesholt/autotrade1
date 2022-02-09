@@ -1,5 +1,6 @@
 var actions = {};
 var core;
+var lib;
 
 /*
 
@@ -9,6 +10,7 @@ REQUIRE
 
 actions.require = async function(){
   core = require.main.exports;
+  lib = core.lib.actions;
 }
 
 
