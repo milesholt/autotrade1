@@ -440,20 +440,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) markets[x.marketId].closeprofit = true;
 
                                 //use new stop level
-                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) {
-                                    console.log('direction is buy.');
-                                    console.log('bid price less than new stop');
-                                    console.log('d.closePrice.bid: ' + d.closePrice.bid);
-                                    console.log('x.newStop: ' + x.newStop);
-                                    markets[x.marketId].closeloss = true;
-                                }
-                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop){
-                                    console.log('direction is sell.');
-                                    console.log('ask price greater than new stop');
-                                    console.log('d.closePrice.ask: ' + d.closePrice.ask);
-                                    console.log('x.newStop: ' + x.newStop);
-                                    markets[x.marketId].closeloss = true;
-                                }
+                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) markets[x.marketId].closeloss = true;
+                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop) markets[x.marketId].closeloss = true;
+
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
@@ -463,12 +452,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 //TO LOOK INTO: Sometimes when a trade opens, it immediately closes as a loss, even though the conditions for loss shouldnt have returned true
                                 //if closeloss is triggered at the same time as trade starts, this is suggestive of an error, prevent this
                                 //we still dont know why this is happening
-                                var a = moment.utc(x.createdTimeStamp).format('mm');
-                                var b = moment.utc().format('mm');
-                                if((a == b) && (markets[x.marketId].closeloss === true)){
-                                  console.log('closeloss at same time trade created, could be an error, preventing.');
-                                  markets[x.marketId].closeloss = false;
-                                }
+                                // var a = moment.utc(x.createdTimeStamp).format('mm');
+                                // var b = moment.utc().format('mm');
+                                // if((a == b) && (markets[x.marketId].closeloss === true)){
+                                //   console.log('closeloss at same time trade created, could be an error, preventing.');
+                                //   markets[x.marketId].closeloss = false;
+                                // }
 
 
 
