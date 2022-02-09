@@ -457,9 +457,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                 //TO LOOK INTO: Sometimes when a trade opens, it immediately closes as a loss, even though the conditions for loss shouldnt have returned true
                                 //if closeloss is triggered at the same time as trade starts, this is suggestive of an error, prevent this
+                                //we still dont know why this is happening
                                 var a = moment.utc(x.createdTimeStamp).format('mm');
                                 var b = moment.utc().format('mm');
-                                if(a == b){
+                                if((a == b) && (markets[x.marketId].closeloss === true)){
                                   console.log('closeloss at same time trade created, could be an error, preventing.');
                                   markets[x.marketId].closeloss = false;
                                 }
