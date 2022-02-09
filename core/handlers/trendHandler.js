@@ -41,7 +41,9 @@ actions.determine4HourTrend = async function(){
   if((first4HoursClose > last4HoursClose) && (trend4HoursDiffPerc  >= trend4HourLimitPerc)) trend4Hours = 'bearish';
   if((last4HoursClose > first4HoursClose) && (trend4HoursDiffPerc >= trend4HourLimitPerc)) trend4Hours = 'bullish';
 
-  if(trend4Hours !== 'ranging') prevtrend4Hours = trend4Hours;
+  let prevStored = lib.isDefined(markets[mid].data,'prevtrend4Hours') ? lib.deepCopy(markets[mid].data.prevtrend4Hours) : prevtrend4Hours;
+
+  prevtrend4Hours = trend4Hours !== 'ranging' ? trend4Hours : prevStored;
 }
 
 /* DETERMINE HALF 4 HOUR TREND */
