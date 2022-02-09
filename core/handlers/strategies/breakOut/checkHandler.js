@@ -738,6 +738,7 @@ actions.finalChecks = async function(){
 
 
   //first we need to establish previous trend of 4 hours, even if it is now ranging, we just need to know whether firstClose is higher or lower without rangelimit
+  //NOTE: We have this set in determine4HourTrend, undecided if to remove one or the either
   if((first4HoursClose > last4HoursClose)) prevtrend4Hours = 'bearish';
   if((last4HoursClose > first4HoursClose)) prevtrend4Hours = 'bullish';
 
