@@ -269,6 +269,7 @@ actions.setDefaults = async function(){
   finalMessage = '';
   analysis = {};
   isWaveOveride = false;
+  isMidTrendOveride = false;
 }
 
 /*

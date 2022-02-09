@@ -311,6 +311,7 @@ isLoopRunning = false;
 isStreamRunning = {};
 tradebeforeCheck = false;
 isWaveOveride = false;
+isMidTrendOveride = false;
 
 //accounts
 availableLoss = 0;
