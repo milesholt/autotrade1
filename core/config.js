@@ -249,6 +249,7 @@ rangeConfirmations = 0;
 is4HoursTrendOveride = false;
 resolutionPointsLimit_4Hours = 60;
 resolutionPointsLimit_1Hour = 72;
+prevtrend4Hours = 'ranging';
 
 //Analysis data
 analysisDataSet = [];
