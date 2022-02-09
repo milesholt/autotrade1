@@ -430,6 +430,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
                                 if(ep == x.epic){
 
+                                  markets[x.marketId].closeprofit = false;
+                                  markets[x.marketId].closeloss = false;
+
 
                                   //console.log('Epics match: ' + ep +  ' | ' + x.epic);
                                   //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newLimit + ' newStop: ' + x.newStop);

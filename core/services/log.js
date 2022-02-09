@@ -46,8 +46,8 @@ actions.startTradeLog = async function(epic, analysis, dealId){
       t.dealId = dealId;
       t.dealRef = dealRef;
       t.direction = direction;
-      t.closeloss =  false;
-      t.closeprofit  false;
+      t.closeloss = false;
+      t.closeprofit = false;
 
       //console.log(t);
       trades.push(t);
