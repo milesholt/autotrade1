@@ -41,6 +41,8 @@ actions.determine4HourTrend = async function(){
   if((first4HoursClose > last4HoursClose) && (trend4HoursDiffPerc  >= trend4HourLimitPerc)) trend4Hours = 'bearish';
   if((last4HoursClose > first4HoursClose) && (trend4HoursDiffPerc >= trend4HourLimitPerc)) trend4Hours = 'bullish';
 
+
+  //here we grab the previous 4 hour trend, which should be stored so long as it is not ranging
   let prevStored = lib.isDefined(markets[mid].data,'prevtrend4Hours') ? lib.deepCopy(markets[mid].data.prevtrend4Hours) : prevtrend4Hours;
 
   prevtrend4Hours = trend4Hours !== 'ranging' ? trend4Hours : prevStored;
