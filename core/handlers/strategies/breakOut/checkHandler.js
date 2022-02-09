@@ -735,9 +735,10 @@ actions.finalChecks = async function(){
 
   //Overide trend4hours first (before overiding other trends) if mid4hourtrend is changing direction
   //if midtrend4Hours is not ranging, and opposing direction to 4hour trend, means there is a change of direction, this trend should overide 4hourtrend
+  let midTrendOveride = false;
   if((midtrend4Hours !== 'ranging') && (trend4Hours !== 'ranging') && (midtrend4Hours !== trend4Hours)){
+    midTrendOveride = true;
     trend4Hours = midtrend4Hours;
-    checks.___4HoursNotRanging.note = 'Overidden by mid4hourtrend, trend is changing direction';
   }
 
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
@@ -922,6 +923,18 @@ actions.finalChecks = async function(){
         }
       }
     }
+  }
+
+  //Overide trend4hours first (before overiding other trends) if mid4hourtrend is changing direction
+  //if midtrend4Hours is not ranging, and opposing direction to 4hour trend, means there is a change of direction, this trend should overide 4hourtrend
+  //this is also determined at the beginning as trend4hours aligns with other trends
+  if(midTrendOveride === true){
+    //if we are going by midtrend, we will ignore confirmations as there wont be enough
+    checks.___enoughConfirmations.is = true;
+    checks.___enoughConfirmations.note = 'Overidden by mid4hourtrend, trend is changing direction';
+    //as we using mid trend, we will ignore if the 4hourtrend is ranging
+    checks.___4HoursNotRanging.is = true;
+    checks.___4HoursNotRanging.note = 'Overidden by mid4hourtrend, trend is changing direction';
   }
 
   //collate which checks are false and true, any which are false prevents deal being made
