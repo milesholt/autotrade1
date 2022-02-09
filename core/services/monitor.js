@@ -81,6 +81,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   markets[mid].closeprofit = false;
   markets[mid].closeloss = false;
 
+  console.log('closeloss default when monitoring starting: ' + markets[mid].closeloss);
+
   isStreamRunning[epic] = false;
 
   console.log(arr);
