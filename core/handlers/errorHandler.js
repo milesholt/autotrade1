@@ -22,6 +22,7 @@ Main function for error handling
 
 actions.handleErrors = async function(e){
   console.log(e);
+  let dontLoop = false;
   if(e.body.errorCode){
     switch(e.body.errorCode){
       case 'error.security.client-token-invalid':
@@ -39,12 +40,17 @@ actions.handleErrors = async function(e){
       case 'deal-rejected':
         await actions.handleDealRejected(e.body.error);
       break;
+      case 'error.public-api.exceeded-api-key-allowance';
+        //handle key allowance
+        console.log('Handling api key allowance limit, not resetting loop');
+        dontLoop = true;
+      break;
     }
   }
   //Once handled the error, we loop again
   var core = require.main.exports;
   var loop = core.loopHandler.actions;
-  loop.resetLoop('Resetting loop after error handling');
+  if(!dontLoop) loop.resetLoop('Resetting loop after error handling');
 }
 
 /*
