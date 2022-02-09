@@ -136,8 +136,12 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     //convert newlimit to have only one decimal place
                     //monitorData.newLimit = parseFloat(monitorData.newLimit.toFixed(2).slice(0, -1));
 
-                    //Update - No remove any decimal place
+                    //Update - Now remove any decimal place
                     monitorData.newLimit = Math.round(monitorData.newLimit);
+
+                    //Add time when monitor of trade is created
+                    monitorData.createdTimeStamp =  Date.now();
+                    monitorData.createdDate =  moment.utc(Date.now()).format('LT');
 
 
                     console.log(arr.epic);
@@ -449,6 +453,17 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
                                 let posfound = false;
+
+
+                                //TO LOOK INTO: Sometimes when a trade opens, it immediately closes as a loss, even though the conditions for loss shouldnt have returned true
+                                //if closeloss is triggered at the same time as trade starts, this is suggestive of an error, prevent this
+                                var a = moment.utc(x.createdTimeStamp).format('mm');
+                                var b = moment.utc().format('mm');
+                                if(a == b){
+                                  console.log('closeloss at same time trade created, could be an error, preventing.');
+                                  markets[x.marketId].closeloss = false;
+                                }
+
 
 
 
