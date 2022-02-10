@@ -443,6 +443,8 @@ actions.checkOpenTrade = async function(){
                   isMonitoring = false;
                 } else {
                   console.log('time difference not greater than 5 minutes: ' + timediff);
+                  console.log('modtime: ' + modtime);
+                  console.log('timeonly: ' + timeonly);
                 }
               }
             });
