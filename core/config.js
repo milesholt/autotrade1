@@ -142,7 +142,7 @@ markets = [
    {'id':6, 'alias': 'Rolls Royce', 'epic': 'KA.D.RR.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [16,8], 'expiry': 'DFB', 'streamingPricesAvailable': false },
    {'id':7, 'alias': 'NOKJPY', 'epic': 'CS.D.NOKJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
    {'id':8, 'alias': 'Alto Ingredients', 'epic': 'UC.D.PEIXUS.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [20,14], 'expiry': 'DFB', 'streamingPricesAvailable': false },
-   {'id':9, 'alias': 'LLoyds Banking Group', 'epic': 'KA.D.LLOY.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 10, 'marketClosed' : [16,8], 'expiry': 'DFB', 'streamingPricesAvailable': false }
+   {'id':9, 'alias': 'LLoyds Banking Group', 'epic': 'KA.D.LLOY.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 50, 'marketClosed' : [16,8], 'expiry': 'DFB', 'streamingPricesAvailable': false }
  ];
 
 
