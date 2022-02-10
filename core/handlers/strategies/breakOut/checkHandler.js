@@ -445,6 +445,9 @@ actions.checkOpenTrade = async function(){
                       let timestamp = Date.now();
                       let timeonly = moment.utc(timestamp).format('LT');
                       let timediff = moment.utc(timestamp).diff(moment.utc(modtime), "minutes");
+
+                      console.log('timediff: ' + timediff);
+
                       if(timediff >= 5){
                         isMonitoring = false;
                       } else {
