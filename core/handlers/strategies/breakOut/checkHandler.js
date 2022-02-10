@@ -444,7 +444,8 @@ actions.checkOpenTrade = async function(){
             });
 
 
-
+            console.log('here');
+            console.log(markets[mid].streamingPricesAvailable);
 
             if(markets[mid].streamingPricesAvailable === true){
               if(isMonitoring == false){
