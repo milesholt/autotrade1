@@ -429,12 +429,12 @@ actions.checkOpenTrade = async function(){
             //console.log('-----MONITORS:');
             //console.log(monitors);
 
-            monitors.forEach(monitor => {
-              if(monitor.epic == epic && monitor.subscribed == true) {
+            monitors.forEach(mon => {
+              if(mon.epic == epic && mon.subscribed == true) {
                 isMonitoring = true;
                 let modtime = 0;
 
-                fs.readFile(monitor.streamLogDir, async function (err, data, monitor) {
+                fs.readFile(mon.streamLogDir, async function (err, data) {
                   if(lib.isJSON(data)){
                       data = JSON.parse(data.toString());
                       modtime = data.timestamp;
