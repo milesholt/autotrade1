@@ -450,7 +450,7 @@ actions.checkOpenTrade = async function(){
 
                       if(timediff >= 5){
 
-                        if(markets[mid].streamingPricesAvailable === true){
+                        if(market.streamingPricesAvailable === true){
                             console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
                             await monitor.iniMonitor(dealId, dealRef, mon.epic);
                         } else {
