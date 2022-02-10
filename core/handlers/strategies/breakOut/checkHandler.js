@@ -439,7 +439,11 @@ actions.checkOpenTrade = async function(){
                 let timestamp = Date.now();
                 let timeonly = moment.utc(timestamp).format('LT');
                 let timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
-                if(timediff >= 5) isMonitoring == false;
+                if(timediff >= 5){
+                  isMonitoring == false;
+                } else {
+                  console.log('time difference not greater than 5 minutes: ' + timediff);
+                }
               }
             });
 
