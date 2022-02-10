@@ -433,6 +433,13 @@ actions.checkOpenTrade = async function(){
               if(monitor.epic == epic && monitor.subscribed == true) {
                 isMonitoring = true;
 
+                fs.readFile(monitorData.streamLogDir, async function (err, data) {
+                  if(lib.isJSON(data)){
+                      data = JSON.parse(data.toString());
+                      console.log(data);
+                  }
+                });
+
                 //monitor might be logged, but also check time of last stream
                 let stats = fs.statSync(monitor.streamLogDir);
                 let modtime = moment.utc(stats.mtime).format('LT');
