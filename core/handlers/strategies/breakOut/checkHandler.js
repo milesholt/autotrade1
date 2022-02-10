@@ -452,6 +452,9 @@ actions.checkOpenTrade = async function(){
                 console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
                 await monitor.iniMonitor(dealId, dealRef, epic);
                 //await stream.checkSubscriptions(epic);
+              } else {
+                console.log('Market already monitoring..');
+                console.log(isMonitoring);
               }
             } else {
               console.log('Not monitoring: ' + epic + ', market doesnt allow streaming prices.');
