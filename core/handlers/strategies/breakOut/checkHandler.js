@@ -434,7 +434,7 @@ actions.checkOpenTrade = async function(){
                 isMonitoring = true;
                 let modtime = 0;
 
-                fs.readFile(monitor.streamLogDir, async function (err, data) {
+                isMonitoring = fs.readFile(monitor.streamLogDir, async function (err, data) {
                   if(lib.isJSON(data)){
                       data = JSON.parse(data.toString());
                       modtime = data.timestamp;
@@ -449,11 +449,12 @@ actions.checkOpenTrade = async function(){
                       console.log('timediff: ' + timediff);
 
                       if(timediff >= 5){
-                        isMonitoring = false;
+                        return false;
                       } else {
                         console.log('time difference not greater than 5 minutes: ' + timediff);
                         console.log('modtime: ' + modtime);
                         console.log('timeonly: ' + timeonly);
+                        return true;
                       }
 
                   } else {
@@ -464,6 +465,8 @@ actions.checkOpenTrade = async function(){
 
               }
             });
+
+            console.log(isMonitoring);
 
 
             console.log('here');
