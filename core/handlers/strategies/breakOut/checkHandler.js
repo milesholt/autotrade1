@@ -446,12 +446,16 @@ actions.checkOpenTrade = async function(){
 
 
 
-
-            if(isMonitoring == false){
-              console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
-              await monitor.iniMonitor(dealId, dealRef, epic);
-              //await stream.checkSubscriptions(epic);
+            if(markets[mid].streamingPricesAvailable === true){
+              if(isMonitoring == false){
+                console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
+                await monitor.iniMonitor(dealId, dealRef, epic);
+                //await stream.checkSubscriptions(epic);
+              }
+            } else {
+              console.log('Not monitoring: ' + epic + ', market doesnt allow streaming prices.');
             }
+
 
           }
 

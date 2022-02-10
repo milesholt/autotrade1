@@ -75,7 +75,7 @@ async function exec(){
 
 
   // console.log('-------Searching for Epics');
- const searchterm = encodeURI('Alto Ingredients');
+ const searchterm = encodeURI('Spot Platinum');
   await api.search(searchterm).then(r => {
     console.log(r);
   }).catch(e => console.log(e));
