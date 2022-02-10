@@ -434,7 +434,7 @@ actions.checkOpenTrade = async function(){
                 isMonitoring = true;
                 let modtime = 0;
 
-                isMonitoring = fs.readFile(monitor.streamLogDir, async function (err, data) {
+                fs.readFile(monitor.streamLogDir, async function (err, data) {
                   if(lib.isJSON(data)){
                       data = JSON.parse(data.toString());
                       modtime = data.timestamp;
@@ -449,12 +449,19 @@ actions.checkOpenTrade = async function(){
                       console.log('timediff: ' + timediff);
 
                       if(timediff >= 5){
-                        return false;
+
+                        if(markets[mid].streamingPricesAvailable === true){
+                            console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
+                            await monitor.iniMonitor(dealId, dealRef, epic);
+                        } else {
+                          console.log('Not monitoring: ' + epic + ', market doesnt allow streaming prices.');
+                        }
+
                       } else {
                         console.log('time difference not greater than 5 minutes: ' + timediff);
                         console.log('modtime: ' + modtime);
                         console.log('timeonly: ' + timeonly);
-                        return true;
+
                       }
 
                   } else {
@@ -465,26 +472,6 @@ actions.checkOpenTrade = async function(){
 
               }
             });
-
-            console.log(isMonitoring);
-
-
-            console.log('here');
-            console.log(markets[mid].streamingPricesAvailable);
-
-            if(markets[mid].streamingPricesAvailable === true){
-              if(isMonitoring == false){
-                console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
-                await monitor.iniMonitor(dealId, dealRef, epic);
-                //await stream.checkSubscriptions(epic);
-              } else {
-                console.log('Market already monitoring..');
-                console.log(isMonitoring);
-              }
-            } else {
-              console.log('Not monitoring: ' + epic + ', market doesnt allow streaming prices.');
-            }
-
 
           }
 
