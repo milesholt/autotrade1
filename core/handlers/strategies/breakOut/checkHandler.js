@@ -451,10 +451,10 @@ actions.checkOpenTrade = async function(){
                       if(timediff >= 5){
 
                         if(markets[mid].streamingPricesAvailable === true){
-                            console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + epic);
-                            await monitor.iniMonitor(dealId, dealRef, epic);
+                            console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
+                            await monitor.iniMonitor(dealId, dealRef, mon.epic);
                         } else {
-                          console.log('Not monitoring: ' + epic + ', market doesnt allow streaming prices.');
+                          console.log('Not monitoring: ' + mon.epic + ', market doesnt allow streaming prices.');
                         }
 
                       } else {
