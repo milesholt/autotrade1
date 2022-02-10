@@ -434,7 +434,7 @@ actions.checkOpenTrade = async function(){
                 isMonitoring = true;
                 let modtime = 0;
 
-                fs.readFile(monitor.streamLogDir, async function (err, data) {
+                fs.readFile(monitor.streamLogDir, async function (err, data, monitor) {
                   if(lib.isJSON(data)){
                       data = JSON.parse(data.toString());
                       modtime = data.timestamp;
