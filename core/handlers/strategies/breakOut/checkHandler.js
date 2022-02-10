@@ -52,7 +52,7 @@ actions.checkOpenTrades = async function(){
            direction = td.position.direction;
            t = td;
            core.actions.setPaths();
-           await monitor.iniMonitor(dealId,dealRef,epic);
+           //await monitor.iniMonitor(dealId,dealRef,epic);
 
            if(i == (positionsData.positions.length-1)){
              console.log('Finished looping through open positions');
