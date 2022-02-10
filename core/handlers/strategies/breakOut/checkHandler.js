@@ -432,27 +432,33 @@ actions.checkOpenTrade = async function(){
             monitors.forEach(monitor => {
               if(monitor.epic == epic && monitor.subscribed == true) {
                 isMonitoring = true;
+                let modtime = 0;
 
                 fs.readFile(monitor.streamLogDir, async function (err, data) {
                   if(lib.isJSON(data)){
                       data = JSON.parse(data.toString());
-                      console.log(data);
+                      modtime = data.timestamp;
+
+                      //monitor might be logged, but also check time of last stream
+                      //let stats = fs.statSync(monitor.streamLogDir);
+                      //let modtime = moment.utc(stats.mtime).format('LT');
+                      let timestamp = Date.now();
+                      let timeonly = moment.utc(timestamp).format('LT');
+                      let timediff = moment.utc(timestamp).diff(moment.utc(modtime), "minutes");
+                      if(timediff >= 5){
+                        isMonitoring = false;
+                      } else {
+                        console.log('time difference not greater than 5 minutes: ' + timediff);
+                        console.log('modtime: ' + modtime);
+                        console.log('timeonly: ' + timeonly);
+                      }
+
+                  } else {
+                    console.log('Error reading stream data');
                   }
                 });
 
-                //monitor might be logged, but also check time of last stream
-                let stats = fs.statSync(monitor.streamLogDir);
-                let modtime = moment.utc(stats.mtime).format('LT');
-                let timestamp = Date.now();
-                let timeonly = moment.utc(timestamp).format('LT');
-                let timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
-                if(timediff >= 5){
-                  isMonitoring = false;
-                } else {
-                  console.log('time difference not greater than 5 minutes: ' + timediff);
-                  console.log('modtime: ' + modtime);
-                  console.log('timeonly: ' + timeonly);
-                }
+
               }
             });
 
