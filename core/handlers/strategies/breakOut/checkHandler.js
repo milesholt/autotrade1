@@ -428,8 +428,9 @@ actions.checkOpenTrade = async function(){
 
             //console.log('-----MONITORS:');
             //console.log(monitors);
+            for (const [i, mon] of monitors.entries()){
 
-            monitors.forEach(mon => {
+          //  monitors.forEach(mon => {
               if(mon.epic == epic && mon.subscribed == true) {
                 isMonitoring = true;
                 let modtime = 0;
@@ -471,7 +472,8 @@ actions.checkOpenTrade = async function(){
 
 
               }
-            });
+            //});
+            }
 
           }
 
