@@ -433,7 +433,7 @@ actions.checkOpenTrade = async function(){
               if(monitor.epic == epic && monitor.subscribed == true) {
                 isMonitoring = true;
 
-                fs.readFile(monitorData.streamLogDir, async function (err, data) {
+                fs.readFile(monitor.streamLogDir, async function (err, data) {
                   if(lib.isJSON(data)){
                       data = JSON.parse(data.toString());
                       console.log(data);
