@@ -242,7 +242,7 @@ actions.determineTrade = async function(){
           	'direction': dir,
           	'epic': epic,
           	'expiry': market.expiry,
-          	'size': size,
+          	'size': market.size,
           	'forceOpen': true,
           	'orderType': 'MARKET',
           	'level': null,

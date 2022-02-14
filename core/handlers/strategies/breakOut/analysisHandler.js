@@ -142,6 +142,11 @@ actions.determineStopDistance = async function(){
 
   stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
 
+  console.log('epic: ' + market.epic);
+  console.log('minStopVal: ' + minStopVal);
+  console.log('stopDistanceOffset: ' + stopDistanceOffset);
+  console.log('stopDistance: ' +  stopDistance);
+
 
 
   //  let potentialLossAmount = stopDistance * market.size;
