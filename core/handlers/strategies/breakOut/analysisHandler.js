@@ -95,6 +95,7 @@ actions.determineSize = async function(){
 
   //By dividing the maximum stop amount by the distance, we can determine what the size should be
   size = Math.round(maxStop / stopDistance);
+  if(size == 0) size = 1;
 
   console.log('size: ' + size);
   //console.log(stopDistance);
