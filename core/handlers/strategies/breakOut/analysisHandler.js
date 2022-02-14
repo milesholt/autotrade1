@@ -76,6 +76,30 @@ actions.analysePriceData = async function(){
 
 /*
 
+DETERMINE SIZE
+
+New method to use buy and sell lines as distances, and to then calculate size instead, using a limit of a certain amount
+
+*/
+
+actions.determineSize = async function(){
+
+  //The stop and level distances have already been calculated and should replicate whats on the chart
+  let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
+  stopDistance = Math.abs(cp - stopDistanceLevel);
+  limitDistance = Math.abs(cp - limitDistanceLevel);
+
+  //By dividing the maximum stop amount by the distance, we can determine what the size should be
+  size = Math.round(maxStop / stopDistance);
+
+  console.log('size: ' + size);
+  console.log(stopDistance);
+  console.log(limitDistance);
+}
+
+
+/*
+
 DETERMINE STOP DISTANCE
 
 */

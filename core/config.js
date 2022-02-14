@@ -85,6 +85,7 @@ limitDistance = 0;
 limitDistanceLevel = 0;
 maxLimit = 100;
 maxStop = 100;
+size = 1;
 
 //Main parameters
 // markets = [
