@@ -404,7 +404,7 @@ actions.exec = async function(){
     await analysisHandler.actions.determineLimitDistance();
 
     //Determine size
-    //await analysisHandler.actions.determineSize();
+    await analysisHandler.actions.determineSize();
 
     //Final analysis
     await analysisHandler.actions.finalAnalysis();
