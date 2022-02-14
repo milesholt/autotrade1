@@ -72,10 +72,11 @@ async function exec(){
   //NOK/JPY - CS.D.NOKJPY.TODAY.IP
   //Lloyds Bank PLC - KA.D.LLOY.DAILY.IP
   //Alto Ingredients - UC.D.PEIXUS.DAILY.IP
+  //Spot Silver - CS.D.USCSI.TODAY.IP
 
 
   // console.log('-------Searching for Epics');
- const searchterm = encodeURI('Spot Platinum');
+ const searchterm = encodeURI('Silver');
   await api.search(searchterm).then(r => {
     console.log(r);
   }).catch(e => console.log(e));
