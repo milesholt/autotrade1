@@ -141,8 +141,8 @@ actions.calcResistSupport = async function(pricedata,type){
   let primaries = [];
   rangeOptions.forEach((r,idx)=>{
     let rangeCount = r.range.prices.length, bumpCount = r.bumps.length;
-    if( rangeCount > 12){
-      if(bumpCount < 5){
+    if( rangeCount > rangeConfirmationLimit){
+      if(bumpCount < bumpgrouplimit){
         primaries.push({'idx': idx, 'margin': r.margin, 'range' : r.range, 'rangeCount': rangeCount, 'bumps': r.bumps, 'bumpCount' : bumpCount,  'lowest': r.lowest, 'highest': r.highest, 'priceDifferenceAverage' : r.priceDifferenceAverage});
       }
     }
@@ -173,7 +173,7 @@ actions.calcResistSupport = async function(pricedata,type){
         if(pidx > lastbump) newrange.push({'price':price, 'idx':pidx});
       });
 
-      if(newrange.length > 12) {
+      if(newrange.length > rangeConfirmationLimit) {
             let remove = (primary.range.prices.length - newrange.length);
             primary.range.prices.splice(0,remove);
             primary.range.prices_idx.splice(0,remove);
