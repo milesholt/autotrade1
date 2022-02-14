@@ -97,8 +97,8 @@ actions.determineSize = async function(){
   size = Math.round(maxStop / stopDistance);
 
   console.log('size: ' + size);
-  console.log(stopDistance);
-  console.log(limitDistance);
+  //console.log(stopDistance);
+  //console.log(limitDistance);
 }
 
 
@@ -133,6 +133,7 @@ actions.determineStopDistance = async function(){
 
   //if stop offset is less than minimum points, get minimum difference and double it as an offset
   if(stopDistanceOffset < minStopVal){
+    console.log('stopDistanceOffset less than minStopVal');
     let minDiff = lib.toNumber(minStopVal - stopDistanceOffset);
     stopDistanceOffset = lib.toNumber(stopDistanceOffset + (minDiff * 2));
   }
