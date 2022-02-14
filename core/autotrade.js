@@ -401,8 +401,8 @@ actions.exec = async function(){
 
     //Determine stop and limit distances
     //This is actually incorrect as stop and limit levels are already calculated elsewhere for chart
-    // await analysisHandler.actions.determineStopDistance();
-    // await analysisHandler.actions.determineLimitDistance();
+    await analysisHandler.actions.determineStopDistance();
+    await analysisHandler.actions.determineLimitDistance();
 
     //Determine size
     await analysisHandler.actions.determineSize();

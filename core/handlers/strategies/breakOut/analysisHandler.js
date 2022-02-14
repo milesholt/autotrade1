@@ -78,16 +78,20 @@ actions.analysePriceData = async function(){
 
 DETERMINE SIZE
 
+UPDATE:
+
+  //The stop and level distances have already been calculated in analysis.js and should replicate whats on the chart, which is why determineStop and determineProfit should not be used, as they recalculate this, and set different distances, some being closer to the opening position is size is miscalculated
+
 New method to use buy and sell lines as distances, and to then calculate size instead, using a limit of a certain amount
 
 */
 
 actions.determineSize = async function(){
 
-  //The stop and level distances have already been calculated and should replicate whats on the chart
-  let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
-  stopDistance = Math.abs(cp - stopDistanceLevel);
-  limitDistance = Math.abs(cp - limitDistanceLevel);
+
+  // let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
+  // stopDistance = Math.abs(cp - stopDistanceLevel);
+  // limitDistance = Math.abs(cp - limitDistanceLevel);
 
   //By dividing the maximum stop amount by the distance, we can determine what the size should be
   size = Math.round(maxStop / stopDistance);
@@ -140,23 +144,23 @@ actions.determineStopDistance = async function(){
 
 
 
-   let potentialLossAmount = stopDistance * market.size;
-   let newStopDistance = (availableLoss / market.size);
-   let maxStopDistance = (maxStop / market.size);
-
-   //console.log('potentialLossAmount: ' + potentialLossAmount);
-   //console.log('calculatedAvailableLoss: ' + availableLoss);
-   //console.log('newStopDistance: ' + newStopDistance);
-
-  if(potentialLossAmount >= availableLoss){
-    //console.log('potentialLossAmount greater than or equal to availableLoss, using newStopDistance based on availabe loss.');
-    stopDistance = newStopDistance;
-  }
-
-  if(potentialLossAmount >= maxStop){
-    //console.log('potentialLossAmount greater than or equal to maxStop, using maxStopDistance based on maximum loss.');
-    stopDistance = maxStopDistance;
-  }
+  //  let potentialLossAmount = stopDistance * market.size;
+  //  let newStopDistance = (availableLoss / market.size);
+  //  let maxStopDistance = (maxStop / market.size);
+  //
+  //  //console.log('potentialLossAmount: ' + potentialLossAmount);
+  //  //console.log('calculatedAvailableLoss: ' + availableLoss);
+  //  //console.log('newStopDistance: ' + newStopDistance);
+  //
+  // if(potentialLossAmount >= availableLoss){
+  //   //console.log('potentialLossAmount greater than or equal to availableLoss, using newStopDistance based on availabe loss.');
+  //   stopDistance = newStopDistance;
+  // }
+  //
+  // if(potentialLossAmount >= maxStop){
+  //   //console.log('potentialLossAmount greater than or equal to maxStop, using maxStopDistance based on maximum loss.');
+  //   stopDistance = maxStopDistance;
+  // }
 
 
   /* logic
@@ -216,12 +220,12 @@ if(trend == 'bearish') limitDistanceLevel = lib.toNumber(( cp - limitDistanceOff
 
 limitDistance = lib.toNumber((cp - limitDistanceLevel), 'abs');
 
- let potentialProfitAmount = limitDistance * market.size;
-
-if(potentialProfitAmount >= maxLimit){
-  //console.log('potentialProfitAmount greater than or equal to maxLimit, using maxLimitDistance based on maximum limit.');
-  limitDistance = maxLimitDistance;
-}
+//  let potentialProfitAmount = limitDistance * market.size;
+//
+// if(potentialProfitAmount >= maxLimit){
+//   //console.log('potentialProfitAmount greater than or equal to maxLimit, using maxLimitDistance based on maximum limit.');
+//   limitDistance = maxLimitDistance;
+// }
 
 
 
