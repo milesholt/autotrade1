@@ -542,7 +542,7 @@ actions.checkOpenTrade = async function(){
 
                             //if(market.streamingPricesAvailable === true){
                                 console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
-                                await monitor.iniMonitor(dealId, dealRef, mon.epic);
+                                await monitor.iniMonitor(dealId, dealRef, mon.epic, mon.marketId);
                             // } else {
                             //   console.log('Not monitoring: ' + mon.epic + ', market doesnt allow streaming prices.');
                             // }
@@ -568,7 +568,7 @@ actions.checkOpenTrade = async function(){
 
             if(isMonitoring == false){
               console.log('Open position found, but not monitoring or no monitor found. Setting up monitor...');
-              await monitor.iniMonitor(dealId, dealRef, epic);
+              await monitor.iniMonitor(dealId, dealRef, epic, mid);
             }
 
           }

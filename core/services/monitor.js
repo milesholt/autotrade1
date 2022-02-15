@@ -26,10 +26,11 @@ const testmailer = require('../tests/mailer.js');
 //var streamLogDir = '';
 
 
-actions.iniMonitor = async function(dealId,dealRef,epic){
+actions.iniMonitor = async function(dealId,dealRef,epic,mid){
 
   console.log('ini monitor');
   console.log(epic);
+  console.log(mid);
 
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
@@ -53,10 +54,10 @@ actions.iniMonitor = async function(dealId,dealRef,epic){
     if (err) throw err;
   });
   //begin monitoring
-  await actions.beginMonitor(dealId,dealRef,epic,streamLogDir,false);
+  await actions.beginMonitor(dealId,dealRef,epic,mid,streamLogDir,false);
 }
 
-actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt = false){
+actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attempt = false){
   //login
   // await api.login(true).then(r => {
   //   //console.log(util.inspect(r,false,null));
@@ -870,7 +871,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                                         if(!attempt){
                                           setTimeout(()=>{
                                             console.log('No subscription yet. But no light stream error. Trying stream again after 5 seconds. Attempt is:' + attempt);
-                                            actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
+                                            actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
                                           },5000);
                                         } else{
                                             console.log('Tried to subscribed a second time but no subscription. Giving up and returning false.');
@@ -900,7 +901,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                       if(!attempt){
                         setTimeout(()=>{
                           console.log('Trying stream again after 5 seconds');
-                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.streamLogDir,true);
+                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
                         },5000);
                       } else{
                           console.log('Tried but still getting no stream connection. No monitor started. Giving up');
@@ -1005,7 +1006,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
       setTimeout(()=>{
         console.log('waiting 10 minutes, then will check for open positions again.');
-        actions.beginMonitor(dealId,dealRef,epic,streamLogDir,false);
+        actions.beginMonitor(dealId,dealRef,epic,mid,streamLogDir,false);
       },600000);
     }
   }).catch(error => console.error(error));
