@@ -8,6 +8,7 @@ var lib;
 var log;
 var moment;
 var fs;
+var mailer;
 
 /*
 
@@ -24,6 +25,7 @@ actions.require = async function(){
   cloud = core.cloudHandler.actions;
   lib = core.lib.actions;
   log = core.log.actions;
+  mailer = core.mailer.actions;
   moment = core.moment;
   fs = core.fs;
 }
@@ -170,81 +172,73 @@ Some trades dont allow streaming so they are not being monitored. Instead, every
 
 actions.checkNonStreamingTrades = async function(){
 
-  if(!lib.actions.isEmpty(market.deal)){
+  if(market.streamingPricesAvailable == false){
 
-    let  d = market.deal;
+      if(!lib.isEmpty(market.deal)) {
 
-    let limitDiff = lib.actions.toNumber(Math.abs(d.level - d.limitLevel) * limitClosePerc);
-    let stopDiff = lib.actions.toNumber(Math.abs(d.level - d.stopLevel) * stopClosePerc);
+        let  m = {};
 
-    let m = {
-      'newlimitBuy': lib.actions.toNumber(d.level + limitDiff),
-      'newlimitSell':  lib.actions.toNumber(d.level - limitDiff),
-      'newStopBuy':lib.actions.toNumber(d.level - stopDiff),
-      'newStopSell':  lib.actions.toNumber(d.level + stopDiff),
-      'limitLevel': d.limitLevel,
-      'stopLevel': d.stopLevel,
-      'level': d.level
-    }
-    m.newLimit = d.direction == 'BUY' ? m.newlimitBuy : m.newlimitSell;
-    m.newStop = d.direction == 'BUY' ? m.newStopBuy : m.newStopSell;
+        for (const [i, mon] of monitors.entries()){
+          if(mon.epic == market.epic) {
+              m = mon;
+          }
+        });
 
-    m.newLimit = Math.round(m.newLimit);
+        if(m.direction == 'BUY' && lastCloseBid >= m.newLimit) market.closeprofit = true;
+        if(m.direction == 'SELL' && lastCloseAsk <= m.newLimit) market.closeprofit = true;
 
-    if(d.direction == 'BUY' && lastCloseBid >= m.newLimit) market.closeprofit = true;
-    if(d.direction == 'SELL' && lastCloseAsk <= m.newLimit) market.closeprofit = true;
+        if(market.closeprofit === true){
+          //close position
+          console.log('Non streaming position limit reached, closing position.');
 
-    if(market.closeprofit === true){
-      //close position
+          let closeAnalysis = {
+            timestamp: Date.now(),
+            date: moment.utc().format('LLL'),
+            limitLevel: m.limitLevel,
+            stopLevel: m.stopLevel,
+            newLimit: m.newLimit,
+            lastClose: closePrice,
+            direction: m.direction,
+            openLevel: m.level,
+            data: m,
+            dealId: m.dealId,
+            profit:null
+          }
 
-      let closeAnalysis = {
-        timestamp: Date.now(),
-        date: moment.utc().format('LLL'),
-        limitLevel: d.limitLevel,
-        stopLevel: d.stopLevel,
-        newLimit: d.newLimit,
-        lastClose: closePrice,
-        direction: d.direction,
-        openLevel: d.level,
-        data: d,
-        dealId: d.dealId,
-        profit:null
+          await api.closePosition(m.dealId).then(async r =>{
+            console.log(util.inspect(r, false, null));
+            if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
+              console.log('Market is closed, cannot close position. Stopping.');
+              marketIsClosed = true;
+            }
+
+            closeAnalysis.profit = r.confirms.profit;
+
+            if(marketIsClosed == false){
+              var mailOptions = {
+                from: 'contact@milesholt.co.uk',
+                to: 'miles_holt@hotmail.com',
+                subject: 'Closed position. PROFIT. ' + m.epic,
+                text: JSON.stringify(closeAnalysis)
+              };
+              mailer.sendMail(mailOptions);
+              log.closeTradeLog(m.epic,closeAnalysis);
+
+            } else {
+              console.log('Market is closed, not closing or stopping anything, returning false.');
+            }
+
+            return false;
+
+          }).catch(e => {
+            error.handleErrors(e);
+          });
+
+        }
+
       }
 
-      await api.closePosition(d.dealId).then(async r =>{
-        console.log(util.inspect(r, false, null));
-        if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
-          console.log('Market is closed, cannot close position. Stopping.');
-          marketIsClosed = true;
-        }
-
-        closeAnalysis.profit = r.confirms.profit;
-
-        if(marketIsClosed == false){
-          var mailOptions = {
-            from: 'contact@milesholt.co.uk',
-            to: 'miles_holt@hotmail.com',
-            subject: 'Closed position. PROFIT. ' + m.epic,
-            text: JSON.stringify(closeAnalysis)
-          };
-          mailer.actions.sendMail(mailOptions);
-          log.actions.closeTradeLog(m.epic,closeAnalysis);
-
-        } else {
-          console.log('Market is closed, not closing or stopping anything, returning false.');
-        }
-
-        return false;
-
-      }).catch(e => {
-        error.handleErrors(e);
-      });
-
-    }
-
   }
-
-
 
 }
 

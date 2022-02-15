@@ -363,7 +363,7 @@ actions.exec = async function(){
     await priceDataHandler.actions.setPriceData();
 
     //Handle non streaming positions
-    //await checkHandler.actions.checkNonStreamingTrades();
+    await checkHandler.actions.checkNonStreamingTrades();
 
     //Handle trend
     await trendHandler.actions.determineTrend();
