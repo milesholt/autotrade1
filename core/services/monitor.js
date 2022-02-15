@@ -84,7 +84,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   console.log('closeloss default when monitoring starting: ' + markets[mid].closeloss);
 
   isStreamRunning[epic] = false;
+
+  console.log('epic: ' + markets[mid].epic + 'streamingPricesAvailable:' + markets[mid].streamingPricesAvailable);
+
+
   isStreamingAvailable[epic] = markets[mid].streamingPricesAvailable;
+
+  console.log(isStreamingAvailable);
 
   console.log(arr);
   console.log('isStreamRunning:');
@@ -249,7 +255,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     console.log('isStreamingAvailable: ' + isStreamingAvailable[monitorData.epic]);
 
 
-                  if(markets[monitorData.epic].streamingPricesAvailable == true){
+                  if(isStreamingAvailable[epic] == true){
                     console.log('Streaming on this epic is available.');
                     if(isStreamRunning[monitorData.epic] == false){
 
