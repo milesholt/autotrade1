@@ -122,7 +122,6 @@ actions.determineStopDistance = async function(){
   stopDistance = lib.toNumber((cp - stopDistanceLevel), 'abs');
 
   console.log('epic: ' + market.epic);
-  console.log('minStopVal: ' + minStopVal);
   console.log('stopDistanceOffset: ' + stopDistanceOffset);
   console.log('stopDistance: ' +  stopDistance);
 
@@ -227,6 +226,8 @@ actions.calculateOffset =  async function(offset){
   let minStop = market.minimumStop;
   let minStopVal = lib.toNumber(market.minimumStop.value); //by default type is assumed points
   //if minimum stop is percentage, convert this to points
+  console.log('minStopVal: ' + minStopVal);
+
   if(market.minimumStop.type == 'percent') minStopVal = lib.toNumber(cp * minStopVal);
 
   let off = lib.toNumber(priceDiff4Hours * market[offset]);
