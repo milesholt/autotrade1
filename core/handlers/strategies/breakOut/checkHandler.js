@@ -521,48 +521,60 @@ actions.checkOpenTrade = async function(){
             for (const [i, mon] of monitors.entries()){
 
           //  monitors.forEach(mon => {
-              if(mon.epic == epic && mon.subscribed == true) {
+
+              //if monitoring
+              if(mon.epic == epic) {
                 isMonitoring = true;
                 let modtime = 0;
 
-                fs.readFile(mon.streamLogDir, async function (err, data) {
-                  if(lib.isJSON(data)){
-                      data = JSON.parse(data.toString());
-                      modtime = data.timestamp;
+                //if stream subscribed
+                if(mon.subscribed == true){
 
-                      //monitor might be logged, but also check time of last stream
-                      //let stats = fs.statSync(monitor.streamLogDir);
-                      //let modtime = moment.utc(stats.mtime).format('LT');
-                      let timestamp = Date.now();
-                      let timeonly = moment.utc(timestamp).format('LT');
-                      let timediff = moment.utc(timestamp).diff(moment.utc(modtime), "minutes");
+                    fs.readFile(mon.streamLogDir, async function (err, data) {
+                      if(lib.isJSON(data)){
+                          data = JSON.parse(data.toString());
+                          modtime = data.timestamp;
 
-                      console.log('timediff: ' + timediff);
+                          //monitor might be logged, but also check time of last stream
+                          //let stats = fs.statSync(monitor.streamLogDir);
+                          //let modtime = moment.utc(stats.mtime).format('LT');
+                          let timestamp = Date.now();
+                          let timeonly = moment.utc(timestamp).format('LT');
+                          let timediff = moment.utc(timestamp).diff(moment.utc(modtime), "minutes");
 
-                      if(timediff >= 5){
+                          console.log('timediff: ' + timediff);
 
-                        //if(market.streamingPricesAvailable === true){
-                            console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
-                            await monitor.iniMonitor(dealId, dealRef, mon.epic);
-                        // } else {
-                        //   console.log('Not monitoring: ' + mon.epic + ', market doesnt allow streaming prices.');
-                        // }
+                          if(timediff >= 5){
+
+                            //if(market.streamingPricesAvailable === true){
+                                console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
+                                await monitor.iniMonitor(dealId, dealRef, mon.epic);
+                            // } else {
+                            //   console.log('Not monitoring: ' + mon.epic + ', market doesnt allow streaming prices.');
+                            // }
+
+                          } else {
+                            console.log('time difference not greater than 5 minutes: ' + timediff);
+                            console.log('modtime: ' + modtime);
+                            console.log('timeonly: ' + timeonly);
+
+                          }
 
                       } else {
-                        console.log('time difference not greater than 5 minutes: ' + timediff);
-                        console.log('modtime: ' + modtime);
-                        console.log('timeonly: ' + timeonly);
-
+                        console.log('Error reading stream data');
                       }
+                    });
 
-                  } else {
-                    console.log('Error reading stream data');
-                  }
-                });
-
-
+                }
+              } else {
+                isMonitoring = false;
               }
             //});
+            }
+
+            if(isMonitoring == false){
+              console.log('Open position found, but not monitoring or no monitor found. Setting up monitor...');
+              await monitor.iniMonitor(dealId, dealRef, mon.epic);
             }
 
           }
