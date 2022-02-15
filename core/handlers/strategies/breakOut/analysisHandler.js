@@ -114,30 +114,7 @@ actions.determineStopDistance = async function(){
   //Stop distance to be % of price diff, expanded from support/resistance line
   let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
-  //Here we calculate the minimum stop and ensure the stop distance isnt less than this otherwise we get an ORDER LEVEL ERROR
-  let minStop = market.minimumStop;
-  let minStopVal = lib.toNumber(market.minimumStop.value); //by default type is assumed points
-  //if minimum stop is percentage, convert this to points
-  if(market.minimumStop.type == 'percent') minStopVal = lib.toNumber(cp * minStopVal);
-
-  //if type is points, we convert this to percentage by getting minimum value of 1 point
-  // if(market.minimumStop.type == 'points') minStopVal = lib.toNumber(minStopVal/1);
-  //
-  // //if the minimum value is less than offset, we can ignore it
-  // if(minStopVal < market.stopDistancePerc) minStopVal = 0;
-  //
-  // market.stopDistancePerc = lib.toNumber(lib.toNumber(market.stopDistancePerc) + minStopVal);
-
-  let stopDistanceOffset = lib.toNumber(priceDiff4Hours * market.stopDistancePerc);
-
-
-
-  //if stop offset is less than minimum points, get minimum difference and double it as an offset
-  if(stopDistanceOffset < minStopVal){
-    console.log('stopDistanceOffset less than minStopVal');
-    let minDiff = lib.toNumber(minStopVal - stopDistanceOffset);
-    stopDistanceOffset = lib.toNumber(stopDistanceOffset + (minDiff * 2));
-  }
+  let stopDistanceOffset = await actions.calculateOffset('stopDistancePerc');
 
   if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( cp - stopDistanceOffset), 'abs');
   if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( cp + stopDistanceOffset), 'abs');
@@ -212,8 +189,11 @@ for stop - we add the difference
 
 actions.determineLimitDistance = async function(){
 
-let limitDistanceOffset = lib.toNumber(priceDiff4Hours * market.limitDistancePerc);
+//let limitDistanceOffset = lib.toNumber(priceDiff4Hours * market.limitDistancePerc);
+let limitDistanceOffset = await actions.calculateOffset('limitDistancePerc');
 let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
+
+
 
 //This calculation arrives to the same values as the logic above
 //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
@@ -236,6 +216,33 @@ limitDistance = lib.toNumber((cp - limitDistanceLevel), 'abs');
 
 
 
+}
+
+/*
+
+CALCULATE OFFSET FOR LIMIT OR STOP AREA
+
+*/
+
+//Here we calculate the minimum stop and ensure the stop distance isnt less than this otherwise we get an ORDER LEVEL ERROR
+
+actions.calculateOffset =  async function(offset){
+
+  let minStop = market.minimumStop;
+  let minStopVal = lib.toNumber(market.minimumStop.value); //by default type is assumed points
+  //if minimum stop is percentage, convert this to points
+  if(market.minimumStop.type == 'percent') minStopVal = lib.toNumber(cp * minStopVal);
+
+  let off = lib.toNumber(priceDiff4Hours * market[offset]);
+
+  //if stop offset is less than minimum points, get minimum difference and double it as an offset
+  if(off < minStopVal){
+    console.log('offset less than minStopVal');
+    let minDiff = lib.toNumber((minStopVal - off), 'abs');
+    off = lib.toNumber(off + (minDiff * 2));
+  }
+
+  return off;
 }
 
 /*
