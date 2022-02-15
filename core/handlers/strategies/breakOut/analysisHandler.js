@@ -193,8 +193,6 @@ actions.determineLimitDistance = async function(){
 let limitDistanceOffset = await actions.calculateOffset('limitDistancePerc');
 let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
 
-
-
 //This calculation arrives to the same values as the logic above
 //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
 //OLD
@@ -213,8 +211,6 @@ limitDistance = lib.toNumber((cp - limitDistanceLevel), 'abs');
 //   //console.log('potentialProfitAmount greater than or equal to maxLimit, using maxLimitDistance based on maximum limit.');
 //   limitDistance = maxLimitDistance;
 // }
-
-
 
 }
 
