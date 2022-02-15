@@ -574,7 +574,7 @@ actions.checkOpenTrade = async function(){
 
             if(isMonitoring == false){
               console.log('Open position found, but not monitoring or no monitor found. Setting up monitor...');
-              await monitor.iniMonitor(dealId, dealRef, mon.epic);
+              await monitor.iniMonitor(dealId, dealRef, epic);
             }
 
           }
