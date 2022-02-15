@@ -84,6 +84,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   console.log('closeloss default when monitoring starting: ' + markets[mid].closeloss);
 
   isStreamRunning[epic] = false;
+  isStreamingAvailable[epic] = markets[mid].streamingPricesAvailable;
 
   console.log(arr);
   console.log('isStreamRunning:');
@@ -245,8 +246,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     console.log('Epic: ' + monitorData.epic);
                     console.log('isStreamRunning: ' + isStreamRunning[monitorData.epic]);
                     console.log('isSubscribed: ' + monitorData.subscribed);
+                    console.log('isStreamingAvailable: ' + isStreamingAvailable);
 
 
+                  if(isStreamingAvailable[epic] == true){
+                    console.log('Streaming on this epic is available.');
                     if(isStreamRunning[monitorData.epic] == false){
 
                       //make sure monitor is updated with correct subscription status
@@ -912,9 +916,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     console.log(isStreamRunning);
                     //make sure monitor is updated with correct subscription status
                     await log.actions.startMonitorLog(monitorData);
-
-
                   }
+                } else {
+                  console.log('Streaming on this epic is not available, not streaming.');
+                }
 
           }
       });

@@ -161,6 +161,96 @@ actions.checkIncorrectDeal = async function(dealId){
 
 /*
 
+CHECK NON STREAMING TRADES
+
+Some trades dont allow streaming so they are not being monitored. Instead, every hour we can check the lastClose and determine if it is the limit percentage of closing
+
+*/
+
+
+actions.checkNonStreamingTrades = async function(){
+
+  if(!lib.actions.isEmpty(market.deal)){
+
+    let  d = market.deal;
+
+    let limitDiff = lib.actions.toNumber(Math.abs(d.level - d.limitLevel) * limitClosePerc);
+    let stopDiff = lib.actions.toNumber(Math.abs(d.level - d.stopLevel) * stopClosePerc);
+
+    let m = {
+      'newlimitBuy': lib.actions.toNumber(d.level + limitDiff),
+      'newlimitSell':  lib.actions.toNumber(d.level - limitDiff),
+      'newStopBuy':lib.actions.toNumber(d.level - stopDiff),
+      'newStopSell':  lib.actions.toNumber(d.level + stopDiff),
+      'limitLevel': d.limitLevel,
+      'stopLevel': d.stopLevel,
+      'level': d.level
+    }
+    m.newLimit = d.direction == 'BUY' ? m.newlimitBuy : m.newlimitSell;
+    m.newStop = d.direction == 'BUY' ? m.newStopBuy : m.newStopSell;
+
+    m.newLimit = Math.round(m.newLimit);
+
+    if(d.direction == 'BUY' && lastCloseBid >= m.newLimit) market.closeprofit = true;
+    if(d.direction == 'SELL' && lastCloseAsk <= m.newLimit) market.closeprofit = true;
+
+    if(market.closeprofit === true){
+      //close position
+
+      let closeAnalysis = {
+        timestamp: Date.now(),
+        date: moment.utc().format('LLL'),
+        limitLevel: d.limitLevel,
+        stopLevel: d.stopLevel,
+        newLimit: d.newLimit,
+        lastClose: closePrice,
+        direction: d.direction,
+        openLevel: d.level,
+        data: d,
+        dealId: d.dealId,
+        profit:null
+      }
+
+      await api.closePosition(d.dealId).then(async r =>{
+        console.log(util.inspect(r, false, null));
+        if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
+          console.log('Market is closed, cannot close position. Stopping.');
+          marketIsClosed = true;
+        }
+
+        closeAnalysis.profit = r.confirms.profit;
+
+        if(marketIsClosed == false){
+          var mailOptions = {
+            from: 'contact@milesholt.co.uk',
+            to: 'miles_holt@hotmail.com',
+            subject: 'Closed position. PROFIT. ' + m.epic,
+            text: JSON.stringify(closeAnalysis)
+          };
+          mailer.actions.sendMail(mailOptions);
+          log.actions.closeTradeLog(m.epic,closeAnalysis);
+
+        } else {
+          console.log('Market is closed, not closing or stopping anything, returning false.');
+        }
+
+        return false;
+
+      }).catch(e => {
+        error.handleErrors(e);
+      });
+
+    }
+
+  }
+
+
+
+}
+
+
+/*
+
 CHECK OPEN TRADES
 
 Checks for an open trade on a specific market.
@@ -451,12 +541,12 @@ actions.checkOpenTrade = async function(){
 
                       if(timediff >= 5){
 
-                        if(market.streamingPricesAvailable === true){
+                        //if(market.streamingPricesAvailable === true){
                             console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
                             await monitor.iniMonitor(dealId, dealRef, mon.epic);
-                        } else {
-                          console.log('Not monitoring: ' + mon.epic + ', market doesnt allow streaming prices.');
-                        }
+                        // } else {
+                        //   console.log('Not monitoring: ' + mon.epic + ', market doesnt allow streaming prices.');
+                        // }
 
                       } else {
                         console.log('time difference not greater than 5 minutes: ' + timediff);

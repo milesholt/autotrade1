@@ -311,6 +311,7 @@ isNoVolatileGap = true;
 noError = true;
 isLoopRunning = false;
 isStreamRunning = {};
+isStreamingAvailable = {};
 tradebeforeCheck = false;
 isWaveOveride = false;
 isMidTrendOveride = false;
