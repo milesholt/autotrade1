@@ -249,7 +249,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     console.log('isStreamingAvailable: ' + isStreamingAvailable[monitorData.epic]);
 
 
-                  if(isStreamingAvailable[epic] == true){
+                  if(markets[monitorData.epic].streamingPricesAvailable == true){
                     console.log('Streaming on this epic is available.');
                     if(isStreamRunning[monitorData.epic] == false){
 
