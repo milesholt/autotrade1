@@ -67,6 +67,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
   console.log('dealRef: ' + dealRef);
   console.log('dealId: ' + dealId);
   console.log('epic: ' + epic);
+  console.log('mid: ' + mid);
 
   //create global object otherwise variables arent picked up in foreach loops
   var arr = {};
