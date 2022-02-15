@@ -182,7 +182,7 @@ actions.checkNonStreamingTrades = async function(){
           if(mon.epic == market.epic) {
               m = mon;
           }
-        });
+        }
 
         if(m.direction == 'BUY' && lastCloseBid >= m.newLimit) market.closeprofit = true;
         if(m.direction == 'SELL' && lastCloseAsk <= m.newLimit) market.closeprofit = true;
