@@ -85,10 +85,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
 
   isStreamRunning[epic] = false;
 
-  console.log('epic: ' + markets[mid].epic + 'streamingPricesAvailable:' + markets[mid].streamingPricesAvailable);
+  console.log('epic: ' + arr.epic + 'streamingPricesAvailable:' + markets[arr.marketId].streamingPricesAvailable);
 
 
-  isStreamingAvailable[epic] = markets[mid].streamingPricesAvailable;
+  isStreamingAvailable[arr.epic] = markets[arr.marketId].streamingPricesAvailable;
 
   console.log(isStreamingAvailable);
 
