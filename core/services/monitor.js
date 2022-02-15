@@ -246,7 +246,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     console.log('Epic: ' + monitorData.epic);
                     console.log('isStreamRunning: ' + isStreamRunning[monitorData.epic]);
                     console.log('isSubscribed: ' + monitorData.subscribed);
-                    console.log('isStreamingAvailable: ' + isStreamingAvailable);
+                    console.log('isStreamingAvailable: ' + isStreamingAvailable[monitorData.epic]);
 
 
                   if(isStreamingAvailable[epic] == true){
@@ -918,7 +918,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir,attempt =
                     await log.actions.startMonitorLog(monitorData);
                   }
                 } else {
-                  console.log('Streaming on this epic is not available, not streaming.');
+                  console.log('Streaming on this epic ' + monitorData.epic + ' is not available, not streaming.');
                 }
 
           }
