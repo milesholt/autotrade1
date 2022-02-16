@@ -89,13 +89,16 @@ New method to use buy and sell lines as distances, and to then calculate size in
 actions.determineSize = async function(){
 
 
-  // let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
+  let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
   // stopDistance = Math.abs(cp - stopDistanceLevel);
   // limitDistance = Math.abs(cp - limitDistanceLevel);
 
   //By dividing the maximum stop amount by the distance, we can determine what the size should be
   size = Math.round(maxStop / stopDistance);
-  if(size == 0) size = 1;
+
+  let minSize = market.market.minimumSize.type == 'points' ?  market.market.minimumSize.value : lib.toNumber(cp * market.market.minimumSize.value);
+
+  if(size <= minSize) size = minSize;
 
   console.log('size: ' + size);
   //console.log(stopDistance);
@@ -232,7 +235,7 @@ actions.calculateOffset =  async function(offset){
   //if minimum stop is percentage, convert this to points
   console.log('minStopVal: ' + minStopVal);
 
-  if(market.minimumStop.type == 'percent') minStopVal = lib.toNumber(cp * minStopVal);
+  if(market.minimumStop.type == 'percentage') minStopVal = lib.toNumber(cp * minStopVal);
 
   let off = lib.toNumber(priceDiff4Hours * market[offset]);
 
