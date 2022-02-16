@@ -32,6 +32,17 @@ actions.iniMonitor = async function(dealId,dealRef,epic,mid){
   console.log(epic);
   console.log(mid);
 
+if(typeof mid == 'undefined'){
+  markets.forEach((market, i) => {
+    if(market.epic == epic) {
+      mid = market.id;
+      console.log('mid was undefined, found mid: ' + mid);
+    }
+  });
+}
+
+
+
   //streamLogDir = path.join(__dirname, '../data/streams/'+epic+'_stream.json');
   streamLogDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
   let data = '';

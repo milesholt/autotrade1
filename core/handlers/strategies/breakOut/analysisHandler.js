@@ -224,6 +224,10 @@ CALCULATE OFFSET FOR LIMIT OR STOP AREA
 actions.calculateOffset =  async function(offset){
 
   let minStop = market.minimumStop;
+
+  console.log('minimum stop info:');
+  console.log(market.minimumStop);
+
   let minStopVal = lib.toNumber(market.minimumStop.value); //by default type is assumed points
   //if minimum stop is percentage, convert this to points
   console.log('minStopVal: ' + minStopVal);

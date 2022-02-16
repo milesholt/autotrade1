@@ -31,9 +31,9 @@ async function exec(){
   // }).catch(e => console.log(e));
 
   //Login
-  // console.log('-------Logging in');
+  console.log('-------Logging in');
   await api.login(true).then(r => {
-    //console.log(util.inspect(r,false,null));
+    console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
 
   //Switch Default Account (Accountid -  102399016 Spread - Z3MUI3, CFD - Z3MUI2)
@@ -44,9 +44,9 @@ async function exec(){
 
   //Check account
   // console.log('-------Checking account');
-  await api.acctInfo().then(r => {
-    //console.log(util.inspect(r,false,null));
-  }).catch(e => console.log(e));
+  // await api.acctInfo().then(r => {
+  //   //console.log(util.inspect(r,false,null));
+  // }).catch(e => console.log(e));
 
   //App info (requests etc)
   // await api.apiInfo().then(r => {
@@ -76,10 +76,10 @@ async function exec(){
 
 
   // console.log('-------Searching for Epics');
- const searchterm = encodeURI('Silver');
-  await api.search(searchterm).then(r => {
-    console.log(r);
-  }).catch(e => console.log(e));
+ // const searchterm = encodeURI('Silver');
+ //  await api.search(searchterm).then(r => {
+ //    console.log(r);
+ //  }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = '2XMFTXH4WH644TP';
