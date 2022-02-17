@@ -125,8 +125,7 @@ actions.determineStopDistance = async function(){
 
   //Stop distance to be % of price diff, expanded from support/resistance line
   let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
-
-  let stopDistanceOffset = await actions.calculateOffset('stopDistancePerc');
+  let stopDistanceOffset = await actions.calculateOffset('stopDistancePerc',cp);
 
   if(trend == 'bullish') stopDistanceLevel = lib.toNumber(( cp - stopDistanceOffset), 'abs');
   if(trend == 'bearish') stopDistanceLevel = lib.toNumber(( cp + stopDistanceOffset), 'abs');
@@ -201,8 +200,9 @@ for stop - we add the difference
 actions.determineLimitDistance = async function(){
 
 //let limitDistanceOffset = lib.toNumber(priceDiff4Hours * market.limitDistancePerc);
-let limitDistanceOffset = await actions.calculateOffset('limitDistancePerc');
 let cp = trend == 'bullish' ? lastCloseAsk : lastCloseBid;
+let limitDistanceOffset = await actions.calculateOffset('limitDistancePerc',cp);
+
 
 //This calculation arrives to the same values as the logic above
 //It essentially does everything in one line, calculating the difference while adding/substracting the distance depending on whether it is limit or stop
@@ -233,7 +233,7 @@ CALCULATE OFFSET FOR LIMIT OR STOP AREA
 
 //Here we calculate the minimum stop and ensure the stop distance isnt less than this otherwise we get an ORDER LEVEL ERROR
 
-actions.calculateOffset =  async function(offset){
+actions.calculateOffset =  async function(offset,cp){
 
   let minStop = market.minimumStop;
 
