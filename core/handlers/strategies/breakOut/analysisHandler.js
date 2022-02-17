@@ -96,7 +96,7 @@ actions.determineSize = async function(){
   //By dividing the maximum stop amount by the distance, we can determine what the size should be
   size = Math.round(maxStop / stopDistance);
 
-  let minSize = market.market.minimumSize.type == 'points' ?  market.market.minimumSize.value : lib.toNumber(cp * market.market.minimumSize.value);
+  let minSize = market.minimumSize.type == 'points' ?  market.minimumSize.value : lib.toNumber(cp * market.minimumSize.value);
 
   if(size <= minSize) size = minSize;
 
