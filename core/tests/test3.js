@@ -76,10 +76,10 @@ async function exec(){
 
 
   // console.log('-------Searching for Epics');
- // const searchterm = encodeURI('Silver');
- //  await api.search(searchterm).then(r => {
- //    console.log(r);
- //  }).catch(e => console.log(e));
+ const searchterm = encodeURI('Corn');
+  await api.search(searchterm).then(r => {
+    console.log(r);
+  }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = '2XMFTXH4WH644TP';
