@@ -230,9 +230,9 @@ actions.determineTrade = async function(){
             console.log('new dir: ' + dir );
             console.log('current deal direction: ' + market.deal.direction);
             console.log('Closing open trade as loss, and beginning new one in other direction');
-            //go = true;
-            //markets[mid].closeloss = true;
-            //repairdelay = 20000; //wait 2 minutes for it to detect closeloss in stream, before starting a new one
+            go = true;
+            markets[mid].closeloss = true;
+            repairdelay = 20000; //wait 2 minutes for it to detect closeloss in stream, before starting a new one
           }
         }
 
