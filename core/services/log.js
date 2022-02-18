@@ -104,7 +104,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
-  let t = trades_tmp.length > 0 ? trades_tmp[trades_tmp.length-1] : trades_tmp[0];
+  let t = trades_tmp.length > 0 ? trades_tmp[trades_tmp.length-1] : lib.deepCopy(trade);
 
   console.log('trades for edpic: ' + epic);
   console.log(trades_tmp.length);
