@@ -244,7 +244,9 @@ actions.calculateOffset =  async function(offset,cp){
   //if minimum stop is percentage, convert this to points
   console.log('minStopVal: ' + minStopVal);
 
-  if(market.minimumStop.type == 'percentage') minStopVal = lib.toNumber(cp * minStopVal);
+
+
+  if(market.minimumStop.type == 'percentage') minStopVal = lib.toNumber(cp * (minStopVal/100));
 
   let off = lib.toNumber(priceDiff4Hours * market[offset]);
 
