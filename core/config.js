@@ -67,7 +67,7 @@ confirmationMarginOffset = 0.14;
 waveLimit = 4;
 wavePointPercLimit = 0.1;
 bumpgrouplimit = 4;
-rangeConfirmationLimit = 15;
+rangeConfirmationLimit = 16;
 
 stopDistanceFluctuationPerc = 0.1;
 recentlimit = 4;

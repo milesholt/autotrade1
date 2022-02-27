@@ -763,7 +763,11 @@ CHECK RANGE
 
 actions.checkRangeConfirmations = async function(){
   rangeConfirmations = rangeData.support.prices_idx.length;
-  if(rangeConfirmations >= rangeConfirmationLimit) checks.___rangeConfirmationsGreaterThanLimit.is = true;
+  if(rangeConfirmations > rangeConfirmationLimit) checks.___rangeConfirmationsGreaterThanLimit.is = true;
+  if(rangeConfirmations >= rangeConfirmationLimit && rangeData.bumps.length == 0) {
+    checks.___rangeConfirmationsGreaterThanLimit.is = true;
+    checks.___rangeConfirmationsGreaterThanLimit.is = 'Range confirmation is at least 16, but no bumps detected, allowing.';
+  }
 }
 
 
