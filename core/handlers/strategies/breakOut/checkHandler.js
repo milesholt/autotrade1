@@ -576,7 +576,7 @@ actions.checkOpenTrade = async function(){
     }).catch(async e => {
 
       console.log('Error finding position with dealId: ' + dealId);
-      console.log(e);
+      console.log(e.body.errorCode);
       console.log('Deal is logged, but no position found. Position must have closed, cleaning up...');
 
       //check and close positions
