@@ -369,7 +369,7 @@ actions.checkDeal = async function(){
         });
       }
     }
-  }).catch(e => console.log(e));
+  }).catch(e => console.log(e.body.errorCode));
 }
 
 /*
