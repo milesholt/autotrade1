@@ -396,6 +396,7 @@ actions.checkCloseTrade = async function(dealId){
              console.log('Position has been found and has been closed');
              dealId2 = activity.dealId;
              console.log('Updated dealId: ' + activity.dealId);
+             resolve(activity.dealId);
            }
          }
      });
