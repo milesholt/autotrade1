@@ -253,7 +253,7 @@ This is useful if monitoring stops because market is closed. But we need to rest
 
 */
 
-actions.checkDeal = async function(){
+actions.checkDeal = async function(mrk,ep,tmid){
   await api.showOpenPositions().then(async (positionsData) => {
     if(positionsData.positions.length){
 
@@ -285,7 +285,7 @@ actions.checkDeal = async function(){
       let dRef = null;
       let posDirection = null;
       for (const [i, td] of positionsData.positions.entries()) {
-        if(td.market.epic == market.epic){
+        if(td.market.epic == ep){
           dId = td.position.dealId;
           dRef = td.position.dealReference;
           posDirection = td.position.direction;
@@ -296,8 +296,8 @@ actions.checkDeal = async function(){
       }
 
       if(isPositionFound == true){
-        console.log('Found open deal on IG server with epic: ' + market.epic);
-        if(lib.isEmpty(market.deal)) {
+        console.log('Found open deal on IG server with epic: ' + ep);
+        if(lib.isEmpty(mrk.deal)) {
           console.log('Deal is empty on market data, re-adding...');
           console.log(dId);
 
@@ -305,7 +305,7 @@ actions.checkDeal = async function(){
           for (const [i, td2] of trades.entries()) {
             if(td2.dealId == dId){
               console.log('Found deal.');
-              market.deal = lib.deepCopy(td2);
+              mrk.deal = lib.deepCopy(td2);
               tradeFound = true;
             }
           }
@@ -313,38 +313,38 @@ actions.checkDeal = async function(){
           if(tradeFound == false){
             console.log('No deal found on tradedata, creating one');
             let t = lib.deepCopy(trade);
-            t.marketId = market.id;
-            t.epic = market.epic;
+            t.marketId = mrk.id;
+            t.epic = mrk.epic;
             t.startAnalysis = {};
             t.start_timestamp = moment.utc(startDate).valueOf();
             t.start_date = moment.utc(startDate).format('LLL');
             t.dealId = dId;
             t.dealRef = dRef;
             t.direction = posDirection;
-            market.deal = lib.deepCopy(t);
+            mrk.deal = lib.deepCopy(t);
           }
 
           //after adding missing deal, re-run checkOpenTrade
-          markets[mid] = market;
+          markets[mid] = mrk;
           await cloud.updateFile(markets,marketDataDir);
-          await actions.checkOpenTrade(market,market.epic,mid);
+          await actions.checkOpenTrade(mrk,ep,tmid);
 
         } else {
           console.log('Deal on market data is not empty. continue...')
         }
       } else {
-          console.log('No position found for epic: ' + market.epic);
+          console.log('No position found for epic: ' + ep);
           console.log('Checking on monitor if any position is logged.');
           //check monitor
           if(monitors.length > 0){
             monitors.forEach(async monitor => {
-              if(monitor.epic == epic){
+              if(monitor.epic == ep){
                 console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
                 await actions.checkCloseTrade(monitor.dealId,monitor.epic).then(async r => {
                   console.log('Closed position found on API. Closed position.');
                 }).catch(e => { console.log('No closed positions found.'); });
               } else {
-                console.log('No open position found, no deal on market or monitors, all fine.');
+                console.log('No open position found, no deal on market or monitors, all fine1.');
               }
             });
           }
@@ -358,13 +358,13 @@ actions.checkDeal = async function(){
       //check monitor
       if(monitors.length > 0){
         monitors.forEach(async monitor => {
-          if(monitor.epic == epic){
+          if(monitor.epic == ep){
             console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
             await actions.checkCloseTrade(monitor.dealId,monitor.epic).then(async r => {
               console.log('Closed position found on API. Closed position.');
             }).catch(e => { console.log('No closed positions found.'); });
           } else {
-            console.log('No open position found, no deal on market or monitors, all fine.');
+            console.log('No open position found, no deal on market or monitors, all fine2.');
           }
         });
       }
@@ -480,7 +480,7 @@ actions.checkOpenTrade = async function(mrk,ep,tmid){
     console.log('Deal on market data is empty. Checking for open positions.');
     console.log('market epic: ' + ep);
     //console.log(markets[mid].deal);
-    await actions.checkDeal();
+    await actions.checkDeal(mrk,ep,tmid);
   } else {
     //deal is in process for this market, get trade data
     console.log('Deal is logged, getting data:');
