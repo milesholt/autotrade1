@@ -340,7 +340,7 @@ actions.checkDeal = async function(){
             monitors.forEach(async monitor => {
               if(monitor.epic == epic){
                 console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
-                await actions.checkCloseTrade(monitor.dealId).then(async r => {
+                await actions.checkCloseTrade(monitor.dealId,monitor.epic).then(async r => {
                   console.log('Closed position found on API. Closed position.');
                 }).catch(e => { console.log('No closed positions found.'); });
               } else {
@@ -360,7 +360,7 @@ actions.checkDeal = async function(){
         monitors.forEach(async monitor => {
           if(monitor.epic == epic){
             console.log('Deal on market is empty, no open position found, but monitor has been found. Checking position status to close.');
-            await actions.checkCloseTrade(monitor.dealId).then(async r => {
+            await actions.checkCloseTrade(monitor.dealId,monitor.epic).then(async r => {
               console.log('Closed position found on API. Closed position.');
             }).catch(e => { console.log('No closed positions found.'); });
           } else {
@@ -379,7 +379,7 @@ CHECK CLOSED TRADE
 */
 
 
-actions.checkCloseTrade = async function(dealId){
+actions.checkCloseTrade = async function(dealId,epic){
   return new Promise(async (resolve, reject) => {
 
   //Get history
@@ -437,8 +437,8 @@ actions.checkCloseTrade = async function(dealId){
            if(accounts.length > 0){
              if(accounts[accounts.length-1].transactionDealId !== transaction.reference){
                console.log('position not properly closed our end, transactionDealId does not equal API transaction reference');
-               await log.closeTradeLog(market.epic, closeAnalysis);
-               await log.closeMonitorLog(market.epic);
+               await log.closeTradeLog(epic, closeAnalysis);
+               await log.closeMonitorLog(epic);
                resolve(true);
              } else {
                console.log('Position already closed, same transactionDealId: ' + transaction.reference);
@@ -446,8 +446,8 @@ actions.checkCloseTrade = async function(dealId){
              }
            } else {
              console.log('Accounts empty, no transaction to compare with. Closing anyway as new transaction.');
-             await log.closeTradeLog(market.epic, closeAnalysis);
-             await log.closeMonitorLog(market.epic);
+             await log.closeTradeLog(epic, closeAnalysis);
+             await log.closeMonitorLog(epic);
              resolve(true);
            }
 
@@ -590,7 +590,7 @@ actions.checkOpenTrade = async function(){
 
       //check and close positions
 
-      await actions.checkCloseTrade(dealId).then(async r => {
+      await actions.checkCloseTrade(dealId,epic).then(async r => {
         console.log('closed position found on API. Closed position.');
         market.deal = {};
       }).catch(e => {
