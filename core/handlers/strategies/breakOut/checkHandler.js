@@ -445,7 +445,10 @@ actions.checkCloseTrade = async function(dealId){
                reject(false);
              }
            } else {
-             console.log('Accounts empty, no transaction to compare with');
+             console.log('Accounts empty, no transaction to compare with. Closing anyway as new transaction.');
+             await log.closeTradeLog(market.epic, closeAnalysis);
+             await log.closeMonitorLog(market.epic);
+             resolve(true);
            }
 
 
