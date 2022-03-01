@@ -344,7 +344,7 @@ actions.checkDeal = async function(mrk,ep,tmid){
                   console.log('Closed position found on API. Closed position.');
                 }).catch(e => { console.log('No closed positions found.'); });
               } else {
-                console.log('No open position found, no deal on market or monitors, all fine1.');
+                //console.log('No open position found, no deal on market or monitors, all fine1.');
               }
             });
           }
@@ -364,7 +364,7 @@ actions.checkDeal = async function(mrk,ep,tmid){
               console.log('Closed position found on API. Closed position.');
             }).catch(e => { console.log('No closed positions found.'); });
           } else {
-            console.log('No open position found, no deal on market or monitors, all fine2.');
+            //console.log('No open position found, no deal on market or monitors, all fine2.');
           }
         });
       }
