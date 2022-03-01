@@ -70,7 +70,7 @@ actions.checkOpenTrades = async function(){
                epic = m.epic;
                const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
                trades = await cloud.getFile(tradeDataDir_tmp);
-               await actions.checkOpenTrade();
+               await actions.checkOpenTrade(market,epic,mid);
              }
 
            }
@@ -327,7 +327,7 @@ actions.checkDeal = async function(){
           //after adding missing deal, re-run checkOpenTrade
           markets[mid] = market;
           await cloud.updateFile(markets,marketDataDir);
-          await actions.checkOpenTrade();
+          await actions.checkOpenTrade(market,market.epic,mid);
 
         } else {
           console.log('Deal on market data is not empty. continue...')
@@ -473,19 +473,19 @@ CHECK OPEN TRADE
 
 */
 
-actions.checkOpenTrade = async function(){
-  console.log('-------------------------------------- BEGIN checking for open trades : ' + epic);
+actions.checkOpenTrade = async function(mrk,ep,tmid){
+  console.log('-------------------------------------- BEGIN checking for open trades : ' + ep);
   //console.log(market.deal);
-  if(lib.isEmpty(market.deal)) {
+  if(lib.isEmpty(mrk.deal)) {
     console.log('Deal on market data is empty. Checking for open positions.');
-    console.log('market epic: ' + epic);
+    console.log('market epic: ' + ep);
     //console.log(markets[mid].deal);
     await actions.checkDeal();
   } else {
     //deal is in process for this market, get trade data
     console.log('Deal is logged, getting data:');
-    dealId = market.deal.dealId;
-    dealRef = market.deal.dealRef;
+    dealId = mrk.deal.dealId;
+    dealRef = mrk.deal.dealRef;
     console.log('dealId: ' + dealId);
     console.log('dealRef: ' + dealRef );
 
@@ -526,7 +526,7 @@ actions.checkOpenTrade = async function(){
           //  monitors.forEach(mon => {
 
               //if monitoring
-              if(mon.epic == epic) {
+              if(mon.epic == ep) {
                 let tmid = mon.marketId;
                 isMonitoring = true;
                 let modtime = 0;
@@ -587,7 +587,7 @@ actions.checkOpenTrade = async function(){
 
             if(isMonitoring == false){
               console.log('Open position found, but not monitoring or no monitor found. Setting up monitor...');
-              await monitor.iniMonitor(dealId, dealRef, epic, mid);
+              await monitor.iniMonitor(dealId, dealRef, ep, tmid);
             }
 
           }
@@ -600,9 +600,9 @@ actions.checkOpenTrade = async function(){
 
       //check and close positions
 
-      await actions.checkCloseTrade(dealId,epic).then(async r => {
+      await actions.checkCloseTrade(dealId,ep).then(async r => {
         console.log('closed position found on API. Closed position.');
-        market.deal = {};
+        mrk.deal = {};
       }).catch(e => {
         console.log('No closed positions found.');
         console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);

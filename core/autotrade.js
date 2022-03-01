@@ -327,7 +327,7 @@ actions.exec = async function(){
   await cloudHandler.actions.getFiles();
 
   //Check for an open trade on this market
-  await checkHandler.actions.checkOpenTrade();
+  await checkHandler.actions.checkOpenTrade(market,epic,mid);
 
   //Handle price data
   await priceDataHandler.actions.getPriceData();
