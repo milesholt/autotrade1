@@ -527,6 +527,7 @@ actions.checkOpenTrade = async function(){
 
               //if monitoring
               if(mon.epic == epic) {
+                let tmid = mon.marketId;
                 isMonitoring = true;
                 let modtime = 0;
 
@@ -557,6 +558,7 @@ actions.checkOpenTrade = async function(){
                             // }
 
                           } else {
+
                             console.log('time difference not greater than 5 minutes: ' + timediff);
                             console.log('modtime: ' + modtime);
                             console.log('timeonly: ' + timeonly);
@@ -567,6 +569,14 @@ actions.checkOpenTrade = async function(){
                         console.log('Error reading stream data');
                       }
                     });
+
+                } else {
+
+                  if(markets[mon.marketId].streamingPricesAvailable == true){
+                    console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
+                    await monitor.iniMonitor(dealId, dealRef, mon.epic, mon.marketId);
+                  }
+
 
                 }
               } else {
