@@ -93,7 +93,7 @@ actions.checkMarketStatus = async function(epic){
     let epics = [epic];
     await api.epicDetails(epics).then(r => {
         resolve(r.marketDetails[0].snapshot.marketStatus);
-      }).catch(e => console.log(e));
+      }).catch(e => console.log(e.body.errorCode));
   });
 }
 
@@ -442,6 +442,8 @@ actions.checkCloseTrade = async function(dealId,epic){
                resolve(true);
              } else {
                console.log('Position already closed, same transactionDealId: ' + transaction.reference);
+               //just in case, close the monitor
+               await log.closeMonitorLog(epic);
                reject(false);
              }
            } else {
@@ -814,7 +816,7 @@ actions.checkMarginAvailability = async function(){
         availableLoss = lib.toNumber((available / markets.length) * percRiskLoss);
       }
     });
-  }).catch(e => console.log(e));
+  }).catch(e => console.log(e.body.errorCode));
 }
 
 /*
