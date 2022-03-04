@@ -444,6 +444,8 @@ actions.checkCloseTrade = async function(dealId,epic){
                console.log('Position already closed, same transactionDealId: ' + transaction.reference);
                //just in case, close the monitor
                await log.closeMonitorLog(epic);
+               //let streamDir = 'core/data/'+epic+'/'+epic+'_streamdata.json';
+               //github.actions.updateFile({}, streamDir);
                reject(false);
              }
            } else {
