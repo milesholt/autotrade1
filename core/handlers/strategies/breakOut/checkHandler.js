@@ -9,6 +9,7 @@ var log;
 var moment;
 var fs;
 var mailer;
+var trade;
 
 /*
 
@@ -28,6 +29,7 @@ actions.require = async function(){
   mailer = core.mailer.actions;
   moment = core.moment;
   fs = core.fs;
+  trade = core.tradeHandler.actions;
 }
 
 /*
@@ -187,54 +189,7 @@ actions.checkNonStreamingTrades = async function(){
         if(m.direction == 'BUY' && lastCloseBid >= m.newLimit) market.closeprofit = true;
         if(m.direction == 'SELL' && lastCloseAsk <= m.newLimit) market.closeprofit = true;
 
-        if(market.closeprofit === true){
-          //close position
-          console.log('Non streaming position limit reached, closing position.');
-
-          let closeAnalysis = {
-            timestamp: Date.now(),
-            date: moment.utc().format('LLL'),
-            limitLevel: m.limitLevel,
-            stopLevel: m.stopLevel,
-            newLimit: m.newLimit,
-            lastClose: closePrice,
-            direction: m.direction,
-            openLevel: m.level,
-            data: m,
-            dealId: m.dealId,
-            profit:null
-          }
-
-          await api.closePosition(m.dealId).then(async r =>{
-            console.log(util.inspect(r, false, null));
-            if(r.confirms.dealStatus == 'REJECTED' && r.confirms.reason == 'MARKET_CLOSED_WITH_EDITS'){
-              console.log('Market is closed, cannot close position. Stopping.');
-              marketIsClosed = true;
-            }
-
-            closeAnalysis.profit = r.confirms.profit;
-
-            if(marketIsClosed == false){
-              var mailOptions = {
-                from: 'contact@milesholt.co.uk',
-                to: 'miles_holt@hotmail.com',
-                subject: 'Closed position. PROFIT. ' + m.epic,
-                text: JSON.stringify(closeAnalysis)
-              };
-              mailer.sendMail(mailOptions);
-              log.closeTradeLog(m.epic,closeAnalysis);
-
-            } else {
-              console.log('Market is closed, not closing or stopping anything, returning false.');
-            }
-
-            return false;
-
-          }).catch(e => {
-            error.handleErrors(e);
-          });
-
-        }
+        trade.closeNonStreamingTrade(m,market);
 
       }
 
