@@ -471,7 +471,7 @@ module.exports = {
   notificationHandler:notificationHandler,
   analysisHandler:analysisHandler,
   errorHandler:errorHandler,
-
+  tradeHandler:tradeHandler
 }
 
 
