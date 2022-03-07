@@ -464,7 +464,7 @@ actions.determineNearProfit = async function(){
           markets[x.marketId].closeprofit = true;
           if(markets[x.marketId].streamingPricesAvailable == false){
               console.log('streamingPrices is not available, closing without streaming');
-              actions.closeNonStreamingTrade(x,markets[x.marketId]);
+              actions.closeNonStreamingTrade(x,markets[x.marketId],closePrice);
           }
 
       } else {
@@ -486,7 +486,7 @@ actions.determineNearProfit = async function(){
 
 /* CLOSE NON TRADING STREAM */
 
-actions.closeNonStreamingTrade = async function(m,mrkt){
+actions.closeNonStreamingTrade = async function(m,mrkt,closePrice){
 console.log('market closeprofit: ' + mrkt.closeprofit);
 if(mrkt.closeprofit == true){
   //close position

@@ -186,16 +186,18 @@ actions.checkNonStreamingTrades = async function(){
           }
         }
 
+        let closePrice = m.direction == 'BUY' ? lastCloseBid : lastCloseAsk;
+
         if(m.direction == 'BUY' && lastCloseBid >= m.newLimit) market.closeprofit = true;
         if(m.direction == 'SELL' && lastCloseAsk <= m.newLimit) market.closeprofit = true;
 
         console.log('checkingNonStreamingTrade for epic: ' + market.epic);
         console.log('lastCloseBid: ' + lastCloseBid);
         console.log('lastCloseAsk: ' + lastCloseAsk);
-        console.log('newLimit: ' + m.newLimit); 
+        console.log('newLimit: ' + m.newLimit);
         console.log('market closeprofit: ' + market.closeprofit);
 
-        trade.closeNonStreamingTrade(m,market);
+        trade.closeNonStreamingTrade(m,market,closePrice);
 
       }
 
