@@ -460,9 +460,10 @@ actions.determineNearProfit = async function(){
       if(isProfit){
 
           //Close as profit
-          console.log('Near Profit check: closing trade, is near profit and trend is changing.')
+          console.log('Near Profit check: closing trade, is near profit and trend is changing: ' + markets[x.marketId].epic + 'mid: ' + x.marketId)
           markets[x.marketId].closeprofit = true;
           if(markets[x.marketId].streamingPricesAvailable == false){
+              console.log('streamingPrices is not available, closing without streaming');
               actions.closeNonStreamingTrade(x,market);
           }
 
@@ -486,6 +487,7 @@ actions.determineNearProfit = async function(){
 /* CLOSE NON TRADING STREAM */
 
 actions.closeNonStreamingTrade = async function(m,market){
+console.log('market closeprofit: ' + market.closeprofit);
 if(market.closeprofit === true){
   //close position
   console.log('Non streaming position limit reached, closing position.');
