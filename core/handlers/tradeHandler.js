@@ -464,7 +464,7 @@ actions.determineNearProfit = async function(){
           markets[x.marketId].closeprofit = true;
           if(markets[x.marketId].streamingPricesAvailable == false){
               console.log('streamingPrices is not available, closing without streaming');
-              actions.closeNonStreamingTrade(x,market);
+              actions.closeNonStreamingTrade(x,markets[x.marketId]);
           }
 
       } else {
@@ -486,9 +486,9 @@ actions.determineNearProfit = async function(){
 
 /* CLOSE NON TRADING STREAM */
 
-actions.closeNonStreamingTrade = async function(m,market){
-console.log('market closeprofit: ' + market.closeprofit);
-if(market.closeprofit == true){
+actions.closeNonStreamingTrade = async function(m,mrkt){
+console.log('market closeprofit: ' + mrkt.closeprofit);
+if(mrkt.closeprofit == true){
   //close position
   console.log('Non streaming position limit reached, closing position.');
 
