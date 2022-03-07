@@ -488,7 +488,7 @@ actions.determineNearProfit = async function(){
 
 actions.closeNonStreamingTrade = async function(m,market){
 console.log('market closeprofit: ' + market.closeprofit);
-if(market.closeprofit === true){
+if(market.closeprofit == true){
   //close position
   console.log('Non streaming position limit reached, closing position.');
 
