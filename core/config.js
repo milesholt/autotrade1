@@ -25,7 +25,7 @@ checks = {
   '___nolastPriceVolatile':{'is':true, 'enabled':true},
   '___rangePriceDataGood':{'is':true, 'enabled':true}
 }
-
+ 
 
 /*
 

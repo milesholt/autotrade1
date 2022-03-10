@@ -753,8 +753,8 @@ Check if there is any missing price data within the range area over a certain li
 */
 
 
-actions.checkRangePriceData = async function(){  
-  //Set limit to be at least 18 price bars
+actions.checkRangePriceData = async function(){
+  //Set limit to be at least 18 price bars 
   if(pricedata2.support.length >= minimumRangePriceDataLength) checks.___rangePriceDataGood.is = true;
 }
 
