@@ -477,7 +477,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                 if(dir == 'SELL' && closePrice >= x.newStop) markets[x.marketId].closeloss = true;
 
 
-                                let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
+                                //let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 let foundMonitor =  false;
                                 let posfound = false;
 
