@@ -853,16 +853,20 @@ actions.finalChecks = async function(){
   //Overide trend4hours first (before overiding other trends) if mid4hourtrend is changing direction
   //if midtrend4Hours is not ranging, and opposing direction to 4hour trend, means there is a change of direction, this trend should overide 4hourtrend
 
+  //is mid trend not ranging
+  if((midtrend4Hours !== 'ranging')){
+    //check going in opposite direction to previous trend and current trend4hours is ranging, suggesting change in direction
+    if((midtrend4Hours !== prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
+      isMidTrendOveride = true;
+      trend4Hours = midtrend4Hours;
+    }
+  }
 
-  //first we need to establish previous trend of 4 hours, even if it is now ranging, we just need to know whether firstClose is higher or lower without rangelimit
+  //If 4hour trend not ranging, update previous trend of 4 hours, even if it is now ranging, we just need to know whether firstClose is higher or lower without rangelimit
   //NOTE: We have this set in determine4HourTrend, undecided if to remove one or the either
   if((first4HoursClose > last4HoursClose)) prevtrend4Hours = 'bearish';
   if((last4HoursClose > first4HoursClose)) prevtrend4Hours = 'bullish';
 
-  if((midtrend4Hours !== 'ranging')){
-    isMidTrendOveride = true;
-    trend4Hours = midtrend4Hours;
-  }
 
   let trendBenchmark = ((trend == 'ranging' || (trend == trend4Hours)) && trend4Hours !== 'ranging');
 
