@@ -359,6 +359,9 @@ actions.exec = async function(){
     //Check range confirmations
     await checkHandler.actions.checkRangeConfirmations();
 
+    //Check range price data length
+    await checkHandler.actions.checkRangePriceData();
+
     //Set price data variables
     await priceDataHandler.actions.setPriceData();
 

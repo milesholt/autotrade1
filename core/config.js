@@ -22,7 +22,8 @@ checks = {
   '___beforeRangeSameAs4HourTrend':{'is':false, 'enabled':false},
   '___recentTrendSameAs4HourTrend':{'is':false, 'enabled':true},
   '___noBumpVolatility':{'is':true, 'enabled':true},
-  '___nolastPriceVolatile':{'is':true, 'enabled':true}
+  '___nolastPriceVolatile':{'is':true, 'enabled':true},
+  '___rangePriceDataGood':{'is':true, 'enabled':true}
 }
 
 
@@ -69,6 +70,7 @@ waveLimit = 4;
 wavePointPercLimit = 0.1;
 bumpgrouplimit = 4;
 rangeConfirmationLimit = 16;
+minimumRangePriceDataLength = 18;
 
 stopDistanceFluctuationPerc = 0.1;
 recentlimit = 4;

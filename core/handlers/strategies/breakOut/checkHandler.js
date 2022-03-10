@@ -746,6 +746,20 @@ actions.checkLines = async function(){
 
 /*
 
+CHECK RANGE PRICE DATA
+
+Check if there is any missing price data within the range area over a certain limit
+
+*/
+
+
+actions.checkRangePriceData = async function(){  
+  //Set limit to be at least 18 price bars
+  if(pricedata2.support.length >= minimumRangePriceDataLength) checks.___rangePriceDataGood.is = true;
+}
+
+/*
+
 CHECK RANGE
 
 */
