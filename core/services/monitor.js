@@ -163,7 +163,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                     //monitorData.newLimit = parseFloat(monitorData.newLimit.toFixed(2).slice(0, -1));
 
                     //Update - Now remove any decimal place
-                    monitorData.newLimit = Math.round(monitorData.newLimit);
+                    //monitorData.newLimit = Math.round(monitorData.newLimit);
+
+                    //Update2 - Remove decimal places, but dont round
+                    monitorData.newLimit = parseFloat(monitorData.newLimit.toString().split('.')[0]);
 
                     //Add time when monitor of trade is created
                     monitorData.createdTimeStamp =  Date.now();
@@ -461,13 +464,17 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                   //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newLimit + ' newStop: ' + x.newStop);
 
                                 //our settings
+                                let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
+                                //remove decimal places as we did with newLimit
+                                closePrice = parseFloat(closePrice.toString().split('.')[0]);
+
                                 //use new limit level
-                                if(dir == 'BUY' && d.closePrice.bid >= x.newLimit) markets[x.marketId].closeprofit = true;
-                                if(dir == 'SELL' && d.closePrice.ask <= x.newLimit) markets[x.marketId].closeprofit = true;
+                                if(dir == 'BUY' && closePrice >= x.newLimit) markets[x.marketId].closeprofit = true;
+                                if(dir == 'SELL' && closePrice <= x.newLimit) markets[x.marketId].closeprofit = true;
 
                                 //use new stop level
-                                if(dir == 'BUY' && d.closePrice.bid <= x.newStop) markets[x.marketId].closeloss = true;
-                                if(dir == 'SELL' && d.closePrice.ask >= x.newStop) markets[x.marketId].closeloss = true;
+                                if(dir == 'BUY' && closePrice <= x.newStop) markets[x.marketId].closeloss = true;
+                                if(dir == 'SELL' && closePrice >= x.newStop) markets[x.marketId].closeloss = true;
 
 
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
