@@ -412,6 +412,7 @@ FINAL ANALYSIS
       'recentMovementValueDiffPerc': movementValueDiffPerc + '%',
       //'isLastDiffGreaterThanMomentumLines': check1,
       'isRangeAreaGood':checks.___rangeAreaGood.is,
+      //'isRangeNotTrend':checks.___rangeNotTrend.is,
       'isRangeConfirmationsGreaterThanLimit': checks.___rangeConfirmationsGreaterThanLimit.is,
       'isRecentRangeOverLimit': recentrange.length >= recentrangelimit,
       'recentRangeIndex20': recentrange.indexOf(20),

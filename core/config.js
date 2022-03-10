@@ -13,6 +13,7 @@ checks = {
   '___beforeRangeSameAsTrend': {'is':false, 'enabled':false}, //check7
   '___rangeConfirmationsGreaterThanLimit': {'is':false, 'enabled':true}, //check2
   '___rangeAreaGood': {'is':false, 'enabled':true}, //check0
+  '___rangeNotTrend': {'is':false, 'enabled':false},
   '___enoughWaves': {'is':false, 'enabled':true}, //check15
   '___notTradedBefore': {'is':false, 'enabled':true}, //check12
   '___enoughConfirmations': {'is':false, 'enabled':true},

@@ -738,6 +738,9 @@ CHECK LINES
 actions.checkLines = async function(){
   lineDistance = parseFloat(Math.abs(resistanceline - supportline).toFixed(2));
   //console.log('lineDistance: ' + lineDistance);
+  //if lineDistance is greater than minimum distance (line distance limit)
+  //But less than maximum (range limit)
+  //And resitance is greater than support
   if((lineDistance >= linedistancelimit && lineDistance <= rangelimit) && (resistanceline > supportline)) checks.___rangeAreaGood.is = true;
 }
 
@@ -754,6 +757,12 @@ actions.checkRangeConfirmations = async function(){
     checks.___rangeConfirmationsGreaterThanLimit.is = true;
     checks.___rangeConfirmationsGreaterThanLimit.is = 'Range confirmation is at least 16, but no bumps detected, allowing.';
   }
+}
+
+actions.checkRangeNotTrend = async function(){
+  // let isRangeTrend = (Math.abs(firstClose - lastClose) / priceDiff4Hours)
+  // if()
+  //checks.___rangeNotTrend.is = true;
 }
 
 
