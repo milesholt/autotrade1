@@ -361,6 +361,7 @@ FINAL ANALYSIS
   actions.finalAnalysis = async function(){
     analysis = {
       'pricedata':pricedata,
+      'rangePriceDataLength':pricedata2.support.length,
       'firstClose': firstClose,
       'beforeRangeFirstClose': beforeRangeFirstClose,
       'firstDiff': firstDiff,
