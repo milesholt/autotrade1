@@ -25,7 +25,7 @@ checks = {
   '___nolastPriceVolatile':{'is':true, 'enabled':true},
   '___rangePriceDataGood':{'is':true, 'enabled':true}
 }
- 
+
 
 /*
 
@@ -46,7 +46,7 @@ check15 - enoughWaves
 
 //Main limits
 momentLimitPerc = 0.1;
-rangeLimitPerc = 0.45;
+rangeLimitPerc = 0.35;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
@@ -66,10 +66,10 @@ midtrend4HourLimitPerc = 30;
 breakoutMaxMargin = 0.2;
 confirmationPointPercLimit = 0.04;
 confirmationMarginOffset = 0.14;
-waveLimit = 4;
+waveLimit = 5;
 wavePointPercLimit = 0.1;
 bumpgrouplimit = 4;
-rangeConfirmationLimit = 16;
+rangeConfirmationLimit = 18;
 minimumRangePriceDataLength = 18;
 
 stopDistanceFluctuationPerc = 0.1;
@@ -137,16 +137,16 @@ size = 1;
 
 //Main parameters
 markets = [
-   {'id':0, 'alias': 'Corn', 'epic': 'CC.D.C.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
-   {'id':1, 'alias': 'MXNJPY', 'epic': 'CS.D.MXNJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4,'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 10, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
-   {"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedBefore" : false, "stopDistancePerc" : 0.4, 'limitDistancePerc' : 0.4, "minimumStop" : {"value": null, "type": "points"},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [21,23], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
-   {'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [22,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':5, 'alias': 'Spot Silver', 'epic': 'CS.D.USCSI.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 3, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':6, 'alias': 'Rolls Royce', 'epic': 'KA.D.RR.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [16,8], 'expiry': 'DFB', 'streamingPricesAvailable': false },
-   {'id':7, 'alias': 'NOKJPY', 'epic': 'CS.D.NOKJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':8, 'alias': 'Alto Ingredients', 'epic': 'UC.D.PEIXUS.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [20,14], 'expiry': 'DFB', 'streamingPricesAvailable': false },
-   {'id':9, 'alias': 'LLoyds Banking Group', 'epic': 'KA.D.LLOY.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 50, 'marketClosed' : [16,8], 'expiry': 'DFB', 'streamingPricesAvailable': false }
+   {'id':0, 'alias': 'Corn', 'epic': 'CC.D.C.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
+   {'id':1, 'alias': 'MXNJPY', 'epic': 'CS.D.MXNJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8,'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 10, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
+   {"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedBefore" : false, "stopDistancePerc" : 0.4, 'limitDistancePerc' : 0.8, "minimumStop" : {"value": null, "type": "points"},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [21,23], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
+   {'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+   {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [22,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+   {'id':5, 'alias': 'Spot Silver', 'epic': 'CS.D.USCSI.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 3, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+   {'id':6, 'alias': 'Rolls Royce', 'epic': 'KA.D.RR.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [16,8], 'expiry': 'DFB', 'streamingPricesAvailable': false },
+   {'id':7, 'alias': 'NOKJPY', 'epic': 'CS.D.NOKJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+   {'id':8, 'alias': 'Alto Ingredients', 'epic': 'UC.D.PEIXUS.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [20,14], 'expiry': 'DFB', 'streamingPricesAvailable': false },
+   {'id':9, 'alias': 'LLoyds Banking Group', 'epic': 'KA.D.LLOY.DAILY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.8, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 50, 'marketClosed' : [16,8], 'expiry': 'DFB', 'streamingPricesAvailable': false }
  ];
 
 
