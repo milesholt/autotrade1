@@ -754,7 +754,7 @@ Check if there is any missing price data within the range area over a certain li
 
 
 actions.checkRangePriceData = async function(){
-  //Set limit to be at least 18 price bars 
+  //Set limit to be at least 18 price bars
   if(pricedata2.support.length >= minimumRangePriceDataLength) checks.___rangePriceDataGood.is = true;
 }
 
@@ -870,7 +870,8 @@ actions.finalChecks = async function(){
   //is mid trend not ranging
   if((midtrend4Hours !== 'ranging')){
     //check going in opposite direction to previous trend and current trend4hours is ranging, suggesting change in direction
-    if((midtrend4Hours !== prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
+    //if((midtrend4Hours !== prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
+    if((prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
       isMidTrendOveride = true;
       trend4Hours = midtrend4Hours;
     }
