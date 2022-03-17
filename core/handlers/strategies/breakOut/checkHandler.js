@@ -871,7 +871,10 @@ actions.finalChecks = async function(){
   if((midtrend4Hours !== 'ranging')){
     //check going in opposite direction to previous trend and current trend4hours is ranging, suggesting change in direction
     //if((midtrend4Hours !== prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
-    if((prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
+
+    //UPDATE - Changing direction using midtrend is too unpredictable, so will use it to overide ranging if previously going in the same direction, rather than change of direction
+    if((midtrend4Hours == prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){  
+    //if((prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
       isMidTrendOveride = true;
       trend4Hours = midtrend4Hours;
     }
