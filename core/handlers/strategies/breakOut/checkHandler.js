@@ -873,7 +873,7 @@ actions.finalChecks = async function(){
     //if((midtrend4Hours !== prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
 
     //UPDATE - Changing direction using midtrend is too unpredictable, so will use it to overide ranging if previously going in the same direction, rather than change of direction
-    if((midtrend4Hours == prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){  
+    if((midtrend4Hours == prevtrend4Hours) && (prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
     //if((prevtrend4Hours !== 'ranging') && (trend4Hours == 'ranging')){
       isMidTrendOveride = true;
       trend4Hours = midtrend4Hours;
@@ -1076,10 +1076,10 @@ actions.finalChecks = async function(){
   if(isMidTrendOveride === true){
     //if we are going by midtrend, we will ignore confirmations as there wont be enough
     checks.___enoughConfirmations.is = true;
-    checks.___enoughConfirmations.note = 'Overidden by mid4hourtrend, trend is changing direction';
+    checks.___enoughConfirmations.note = 'Overidden by mid4hourtrend, sudden trend movement';
     //as we using mid trend, we will ignore if the 4hourtrend is ranging
     checks.___4HoursNotRanging.is = true;
-    checks.___4HoursNotRanging.note = 'Overidden by mid4hourtrend, trend is changing direction';
+    checks.___4HoursNotRanging.note = 'Overidden by mid4hourtrend, sudden trend movement';
   }
 
   //collate which checks are false and true, any which are false prevents deal being made
