@@ -457,7 +457,14 @@ actions.determineNearProfit = async function(){
       //If current price is still in profit
       let isProfit = dir == 'BUY' ? (lastCloseBid - x.level) > 0 : (x.level -  lastCloseAsk) > 0;
 
-      if(isProfit){
+      //is near profit
+      let isNewProfit = false;
+      let closeDiff = Math.abs(x.limitLevel - x.closePrice);
+      let openDiff = Math.abs(x.limitLevel - x.level);
+      let profitPerc = (closeDiff / openDiff) * 100;
+      if( profitPerc > 75 && profitPerc < 100 ) isNearProfit = true;
+
+      if(isProfit && isNearProfit){
 
           //Close as profit
           console.log('Near Profit check: closing trade, is near profit and trend is changing: ' + markets[x.marketId].epic + 'mid: ' + x.marketId)
