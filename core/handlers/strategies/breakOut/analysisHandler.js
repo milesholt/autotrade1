@@ -104,8 +104,8 @@ actions.determineSize = async function(){
 
   let profitLoss = (stopDistance * size);
 
-  if(profitLoss >= (maxStop*2)){
-    console.log('profitLoss: ' + profitLoss + ' is greater than double maxStop: ' + (maxStop*2));
+  if(profitLoss >= (maxStop)){
+    console.log('profitLoss: ' + profitLoss + ' is greater than maxStop: ' + (maxStop));
     console.log('Consider using different market');
     isDeal = false;
   }
