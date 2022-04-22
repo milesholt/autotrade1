@@ -467,7 +467,19 @@ actions.determineNearProfit = async function(){
       if(isProfit && isNearProfit){
 
           //Close as profit
-          console.log('Near Profit check: closing trade, is near profit ( ' + profitPerc +'% ) and trend is changing: ' + markets[x.marketId].epic + 'mid: ' + x.marketId)
+
+          console.log('Near Profit check: closing trade, is near profit ( ' + profitPerc +'% ) and trend is changing: ' + markets[x.marketId].epic + 'mid: ' + x.marketId);
+          let nearProfitData = {
+            'preClosePrice': preClosePrice,
+            'checkPriceDiff' : checkPriceDiff,
+            'checkPriceDiffPerc': checkPriceDiffPerc,
+            'profitPerc' : profitPerc,
+            'closeDiff' :closeDiff,
+            'openDiff': openDiff,
+            'x':x
+          }
+          console.log(util.inspect(nearProfitData, false, null));
+
           markets[x.marketId].closeprofit = true;
           if(markets[x.marketId].streamingPricesAvailable == false){
               console.log('streamingPrices is not available, closing without streaming');
