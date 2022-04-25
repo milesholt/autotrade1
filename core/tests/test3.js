@@ -73,6 +73,10 @@ async function exec(){
   //Lloyds Bank PLC - KA.D.LLOY.DAILY.IP
   //Alto Ingredients - UC.D.PEIXUS.DAILY.IP
   //Spot Silver - CS.D.USCSI.TODAY.IP
+  
+  //Lead -  CS.D.LEAD.TODAY.IP
+  //Soy Beans - CC.D.BO.USS.IP
+  //NZD/USD - CS.D.NZDUSD.TODAY.IP
 
 
   // console.log('-------Searching for Epics');
