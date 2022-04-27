@@ -437,16 +437,16 @@ actions.determineNearProfit = async function(){
   let preClosePrice = dir == 'BUY' ? pricedata3.support[pricedata3.support.length-hourspassed].closeBid : pricedata3.support[pricedata3.support.length-hourspassed].closeAsk;
 
   //Caluclate if preClosePrice is within nearoffset
-  let isNearProfit = dir == 'BUY' ? preClosePrice >= nearoffset : preClosePrice <= nearoffset
+  let isNearProfit = dir == 'BUY' ? preClosePrice >= nearoffset : preClosePrice <= nearoffset;
 
   //if preClosePrice was within offset and near profit
   if(isNearProfit) {
 
     //First, get difference of current closePrice with preClosePrice
-    let checkPriceDiff = Math.abs(preClosePrice - closePrice);
+    let checkPriceDiff = lib.toNumber((preClosePrice - closePrice),'abs');
 
     //Get percentage of this difference
-    let checkPriceDiffPerc = parseFloat(Number(priceDiff / checkPriceDiff * 100).toFixed(2));
+    let checkPriceDiffPerc = lib.toNumber(priceDiff / checkPriceDiff * 100);
 
     //Determine if this difference is negative or in opposite direction to hitting profit
     let isOpposing = dir == 'BUY' ?  (closePrice - preClosePrice) < 0 : (preClosePrice - closePrice) < 0;
@@ -459,9 +459,9 @@ actions.determineNearProfit = async function(){
 
       //is near profit
       let isNewProfit = false;
-      let closeDiff = Math.abs(x.limitLevel - closePrice);
-      let openDiff = Math.abs(x.limitLevel - x.level);
-      let profitPerc = (closeDiff / openDiff) * 100;
+      let closeDiff = lib.toNumber((x.limitLevel - closePrice),'abs)';
+      let openDiff = lib.toNumber((x.limitLevel - x.level),'abs');
+      let profitPerc = lib.toNumber((closeDiff / openDiff) * 100);
       if( profitPerc > 70 && profitPerc < 100 ) isNearProfit = true;
 
       if(isProfit && isNearProfit){
@@ -471,6 +471,9 @@ actions.determineNearProfit = async function(){
           console.log('Near Profit check: closing trade, is near profit ( ' + profitPerc +'% ) and trend is changing: ' + markets[x.marketId].epic + 'mid: ' + x.marketId);
           let nearProfitData = {
             'preClosePrice': preClosePrice,
+            'nearoffset': nearoffset + '(5% of new limit)',
+            'newLimit': newLimit,
+            'direction': dir,
             'checkPriceDiff' : checkPriceDiff,
             'checkPriceDiffPerc': checkPriceDiffPerc,
             'profitPerc' : profitPerc,
