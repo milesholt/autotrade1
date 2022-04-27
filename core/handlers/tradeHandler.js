@@ -446,7 +446,7 @@ actions.determineNearProfit = async function(){
     let checkPriceDiff = lib.toNumber((preClosePrice - closePrice),'abs');
 
     //Get percentage of this difference
-    let checkPriceDiffPerc = lib.toNumber(priceDiff / checkPriceDiff * 100);
+    let checkPriceDiffPerc = lib.toNumber(checkPriceDiff / priceDiff * 100);
 
     //Determine if this difference is negative or in opposite direction to hitting profit
     let isOpposing = dir == 'BUY' ?  (closePrice - preClosePrice) < 0 : (preClosePrice - closePrice) < 0;
