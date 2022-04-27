@@ -459,7 +459,7 @@ actions.determineNearProfit = async function(){
 
       //is near profit
       let isNewProfit = false;
-      let closeDiff = lib.toNumber((x.limitLevel - closePrice),'abs)';
+      let closeDiff = lib.toNumber((x.limitLevel - closePrice),'abs');
       let openDiff = lib.toNumber((x.limitLevel - x.level),'abs');
       let profitPerc = lib.toNumber((closeDiff / openDiff) * 100);
       if( profitPerc > 70 && profitPerc < 100 ) isNearProfit = true;
