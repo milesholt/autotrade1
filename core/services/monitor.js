@@ -53,7 +53,7 @@ if(typeof mid == 'undefined'){
   console.log(process.env.HOME);
   console.log(__dirname);
 
-  let day = localTime.format('ddd');
+  let day = moment.utc().local().format('ddd');
   if( day == 'Sat' || day == 'Sun'){
     console.log('Should be the weekend. Day is: ' + day);
     console.log('Not beginning monitor because it is the weekend and markets will be closed.');

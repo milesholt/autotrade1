@@ -142,23 +142,23 @@ actions.setDefaults = async function(){
   confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
 
   //Sort local time
-  var date = moment.utc().format('YYYY-MM-DD HH:mm:ss');
-  var stillUtc = moment.utc(date).toDate();
-  //var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
-  localTime = moment(stillUtc).local();
+  // var date = moment.utc().format('YYYY-MM-DD HH:mm:ss');
+  // var stillUtc = moment.utc(date).toDate();
+  // //var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+  // var local = moment(stillUtc).local();
 
   //Date variables
   resolution = 'HOUR';
-  timestamp  = localTime.format('LLL');
-  today = localTime.format('YYYY-MM-DD');
-  fulldate = localTime.format('LLL');
-  date1 = localTime.add(1, 'days').format('YYYY-MM-DD');
-  date2 = localTime.subtract(3, 'days').format('YYYY-MM-DD');
-  date_1week = localTime.subtract(7, 'days').format('YYYY-MM-DD');
+  timestamp  = moment.utc().local().format('LLL');
+  today = moment.utc().local().format('YYYY-MM-DD');
+  fulldate = moment.utc().local().format('LLL');
+  date1 = moment.utc().local().add(1, 'days').format('YYYY-MM-DD');
+  date2 = moment.utc().local().subtract(3, 'days').format('YYYY-MM-DD');
+  date_1week = moment.utc().local().subtract(7, 'days').format('YYYY-MM-DD');
 
-  currenthour = localTime.format("HH");
-  lasthour = localTime.subtract(1, 'hours').format("HH");
-  last4hours = localTime.subtract(4, 'hours').format("HH");
+  currenthour = moment.utc().local().format("HH");
+  lasthour = moment.utc().local().subtract(1, 'hours').format("HH");
+  last4hours = moment.utc().local().subtract(4, 'hours').format("HH");
 
   //3 day date range
   //from = date2+'%20'+'00:00:00';
@@ -167,11 +167,11 @@ actions.setDefaults = async function(){
   //from2 = today+'%20'+lasthour+':00:00';
   //to2 = today+'%20'+currenthour+':00:00';
 
-  from_1week = localTime.subtract(7, 'days').format('YYYY-MM-DD%2000:00:00');
-  from_3days = localTime.subtract(3, 'days').format('YYYY-MM-DD%2000:00:00');
-  from_4hours =  localTime.subtract(4, 'hours').format('YYYY-MM-DD%20HH:00:00');
-  from_1hour = localTime.subtract(1, 'hours').format('YYYY-MM-DD%20HH:00:00');
-  to = localTime.format('YYYY-MM-DD%20HH:00:00');
+  from_1week = moment.utc().local().subtract(7, 'days').format('YYYY-MM-DD%2000:00:00');
+  from_3days = moment.utc().local().subtract(3, 'days').format('YYYY-MM-DD%2000:00:00');
+  from_4hours =  moment.utc().local().subtract(4, 'hours').format('YYYY-MM-DD%20HH:00:00');
+  from_1hour = moment.utc().local().subtract(1, 'hours').format('YYYY-MM-DD%20HH:00:00');
+  to = moment.utc().local().format('YYYY-MM-DD%20HH:00:00');
 
 
 
