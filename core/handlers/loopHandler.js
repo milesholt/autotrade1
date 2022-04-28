@@ -24,7 +24,7 @@ Main loop function
 
 actions.loop = async function(msg = ''){
   console.log(msg);
-  let timestamp  = moment.utc().format('LLL');
+  let timestamp  = moment.utc().local().format('LLL');
   console.log('Time is:' + timestamp);
 
 
@@ -39,7 +39,7 @@ actions.loop = async function(msg = ''){
     var sec = d.getSeconds();
     var offset = '10' //10 seconds offset
     if((min == '00') && (sec == offset)){
-      let timestamp  = moment.utc().format('LLL');
+      let timestamp  = moment.utc().local().format('LLL');
       await actions.loopMarkets();
     } else {
       console.log('waiting...');

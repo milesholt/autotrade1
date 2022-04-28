@@ -279,8 +279,8 @@ actions.checkDeal = async function(mrk,ep,tmid){
             t.marketId = mrk.id;
             t.epic = mrk.epic;
             t.startAnalysis = {};
-            t.start_timestamp = moment.utc(startDate).valueOf();
-            t.start_date = moment.utc(startDate).format('LLL');
+            t.start_timestamp = moment.utc(startDate).local().valueOf();
+            t.start_date = moment.utc(startDate).local().format('LLL');
             t.dealId = dId;
             t.dealRef = dRef;
             t.direction = posDirection;
@@ -380,8 +380,8 @@ actions.checkCloseTrade = async function(dealId,epic){
            console.log('dealId found. position has been closed');
 
            let closeAnalysis = {
-             timestamp: moment.utc(transaction.dateUTC).valueOf(),
-             date: moment.utc(transaction.dateUTC).format('LLL'),
+             timestamp: moment.utc(transaction.dateUTC).local().valueOf(),
+             date: moment.utc(transaction.dateUTC).local().format('LLL'),
              lastClose: transaction.closeLevel,
              direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
              openLevel: transaction.openLevel,
@@ -510,8 +510,8 @@ actions.checkOpenTrade = async function(mrk,ep,tmid){
                           //let stats = fs.statSync(monitor.streamLogDir);
                           //let modtime = moment.utc(stats.mtime).format('LT');
                           let timestamp = Date.now();
-                          let timeonly = moment.utc(timestamp).format('LT');
-                          let timediff = moment.utc(timestamp).diff(moment.utc(modtime), "minutes");
+                          let timeonly = moment.utc(timestamp).local().format('LT');
+                          let timediff = moment.utc(timestamp).local().diff(moment.utc(modtime).local(), "minutes");
 
                           console.log('timediff: ' + timediff);
 
@@ -977,7 +977,7 @@ actions.finalChecks = async function(){
   //ensure last time traded is 8 hours or more
   console.log('doing tradedbefore check....');
   console.log('tradedbefore: ' + market.tradedBefore);
-  tradebeforeCheck =  market.tradedBefore !== false ? moment.utc().diff(moment.utc(market.tradedBefore).valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
+  tradebeforeCheck =  market.tradedBefore !== false ? moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
 
 
   checks.___notTradedBefore.is = tradebeforeCheck;

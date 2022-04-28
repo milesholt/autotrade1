@@ -297,6 +297,7 @@ date_1week = '';
 currenthour = 0;
 lasthour = 0;
 last4hours = 0;
+localTime = '';
 // from = '';
 // to = '';
 // from2 = '';

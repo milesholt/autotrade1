@@ -53,7 +53,7 @@ if(typeof mid == 'undefined'){
   console.log(process.env.HOME);
   console.log(__dirname);
 
-  let day = moment.utc().format('ddd');
+  let day = localTime.format('ddd');
   if( day == 'Sat' || day == 'Sun'){
     console.log('Should be the weekend. Day is: ' + day);
     console.log('Not beginning monitor because it is the weekend and markets will be closed.');
@@ -170,7 +170,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                     //Add time when monitor of trade is created
                     monitorData.createdTimeStamp =  Date.now();
-                    monitorData.createdDate =  moment.utc(Date.now()).format('LT');
+                    monitorData.createdDate =  moment.utc(Date.now()).local().format('LT');
 
 
                     console.log(arr.epic);
@@ -189,10 +189,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                     //get modification time of file
                     let stats = fs.statSync(monitorData.streamLogDir);
-                    let modtime = moment.utc(stats.mtime).format('LT');
+                    let modtime = moment.utc(stats.mtime).local().format('LT');
                     let timestamp = Date.now();
-                    let timeonly = moment.utc(timestamp).format('LT');
-                    let timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
+                    let timeonly = moment.utc(timestamp).local().format('LT');
+                    let timediff = moment.utc(timestamp).local().diff(moment.utc(stats.mtime), "minutes");
 
                     if(timediff <= 5){
                       //isStreamRunning = true;
@@ -212,7 +212,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                             let streamTime = lib.actions.isDefined(streamLog,'timestamp') ? streamLog.timestamp : Date.now();
                             console.log(streamTime);
                             console.log(Date.now());
-                            let streamLogTimeDiff = moment.utc(Date.now()).diff(moment.utc(streamLog.timestamp), "minutes");
+                            let streamLogTimeDiff = moment.utc(Date.now()).local().diff(moment.utc(streamLog.timestamp).local(), "minutes");
                             console.log('streamLogTimeDiff: ' + streamLogTimeDiff);
 
 
@@ -397,7 +397,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                 // console.log('reading data from this file: ' + streamLogDir);
                                 //if(ep == 'CC.D.LGO.USS.IP')   console.log(data);
 
-                                let time = moment.utc(data[0]).format('YYYY-MM-DD HH:mm:ss');
+                                let time = moment.utc(data[0]).local().format('YYYY-MM-DD HH:mm:ss');
                                 //get epic related to stream
                                 let ep = data[1];
                                 let dir = x.direction;
@@ -437,7 +437,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                 //in this case, either d.closePrice.ask or d.closePrice.bid will be 'NaN' when this happens
 
                                 if (isNaN(d.closePrice.ask) || isNaN(d.closePrice.bid)) {
-                                  let day = moment.utc(data[0]).format('ddd');
+                                  let day = moment.utc(data[0]).local().format('ddd');
                                   if( day == 'Sat' || day == 'Sun'){
                                     console.log('Should be the weekend. Day is: ' + day);
                                     console.log('price data is returning NaN, market has potentially closed while monitoring. Stopping monitoring...');
@@ -526,7 +526,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                       let closeAnalysis = {
                                         timestamp: Date.now(),
-                                        date: moment.utc().format('LLL'),
+                                        date: moment.utc().local().format('LLL'),
                                         limitLevel: x.limitLevel,
                                         stopLevel: x.stopLevel,
                                         newLimit: x.newLimit,
@@ -652,7 +652,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                       let closeAnalysis = {
                                         timestamp: Date.now(),
-                                        date: moment.utc().format('LLL'),
+                                        date: moment.utc().local().format('LLL'),
                                         limitLevel: x.limitLevel,
                                         stopLevel: x.stopLevel,
                                         newStop: x.newStop,
@@ -755,10 +755,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
 
                                   stats = fs.statSync(monitorData.streamLogDir);
-                                  modtime = moment.utc(stats.mtime).format('LT');
+                                  modtime = moment.utc(stats.mtime).local().format('LT');
                                   timestamp = Date.now();
-                                  timeonly = moment.utc(timestamp).format('LT');
-                                  timediff = moment.utc(timestamp).diff(moment.utc(stats.mtime), "minutes");
+                                  timeonly = moment.utc(timestamp).local().format('LT');
+                                  timediff = moment.utc(timestamp).local().diff(moment.utc(stats.mtime), "minutes");
 
 
                                   //console.log('close price: ' + closePrice + ' newlimit: ' + newlimit + ' stoplevel: ' + stopLevel + ' updated: ' + modtime);

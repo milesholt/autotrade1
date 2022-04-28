@@ -100,7 +100,7 @@ actions.determineConfirmations = async function(){
   //skip weekends
   waves.forEach(wave =>{
     //skip weekends
-    let day = moment.utc(wave.time,'YYYY-MM-DD hh:mm:ss').format('ddd');
+    let day = moment.utc(wave.time,'YYYY-MM-DD hh:mm:ss').local().format('ddd');
     wave.remove = false;
     if(day == 'Sat' || day == 'Sun') wave.remove = true;
   });
@@ -119,8 +119,8 @@ actions.determineConfirmations = async function(){
       let prev =waves[idx-1];
       let nextTime = next.time;
       let prevTime = prev.time;
-      let nextTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(nextTime), "hours"));
-      let prevTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(prevTime), "hours"));
+      let nextTimeDiff = Math.abs(moment.utc(wave.time).local().diff(moment.utc(nextTime).local(), "hours"));
+      let prevTimeDiff = Math.abs(moment.utc(wave.time).local().diff(moment.utc(prevTime).local(), "hours"));
 
       if(nextTimeDiff == 5 && prevTimeDiff == 5){
         //wavegroup.push([prev,wave,next]);

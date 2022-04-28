@@ -238,7 +238,7 @@ actions.calcResistSupport = async function(pricedata,type){
     //skip weekends
     waves.forEach(wave =>{
       //skip weekends
-      let day = moment.utc(wave.time,'YYYY-MM-DD hh:mm:ss').format('ddd');
+      let day = moment.utc(wave.time,'YYYY-MM-DD hh:mm:ss').local().format('ddd');
       wave.remove = false;
       if(day == 'Sat' || day == 'Sun') wave.remove = true;
     });
@@ -260,8 +260,8 @@ actions.calcResistSupport = async function(pricedata,type){
         let prev =waves[idx-1];
         let nextTime = next.time;
         let prevTime = prev.time;
-        let nextTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(nextTime), "hours"));
-        let prevTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(prevTime), "hours"));
+        let nextTimeDiff = Math.abs(moment.utc(wave.time).local().diff(moment.utc(nextTime), "hours"));
+        let prevTimeDiff = Math.abs(moment.utc(wave.time).local().diff(moment.utc(prevTime), "hours"));
 
         if(nextTimeDiff == 1 && prevTimeDiff == 1){
           //wavegroup.push([prev,wave,next]);
@@ -293,8 +293,8 @@ actions.calcResistSupport = async function(pricedata,type){
         let prev =waves[idx-1];
         let nextTime = next.time;
         let prevTime = prev.time;
-        let nextTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(nextTime), "hours"));
-        let prevTimeDiff = Math.abs(moment.utc(wave.time).diff(moment.utc(prevTime), "hours"));
+        let nextTimeDiff = Math.abs(moment.utc(wave.time).local().diff(moment.utc(nextTime), "hours"));
+        let prevTimeDiff = Math.abs(moment.utc(wave.time).local().diff(moment.utc(prevTime), "hours"));
 
         if(prevTimeDiff == 1 && nextTimeDiff > 1){
           wave.remove = true;
