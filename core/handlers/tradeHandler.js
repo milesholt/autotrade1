@@ -452,6 +452,9 @@ actions.determineNearProfit = async function(){
     let isOpposing = dir == 'BUY' ?  (closePrice - preClosePrice) < 0 : (preClosePrice - closePrice) < 0;
 
     //If trend is now moving in opposite direction and trend percentage is above threshold
+
+    console.log('epic: ' + epic + ' checkPriceDiffPerc: ' + checkPriceDiffPerc + ' isOpposing: ' + isOpposing);
+
     if(isOpposing && checkPriceDiffPerc >= priceDiffThreshold){
 
       //If current price is still in profit
@@ -463,6 +466,8 @@ actions.determineNearProfit = async function(){
       let openDiff = lib.toNumber((x.limitLevel - x.level),'abs');
       let profitPerc = lib.toNumber((closeDiff / openDiff) * 100);
       if( profitPerc > 70 && profitPerc < 100 ) isNearProfit = true;
+
+      console.log('epic: ' + epic + ' isNearProfit: ' + isNearProfit + ' profitPerc: ' + profitPerc);
 
       if(isProfit && isNearProfit){
 
