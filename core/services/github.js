@@ -127,7 +127,7 @@ actions.updateFile = async function(data,path,retry=false){
             console.log('error updating file: ' +path+ '  from GitHub - HttpError, trying again in 10 seconds...');
             if(retry){
               console.log('Retry failed, giving up.');
-            } else{
+            } else {
                await actions.wait(10000)
                 .then(async r => {
                 //Then go again
