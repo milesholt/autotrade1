@@ -63,6 +63,35 @@ actions.startTradeLog = async function(epic, analysis, dealId){
 
 /*
 
+EDIT TRADE LOG
+
+Edit existing trade
+
+*/
+
+actions.editTradeLog = async function(epic, analysis, dealId, mid, ticket){
+
+  trades = await cloud.getFile(tradeDataDir);
+
+  ticket.edit_timestamp = Date.now();
+  ticket.edit_date = moment().format('LLL');
+
+  markets[mid].startAnalysis.ticket = ticket;
+
+  trades.forEach((trade, i) => {
+    if(trade.dealId == dealId){
+      trade.startAnalysis = lib.deepCopy(markets[mid].startAnalysis);
+    }
+  });
+
+  //update marketdata file
+  await cloud.updateFile(trades,tradeDataDir);
+
+}
+
+
+/*
+
 CLOSE TRADE LOG
 
 Log the end of a trade

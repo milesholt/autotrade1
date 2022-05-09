@@ -74,6 +74,95 @@ actions.analysePriceData = async function(){
 }
 
 
+/* DETERMINE ADJUST POSITION */
+
+/*
+
+If price is above 60%
+edit position, and increase/decrease limit and stop
+update logs
+*/
+
+actions.determineAdjustPosition =  async function(d){
+  //get percentage away from limit of current price from open
+  let pointsMoved = Math.abs(d.level - d.open);
+  let pointsRange = Math.abs(d.limit - d.open);
+  let percDiff = ( pointsMoved / pointsRange * 100);
+
+  //get current price from streaming activity
+  if(percDiff >= 60){
+
+    //let limitDistance =markets[mid].deal.startAnalysis.limitDistance;
+    //let newlimitDistanceLevel = d.dir == 'BUY' ? limitDistanceLevel + pointsMoved : limitDistanceLevel - pointsMoved;
+    //let newlimitDistance =
+    //Update limit
+
+    //Update loss
+    //let stopDistance =markets[mid].deal.startAnalysis.stopDistance;
+    //let newlimitDistanceLevel = d.dir == 'BUY' ? stopDistanceLevel + pointsMoved : stopDistanceLevel - pointsMoved;
+
+    //Get existing ticket
+    let t = lib.deepCopy(markets[mid].deal.startAnalysis.ticket);
+    let dId = lib.deepCopy(markets[mid].deal.dealId);
+    let dRef = lib.deepCopy(markets[mid].deal.dealRef);
+
+    //Update limit and stop
+    //t.limiDistance = newlimitDistance;
+    //t.stopDistance = newstopDistance;
+
+    //Actually ticket remains the same, with identical stop and limit distances
+
+    //No open positions, begin trade
+    // ticket = {
+    //   'currencyCode': 'GBP',
+    //   'direction': dir,
+    //   'epic': epic,
+    //   'expiry': market.expiry,
+    //   'size': size,
+    //   'forceOpen': true,
+    //   'orderType': 'MARKET',
+    //   'level': null,
+    //   'limitDistance':limitDistance,
+    //   'limitLevel': null,
+    //   'stopDistance': stopDistance,
+    //   'stopLevel': null,
+    //   'guaranteedStop': false,
+    //   'timeInForce': 'FILL_OR_KILL',
+    //   'trailingStop': null,
+    //   'trailingStopIncrement': null
+    // };
+
+
+    //Open a ticket
+    await api.editPosition(dId, t).then(async r => {
+
+      //Once position has been edited on API, we need to update logs and restart monitoring and streaming
+
+      //First, stop monitoring and unsubscribe from stream, also remove from monitor log
+      await monitor.stopMonitor(d.epic);
+      await monitor.closeMonitorLog(d.epic);
+
+      //Update trade data
+      await log.editTradeLog(t);
+
+      //Update market data
+      await markets[mid].deal.startAnalysis = t;
+      await cloud.updateFile(markets,marketDataDir);
+
+      //Then restart monitor with new log information
+      //await log.startMonitorLog(d.epic, markets[mid].deal.startAnalysis, dId);
+      await monitor.iniMonitor(dId,dRef,d.epic);
+
+      //Update monitor
+    }).catch(e => {
+      //Handle error creating ticket
+      console.log('Error updating ticket');
+      console.log(e);
+    });
+  }
+}
+
+
 /*
 
 DETERMINE SIZE
