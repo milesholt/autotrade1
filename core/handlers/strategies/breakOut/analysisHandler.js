@@ -92,48 +92,14 @@ actions.determineAdjustPosition =  async function(d){
   //get current price from streaming activity
   if(percDiff >= 60){
 
-    //let limitDistance =markets[mid].deal.startAnalysis.limitDistance;
-    //let newlimitDistanceLevel = d.dir == 'BUY' ? limitDistanceLevel + pointsMoved : limitDistanceLevel - pointsMoved;
-    //let newlimitDistance =
-    //Update limit
-
-    //Update loss
-    //let stopDistance =markets[mid].deal.startAnalysis.stopDistance;
-    //let newlimitDistanceLevel = d.dir == 'BUY' ? stopDistanceLevel + pointsMoved : stopDistanceLevel - pointsMoved;
-
     //Get existing ticket
     let t = lib.deepCopy(markets[mid].deal.startAnalysis.ticket);
     let dId = lib.deepCopy(markets[mid].deal.dealId);
     let dRef = lib.deepCopy(markets[mid].deal.dealRef);
 
-    //Update limit and stop
-    //t.limiDistance = newlimitDistance;
-    //t.stopDistance = newstopDistance;
+    //The information on the ticket does not change, we are simply moving the same limit and stop distances (points) to where the current prices is
 
-    //Actually ticket remains the same, with identical stop and limit distances
-
-    //No open positions, begin trade
-    // ticket = {
-    //   'currencyCode': 'GBP',
-    //   'direction': dir,
-    //   'epic': epic,
-    //   'expiry': market.expiry,
-    //   'size': size,
-    //   'forceOpen': true,
-    //   'orderType': 'MARKET',
-    //   'level': null,
-    //   'limitDistance':limitDistance,
-    //   'limitLevel': null,
-    //   'stopDistance': stopDistance,
-    //   'stopLevel': null,
-    //   'guaranteedStop': false,
-    //   'timeInForce': 'FILL_OR_KILL',
-    //   'trailingStop': null,
-    //   'trailingStopIncrement': null
-    // };
-
-
-    //Open a ticket
+    //Edit ticket
     await api.editPosition(dId, t).then(async r => {
 
       //Once position has been edited on API, we need to update logs and restart monitoring and streaming
@@ -150,7 +116,6 @@ actions.determineAdjustPosition =  async function(d){
       await cloud.updateFile(markets,marketDataDir);
 
       //Then restart monitor with new log information
-      //await log.startMonitorLog(d.epic, markets[mid].deal.startAnalysis, dId);
       await monitor.iniMonitor(dId,dRef,d.epic);
 
       //Update monitor
