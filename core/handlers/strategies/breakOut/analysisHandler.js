@@ -78,53 +78,53 @@ actions.analysePriceData = async function(){
 
 /*
 
-If price is above 60%
+If price is above 60% towards limit
 edit position, and increase/decrease limit and stop
 update logs
 */
 
 actions.determineAdjustPosition =  async function(d){
-  //get percentage away from limit of current price from open
-  let pointsMoved = Math.abs(d.level - d.open);
-  let pointsRange = Math.abs(d.limit - d.open);
-  let percDiff = ( pointsMoved / pointsRange * 100);
-
-  //get current price from streaming activity
-  if(percDiff >= 60){
-
-    //Get existing ticket
-    let t = lib.deepCopy(markets[mid].deal.startAnalysis.ticket);
-    let dId = lib.deepCopy(markets[mid].deal.dealId);
-    let dRef = lib.deepCopy(markets[mid].deal.dealRef);
-
-    //The information on the ticket does not change, we are simply moving the same limit and stop distances (points) to where the current prices is
-
-    //Edit ticket
-    await api.editPosition(dId, t).then(async r => {
-
-      //Once position has been edited on API, we need to update logs and restart monitoring and streaming
-
-      //First, stop monitoring and unsubscribe from stream, also remove from monitor log
-      await monitor.stopMonitor(d.epic);
-      await monitor.closeMonitorLog(d.epic);
-
-      //Update trade data
-      await log.editTradeLog(t);
-
-      //Update market data
-      await markets[mid].deal.startAnalysis = t;
-      await cloud.updateFile(markets,marketDataDir);
-
-      //Then restart monitor with new log information
-      await monitor.iniMonitor(dId,dRef,d.epic);
-
-      //Update monitor
-    }).catch(e => {
-      //Handle error creating ticket
-      console.log('Error updating ticket');
-      console.log(e);
-    });
-  }
+  // //get percentage away from limit of current price from open
+  // let pointsMoved = Math.abs(d.level - d.open);
+  // let pointsRange = Math.abs(d.limit - d.open);
+  // let percDiff = ( pointsMoved / pointsRange * 100);
+  //
+  // //get current price from streaming activity
+  // if(percDiff >= 60){
+  //
+  //   //Get existing ticket
+  //   let t = lib.deepCopy(markets[mid].deal.startAnalysis.ticket);
+  //   let dId = lib.deepCopy(markets[mid].deal.dealId);
+  //   let dRef = lib.deepCopy(markets[mid].deal.dealRef);
+  //
+  //   //The information on the ticket does not change, we are simply moving the same limit and stop distances (points) to where the current prices is
+  //
+  //   //Edit ticket
+  //   await api.editPosition(dId, t).then(async r => {
+  //
+  //     //Once position has been edited on API, we need to update logs and restart monitoring and streaming
+  //
+  //     //First, stop monitoring and unsubscribe from stream, also remove from monitor log
+  //     await monitor.stopMonitor(d.epic);
+  //     await monitor.closeMonitorLog(d.epic);
+  //
+  //     //Update trade data
+  //     await log.editTradeLog(t);
+  //
+  //     //Update market data
+  //     await markets[mid].deal.startAnalysis = t;
+  //     await cloud.updateFile(markets,marketDataDir);
+  //
+  //     //Then restart monitor with new log information
+  //     await monitor.iniMonitor(dId,dRef,d.epic);
+  //
+  //     //Update monitor
+  //   }).catch(e => {
+  //     //Handle error creating ticket
+  //     console.log('Error updating ticket');
+  //     console.log(e);
+  //   });
+  // }
 }
 
 
