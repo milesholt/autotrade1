@@ -456,6 +456,10 @@ FINAL ANALYSIS
       'beforeRangeTrendDiffPerc': beforeRangeTrendDiffPerc,
       'rangedata_indexes': rangeData.support.prices_idx,
       'lastRangeData': pricedata2.support[rangeData.support.prices_idx[rangeData.support.prices_idx.length -1]],
+      'datalengths':[
+        'pricedata2':pricedata2.support.length,
+        'rangedata':rangeData.support.length
+      ],
       'recentrange': recentrange,
       'rangeConfirmations':rangeConfirmations,
       'recentTrendArr': recenttrendArr,
