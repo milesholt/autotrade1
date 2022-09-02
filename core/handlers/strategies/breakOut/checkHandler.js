@@ -573,7 +573,14 @@ actions.checkOpenTrade = async function(mrk,ep,tmid){
       }).catch(e => {
         console.log('No closed positions found.');
         console.log('No transaction for dealId: ' + dealId + 'found. Deal reference:  ' + dealRef);
-        console.log('If no transaction is found, position must still be open. Sometimes getPosition can return an error even though there is an open position. Leaving for now.');
+        console.log('This could be due to account reset or closure. Resetting');
+
+        markets[mid].deal = {};
+        markets[mid].tradedBefore = moment().valueOf();
+        markets[mid].closeloss = false;
+        markets[mid].closeprofit = false;
+
+
       });
 
 
