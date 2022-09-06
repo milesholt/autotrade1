@@ -431,7 +431,8 @@ actions.exec = async function(){
     //Final logs
     console.log('--------UPDATING MARKET----------');
     //console.log(util.inspect(market, false, null));
-    //console.log(market);
+    
+    console.log(market.deal);
     markets[mid] = market;
     await cloudHandler.actions.updateFile(markets,marketDataDir);
 

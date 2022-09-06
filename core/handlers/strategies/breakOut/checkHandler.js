@@ -576,6 +576,8 @@ actions.checkOpenTrade = async function(mrk,ep,tmid){
         console.log('This could be due to account reset or closure. Resetting');
 
         markets[mid].deal = {};
+        //mrk.deal = {};
+        //market.deal = {};
         markets[mid].tradedBefore = moment().valueOf();
         markets[mid].closeloss = false;
         markets[mid].closeprofit = false;
