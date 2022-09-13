@@ -257,6 +257,10 @@ actions.determineTrade = async function(){
           	'trailingStop': null,
           	'trailingStopIncrement': null
           };
+
+
+          console.log(ticket);
+
           analysis.ticket = ticket;
           //console.log(analysis);
 
