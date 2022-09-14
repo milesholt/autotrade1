@@ -36,9 +36,9 @@ async function exec(){
     console.log(util.inspect(r,false,null));
   }).catch(e => console.log(e));
 
-  //Switch Default Account (Accountid -  102399016 Spread - Z3MUI3, CFD - Z3MUI2)
+  //Switch Default Account (Accountid -  102399016 Spread - Z4Y3FN, CFD - Z4Y3FM)
   // console.log('-------Switching accounts');
-  // await api.switchDefaultAcct('Z32EDV').then(r => {
+  // await api.switchDefaultAcct('Z4Y3FN').then(r => {
   //   console.log(r);
   // }).catch(e => console.log(e));
 
@@ -73,17 +73,17 @@ async function exec(){
   //Lloyds Bank PLC - KA.D.LLOY.DAILY.IP
   //Alto Ingredients - UC.D.PEIXUS.DAILY.IP
   //Spot Silver - CS.D.USCSI.TODAY.IP
-  
+
   //Lead -  CS.D.LEAD.TODAY.IP
   //Soy Beans - CC.D.BO.USS.IP
   //NZD/USD - CS.D.NZDUSD.TODAY.IP
 
 
   // console.log('-------Searching for Epics');
- const searchterm = encodeURI('Corn');
-  await api.search(searchterm).then(r => {
-    console.log(r);
-  }).catch(e => console.log(e));
+ // const searchterm = encodeURI('Corn');
+ //  await api.search(searchterm).then(r => {
+ //    console.log(r);
+ //  }).catch(e => console.log(e));
 
   //Confirm position
   // let dealRef = '2XMFTXH4WH644TP';
