@@ -50,8 +50,8 @@ rangeLimitPerc = 0.35;
 tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
-limitClosePerc = 0.95;
-stopClosePerc = 0.95;
+limitClosePerc = 0.15; //only close a small portion of the limit
+stopClosePerc = 0; //don't allow any loss
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
 
