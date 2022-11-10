@@ -45,6 +45,12 @@ actions.determineTrade = async function(){
     isDeal = false;
     return false;
   }
+  
+ //Dont allow non streaming trades
+  if(market.streamingPricesAvailable == false) {
+      console.log('market:' + market + ' is non-streaming, not opening trade');
+      isDeal = false;
+  }
 
   //If all checks pass, begin trade
   //TODO: Move checks to specific strategy
