@@ -51,8 +51,8 @@ tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
 
-limitClosePerc = 0.95; 
-stopClosePerc = 0.95;
+limitClosePerc = 0.15; 
+stopClosePerc = 0.95; //this is overidden in monitor and set as open level, so to be 0
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
 
