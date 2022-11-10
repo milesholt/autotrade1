@@ -147,7 +147,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                     let limitDiff = lib.actions.toNumber(Math.abs(p.level - p.limitLevel) * limitClosePerc);
                     let stopDiff = lib.actions.toNumber(Math.abs(p.level - p.stopLevel) * stopClosePerc);
                     
-                    //new method:
+                    //new method: 
                     //set stop levels to 0 by using open level
             
                     let monitorData = {
