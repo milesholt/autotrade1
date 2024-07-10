@@ -45,7 +45,8 @@ actions.getFile = async function(path){
     console.log(e);
   } else {
     console.log('error getting file: ' +path+ '  from GitHub - HttpError');
-    //console.log(e);
+    console.log('/repos/{owner}/{repo}/contents/{path}');
+    console.log(e);
   }
 });
 
