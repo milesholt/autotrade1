@@ -1,0 +1,73 @@
+var actions = {};
+const util=require('util');
+const moment=require('moment');
+const fs = require('fs');
+const path = require('path');
+moment().format();
+
+/* Convert value to number */
+
+//This will convert a string to a number rounded to decimal points, default is 2
+//Also has the option of getting the absolute value (non negative)
+actions.toNumber = function(val,method=false,points=2){
+  let r = parseFloat(Number(val).toFixed(points));
+  switch(method){
+    case 'abs':
+     r = parseFloat(Math.abs(Number(val)).toFixed(points));
+    break;
+  }
+  return r;
+}
+
+actions.toString = function(val){
+  if(action.isJSON(val)) return JSON.stringify(val);
+  return val.toString();
+}
+
+actions.isEmpty = function(obj){
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
+actions.isDefined = function(obj,prop){
+  if(typeof obj !== 'undefined'){
+    return obj.hasOwnProperty(prop);
+  } else {
+    console.log('Parent object is not defined, so could not check for property');
+    return false;
+  }
+}
+
+actions.sortNumber = function(a, b) {
+  return a - b;
+}
+
+actions.isJSON = function(val){
+  try {
+       JSON.parse(val);
+   } catch (e) {
+       return false;
+   }
+   return true;
+}
+
+actions.deepCopy = function(origObj){
+        var newObj = origObj;
+         if (origObj && typeof origObj === "object") {
+             newObj = Object.prototype.toString.call(origObj) === "[object Array]" ? [] : {};
+             for (var i in origObj) {
+                 newObj[i] = this.deepCopy(origObj[i]);
+             }
+         }
+         return newObj;
+}
+
+
+
+
+module.exports = {
+  actions: actions
+}

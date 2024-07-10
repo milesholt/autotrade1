@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Plotly</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="pricedata1.js"></script>
+    <script type="text/javascript" src="pricedata2.js"></script>
+    <script type="text/javascript" src="pricedata3.js"></script>
+    <script type="text/javascript" src="pricedata4.js"></script>
+    <script type="text/javascript" src="pricedata5.js"></script>
+    <script type="text/javascript" src="pricedata6.js"></script>
+    <script type="text/javascript" src="pricedata7.js"></script>
+    <script type="text/javascript" src="pricedata8.js"></script>
+    <script type="text/javascript" src="pricedata9.js"></script>
+    <script type="text/javascript" src="pricedata10.js"></script>
+    <script type="text/javascript" src="pricedata11.js"></script>
+  </head>
+  <body>
+      <div class="graph-container">
+        <h2>Graph1</h2><br>
+        <div id="graph1" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph2</h2><br>
+        <div id="graph2" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph3</h2><br>
+        <div id="graph3" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container" style="display:none">
+        <h2>Graph4</h2><br>
+        <div id="graph4" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph5</h2><br>
+        <div id="graph5" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph6</h2><br>
+        <div id="graph6" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph7</h2><br>
+        <div id="graph7" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph8</h2><br>
+        <div id="graph8" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph9</h2><br>
+        <div id="graph9" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+      <div class="graph-container">
+        <h2>Graph10</h2><br>
+        <div id="graph10" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+
+      <div class="graph-container">
+        <h2>Graph11</h2><br>
+        <div id="graph11" class="graph" style="width:100%;height:200px;"></div>
+      </div>
+
+
+    <script>
+
+
+
+
+        function ini() {
+          for(var i=1,len=11; i<=len; i++){
+
+            var graphId = document.getElementById('graph'+i);
+            var traces;
+            var layout;
+            var alias = ['pricedata'+i];
+            graphId.style.height = window.innerHeight+'px';
+
+            Plotly.newPlot( graphId, window[alias].traces, window[alias].layout, {responsive: true} );
+
+          }
+        }
+
+        window.onresize = ini;
+      	ini();
+
+      </script>
+  </body>
+</html>

@@ -20,3 +20,20 @@ TODOS:
 24 hour trend should be ranging, but recenttrend and beforerangetrend should match. This will give the visual graph of the market we are looking for (staircase)
 
 Recent trend movement should exceed 50 points and go above/beyond horizontal lines to suggest downward or upward trend
+
+
+9/11/22
+
+removed any possibility of loss. If it drops to negative, close position immediately. So don't allow to consolidate / range at all.
+But close at short percentage of limit rather than going long. As soon as it rise to 15% of positive, close profit.
+
+todo: new resources to look into
+
+Trading View - Lightweight charts
+https://www.tradingview.com/lightweight-charts/
+https://jsfiddle.net/TradingView/yozeu6k1/
+
+streamlit.io
+https://streamlit.io/gallery?category=streamlit-templates
+
+retool.com
