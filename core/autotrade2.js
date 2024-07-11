@@ -431,7 +431,7 @@ actions.exec = async function () {
     await tradeHandler.actions.determineNearProfit();
 
     //Run AI processes
-    await aiHandler.actions.runMultiple(pricedata, 0);
+    await aiHandler.actions.runMultiple(0);
 
     //Determine trade
     //await tradeHandler.actions.determineTrade2();
@@ -477,12 +477,14 @@ module.exports = {
   monitor: monitor,
   lib: library,
   log: log,
+  ai: ai,
   cloudHandler: cloudHandler,
   loopHandler: loopHandler,
   notificationHandler: notificationHandler,
   analysisHandler: analysisHandler,
   errorHandler: errorHandler,
   tradeHandler: tradeHandler,
+  aiHandler: aiHandler,
 };
 
 //After export, call child module requirements
@@ -501,6 +503,7 @@ cloudHandler.actions.require();
 loopHandler.actions.require();
 notificationHandler.actions.require();
 errorHandler.actions.require();
+aiHandler.actions.require();
 
 log.actions.require();
 analytics.actions.require();

@@ -35,14 +35,14 @@ actions.doAI = async function (prompt, model, format) {
   }
 };
 
-actions.runMultiple = async function (pricedata = false, i = 0) {
+actions.runMultiple = async function (i) {
   console.log("running multiple");
   console.log("running AI Query: " + i);
   await actions.runAIQuery(pricedata).then(async (result) => {
     results.push(result);
     i++;
     if (i < 5) {
-      actions.runMultiple(pricedata, i);
+      actions.runMultiple(i);
       console.log(`Result ${i + 1}:`, result);
     } else {
       console.log("All results:", results);
