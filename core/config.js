@@ -1,31 +1,46 @@
 //Checks
-check0 = false, check0_2 = false, check1 = false, check2 = false, check3 = false, check4 = false, check5 = false, check6 = false, check7 = false, check8 = false, check9 = true, check10 = true, check11 = true, check12 = true; check13 = false; check14 = false; check15 = false;
+(check0 = false),
+  (check0_2 = false),
+  (check1 = false),
+  (check2 = false),
+  (check3 = false),
+  (check4 = false),
+  (check5 = false),
+  (check6 = false),
+  (check7 = false),
+  (check8 = false),
+  (check9 = true),
+  (check10 = true),
+  (check11 = true),
+  (check12 = true);
+check13 = false;
+check14 = false;
+check15 = false;
 //checks = [check0,check2,check6,check7,check8,check9,check10,check11,check12,check13,check14,check15]
 
 checks = {
-  '___4HoursNotRanging': {'is':false, 'enabled':true}, //check14
-  '___noBumpInRange': {'is':true, 'enabled':true}, //check11
-  '___noVolatileGap': {'is':false, 'enabled':true}, //check10
-  '___breakingThroughRange': {'is':false, 'enabled':true}, //check8
-  '___withinTradeThreshold': {'is':true, 'enabled':true}, //check9
-  '___beforeRangeTrendNotBroken': {'is':false, 'enabled':false}, //check13
-  '___recentTrendSameAsTrend': {'is':false, 'enabled':true}, //check6
-  '___beforeRangeSameAsTrend': {'is':false, 'enabled':false}, //check7
-  '___rangeConfirmationsGreaterThanLimit': {'is':false, 'enabled':true}, //check2
-  '___rangeAreaGood': {'is':false, 'enabled':true}, //check0
-  '___rangeNotTrend': {'is':false, 'enabled':false},
-  '___enoughWaves': {'is':false, 'enabled':true}, //check15
-  '___notTradedBefore': {'is':false, 'enabled':true}, //check12
-  '___enoughConfirmations': {'is':false, 'enabled':true},
-  '___recentTrendPivoting':{'is':true, 'enabled':true}, // overridden for now / disabled
-  '___lastCloseAboveBelowLines':{'is':false, 'enabled':true},
-  '___beforeRangeSameAs4HourTrend':{'is':false, 'enabled':false},
-  '___recentTrendSameAs4HourTrend':{'is':false, 'enabled':true},
-  '___noBumpVolatility':{'is':true, 'enabled':true},
-  '___nolastPriceVolatile':{'is':true, 'enabled':true},
-  '___rangePriceDataGood':{'is':true, 'enabled':true}
-}
-
+  ___4HoursNotRanging: { is: false, enabled: true }, //check14
+  ___noBumpInRange: { is: true, enabled: true }, //check11
+  ___noVolatileGap: { is: false, enabled: true }, //check10
+  ___breakingThroughRange: { is: false, enabled: true }, //check8
+  ___withinTradeThreshold: { is: true, enabled: true }, //check9
+  ___beforeRangeTrendNotBroken: { is: false, enabled: false }, //check13
+  ___recentTrendSameAsTrend: { is: false, enabled: true }, //check6
+  ___beforeRangeSameAsTrend: { is: false, enabled: false }, //check7
+  ___rangeConfirmationsGreaterThanLimit: { is: false, enabled: true }, //check2
+  ___rangeAreaGood: { is: false, enabled: true }, //check0
+  ___rangeNotTrend: { is: false, enabled: false },
+  ___enoughWaves: { is: false, enabled: true }, //check15
+  ___notTradedBefore: { is: false, enabled: true }, //check12
+  ___enoughConfirmations: { is: false, enabled: true },
+  ___recentTrendPivoting: { is: true, enabled: true }, // overridden for now / disabled
+  ___lastCloseAboveBelowLines: { is: false, enabled: true },
+  ___beforeRangeSameAs4HourTrend: { is: false, enabled: false },
+  ___recentTrendSameAs4HourTrend: { is: false, enabled: true },
+  ___noBumpVolatility: { is: true, enabled: true },
+  ___nolastPriceVolatile: { is: true, enabled: true },
+  ___rangePriceDataGood: { is: true, enabled: true },
+};
 
 /*
 
@@ -51,7 +66,7 @@ tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
 
-limitClosePerc = 0.15; 
+limitClosePerc = 0.15;
 stopClosePerc = 0.25;
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
@@ -75,7 +90,7 @@ minimumRangePriceDataLength = 18;
 
 stopDistanceFluctuationPerc = 0.1;
 recentlimit = 4;
-recentrangelimit =  5;
+recentrangelimit = 5;
 confirmationlimit = 3;
 missingHoursLimit = 3;
 tradeBeforeHours = 8;
@@ -119,19 +134,18 @@ size = 1;
 //   {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1  },
 // ];
 
-
 //SEPTEMBER TEST - 1:1 risk:reward
 //markets = [
-  //{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.08', 'minimumStop' : {'value': 0.01, 'type': 'percent'} },
-  // {'id':1, 'alias': 'NEO', 'epic': 'CS.D.NEOUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false }
-  //{'id':1, 'alias': 'Ripple', 'epic': 'CS.D.XRPUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 10, 'type': 'points'}  }
-  //{'id':0, 'alias': 'Volatility Index', 'epic': 'CC.D.VIX.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 2  },
-  //{'id':1, 'alias': 'MXNJPY', 'epic': 'CS.D.MXNJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4,'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1  },
-  //{"id":2, "alias": "Spot Platinum", "epic": "CS.D.PLAT.TODAY.IP", "data": {}, "deal": {}, "tradedbefore" : false, "stopDistancePerc" : "0.85", "minimumStop" : {"value": 10, "type": "points"}  }
-  //{"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedBefore" : false, "stopDistancePerc" : 0.4, 'limitDistancePerc' : 0.4, "minimumStop" : {"value": null, "type": "points"}, 'size': 1   },
-  //{'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1   },
+//{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.08', 'minimumStop' : {'value': 0.01, 'type': 'percent'} },
+// {'id':1, 'alias': 'NEO', 'epic': 'CS.D.NEOUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false }
+//{'id':1, 'alias': 'Ripple', 'epic': 'CS.D.XRPUSD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 10, 'type': 'points'}  }
+//{'id':0, 'alias': 'Volatility Index', 'epic': 'CC.D.VIX.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 2  },
+//{'id':1, 'alias': 'MXNJPY', 'epic': 'CS.D.MXNJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4,'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1  },
+//{"id":2, "alias": "Spot Platinum", "epic": "CS.D.PLAT.TODAY.IP", "data": {}, "deal": {}, "tradedbefore" : false, "stopDistancePerc" : "0.85", "minimumStop" : {"value": 10, "type": "points"}  }
+//{"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedBefore" : false, "stopDistancePerc" : 0.4, 'limitDistancePerc' : 0.4, "minimumStop" : {"value": null, "type": "points"}, 'size': 1   },
+//{'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1   },
 //  {'id':4, 'alias': 'INRJPY', 'epic': 'CS.D.INRJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.85', 'minimumStop' : {'value': 2, 'type': 'points'}  },
- // {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1  },
+// {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.4, 'limitDistancePerc' : 0.4, 'minimumStop' : {'value': null, 'type': 'points'}, 'size': 1  },
 //];
 
 //October
@@ -154,68 +168,133 @@ size = 1;
  ];*/
 
 markets = [
-   {'id':0, 'alias': 'Corn', 'epic': 'CC.D.C.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
-   {'id':1, 'alias': 'MXNJPY', 'epic': 'CS.D.MXNJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6,'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 10, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
-   {"id":2, "alias": "Spot Gold", "epic": "CS.D.USCGC.TODAY.IP", "data": {}, "deal": {}, "tradedBefore" : false, "stopDistancePerc" : 0.6, 'limitDistancePerc' : 0.6, "minimumStop" : {"value": null, "type": "points"},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [21,23], 'expiry': 'DFB', 'streamingPricesAvailable': true  },
-   {'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [22,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':5, 'alias': 'Spot Silver', 'epic': 'CS.D.USCSI.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 3, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':6, 'alias': 'Soy Beans', 'epic': 'CC.D.S.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': false },
-   {'id':7, 'alias': 'NOKJPY', 'epic': 'CS.D.NOKJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
-   {'id':8, 'alias': 'Lead', 'epic': 'CS.D.LEAD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [17,1], 'expiry': 'DFB', 'streamingPricesAvailable': false },
-   {'id':9, 'alias': 'NZDGBP', 'epic': 'CS.D.NZDGBP.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 50, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': false }
- ];
-
-
-
+  {
+    id: 0,
+    alias: "Corn",
+    epic: "CC.D.C.USS.IP",
+    data: {},
+    deal: {},
+    tradedBefore: false,
+    stopDistancePerc: 0.6,
+    limitDistancePerc: 0.6,
+    minimumStop: { value: null, type: "points" },
+    minimumSize: { value: null, type: "points" },
+    size: 1,
+    marketClosed: [19, 1],
+    expiry: "DFB",
+    streamingPricesAvailable: true,
+  },
+  {
+    id: 1,
+    alias: "MXNJPY",
+    epic: "CS.D.MXNJPY.TODAY.IP",
+    data: {},
+    deal: {},
+    tradedBefore: false,
+    stopDistancePerc: 0.6,
+    limitDistancePerc: 0.6,
+    minimumStop: { value: null, type: "points" },
+    minimumSize: { value: null, type: "points" },
+    size: 10,
+    marketClosed: [0, 0],
+    expiry: "DFB",
+    streamingPricesAvailable: true,
+  },
+  {
+    id: 2,
+    alias: "Spot Gold",
+    epic: "CS.D.USCGC.TODAY.IP",
+    data: {},
+    deal: {},
+    tradedBefore: false,
+    stopDistancePerc: 0.6,
+    limitDistancePerc: 0.6,
+    minimumStop: { value: null, type: "points" },
+    minimumSize: { value: null, type: "points" },
+    size: 5,
+    marketClosed: [21, 23],
+    expiry: "DFB",
+    streamingPricesAvailable: true,
+  },
+  //{'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+  //{'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [22,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+  //{'id':5, 'alias': 'Spot Silver', 'epic': 'CS.D.USCSI.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 3, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+  //{'id':6, 'alias': 'Soy Beans', 'epic': 'CC.D.S.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': false },
+  //{'id':7, 'alias': 'NOKJPY', 'epic': 'CS.D.NOKJPY.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+  //{'id':8, 'alias': 'Lead', 'epic': 'CS.D.LEAD.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 1, 'marketClosed' : [17,1], 'expiry': 'DFB', 'streamingPricesAvailable': false },
+  //{'id':9, 'alias': 'NZDGBP', 'epic': 'CS.D.NZDGBP.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 50, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': false }
+];
 
 market = {};
 trades = [];
 accounts = [];
 monitors = [];
 streams = [];
-monitor = { 'epic': '', 'dealId': '', 'dealRef': '', 'streamLogDir' : '' , 'direction': '' }
-trade = { 'marketId' : 0, 'epic':'', 'direction': '', 'dealId': '', 'dealRef': '', 'startAnalysis': '', 'closeAnalysis': '', 'start_timestamp': '', 'start_date':'', 'end_timestamp': '', 'end_date': '', 'error': {} };
+monitor = {
+  epic: "",
+  dealId: "",
+  dealRef: "",
+  streamLogDir: "",
+  direction: "",
+};
+trade = {
+  marketId: 0,
+  epic: "",
+  direction: "",
+  dealId: "",
+  dealRef: "",
+  startAnalysis: "",
+  closeAnalysis: "",
+  start_timestamp: "",
+  start_date: "",
+  end_timestamp: "",
+  end_date: "",
+  error: {},
+};
 mid = 0;
-epic = '';
+epic = "";
 dealIds = [];
-dealId = '';
-dealRef = '';
-direction = '';
-finalMessage = '';
+dealId = "";
+dealRef = "";
+direction = "";
+finalMessage = "";
 
-rangeData = {'resistance': {}, 'support': {}, 'bumps': [], 'waves': [], 'wavecount': 0};
-lineData = {'support': 0, 'resistance': 0, 'midrange': 0};
-confirmationData = { 'waves':[], 'confirmationPoints': {}, 'trendPoints' : {} };
-confirmations = {'resistance': 0, 'support': 0, 'resistance_index': [], 'support_index':[]};
+rangeData = { resistance: {}, support: {}, bumps: [], waves: [], wavecount: 0 };
+lineData = { support: 0, resistance: 0, midrange: 0 };
+confirmationData = { waves: [], confirmationPoints: {}, trendPoints: {} };
+confirmations = {
+  resistance: 0,
+  support: 0,
+  resistance_index: [],
+  support_index: [],
+};
 
 //Data files
-pricedataDir = 'core/data/';
-price4HourdataDir = 'core/data/';
-analysisDataDir = 'core/data/';
-plotDataDir = 'core/data/';
-plot4HourDataDir = 'core/data/';
-beforeRangeDir = 'core/data/';
-marketDataDir = 'core/data/marketdata.json';
-accountDataDir = 'core/data/accountdata.json';
-tradeDataDir = 'core/data/';
-streamLogDir = 'core/data/';
-errorDataDir = 'core/data/';
-monitorDataDir = 'core/data/monitordata.json';
-streamDataDir = 'core/data/streamdata.json';
-
+pricedataDir = "core/data/";
+price4HourdataDir = "core/data/";
+analysisDataDir = "core/data/";
+plotDataDir = "core/data/";
+plot4HourDataDir = "core/data/";
+beforeRangeDir = "core/data/";
+marketDataDir = "core/data/marketdata.json";
+accountDataDir = "core/data/accountdata.json";
+tradeDataDir = "core/data/";
+streamLogDir = "core/data/";
+errorDataDir = "core/data/";
+monitorDataDir = "core/data/monitordata.json";
+streamDataDir = "core/data/streamdata.json";
 
 //Price data variables
 prices = [];
 prices_4hour = [];
-pricedata = {'support': [], 'resistance': []};
-pricedata2 = {'support': [], 'resistance': []};
-pricedata3 = {'support': [], 'resistance': []};
+pricedata = { support: [], resistance: [] };
+pricedata2 = { support: [], resistance: [] };
+pricedata3 = { support: [], resistance: [] };
 supportline = 0;
 resistanceline = 0;
-trend = 'ranging';
-trend4Hours = 'ranging';
-midtrend4Hours = 'ranging';
+trend = "ranging";
+trend4Hours = "ranging";
+midtrend4Hours = "ranging";
 trendDiff = 0;
 trendDiffPerc = 0;
 trend4HoursDiff = 0;
@@ -236,33 +315,33 @@ lastCloseAsk = 0;
 lastCloseBid = 0;
 lastDiff = 0;
 beforeRangeData = {};
-beforeRangeSha = '';
-pricesSha = '';
-marketDataSha = '';
-tradeDataSha = '';
-accountDataSha = '';
-monitorDataSha = '';
+beforeRangeSha = "";
+pricesSha = "";
+marketDataSha = "";
+tradeDataSha = "";
+accountDataSha = "";
+monitorDataSha = "";
 // shas = [];
 // sha = 0;
 beforeRangeFirstClose = 0;
-beforeRangeTrend = 'ranging';
+beforeRangeTrend = "ranging";
 beforeRangeFirstCloseData = {};
 beforeRangeTrendDiff = 0;
 beforeRangeTrendDiffPerc = 0;
 beforeRangeOveridden = false;
 isBeforeRangeTrendNotBroken = false;
 recenttrendArr = [];
-recenttrend = '';
+recenttrend = "";
 recentrange = [];
 ups = 0;
 downs = 0;
-movementValue= 0;
+movementValue = 0;
 movementValueDiff = 0;
 movementValueDiffPerc = 0;
 isRecentTrendBreaking = false;
-currenttrend = '';
+currenttrend = "";
 pricedatacount = 0;
-previousTrend = 'ranging';
+previousTrend = "ranging";
 bRD = {};
 bumpgroupcount = 0;
 lineDistance = 0;
@@ -270,7 +349,7 @@ rangeConfirmations = 0;
 is4HoursTrendOveride = false;
 resolutionPointsLimit_4Hours = 60;
 resolutionPointsLimit_1Hour = 72;
-prevtrend4Hours = 'ranging';
+prevtrend4Hours = "ranging";
 
 //Analysis data
 analysisDataSet = [];
@@ -301,17 +380,17 @@ trueChecks = [];
 isDeal = true;
 
 //Dates
-resolution = 'HOUR';
+resolution = "HOUR";
 timestamp = 0;
-today = '';
-fulldate = '';
-date1 = '';
-date2 = '';
-date_1week = '';
+today = "";
+fulldate = "";
+date1 = "";
+date2 = "";
+date_1week = "";
 currenthour = 0;
 lasthour = 0;
 last4hours = 0;
-localTime = '';
+localTime = "";
 // from = '';
 // to = '';
 // from2 = '';
@@ -319,11 +398,11 @@ localTime = '';
 // from_4hours = '';
 // to_4hours = '';
 
-from_1week = '';
-from_3days = '';
-from_4hours =  '';
-from_1hour = '';
-to = '';
+from_1week = "";
+from_3days = "";
+from_4hours = "";
+from_1hour = "";
+to = "";
 
 //Other variables
 totalMissingHours = 0;
