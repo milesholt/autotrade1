@@ -37,7 +37,7 @@ actions.useGeminiPro = async function (
   this.generating = true;
   this.generated = false;
   // Gemini Client
-  const genAI = new GoogleGenerativeAI(process.ai.GOOGLE_GEMINIAPI);
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINIAPI);
 
   const generationConfig = {
     safetySettings: [
