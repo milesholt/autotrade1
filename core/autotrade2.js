@@ -37,15 +37,12 @@ Core handlers
 
 /* Breakout strategy */
 
-const checkHandler = require('./handlers/strategies/breakOut/checkHandler.js');
-const beforeRangeHandler = require('./handlers/strategies/breakOut/beforeRangeHandler.js');
-const recentTrendHandler = require('./handlers/strategies/breakOut/recentTrendHandler.js');
-const missingHoursHandler = require('./handlers/strategies/breakOut/missingHoursHandler.js');
-const bumpsHandler = require('./handlers/strategies/breakOut/bumpsHandler.js');
-const analysisHandler = require('./handlers/strategies/breakOut/analysisHandler.js');
-
-
-*/
+const checkHandler = require("./handlers/strategies/breakOut/checkHandler.js");
+const beforeRangeHandler = require("./handlers/strategies/breakOut/beforeRangeHandler.js");
+const recentTrendHandler = require("./handlers/strategies/breakOut/recentTrendHandler.js");
+const missingHoursHandler = require("./handlers/strategies/breakOut/missingHoursHandler.js");
+const bumpsHandler = require("./handlers/strategies/breakOut/bumpsHandler.js");
+const analysisHandler = require("./handlers/strategies/breakOut/analysisHandler.js");
 
 //Generic handlers
 
