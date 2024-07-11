@@ -98,6 +98,7 @@ actions.analyseResults = async function () {
 
 actions.decide = async function () {
   go = false;
+  console.log(findings);
   let f = findings;
 
   if (f.overallTrend == "downward") {
@@ -128,7 +129,11 @@ actions.decide = async function () {
       go = true;
   }
 
-  if (go == true) actions.beginTrade();
+  if (go == true) {
+    actions.beginTrade();
+  } else {
+    console.log("Do not make trade");
+  }
 };
 
 actions.beginTrade = async function () {
