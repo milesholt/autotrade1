@@ -1,1 +1,1 @@
-[]
+[{"timestamp":1720688994571,"date":"July 11, 2024 10:09 AM","limitLevel":1487.8,"stopLevel":1523.2,"newLimit":1502,"lastClose":1502,"direction":"SELL","openLevel":1505.5,"data":{"snapshotTime":"2024-07-11 10:09:53","openPrice":{"bid":1503.2,"ask":1504.7,"lastTraded":null},"closePrice":{"bid":1501.4,"ask":1502.9,"lastTraded":null},"highPrice":{"bid":1503.5,"ask":1505,"lastTraded":null},"lowPrice":{"bid":1501.4,"ask":1502.9,"lastTraded":null},"lastTradedVolume":107},"dealId":"DIAAAAP9YUUMPAT","profit":28.6,"amount":28.6,"result":"PROFIT","epic":"CS.D.NOKJPY.TODAY.IP"}]
