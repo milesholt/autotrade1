@@ -8,12 +8,6 @@ var log;
 const { from, range } = require("rxjs");
 const { map, filter } = require("rxjs/operators");
 
-const ai = {
-  gemini: {
-    apiKey: "AIzaSyBSBb3MeOjZVv3Jv5iWmqN-InCRj3mcnf8",
-  },
-};
-
 /*
 
 REQUIRE
@@ -43,7 +37,7 @@ actions.useGeminiPro = async function (
   this.generating = true;
   this.generated = false;
   // Gemini Client
-  const genAI = new GoogleGenerativeAI(environment.ai.gemini.API_KEY);
+  const genAI = new GoogleGenerativeAI(process.ai.GOOGLE_GEMINIAPI);
 
   const generationConfig = {
     safetySettings: [
@@ -90,4 +84,8 @@ actions.useGeminiPro = async function (
   //res = response.candidates?.[0].content.parts[0].text || response.text();
   this.message = "";
   return res;
+};
+
+module.exports = {
+  actions: actions,
 };
