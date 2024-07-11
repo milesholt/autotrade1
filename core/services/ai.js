@@ -8,6 +8,12 @@ var log;
 const { from, range } = require("rxjs");
 const { map, filter } = require("rxjs/operators");
 
+const {
+  GoogleGenerativeAI,
+  HarmBlockThreshold,
+  HarmCategory,
+} = require("@google/generative-ai");
+
 /*
 
 REQUIRE
