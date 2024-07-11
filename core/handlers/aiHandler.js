@@ -255,3 +255,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
     // }, 60000); // Simulate an async operation with a timeout
   });
 };
+
+module.exports = {
+  actions: actions,
+};
