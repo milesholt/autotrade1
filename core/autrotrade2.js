@@ -427,7 +427,7 @@ actions.exec = async function () {
     await aiHandler.actions.runMultiple(pricedata, 0);
 
     //Determine trade
-    await tradeHandler.actions.determineTrade2();
+    //await tradeHandler.actions.determineTrade2();
 
     //Final logs
     console.log("--------UPDATING MARKET----------");
