@@ -4,8 +4,8 @@ var lib;
 
 var session;
 var go = false;
-var findings;
-var results;
+var findings = {};
+var results = [];
 
 //Call specific service to handle ai actions
 const ai = require("../services/ai.js");
@@ -193,7 +193,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
   return new Promise(async (resolve) => {
     //setTimeout(async () => {
     if (!!data) {
-      console.log(data);
+      //console.log(data);
 
       let reportJSON = {
         summary: "",
