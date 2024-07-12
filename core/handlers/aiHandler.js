@@ -14,6 +14,7 @@ REQUIRE
 actions.require = async function () {
   core = require.main.exports;
   lib = core.lib.actions;
+  cloud = core.cloudHandler.actions;
 };
 
 /*
@@ -129,6 +130,14 @@ actions.decide = async function () {
   } else {
     console.log("Do not make trade");
   }
+
+  var ai_report = {
+    results: ai_results,
+    findings: ai_findings,
+    open_position: ai_go,
+  };
+
+  cloud.updateFile(ai_report, aiDataDir);
 };
 
 actions.beginTrade = async function () {

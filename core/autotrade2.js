@@ -73,6 +73,7 @@ actions.setPaths = async function () {
   analysisDataDir = "core/data/" + epic + "/" + epic + "_analysisdata.js";
   plotDataDir = "core/data/" + epic + "/" + epic + "_plotdata.js";
   plot4HourDataDir = "core/data/" + epic + "/" + epic + "_plotdata_4hour.js";
+  aiDataDir = "core/data/" + epic + "/" + epic + "_aidata.json";
 };
 
 /*

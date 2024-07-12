@@ -276,6 +276,7 @@ analysisDataDir = "core/data/";
 plotDataDir = "core/data/";
 plot4HourDataDir = "core/data/";
 beforeRangeDir = "core/data/";
+aiDataDir = "core/data/";
 marketDataDir = "core/data/marketdata.json";
 accountDataDir = "core/data/accountdata.json";
 tradeDataDir = "core/data/";
