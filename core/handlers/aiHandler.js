@@ -233,7 +233,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
             if (session[key] == null) pass = false;
           });
           if (!pass) {
-            if (attempt < 3) {
+            if (attempt < 1) {
               attempt++;
               console.log("Trying again.." + attempt);
               actions.runAIQuery(data, attempt);
@@ -241,7 +241,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
           }
         } catch (e) {
           //if not json try again
-          if (attempt < 3) {
+          if (attempt < 1) {
             attempt++;
             console.log("Trying again.." + attempt);
             actions.runAIQuery(data, attempt);
