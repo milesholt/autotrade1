@@ -35,7 +35,7 @@ actions.runMultiple = async function (i) {
   console.log("running multiple");
   console.log("running AI Query: " + i);
   await actions.runAIQuery(pricedata).then(async (result) => {
-    ai_results.push(result);
+    if (result !== null) ai_results.push(result);
     i++;
     if (i < 5) {
       actions.runMultiple(i);
@@ -244,6 +244,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
           if (!pass) {
             if (attempt < 1) {
               attempt++;
+              session = null; //nullify this response if not json
               console.log("Trying again.." + attempt);
               actions.runAIQuery(data, attempt);
             }
@@ -252,6 +253,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
           //if not json try again
           if (attempt < 1) {
             attempt++;
+            session = null;
             console.log("Trying again.." + attempt);
             actions.runAIQuery(data, attempt);
           }
