@@ -93,8 +93,13 @@ actions.useGeminiPro = async function (
     this.message = "";
     return res;
   } catch (e) {
-    console.log("Error with Gemini API:");
-    console.log(e);
+    console.log("Error with Gemini API");
+    //console.log(e);
+    //429 too many requests
+    console.log(e.status);
+    console.log(e.statusText);
+    //e.status
+    //e.statusText
     return null;
   }
 };

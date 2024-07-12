@@ -277,6 +277,11 @@ actions.setDefaults = async function () {
   analysis = {};
   isWaveOveride = false;
   isMidTrendOveride = false;
+
+  //ai variables
+  ai_go = false;
+  ai_findings = {};
+  ai_results = [];
 };
 
 /*

@@ -2,11 +2,6 @@ var actions = {};
 var core;
 var lib;
 
-var session = null;
-var go = false;
-var findings = {};
-var results = [];
-
 //Call specific service to handle ai actions
 const ai = require("../services/ai.js");
 
@@ -39,13 +34,13 @@ actions.runMultiple = async function (i) {
   console.log("running multiple");
   console.log("running AI Query: " + i);
   await actions.runAIQuery(pricedata).then(async (result) => {
-    results.push(result);
+    ai_results.push(result);
     i++;
     if (i < 5) {
       actions.runMultiple(i);
       console.log(`Result ${i + 1}:`, result);
     } else {
-      console.log("All results:", results);
+      console.log("All results:", ai_results);
       await actions.analyseResults();
       actions.decide();
     }
@@ -54,29 +49,29 @@ actions.runMultiple = async function (i) {
 
 actions.analyseResults = async function () {
   // Loop through the array
-  results.forEach((item) => {
+  ai_results.forEach((item) => {
     if (typeof item === "object" && item !== null) {
       for (const key in item) {
-        if (!Array.isArray(findings[key])) {
-          findings[key] = [];
+        if (!Array.isArray(ai_findings[key])) {
+          ai_findings[key] = [];
         }
-        findings[key].push(item[key]);
+        ai_findings[key].push(item[key]);
       }
     }
   });
 
   // Remove 'summary' property
-  if (findings["summary"]) {
-    delete findings["summary"];
+  if (ai_findings["summary"]) {
+    delete ai_findings["summary"];
   }
 
   // Calculate the average for arrays containing only numbers
-  for (const key in findings) {
-    const values = findings[key];
+  for (const key in ai_findings) {
+    const values = ai_findings[key];
     // Get average for arrays with numbers
     if (values.every((value) => typeof value === "number")) {
       const sum = values.reduce((acc, val) => acc + val, 0);
-      findings[key] = Math.round(sum / values.length);
+      ai_findings[key] = Math.round(sum / values.length);
     } else if (values.every((value) => typeof value === "string")) {
       // Find the most frequent string in arrays containing only strings
       const frequencyMap = values.reduce((map, value) => {
@@ -90,16 +85,16 @@ actions.analyseResults = async function () {
       );
 
       if (mostFrequentStrings.length === 1) {
-        findings[key] = mostFrequentStrings[0];
+        ai_findings[key] = mostFrequentStrings[0];
       }
     }
   }
 };
 
 actions.decide = async function () {
-  go = false;
-  console.log(findings);
-  let f = findings;
+  ai_go = false;
+  console.log(ai_findings);
+  let f = ai_findings;
 
   if (f.overallTrend == "downward") {
     if (
@@ -112,7 +107,7 @@ actions.decide = async function () {
       f.riskLevel < 5 &&
       f.decision !== "CAUTION"
     )
-      go = true;
+      ai_go = true;
   }
 
   if (f.overallTrend == "upward") {
@@ -126,10 +121,10 @@ actions.decide = async function () {
       f.riskLevel < 5 &&
       f.decision !== "CAUTION"
     )
-      go = true;
+      ai_go = true;
   }
 
-  if (go == true) {
+  if (ai_go == true) {
     actions.beginTrade();
   } else {
     console.log("Do not make trade");
@@ -140,7 +135,7 @@ actions.beginTrade = async function () {
   console.log("BEGINNING TRADE USING AI...");
 
   //var lastClosePrice = pricedata[pricedata.length - 1];
-  var dir = findings.decision.includes("SELL") ? "SELL" : "BUY";
+  var dir = ai_findings.decision.includes("SELL") ? "SELL" : "BUY";
   var entryPrice = dir == "SELL" ? lastCloseBid : lastCloseAsk;
 
   const tradeParams = {

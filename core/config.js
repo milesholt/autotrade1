@@ -416,5 +416,10 @@ tradebeforeCheck = false;
 isWaveOveride = false;
 isMidTrendOveride = false;
 
+//ai variablesvar session = null;
+ai_go = false;
+ai_findings = {};
+ai_results = [];
+
 //accounts
 availableLoss = 0;
