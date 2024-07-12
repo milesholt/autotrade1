@@ -59,14 +59,16 @@ actions.useGeminiPro = async function (
     ...generationConfig,
   });
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
+  //let result = null;
   let res = "";
+  try {
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
 
-  //if (format == 'text')
-  res = response.candidates?.[0].content.parts[0].text || response.text();
+    //if (format == 'text')
+    res = response.candidates?.[0].content.parts[0].text || response.text();
 
-  /*if (format == 'json') {
+    /*if (format == 'json') {
     res = await this.cleanJsonResponse(
       response.candidates?.[0].content.parts[0].text || response.text(),
     );
@@ -86,10 +88,15 @@ actions.useGeminiPro = async function (
     }
   }*/
 
-  //if (res == null)
-  //res = response.candidates?.[0].content.parts[0].text || response.text();
-  this.message = "";
-  return res;
+    //if (res == null)
+    //res = response.candidates?.[0].content.parts[0].text || response.text();
+    this.message = "";
+    return res;
+  } catch (e) {
+    console.log("Error with Gemini API:");
+    console.log(e);
+    return null;
+  }
 };
 
 module.exports = {
