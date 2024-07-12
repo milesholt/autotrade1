@@ -2,7 +2,7 @@ var actions = {};
 var core;
 var lib;
 
-var session;
+var session = null;
 var go = false;
 var findings = {};
 var results = [];
@@ -57,7 +57,7 @@ actions.analyseResults = async function () {
   results.forEach((item) => {
     if (typeof item === "object" && item !== null) {
       for (const key in item) {
-        if (!findings[key]) {
+        if (!Array.isArray(findings[key])) {
           findings[key] = [];
         }
         findings[key].push(item[key]);
@@ -220,41 +220,48 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
         JSON.stringify(data) +
         " Do not return any other response, or additional text, only the JSON structure, with no line breaks and formatted correctly.";
 
-      session = await actions.doAI(prompt, "gemini-pro", "json");
-
       try {
-        JSON.parse(session);
-        console.log("formatted JSON");
-        session = JSON.parse(session);
-        //check for null values
-        let pass = true;
-        Object.keys(session).forEach((key) => {
-          if (session[key] == null) pass = false;
-        });
-        if (!pass) {
+        session = await actions.doAI(prompt, "gemini-pro", "json");
+      } catch (e) {
+        //catch if gemini throws error
+        console.log(e);
+      }
+
+      if (session !== null) {
+        try {
+          JSON.parse(session);
+          console.log("formatted JSON");
+          session = JSON.parse(session);
+          //check for null values
+          let pass = true;
+          Object.keys(session).forEach((key) => {
+            if (session[key] == null) pass = false;
+          });
+          if (!pass) {
+            if (attempt < 3) {
+              attempt++;
+              console.log("Trying again.." + attempt);
+              actions.runAIQuery(data, attempt);
+            }
+          }
+        } catch (e) {
+          //if not json try again
           if (attempt < 3) {
             attempt++;
             console.log("Trying again.." + attempt);
             actions.runAIQuery(data, attempt);
           }
+          console.log("could not format JSON");
         }
-      } catch (e) {
-        //if not json try again
-        if (attempt < 3) {
-          attempt++;
-          console.log("Trying again.." + attempt);
-          actions.runAIQuery(data, attempt);
-        }
-        console.log("could not format JSON");
-      }
 
-      console.log(session);
-      //resolve(this.session);
-    } else {
-      //reject('No data');
-      console.log("No data provided. Cannot run AI Query");
-      session = null;
-    }
+        console.log(session);
+        //resolve(this.session);
+      } else {
+        //reject('No data');
+        console.log("No data provided. Cannot run AI Query");
+        session = null;
+      }
+    } //if session not null
 
     resolve(session);
     // }, 60000); // Simulate an async operation with a timeout
