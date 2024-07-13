@@ -36,49 +36,63 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-actions.runMultiple = async function (i) {
-  console.log("running multiple. epic: - " + epic);
+actions.iniRun = async function () {
+  var set = {
+    epic: epic,
+    dir: aiDataDir,
+    prices: prices,
+    results: [],
+    findings: {},
+    go: false,
+    output: {},
+  };
+  actions.runMultiple(set, 0);
+};
+
+actions.runMultiple = async function (set, i) {
+  console.log("running multiple. epic: - " + set.epic);
   console.log("running AI Query: " + i);
-  await actions.runAIQuery(prices).then(async (result) => {
-    if (result !== null) ai_results.push(result);
+
+  await actions.runAIQuery(set.prices, 0, set).then(async (result) => {
+    if (result !== null) set.results.push(result);
     i++;
     if (i < 5) {
       await delay(60000); // Wait for 1 minute to reduce max number of requests
-      actions.runMultiple(i);
+      actions.runMultiple(set, i);
       //console.log(`Result ${i + 1}:`, result);
     } else {
-      //console.log("All results:", ai_results);
-      await actions.analyseResults();
-      actions.decide();
+      //console.log("All results:", set.results);
+      await actions.analyseResults(set);
+      actions.decide(set);
     }
   });
 };
 
-actions.analyseResults = async function () {
+actions.analyseResults = async function (set) {
   // Loop through the array
-  ai_results.forEach((item) => {
+  set.results.forEach((item) => {
     if (typeof item === "object" && item !== null) {
       for (const key in item) {
-        if (!Array.isArray(ai_findings[key])) {
-          ai_findings[key] = [];
+        if (!Array.isArray(set.findings[key])) {
+          set.findings[key] = [];
         }
-        ai_findings[key].push(item[key]);
+        set.findings[key].push(item[key]);
       }
     }
   });
 
   // Remove 'summary' property
-  if (ai_findings["summary"]) {
-    delete ai_findings["summary"];
+  if (set.findings["summary"]) {
+    delete set.findings["summary"];
   }
 
   // Calculate the average for arrays containing only numbers
-  for (const key in ai_findings) {
-    const values = ai_findings[key];
+  for (const key in set.findings) {
+    const values = set.findings[key];
     // Get average for arrays with numbers
     if (values.every((value) => typeof value === "number")) {
       const sum = values.reduce((acc, val) => acc + val, 0);
-      ai_findings[key] = Math.round(sum / values.length);
+      set.findings[key] = Math.round(sum / values.length);
     } else if (values.every((value) => typeof value === "string")) {
       // Find the most frequent string in arrays containing only strings
       const frequencyMap = values.reduce((map, value) => {
@@ -92,16 +106,16 @@ actions.analyseResults = async function () {
       );
 
       if (mostFrequentStrings.length === 1) {
-        ai_findings[key] = mostFrequentStrings[0];
+        set.findings[key] = mostFrequentStrings[0];
       }
     }
   }
 };
 
-actions.decide = async function () {
-  ai_go = false;
-  //console.log(ai_findings);
-  let f = ai_findings;
+actions.decide = async function (set) {
+  set.go = false;
+  //console.log(set.findings);
+  let f = set.findings;
 
   if (f.overallTrend == "downward") {
     if (
@@ -114,7 +128,7 @@ actions.decide = async function () {
       f.riskLevel < 5 &&
       f.decision !== "CAUTION"
     )
-      ai_go = true;
+      set.go = true;
   }
 
   if (f.overallTrend == "upward") {
@@ -128,36 +142,36 @@ actions.decide = async function () {
       f.riskLevel < 5 &&
       f.decision !== "CAUTION"
     )
-      ai_go = true;
+      set.go = true;
   }
 
-  if (ai_go == true) {
-    actions.beginTrade();
+  if (set.go == true) {
+    actions.beginTrade(set);
   } else {
     console.log("Do not make trade");
   }
 
-  console.log("Updating AI Data file for epic: " + epic);
-  console.log("AI Data path: " + aiDataDir);
+  console.log("Updating AI Data file for epic: " + set.epic);
+  console.log("AI Data path: " + set.dir);
 
   var ai_report = {
-    results: ai_results,
-    findings: ai_findings,
-    open_position: ai_go,
-    epic: epic,
+    results: set.results,
+    findings: set.findings,
+    open_position: set.go,
+    epic: set.epic,
   };
 
   console.log(ai_report);
-  console.log(aiDataDir);
+  console.log(set.dir);
 
-  cloud.updateFile(ai_report, aiDataDir);
+  cloud.updateFile(ai_report, set.dir);
 };
 
-actions.beginTrade = async function () {
+actions.beginTrade = async function (set) {
   console.log("BEGINNING TRADE USING AI...");
 
   //var lastClosePrice = pricedata[pricedata.length - 1];
-  var dir = ai_findings.decision.includes("SELL") ? "SELL" : "BUY";
+  var dir = set.findings.decision.includes("SELL") ? "SELL" : "BUY";
   var entryPrice = dir == "SELL" ? lastCloseBid : lastCloseAsk;
 
   const tradeParams = {
@@ -211,7 +225,7 @@ actions.calculateTradeDetails = function (params) {
   };
 };
 
-actions.runAIQuery = async function (data = false, attempt = 0) {
+actions.runAIQuery = async function (data = false, attempt = 0, set) {
   return new Promise(async (resolve) => {
     //setTimeout(async () => {
     if (!!data) {
@@ -228,7 +242,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
         riskLevel: 0,
         overallRisk: "",
         decision: "",
-        epic: epic,
+        epic: set.epic,
       };
 
       const prompt =
@@ -263,9 +277,9 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
                 "JSON returned null values. Trying again.." +
                   attempt +
                   " epic: " +
-                  epic,
+                  set.epic,
               );
-              actions.runAIQuery(data, attempt);
+              actions.runAIQuery(data, attempt, set);
             }
           }
         } catch (e) {
@@ -278,9 +292,9 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
               "Could not PARSE Json. Trying again.." +
                 attempt +
                 " epic: " +
-                epic,
+                set.epic,
             );
-            actions.runAIQuery(data, attempt);
+            actions.runAIQuery(data, attempt, set);
           }
           console.log("could not format JSON");
         }
