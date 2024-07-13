@@ -39,7 +39,7 @@ function delay(ms) {
 actions.iniRun = async function () {
   var set = {
     epic: epic,
-    dir: aiDataDir,
+    dataPath: aiDataDir,
     prices: prices,
     results: [],
     findings: {},
@@ -152,7 +152,7 @@ actions.decide = async function (set) {
   }
 
   console.log("Updating AI Data file for epic: " + set.epic);
-  console.log("AI Data path: " + set.dir);
+  console.log("AI Data path: " + set.dataPath);
 
   var ai_report = {
     results: set.results,
@@ -162,9 +162,9 @@ actions.decide = async function (set) {
   };
 
   console.log(ai_report);
-  console.log(set.dir);
+  console.log(set.dataPath);
 
-  cloud.updateFile(ai_report, set.dir);
+  cloud.updateFile(ai_report, set.dataPath);
 };
 
 actions.beginTrade = async function (set) {
