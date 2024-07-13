@@ -37,9 +37,9 @@ function delay(ms) {
 }
 
 actions.runMultiple = async function (i) {
-  console.log("running multiple");
+  console.log("running multiple. epic: - " + epic);
   console.log("running AI Query: " + i);
-  await actions.runAIQuery(pricedata).then(async (result) => {
+  await actions.runAIQuery(prices).then(async (result) => {
     if (result !== null) ai_results.push(result);
     i++;
     if (i < 5) {
@@ -148,6 +148,7 @@ actions.decide = async function () {
   };
 
   console.log(ai_report);
+  console.log(aiDataDir);
 
   cloud.updateFile(ai_report, aiDataDir);
 };
@@ -227,6 +228,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
         riskLevel: 0,
         overallRisk: "",
         decision: "",
+        epic: epic,
       };
 
       const prompt =
