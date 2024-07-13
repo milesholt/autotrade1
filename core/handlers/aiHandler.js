@@ -31,6 +31,11 @@ actions.doAI = async function (prompt, model, format) {
   }
 };
 
+// Function to introduce a delay
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 actions.runMultiple = async function (i) {
   console.log("running multiple");
   console.log("running AI Query: " + i);
@@ -38,10 +43,11 @@ actions.runMultiple = async function (i) {
     if (result !== null) ai_results.push(result);
     i++;
     if (i < 5) {
+      await delay(60000); // Wait for 1 minute to reduce max number of requests
       actions.runMultiple(i);
       console.log(`Result ${i + 1}:`, result);
     } else {
-      console.log("All results:", ai_results);
+      //console.log("All results:", ai_results);
       await actions.analyseResults();
       actions.decide();
     }
@@ -94,7 +100,7 @@ actions.analyseResults = async function () {
 
 actions.decide = async function () {
   ai_go = false;
-  console.log(ai_findings);
+  //console.log(ai_findings);
   let f = ai_findings;
 
   if (f.overallTrend == "downward") {
@@ -131,10 +137,14 @@ actions.decide = async function () {
     console.log("Do not make trade");
   }
 
+  console.log("Updating AI Data file for epic: " + epic);
+  console.log("AI Data path: " + aiDataDir);
+
   var ai_report = {
     results: ai_results,
     findings: ai_findings,
     open_position: ai_go,
+    epic: epic,
   };
 
   cloud.updateFile(ai_report, aiDataDir);
@@ -157,7 +167,7 @@ actions.beginTrade = async function () {
   };
 
   const tradeDetails = actions.calculateTradeDetails(tradeParams);
-  console.log(tradeDetails);
+  //console.log(tradeDetails);
   //this.openPosition(tradeDetails);
 };
 
@@ -234,7 +244,7 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
       if (session !== null) {
         try {
           JSON.parse(session);
-          console.log("formatted JSON");
+          //console.log("formatted JSON");
           session = JSON.parse(session);
           //check for null values
           let pass = true;
@@ -245,7 +255,12 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
             if (attempt < 1) {
               attempt++;
               session = null; //nullify this response if not json
-              console.log("Trying again.." + attempt);
+              console.log(
+                "JSON returned null values. Trying again.." +
+                  attempt +
+                  " epic: " +
+                  epic,
+              );
               actions.runAIQuery(data, attempt);
             }
           }
@@ -255,12 +270,18 @@ actions.runAIQuery = async function (data = false, attempt = 0) {
             attempt++;
             session = null;
             console.log("Trying again.." + attempt);
+            console.log(
+              "Could not PARSE Json. Trying again.." +
+                attempt +
+                " epic: " +
+                epic,
+            );
             actions.runAIQuery(data, attempt);
           }
           console.log("could not format JSON");
         }
 
-        console.log(session);
+        //console.log(session);
         //resolve(this.session);
       } else {
         //reject('No data');
