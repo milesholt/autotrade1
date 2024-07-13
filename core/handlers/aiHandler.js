@@ -45,7 +45,7 @@ actions.runMultiple = async function (i) {
     if (i < 5) {
       await delay(60000); // Wait for 1 minute to reduce max number of requests
       actions.runMultiple(i);
-      console.log(`Result ${i + 1}:`, result);
+      //console.log(`Result ${i + 1}:`, result);
     } else {
       //console.log("All results:", ai_results);
       await actions.analyseResults();
@@ -146,6 +146,8 @@ actions.decide = async function () {
     open_position: ai_go,
     epic: epic,
   };
+
+  console.log(ai_report);
 
   cloud.updateFile(ai_report, aiDataDir);
 };
