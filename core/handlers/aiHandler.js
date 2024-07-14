@@ -1,6 +1,15 @@
 var actions = {};
 var core;
 var lib;
+var loop;
+var notification;
+var api;
+var monitor;
+var util;
+var log;
+var lib;
+var error;
+var moment;
 
 //Call specific service to handle ai actions
 const ai = require("../services/ai.js");
@@ -15,6 +24,14 @@ actions.require = async function () {
   core = require.main.exports;
   lib = core.lib.actions;
   cloud = core.cloudHandler.actions;
+  loop = core.loopHandler.actions.loop;
+  notification = core.notificationHandler.actions;
+  log = core.log.actions;
+  api = core.api;
+  monitor = core.monitor.actions;
+  error = core.errorHandler.actions;
+  util = core.util;
+  moment = core.moment;
 };
 
 /*
@@ -185,7 +202,7 @@ actions.beginTrade = async function (set) {
 
   const tradeDetails = actions.calculateTradeDetails(tradeParams);
   //console.log(tradeDetails);
-  //this.openPosition(tradeDetails);
+  actions.openPosition2(tradeDetails, set);
 };
 
 actions.calculateTradeDetails = function (params) {
@@ -311,6 +328,280 @@ actions.runAIQuery = async function (data = false, attempt = 0, set) {
     resolve(session);
     // }, 60000); // Simulate an async operation with a timeout
   });
+};
+
+actions.openPosition = async function (details, set) {
+  const createPositionResponse = await ig.createOtcPosition({
+    epic: set.epic,
+    direction: details.direction,
+    orderType: "MARKET",
+    size: details.size,
+    forceOpen: true,
+    guaranteedStop: false,
+    stopLevel: null,
+    stopDistance: details.stopDistance,
+    trailingStop: "true",
+    trailingStopIncrement: "0",
+    limitLevel: null,
+    limitDistance: details.limitDistance,
+    currencyCode: "GBP",
+    expiry: "DFB",
+  });
+  console.log(createPositionResponse);
+  this.session = createPositionResponse;
+
+  const dealStatus = await ig.checkDealStatus(
+    createPositionResponse.dealReference,
+  );
+  console.log(dealStatus);
+};
+
+actions.openPosition2 = async function (details, set) {
+  console.log("Beginning trade using AI...");
+
+  //await notification.notify('trade-being-made', 'Trade is being made');
+
+  //Check if we already have a position
+  let positionOpen = false;
+
+  if (!lib.isEmpty(market.deal)) {
+    let dealId = market.deal.dealId;
+    await api
+      .getPosition(String(dealId))
+      .then(async (positionData) => {
+        //Check status pre-existing dealId
+        console.log("Found position currently open.");
+        console.log(positionData);
+        //If status is CLOSED, we can open a new position
+        if (positionData.market.marketStatus !== "CLOSED") {
+          positionOpen = true;
+          console.log("positionOpen should now be true: " + positionOpen);
+        }
+
+        if (positionData.market.marketStatus == "CLOSED") {
+          console.log("Found open position but status is closed");
+          market.deal = {};
+        }
+      })
+      .catch(async (e) => {
+        //API might fail to find position, go again
+        //Check history for position
+        //If still no position recorded, end exec and log issue
+        await api
+          .acctTransaction("ALL_DEAL", date2, date1, 20, 1)
+          .then((r) => {
+            r.transactions.forEach((transaction) => {
+              if (dealId === transaction.reference) {
+                //Deal found in transaction history. Clear position and continue with trade.
+                console.log(
+                  "deal is not empty, but no dealId found in transactions or as open position, resetting..",
+                );
+                market.deal = {};
+              }
+            });
+          })
+          .catch((e) => {
+            //Problem getting transaction history. Ending exec
+            //Handle error
+            return false;
+          });
+      });
+  }
+
+  //Check for existing open tickets
+  await api
+    .showOpenPositions()
+    .then(async (positionsData) => {
+      //console.log(util.inspect(positionsData, false, null));
+      if (positionsData.positions.length > 0) {
+        positionsData.positions.forEach((position) => {
+          if (position.market.epic == market.epic) {
+            positionOpen = true;
+            if (lib.isEmpty(market.deal)) {
+              console.log(
+                "Position found on server, but deal on marketdata is empty",
+              );
+            }
+          }
+        });
+      }
+    })
+    .catch((e) => console.log(e));
+
+  let ticketError = false;
+
+  //if(!positionOpen && positionsData.positions.length === 0){
+  console.log("positionOpen before making trade: " + positionOpen);
+
+  let go = positionOpen == false && lib.isEmpty(market.deal) ? true : false;
+  let dir = trend == "bullish" ? "BUY" : "SELL";
+
+  if (go === true) {
+    //No open positions, begin trade
+    ticket = {
+      currencyCode: "GBP",
+      direction: details.direction,
+      epic: set.epic,
+      expiry: market.expiry,
+      size: details.size,
+      forceOpen: true,
+      orderType: "MARKET",
+      level: null,
+      limitDistance: details.limitDistance,
+      limitLevel: null,
+      stopDistance: details.stopDistance,
+      stopLevel: null,
+      guaranteedStop: false,
+      timeInForce: "FILL_OR_KILL",
+      trailingStop: null,
+      trailingStopIncrement: null,
+    };
+
+    console.log(ticket);
+
+    analysis.ticket = ticket;
+    //console.log(analysis);
+
+    //Open a ticket
+    await api
+      .deal(ticket)
+      .then(async (r) => {
+        //console.log(util.inspect(r, false, null));
+        let ref = r.positions.dealReference;
+        analysis.dealReference = ref;
+
+        if (!r.confirms.dealId) {
+          console.log("Error: " + r.confirms.errorCode);
+
+          //let e = {'body': {'errorCode': r.confirms.errorCode, 'error': r, 'ticket' : ticket }};
+          //await error.handleErrors(e);
+
+          console.log(
+            "Checking again, and confirming position with deal ref: " + ref,
+          );
+          ticketError = true;
+
+          //Get status of position if error
+          await api
+            .confirmPosition(ref)
+            .then(async (rc) => {
+              //console.log(util.inspect(rc, false, null));
+              //Check again as sometimes there's an error - not found - if it's still being processed
+
+              if (
+                rc.dealStatus == "ACCEPTED" &&
+                rc.reason == "SUCCESS" &&
+                rc.status == "OPEN"
+              ) {
+                ticketError = false;
+                console.log("affectedDeals:");
+                console.log(rc.affectedDeals);
+                console.log("orig dealId:" + rc.dealId);
+                let id = rc.affectedDeals.length
+                  ? rc.affectedDeals[0].dealId
+                  : rc.dealId;
+                analysis.dealId = id;
+                analysis.openLevel = rc.level;
+                console.log(r.confirms);
+                console.log(
+                  "deal success, dealId should be:" + analysis.dealId,
+                );
+              }
+            })
+            .catch((e) => {
+              console.log(
+                "could not confirm position with deal reference: " + ref,
+              );
+              console.log(e);
+            });
+
+          if (ticketError) {
+            //Send email
+            //Handle ticket error
+            analysis.errorInformation = rc;
+            await notification.notify("deal-ticket-error", analysis);
+          }
+        } else {
+          //There can be a deal id but also an error, so check for errors again
+          await api.confirmPosition(ref).then(async (rc) => {
+            //console.log(util.inspect(rc, false, null));
+            //Check again as sometimes there's an error - not found - if it's still being processed
+            ticketError = true;
+            if (
+              rc.dealStatus == "ACCEPTED" &&
+              rc.reason == "SUCCESS" &&
+              rc.status == "OPEN"
+            ) {
+              ticketError = false;
+              console.log("affectedDeals:");
+              console.log(rc.affectedDeals);
+              console.log("orig dealId:" + rc.dealId);
+              let id = rc.affectedDeals.length
+                ? rc.affectedDeals[0].dealId
+                : rc.dealId;
+              analysis.dealId = id;
+            } else if (rc.dealStatus == "REJECTED") {
+              //Handle deal being rejected
+              //Send notification
+              analysis.errorInformation = rc;
+              await notification.notify("deal-rejected", analysis);
+              let e = { body: { errorCode: "deal-rejected", error: rc } };
+              await error.handleErrors(e);
+            }
+          });
+        }
+      })
+      .catch((e) => {
+        //Handle error creating ticket
+        ticketError = true;
+      });
+
+    if (ticketError == false) {
+      //Handle trade made successfully
+      //Send notification
+      await notification.notify("deal-success", analysis);
+      //Begin monitoring
+      //monitor.beginMonitor();
+
+      /*
+              when monitoring, because we are doing more than one
+              we have to assign the epic and dealId to the correct stream / monitor
+              So each monitor has to be associated with an ID or object, that contains the epic and dealId it is assigned with
+              There could be a monitors array, which contains the MID of whichever market is being monitored
+              */
+
+      console.log(
+        "Notification actioned. Beginning monitor and logging trade, dealId: " +
+          analysis.dealId,
+      );
+
+      //add a delay here if we are waiting for an existing trade to close (counter trade repair method)
+      setTimeout(async () => {
+        console.log("repairdelay: " + repairdelay);
+        dealId = analysis.dealId;
+        dealRef = analysis.dealReference;
+        direction = analysis.ticket.direction;
+
+        //Log trade first before monitoring
+        await log.startTradeLog(epic, analysis, dealId);
+        await monitor.iniMonitor(dealId, dealRef, epic);
+      }, repairdelay);
+
+      market.tradedBefore = moment.utc().local().valueOf();
+      finalMessage =
+        "Checks passed and trade has been made. Will go again in 1 hour.";
+    } else {
+      await log.errorTradeLog(
+        analysis.errorInformation,
+        analysis.dealReference,
+      );
+      finalMessage =
+        "Tried to make a trade, but it failed. Will go again in 1 hour.";
+    }
+  } else {
+    //Handle already trading on position
+    finalMessage = "You are already trading on this epic. Waiting 1 hour.";
+  }
 };
 
 module.exports = {
