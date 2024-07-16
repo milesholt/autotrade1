@@ -201,6 +201,9 @@ actions.beginTrade = async function (set) {
   };
 
   const tradeDetails = actions.calculateTradeDetails(tradeParams);
+
+  tradeDetails.direction = dir;
+  tradeDetails.entryPrice = entryPrice;
   //console.log(tradeDetails);
   actions.openPosition2(tradeDetails, set);
 };
@@ -335,15 +338,15 @@ actions.openPosition = async function (details, set) {
     epic: set.epic,
     direction: details.direction,
     orderType: "MARKET",
-    size: details.size,
+    size: details.positionSize,
     forceOpen: true,
     guaranteedStop: false,
     stopLevel: null,
-    stopDistance: details.stopDistance,
+    stopDistance: details.stopDistance.toFixed(2),
     trailingStop: "true",
     trailingStopIncrement: "0",
     limitLevel: null,
-    limitDistance: details.limitDistance,
+    limitDistance: details.limitDistance.toFixed(2),
     currencyCode: "GBP",
     expiry: "DFB",
   });
