@@ -162,12 +162,12 @@ actions.decide = async function (set) {
       set.go = true;
   }
 
-  /*if (set.go == true) {
+  if (set.go == true) {
     actions.beginTrade(set);
   } else {
     console.log("Do not make trade");
-  }*/
-  actions.beginTrade(set);
+  }
+  // actions.beginTrade(set);
 
   console.log("Updating AI Data file for epic: " + set.epic);
   console.log("AI Data path: " + set.dataPath);
@@ -236,6 +236,17 @@ actions.calculateTradeDetails = function (params) {
 
   // Calculate Position Size
   const positionSize = riskPerTrade / (stopDistance * valuePerPoint);
+
+  console.log("calculating size:");
+  console.log("value per point:");
+  console.log(valuePerPoint);
+  console.log("risk per trade:");
+  console.log(riskPerTrade);
+  console.log("stop distance:");
+  console.log(stopDistance);
+
+  console.log("size:");
+  console.log(positionSize);
 
   return {
     stopDistance,
