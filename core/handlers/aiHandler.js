@@ -201,10 +201,11 @@ actions.beginTrade = async function (set) {
     riskRewardRatio: 2,
   };
 
-  const tradeDetails = actions.calculateTradeDetails(tradeParams);
+  const tradeDetails = await actions.calculateTradeDetails(tradeParams);
 
   tradeDetails.direction = dir;
   tradeDetails.entryPrice = entryPrice;
+  set.details = tradeDetails;
   //console.log(tradeDetails);
   actions.openPosition2(tradeDetails, set);
 };
@@ -235,7 +236,7 @@ actions.calculateTradeDetails = function (params) {
   const riskPerTrade = accountEquity * (riskPercentage / 100);
 
   // Calculate Position Size
-  const positionSize = riskPerTrade / (stopDistance * valuePerPoint);
+  const size = riskPerTrade / (stopDistance * valuePerPoint);
 
   console.log("calculating size:");
   console.log("value per point:");
@@ -246,14 +247,14 @@ actions.calculateTradeDetails = function (params) {
   console.log(stopDistance);
 
   console.log("size:");
-  console.log(positionSize);
+  console.log(size);
 
   return {
     stopDistance,
     stopLossPrice,
     limitDistance,
     takeProfitPrice,
-    positionSize,
+    size,
   };
 };
 
@@ -350,7 +351,7 @@ actions.openPosition = async function (details, set) {
     epic: set.epic,
     direction: details.direction,
     orderType: "MARKET",
-    size: details.positionSize,
+    size: details.size,
     forceOpen: true,
     guaranteedStop: false,
     stopLevel: null,
@@ -452,6 +453,12 @@ actions.openPosition2 = async function (details, set) {
   let dir = trend == "bullish" ? "BUY" : "SELL";
 
   if (go === true) {
+    console.log("beginnign trade on epic: " + set.epic);
+    console.log("trade details:");
+    console.log(details);
+    console.log("set:");
+    console.log(set);
+
     //No open positions, begin trade
     ticket = {
       currencyCode: "GBP",
