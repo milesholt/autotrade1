@@ -347,7 +347,7 @@ actions.runAIQuery = async function (data = false, attempt = 0, set) {
 };
 
 actions.openPosition = async function (details, set) {
-  const createPositionResponse = await ig.createOtcPosition({
+  /*const createPositionResponse = await ig.createOtcPosition({
     epic: set.epic,
     direction: details.direction,
     orderType: "MARKET",
@@ -364,7 +364,7 @@ actions.openPosition = async function (details, set) {
     expiry: "DFB",
   });
   console.log(createPositionResponse);
-  this.session = createPositionResponse;
+  this.session = createPositionResponse;*/
 
   const dealStatus = await ig.checkDealStatus(
     createPositionResponse.dealReference,
@@ -469,9 +469,9 @@ actions.openPosition2 = async function (details, set) {
       forceOpen: true,
       orderType: "MARKET",
       level: null,
-      limitDistance: details.limitDistance,
+      limitDistance: details.limitDistance.toFixed(2),
       limitLevel: null,
-      stopDistance: details.stopDistance,
+      stopDistance: details.stopDistance.toFixed(2),
       stopLevel: null,
       guaranteedStop: false,
       timeInForce: "FILL_OR_KILL",
@@ -479,6 +479,7 @@ actions.openPosition2 = async function (details, set) {
       trailingStopIncrement: null,
     };
 
+    console.log("ticket:");
     console.log(ticket);
 
     analysis.ticket = ticket;
