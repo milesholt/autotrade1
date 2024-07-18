@@ -494,7 +494,7 @@ actions.openPosition2 = async function (details, set) {
       direction: details.direction,
       epic: set.epic,
       expiry: market.expiry,
-      size: details.size,
+      size: details.size.toFixed(2),
       forceOpen: true,
       orderType: "MARKET",
       level: null,
@@ -518,7 +518,7 @@ actions.openPosition2 = async function (details, set) {
     await api
       .deal(ticket)
       .then(async (r) => {
-        //console.log(util.inspect(r, false, null));
+        console.log(util.inspect(r, false, null));
         let ref = r.positions.dealReference;
         analysis.dealReference = ref;
 
@@ -654,6 +654,8 @@ actions.openPosition2 = async function (details, set) {
     //Handle already trading on position
     finalMessage = "You are already trading on this epic. Waiting 1 hour.";
   }
+
+  console.log(finalMessage);
 };
 
 module.exports = {
