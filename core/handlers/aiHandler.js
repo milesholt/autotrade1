@@ -196,7 +196,7 @@ actions.decide = async function (set) {
   } else {
     console.log("Do not make trade");
   }
-  // actions.beginTrade(set);
+  actions.beginTrade(set);
 
   console.log("Updating AI Data file for epic: " + set.epic);
   console.log("AI Data path: " + set.dataPath);
