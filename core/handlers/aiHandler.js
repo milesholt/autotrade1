@@ -134,6 +134,35 @@ actions.decide = async function (set) {
   //console.log(set.findings);
   let f = set.findings;
 
+  //Determine HOLD
+  /* Sometimes HOLD is set by AI when it might not necessarily apply. Needs manual check */
+
+  if (f.overallTrend == "downward" && f.decision == "HOLD") {
+    const threshold = 3;
+    if (
+      f.movingAverages <= threshold &&
+      f.movingAveragesConvergenceDivergence <= threshold &&
+      f.relativeStrengthIndex <= threshold &&
+      f.overallRisk !== "high" &&
+      f.riskLevel < 5
+    )
+      f.decision = "SELL";
+  }
+
+  if (f.overallTrend == "upward" && f.decision == "HOLD") {
+    const threshold = 7;
+    if (
+      f.movingAverages >= threshold &&
+      f.movingAveragesConvergenceDivergence >= threshold &&
+      f.relativeStrengthIndex >= threshold &&
+      f.overallRisk !== "high" &&
+      f.riskLevel < 5
+    )
+      f.decision = "BUY";
+  }
+
+  //Do main check for opening a position
+
   if (f.overallTrend == "downward") {
     if (
       f.movingAverages < 5 &&
@@ -143,7 +172,7 @@ actions.decide = async function (set) {
       f.bollingerBands <= 5 &&
       f.overallRisk !== "high" &&
       f.riskLevel < 5 &&
-      f.decision !== "CAUTION"
+      f.decision !== "HOLD"
     )
       set.go = true;
   }
@@ -157,7 +186,7 @@ actions.decide = async function (set) {
       f.bollingerBands >= 5 &&
       f.overallRisk !== "high" &&
       f.riskLevel < 5 &&
-      f.decision !== "CAUTION"
+      f.decision !== "HOLD"
     )
       set.go = true;
   }
@@ -281,7 +310,7 @@ actions.runAIQuery = async function (data = false, attempt = 0, set) {
       const prompt =
         "Using the following five technical analysis methods: Moving Averages, MACD (Moving Average Convergence Divergence), Fibonacci Retracement, Bollinger Bands & Relative Strength Index (RSI), analyse the following JSON financial data and give me a report with a final decision on whether to BUY or SELL. Using your response, complete the blank values from the following JSON structure, and only this structure. Do no create any other properties: " +
         JSON.stringify(reportJSON) +
-        ' The summary property can be a summary report in no more than 500 words. For the value of the property "movingAverage", provide a score out of 10 based on the result of the analysis method Moving Averages, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "movingAveragesConvergenceDivergence", provide a score out of 10 based on the result of the analysis method Moving Averages Convergence Divergence, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "relativeStrengthIndex", provide a score out of 10 based on the result of the analysis method Relative Strength Index, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "fibonacciRetracement", provide a score out of 10 based on the result of the analysis method Fibonacci Retracement, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "bollingerBands", provide a score out of 10 based on the result of the analysis method Bollinger Bands, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). Make sure the values for each of the analysis method properties are a score as mentioned, and no more than 10. The overallTrend property can be either "downward", "neutral", or "upward". The riskLevel can be a number 0 out of 5, with 0 being low risk and 5 being high risk. overallRisk can either be "low", "medium" or "high". The decision value can only be either BUY, STRONG BUY, SELL, STRONG SELL or HOLD. If the overallRisk is "high" the decision should be HOLD. And here is the JSON financial data: ' +
+        ' The summary property can be a summary report in no more than 500 words. For the value of the property "movingAverage", provide a score out of 10 based on the result of the analysis method Moving Averages, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "movingAveragesConvergenceDivergence", provide a score out of 10 based on the result of the analysis method Moving Averages Convergence Divergence, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "relativeStrengthIndex", provide a score out of 10 based on the result of the analysis method Relative Strength Index, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "fibonacciRetracement", provide a score out of 10 based on the result of the analysis method Fibonacci Retracement, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). For the value of the property "bollingerBands", provide a score out of 10 based on the result of the analysis method Bollinger Bands, (with 0 being the strongest indication of the stock price going down and 10 being the highest indication of the stock price going up). Make sure the values for each of the analysis method properties are a score as mentioned, and no more than 10. The overallTrend property can be either "downward", "neutral", or "upward". The riskLevel can be a number 0 out of 5, with 0 being low risk and 5 being high risk. overallRisk can either be "low", "medium" or "high". The decision value can only be either BUY, STRONG BUY, SELL, STRONG SELL or HOLD. And here is the JSON financial data: ' +
         JSON.stringify(data) +
         " Do not return any other response, or additional text, only the JSON structure, with no line breaks and formatted correctly.";
 
