@@ -196,7 +196,6 @@ actions.decide = async function (set) {
   } else {
     console.log("Do not make trade");
   }
-  actions.beginTrade(set);
 
   console.log("Updating AI Data file for epic: " + set.epic);
   console.log("AI Data path: " + set.dataPath);
@@ -649,6 +648,7 @@ actions.openPosition2 = async function (details, set) {
       );
       finalMessage =
         "Tried to make a trade, but it failed. Will go again in 1 hour.";
+      await notification.notify("deal-ticket-error", analysis);
     }
   } else {
     //Handle already trading on position
