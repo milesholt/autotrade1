@@ -635,7 +635,7 @@ actions.openPosition2 = async function (details, set) {
 
         //Log trade first before monitoring
         await log.startTradeLog(epic, analysis, dealId);
-        await monitor.iniMonitor(dealId, dealRef, epic);
+        //await monitor.iniMonitor(dealId, dealRef, epic);
       }, repairdelay);
 
       market.tradedBefore = moment.utc().local().valueOf();
