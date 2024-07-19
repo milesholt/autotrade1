@@ -266,6 +266,17 @@ actions.calculateTradeDetails = function (params) {
   // Calculate Position Size
   const size = riskPerTrade / (stopDistance * valuePerPoint);
 
+  let cp = entryPrice;
+  // stopDistance = Math.abs(cp - stopDistanceLevel);
+  // limitDistance = Math.abs(cp - limitDistanceLevel);
+
+  let minSize =
+    market.minimumSize.type == "points"
+      ? market.minimumSize.value
+      : lib.toNumber(cp * market.minimumSize.value);
+
+  if (size <= minSize) size = minSize;
+
   console.log("calculating size:");
   console.log("value per point:");
   console.log(valuePerPoint);
@@ -409,7 +420,9 @@ actions.openPosition2 = async function (details, set) {
   let positionOpen = false;
 
   if (!lib.isEmpty(market.deal)) {
+    console.log("market deal is not empty");
     let dealId = market.deal.dealId;
+    console.log("dealId: " + dealId);
     await api
       .getPosition(String(dealId))
       .then(async (positionData) => {
@@ -450,6 +463,8 @@ actions.openPosition2 = async function (details, set) {
             return false;
           });
       });
+  } else {
+    console.log("market deal is empty");
   }
 
   //Check for existing open tickets
