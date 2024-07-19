@@ -55,7 +55,7 @@ function delay(ms) {
 
 actions.iniRun = async function () {
   var set = {
-    epic: epic,
+    epic: market.epic,
     dataPath: aiDataDir,
     prices: prices,
     results: [],
@@ -459,7 +459,7 @@ actions.openPosition2 = async function (details, set) {
       //console.log(util.inspect(positionsData, false, null));
       if (positionsData.positions.length > 0) {
         positionsData.positions.forEach((position) => {
-          if (position.market.epic == market.epic) {
+          if (position.market.epic == set.epic) {
             positionOpen = true;
             if (lib.isEmpty(market.deal)) {
               console.log(
@@ -634,7 +634,7 @@ actions.openPosition2 = async function (details, set) {
         direction = analysis.ticket.direction;
 
         //Log trade first before monitoring
-        await log.startTradeLog(epic, analysis, dealId);
+        await log.startTradeLog(set.epic, analysis, dealId);
         //await monitor.iniMonitor(dealId, dealRef, epic);
       }, repairdelay);
 
