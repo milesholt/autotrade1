@@ -201,19 +201,19 @@ actions.decide = async function (set) {
   console.log("AI Data path: " + set.dataPath);
 
   //if property ai_decision exists
-  if (analytics.hasOwnProperty("ai_decisions")) {
-    if (analytics.ai_decisions.length == 5) {
+  if (analytics.hasOwnProperty("aiDecisions")) {
+    if (analytics.aiDecisions.length == 5) {
       //reset if max 5
-      analytics.ai_decisions = [];
-      analytics.ai_decisions.push(f.decision);
+      analytics.aiDecisions = [];
+      analytics.aiDecisions.push(f.decision);
     } else {
       //otherwise push new decision
-      analytics.ai_decisions.push(f.decision);
+      analytics.aiDecisions.push(f.decision);
     }
   } else {
     //if property does not exist create
-    analytics.ai_decisions = [];
-    analytics.ai_decisions.push(f.decision);
+    analytics.aiDecisions = [];
+    analytics.aiDecisions.push(f.decision);
   }
 
   var ai_report = {
