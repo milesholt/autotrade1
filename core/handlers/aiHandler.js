@@ -216,14 +216,19 @@ actions.decide = async function (set) {
     ai_data.aiDecisions.push(f.decision);
   }
 
+  console.log("ai decisions:");
+  console.log(ai_data);
+
   var ai_report = {
     results: set.results,
     findings: set.findings,
     open_position: set.go,
     epic: set.epic,
+    aiDecisions: ai_data.aiDecisions,
   };
 
-  ai_data = { ...ai_data, ...ai_report };
+  //ai_data = { ...ai_data, ...ai_report };
+  ai_data = ai_report;
 
   console.log(ai_data);
   console.log(set.dataPath);
