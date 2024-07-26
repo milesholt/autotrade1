@@ -283,6 +283,7 @@ actions.setDefaults = async function () {
   ai_go = false;
   ai_findings = {};
   ai_results = [];
+  ai_data = {};
 };
 
 /*

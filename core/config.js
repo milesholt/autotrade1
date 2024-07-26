@@ -423,6 +423,7 @@ isMidTrendOveride = false;
 ai_go = false;
 ai_findings = {};
 ai_results = [];
+ai_data = {};
 
 //accounts
 availableLoss = 0;

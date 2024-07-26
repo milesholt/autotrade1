@@ -81,6 +81,8 @@ actions.getFiles = async function () {
   plot4HourDataSet = eval("plots_4hour_" + mid);
   plot4HourDataSha = github.sha;
 
+  ai_data = await github.actions.getFile(aiDataDir);
+
   //merge cloud markets with config markets to merge any new additional markets
 
   //markets = await github.actions.getFile(marketDataDir);

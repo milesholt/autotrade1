@@ -201,19 +201,19 @@ actions.decide = async function (set) {
   console.log("AI Data path: " + set.dataPath);
 
   //if property ai_decision exists
-  if (analysis.hasOwnProperty("aiDecisions")) {
-    if (analysis.aiDecisions.length == 5) {
+  if (ai_data.hasOwnProperty("aiDecisions")) {
+    if (ai_data.aiDecisions.length == 5) {
       //reset if max 5
-      analysis.aiDecisions = [];
-      analysis.aiDecisions.push(f.decision);
+      ai_data.aiDecisions = [];
+      ai_data.aiDecisions.push(f.decision);
     } else {
       //otherwise push new decision
-      analysis.aiDecisions.push(f.decision);
+      ai_data.aiDecisions.push(f.decision);
     }
   } else {
     //if property does not exist create
-    analysis.aiDecisions = [];
-    analysis.aiDecisions.push(f.decision);
+    ai_data.aiDecisions = [];
+    ai_data.aiDecisions.push(f.decision);
   }
 
   var ai_report = {
@@ -223,10 +223,12 @@ actions.decide = async function (set) {
     epic: set.epic,
   };
 
-  console.log(ai_report);
+  ai_data = { ...ai_data, ...ai_report };
+
+  console.log(ai_data);
   console.log(set.dataPath);
 
-  cloud.updateFile(ai_report, set.dataPath);
+  cloud.updateFile(ai_data, set.dataPath);
 };
 
 actions.beginTrade = async function (set) {
