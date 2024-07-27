@@ -202,14 +202,12 @@ actions.decide = async function (set) {
 
   //if property ai_decision exists
   if (ai_data.hasOwnProperty("aiDecisions")) {
-    if (ai_data.aiDecisions.length == 5) {
-      //reset if max 5
-      ai_data.aiDecisions = [];
-      ai_data.aiDecisions.push(f.decision);
-    } else {
-      //otherwise push new decision
-      ai_data.aiDecisions.push(f.decision);
-    }
+
+    if (ai_data.aiDecisions.length >= 5) {
+      array.shift(); // Remove the first element
+    } 
+    ai_data.aiDecisions.push(f.decision);
+
   } else {
     //if property does not exist create
     ai_data.aiDecisions = [];
