@@ -119,7 +119,7 @@ actions.analyseResults = async function (set) {
 
       const maxFrequency = Math.max(...Object.values(frequencyMap));
       const mostFrequentStrings = Object.keys(frequencyMap).filter(
-        (key) => frequencyMap[key] === maxFrequency,
+        (key) => frequencyMap[key] === maxFrequency
       );
 
       if (mostFrequentStrings.length === 1) {
@@ -298,8 +298,16 @@ actions.calculateTradeDetails = function (params) {
       ? market.minimumSize.value
       : lib.toNumber(cp * market.minimumSize.value);
 
-  if (size <= minSize) size = minSize;
+  if (size <= minSize) {
+    console.log("size is less than minSize, using minSize");
+    console.log("previous size:");
+    console.log(size);
 
+    size = minSize;
+
+    console.log("new size:");
+    console.log(size);
+  }
   console.log("calculating size:");
   console.log("value per point:");
   console.log(valuePerPoint);
@@ -307,6 +315,9 @@ actions.calculateTradeDetails = function (params) {
   console.log(riskPerTrade);
   console.log("stop distance:");
   console.log(stopDistance);
+
+  console.log("minimum size order:");
+  console.log(minSize);
 
   console.log("size:");
   console.log(size);
@@ -372,7 +383,7 @@ actions.runAIQuery = async function (data = false, attempt = 0, set) {
                 "JSON returned null values. Trying again.." +
                   attempt +
                   " epic: " +
-                  set.epic,
+                  set.epic
               );
               actions.runAIQuery(data, attempt, set);
             }
@@ -387,7 +398,7 @@ actions.runAIQuery = async function (data = false, attempt = 0, set) {
               "Could not PARSE Json. Trying again.." +
                 attempt +
                 " epic: " +
-                set.epic,
+                set.epic
             );
             actions.runAIQuery(data, attempt, set);
           }
@@ -429,7 +440,7 @@ actions.openPosition = async function (details, set) {
   this.session = createPositionResponse;*/
 
   const dealStatus = await ig.checkDealStatus(
-    createPositionResponse.dealReference,
+    createPositionResponse.dealReference
   );
   console.log(dealStatus);
 };
@@ -474,7 +485,7 @@ actions.openPosition2 = async function (details, set) {
               if (dealId === transaction.reference) {
                 //Deal found in transaction history. Clear position and continue with trade.
                 console.log(
-                  "deal is not empty, but no dealId found in transactions or as open position, resetting..",
+                  "deal is not empty, but no dealId found in transactions or as open position, resetting.."
                 );
                 market.deal = {};
               }
@@ -501,7 +512,7 @@ actions.openPosition2 = async function (details, set) {
             positionOpen = true;
             if (lib.isEmpty(market.deal)) {
               console.log(
-                "Position found on server, but deal on marketdata is empty",
+                "Position found on server, but deal on marketdata is empty"
               );
             }
           }
@@ -566,7 +577,7 @@ actions.openPosition2 = async function (details, set) {
           //await error.handleErrors(e);
 
           console.log(
-            "Checking again, and confirming position with deal ref: " + ref,
+            "Checking again, and confirming position with deal ref: " + ref
           );
           ticketError = true;
 
@@ -593,13 +604,13 @@ actions.openPosition2 = async function (details, set) {
                 analysis.openLevel = rc.level;
                 console.log(r.confirms);
                 console.log(
-                  "deal success, dealId should be:" + analysis.dealId,
+                  "deal success, dealId should be:" + analysis.dealId
                 );
               }
             })
             .catch((e) => {
               console.log(
-                "could not confirm position with deal reference: " + ref,
+                "could not confirm position with deal reference: " + ref
               );
               console.log(e);
             });
@@ -661,7 +672,7 @@ actions.openPosition2 = async function (details, set) {
 
       console.log(
         "Notification actioned. Beginning monitor and logging trade, dealId: " +
-          analysis.dealId,
+          analysis.dealId
       );
 
       //add a delay here if we are waiting for an existing trade to close (counter trade repair method)
@@ -682,7 +693,7 @@ actions.openPosition2 = async function (details, set) {
     } else {
       await log.errorTradeLog(
         analysis.errorInformation,
-        analysis.dealReference,
+        analysis.dealReference
       );
       finalMessage =
         "Tried to make a trade, but it failed. Will go again in 1 hour.";
