@@ -208,10 +208,12 @@ actions.decide = async function (set) {
 
     ai_data.aiDecisions.push(f.decision);
   } else {
-    if (!Array.isArray(ai_data["aiDecisions"])) {
+    /*if (!Array.isArray(ai_data["aiDecisions"])) {
       ai_data["aiDecisions"] = [];
-    }
-    ai_data["aiDecisions"].push(f.decision);
+    }*/
+    //if property does not exist create
+    ai_data["aiDecisions"] = [f.decision];
+    //ai_data.aiDecisions.push(f.decision);
   }
 
   console.log("ai decisions:");
