@@ -68,8 +68,8 @@ limitDistancePerc = 0.4;
 
 /*limitClosePerc = 0.15;
 stopClosePerc = 0.25;*/
-limitClosePerc = 0;
-stopClosePerc = 0;
+limitClosePerc = 1;
+stopClosePerc = 1;
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
 
