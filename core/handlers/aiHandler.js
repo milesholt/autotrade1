@@ -202,16 +202,14 @@ actions.decide = async function (set) {
 
   //if property ai_decision exists
   if (ai_data.hasOwnProperty("aiDecisions")) {
-    
     if (Array.isArray(ai_data["aiDecisions"])) {
       if (ai_data["aiDecisions"].length >= 5) {
         ai_data["aiDecisions"].shift(); // Remove the first element
-      }  
+      }
       ai_data["aiDecisions"].push(f.decision);
     } else {
       ai_data["aiDecisions"] = [f.decision];
-    } 
-
+    }
   } else {
     /*if (!Array.isArray(ai_data["aiDecisions"])) {
       ai_data["aiDecisions"] = [];
@@ -533,6 +531,22 @@ actions.openPosition2 = async function (details, set) {
 
   let go = positionOpen == false && lib.isEmpty(market.deal) ? true : false;
   let dir = trend == "bullish" ? "BUY" : "SELL";
+
+  /* REPAIR COUNTER TRADE METHOD */
+
+  //overide if possible trade is in opposite direction
+  //close existing trade at loss and begin new trade in other direction
+  let repairdelay = 0;
+  /*if(!lib.isEmpty(market.deal)){
+          if(dir !== market.deal.direction){
+            console.log('new dir: ' + dir );
+            console.log('current deal direction: ' + market.deal.direction);
+            console.log('Closing open trade as loss, and beginning new one in other direction');
+            go = true;
+            markets[mid].closeloss = true;
+            repairdelay = 20000; //wait 2 minutes for it to detect closeloss in stream, before starting a new one
+          }
+        }*/
 
   if (go === true) {
     console.log("beginnign trade on epic: " + set.epic);
