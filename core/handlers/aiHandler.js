@@ -214,6 +214,7 @@ actions.decide = async function (set) {
     /*if (!Array.isArray(ai_data["aiDecisions"])) {
       ai_data["aiDecisions"] = [];
     }*/
+    console.log("aiDecisions does not exist, creating property");
     //if property does not exist create
     ai_data["aiDecisions"] = [f.decision];
     //ai_data.aiDecisions.push(f.decision);
@@ -552,8 +553,8 @@ actions.openPosition2 = async function (details, set) {
     console.log("beginnign trade on epic: " + set.epic);
     console.log("trade details:");
     console.log(details);
-    console.log("set:");
-    console.log(set);
+    //console.log("set:");
+    //console.log(set);
 
     //No open positions, begin trade
     ticket = {
