@@ -30,16 +30,16 @@ actions.notify = async function (notification, msg = "") {
 
   switch (notification) {
     case "deal-success":
-      options.title = "Trade made. " + epic;
+      options.title = "Trade made. " + market.epic;
       break;
     case "deal-rejected":
-      options.title = "Deal rejected. " + epic;
+      options.title = "Deal rejected. " + market.epic;
       break;
     case "deal-ticket-error":
-      options.title = "Deal ticket error. " + epic;
+      options.title = "Deal ticket error. " + market.epic;
       break;
     case "trade-being-made":
-      options.title = "Trade being made. " + epic;
+      options.title = "Trade being made. " + market.epic;
       break;
   }
 
