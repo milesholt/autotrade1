@@ -204,13 +204,13 @@ actions.decide = async function (set) {
   if (ai_data.hasOwnProperty("aiDecisions")) {
     if (ai_data.aiDecisions.length >= 5) {
       ai_data.aiDecisions.shift(); // Remove the first element
-    } 
-    
+    }
+
     ai_data.aiDecisions.push(f.decision);
   } else {
     //if property does not exist create
-    ai_data.aiDecisions = [];
-    ai_data.aiDecisions.push(f.decision);
+    ai_data["aiDecisions"] = [f.decision];
+    //ai_data.aiDecisions.push(f.decision);
   }
 
   console.log("ai decisions:");
