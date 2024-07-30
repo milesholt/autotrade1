@@ -560,7 +560,7 @@ actions.openPosition2 = async function (details, set) {
     ticket = {
       currencyCode: "GBP",
       direction: details.direction,
-      epic: set.epic,
+      epic: market.epic,
       expiry: market.expiry,
       size: details.size.toFixed(2),
       forceOpen: true,
