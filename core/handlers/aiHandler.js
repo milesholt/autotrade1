@@ -80,7 +80,7 @@ actions.runMultiple = async function (set, i) {
     } else {
       //console.log("All results:", set.results);
       await actions.analyseResults(set);
-      actions.decide(set);
+      await actions.decide(set);
     }
   });
 };
@@ -192,7 +192,7 @@ actions.decide = async function (set) {
   }
 
   if (set.go == true) {
-    actions.beginTrade(set);
+    await actions.beginTrade(set);
   } else {
     console.log("Do not make trade");
   }
@@ -262,7 +262,7 @@ actions.beginTrade = async function (set) {
   tradeDetails.entryPrice = entryPrice;
   set.details = tradeDetails;
   //console.log(tradeDetails);
-  actions.openPosition2(tradeDetails, set);
+  await actions.openPosition2(tradeDetails, set);
 };
 
 actions.calculateTradeDetails = function (params) {
