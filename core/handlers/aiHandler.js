@@ -105,7 +105,18 @@ actions.analyseResults = async function (set) {
 
   // Calculate the average for arrays containing only numbers
   for (const key in set.findings) {
-    const values = set.findings[key];
+    let values = set.findings[key];
+
+    // Normalize specific strings and remove STRONG
+    // This is so that when finding most frequent string, all SELLs and BUYs are considered
+    values = values.map((value) => {
+      if (typeof value === "string") {
+        if (value.toUpperCase() === "STRONG SELL") return "SELL";
+        if (value.toUpperCase() === "STRONG BUY") return "BUY";
+      }
+      return value;
+    });
+
     // Get average for arrays with numbers
     if (values.every((value) => typeof value === "number")) {
       const sum = values.reduce((acc, val) => acc + val, 0);
