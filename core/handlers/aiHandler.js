@@ -252,7 +252,12 @@ actions.decide = async function (set) {
 };
 
 actions.beginTrade = async function (set) {
-  console.log("BEGINNING TRADE USING AI...");
+  console.log(
+    "BEGINNING TRADE USING AI... Epic: " +
+      market.epic +
+      " Set epic: " +
+      set.epic
+  );
 
   //var lastClosePrice = pricedata[pricedata.length - 1];
   var dir = set.findings.decision.includes("SELL") ? "SELL" : "BUY";
