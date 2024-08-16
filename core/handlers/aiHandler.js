@@ -64,7 +64,7 @@ actions.iniRun = async function () {
     output: {},
     lastCloseBid : lastCloseBid,
     lastCloseAsk : lastCloseAsk,
-    marketidx : marketidx
+    marketidx : mid
   };
   actions.runMultiple(set, 0);
 };
