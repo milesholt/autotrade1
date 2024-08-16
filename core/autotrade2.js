@@ -17,7 +17,7 @@ var actions = {};
 const express = require('express');
 const app = express();
 
-console.log('running express logs:');
+console.log('running os logs:');
 
 const os = require('os');
 
@@ -26,13 +26,12 @@ const networkInterfaces = os.networkInterfaces();
 
 // Log each interface's IP address
 for (const [name, interfaces] of Object.entries(networkInterfaces)) {
-    interfaces.forEach(interface => {
-        if (interface.family === 'IPv4' && !interface.internal) {
-            console.log(`Server's IP Address (${name}): ${interface.address}`);
+    interfaces.forEach(netInterface => { // Renamed to netInterface
+        if (netInterface.family === 'IPv4' && !netInterface.internal) {
+            console.log(`Server's IP Address (${name}): ${netInterface.address}`);
         }
     });
-});
-
+}
 /*
 
 Core services
