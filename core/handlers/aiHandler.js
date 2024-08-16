@@ -62,6 +62,9 @@ actions.iniRun = async function () {
     findings: {},
     go: false,
     output: {},
+    lastCloseBid : lastCloseBid,
+    lastCloseAsk : lastCloseAsk,
+    marketidx : marketidx
   };
   actions.runMultiple(set, 0);
 };
@@ -261,7 +264,7 @@ actions.beginTrade = async function (set) {
 
   //var lastClosePrice = pricedata[pricedata.length - 1];
   var dir = set.findings.decision.includes("SELL") ? "SELL" : "BUY";
-  var entryPrice = dir == "SELL" ? lastCloseBid : lastCloseAsk;
+  var entryPrice = dir == "SELL" ? set.lastCloseBid : set.lastCloseAsk;
 
   const tradeParams = {
     entryPrice: entryPrice,
@@ -314,9 +317,9 @@ actions.calculateTradeDetails = function (params) {
   // limitDistance = Math.abs(cp - limitDistanceLevel);
 
   let minSize =
-    market.minimumSize.type == "points"
-      ? market.minimumSize.value
-      : lib.toNumber(cp * market.minimumSize.value);
+    markets[set.marketidx].minimumSize.type == "points"
+      ? markets[set.marketidx].minimumSize.value
+      : lib.toNumber(cp * markets[set.marketidx].minimumSize.value);
 
   if (size <= minSize) {
     console.log("size is less than minSize, using minSize");
@@ -473,9 +476,9 @@ actions.openPosition2 = async function (details, set) {
   //Check if we already have a position
   let positionOpen = false;
 
-  if (!lib.isEmpty(market.deal)) {
+  if (!lib.isEmpty(markets[set.marketidx].deal)) {
     console.log("market deal is not empty");
-    let dealId = market.deal.dealId;
+    let dealId = markets[set.marketidx].deal.dealId;
     console.log("dealId: " + dealId);
     await api
       .getPosition(String(dealId))
@@ -491,7 +494,7 @@ actions.openPosition2 = async function (details, set) {
 
         if (positionData.market.marketStatus == "CLOSED") {
           console.log("Found open position but status is closed");
-          market.deal = {};
+          markets[set.marketidx].deal = {};
         }
       })
       .catch(async (e) => {
@@ -507,7 +510,7 @@ actions.openPosition2 = async function (details, set) {
                 console.log(
                   "deal is not empty, but no dealId found in transactions or as open position, resetting.."
                 );
-                market.deal = {};
+                markets[set.marketidx].deal = {};
               }
             });
           })
@@ -530,7 +533,7 @@ actions.openPosition2 = async function (details, set) {
         positionsData.positions.forEach((position) => {
           if (position.market.epic == set.epic) {
             positionOpen = true;
-            if (lib.isEmpty(market.deal)) {
+            if (lib.isEmpty(markets[set.marketidx].deal)) {
               console.log(
                 "Position found on server, but deal on marketdata is empty"
               );
@@ -576,8 +579,8 @@ actions.openPosition2 = async function (details, set) {
     ticket = {
       currencyCode: "GBP",
       direction: details.direction,
-      epic: market.epic,
-      expiry: market.expiry,
+      epic: set.epic,
+      expiry: markets[set.marketidx].expiry,
       size: details.size.toFixed(2),
       forceOpen: true,
       orderType: "MARKET",
