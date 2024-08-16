@@ -319,6 +319,8 @@ actions.init = async function () {
     .then((r) => {})
     .catch((e) => console.log(e));
 
+  console.log('Logging server info:');
+
   app.use((req, res, next) => {
     console.log('Request Referrer:', req.get('Referer'));
     console.log('Client IP:', req.ip);
