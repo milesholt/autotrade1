@@ -17,6 +17,21 @@ var actions = {};
 const express = require('express');
 const app = express();
 
+console.log('running express logs:');
+
+app.use((req, res, next) => {
+    console.log('Middleware hit:');
+    console.log('Request Referrer:', req.get('Referer'));
+    console.log('Client IP:', req.ip);
+    console.log('Forwarded IP:', req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    next();
+});
+
+app.get('/', (req, res) => {
+    console.log('Root route hit');
+    res.send('Hello World!');
+});
+
 /*
 
 Core services
@@ -318,15 +333,6 @@ actions.init = async function () {
     .login(true)
     .then((r) => {})
     .catch((e) => console.log(e));
-
-  console.log('Logging server info:');
-
-  app.use((req, res, next) => {
-    console.log('Request Referrer:', req.get('Referer'));
-    console.log('Client IP:', req.ip);
-    console.log('Forwarded IP:', req.headers['x-forwarded-for'] || req.connection.remoteAddress);
-    next();
-  });
 
   //Get hosted data files
   await cloudHandler.actions.getMainFiles();
