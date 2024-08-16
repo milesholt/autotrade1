@@ -19,17 +19,18 @@ const app = express();
 
 console.log('running express logs:');
 
-app.use((req, res, next) => {
-    console.log('Middleware hit:');
-    console.log('Request Referrer:', req.get('Referer'));
-    console.log('Client IP:', req.ip);
-    console.log('Forwarded IP:', req.headers['x-forwarded-for'] || req.connection.remoteAddress);
-    next();
-});
+const os = require('os');
 
-app.get('/', (req, res) => {
-    console.log('Root route hit');
-    res.send('Hello World!');
+// Get all network interfaces
+const networkInterfaces = os.networkInterfaces();
+
+// Log each interface's IP address
+for (const [name, interfaces] of Object.entries(networkInterfaces)) {
+    interfaces.forEach(interface => {
+        if (interface.family === 'IPv4' && !interface.internal) {
+            console.log(`Server's IP Address (${name}): ${interface.address}`);
+        }
+    });
 });
 
 /*
