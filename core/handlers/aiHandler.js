@@ -274,6 +274,7 @@ actions.beginTrade = async function (set) {
     valuePerPoint: 1,
     riskRewardRatio: 2,
   };
+  //
 
   const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
 
