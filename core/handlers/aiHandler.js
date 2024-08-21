@@ -62,9 +62,9 @@ actions.iniRun = async function () {
     findings: {},
     go: false,
     output: {},
-    lastCloseBid : lastCloseBid,
-    lastCloseAsk : lastCloseAsk,
-    marketidx : mid
+    lastCloseBid: lastCloseBid,
+    lastCloseAsk: lastCloseAsk,
+    marketidx: mid,
   };
   actions.runMultiple(set, 0);
 };
@@ -275,7 +275,7 @@ actions.beginTrade = async function (set) {
     riskRewardRatio: 2,
   };
 
-  const tradeDetails = await actions.calculateTradeDetails(tradeParams);
+  const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
 
   tradeDetails.direction = dir;
   tradeDetails.entryPrice = entryPrice;
@@ -284,7 +284,7 @@ actions.beginTrade = async function (set) {
   await actions.openPosition2(tradeDetails, set);
 };
 
-actions.calculateTradeDetails = function (params) {
+actions.calculateTradeDetails = function (params, set) {
   const {
     entryPrice,
     stopPercentage,
