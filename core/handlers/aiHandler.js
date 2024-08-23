@@ -139,6 +139,10 @@ actions.analyseResults = async function (set) {
       if (mostFrequentStrings.length === 1) {
         set.findings[key] = mostFrequentStrings[0];
       }
+      //Set default value is decision is mixed array
+      if (Array.isArray(set.findings[key])) {
+          set.findings[key] = 'MIXED';
+      }
     }
   }
 };
