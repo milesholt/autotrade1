@@ -212,7 +212,8 @@ actions.decide = async function (set) {
   if (set.go == true) {
     await actions.beginTrade(set);
   } else {
-    console.log("Do not make trade");
+    console.log("Do not make trade. set.epic is: " + set.epic + ", overallTrend: " + f.overallTrend);
+    
   }
 
   console.log("Updating AI Data file for epic: " + set.epic);
