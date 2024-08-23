@@ -125,6 +125,7 @@ actions.analyseResults = async function (set) {
       const sum = values.reduce((acc, val) => acc + val, 0);
       set.findings[key] = Math.round(sum / values.length);
     } else if (values.every((value) => typeof value === "string")) {
+      
       // Find the most frequent string in arrays containing only strings
       const frequencyMap = values.reduce((map, value) => {
         map[value] = (map[value] || 0) + 1;
@@ -139,10 +140,12 @@ actions.analyseResults = async function (set) {
       if (mostFrequentStrings.length === 1) {
         set.findings[key] = mostFrequentStrings[0];
       }
+
       //Set default value is decision is mixed array
-      if (Array.isArray(set.findings[key])) {
+      /*if (Array.isArray(set.findings[key])) {
           set.findings[key] = 'MIXED';
-      }
+      }*/
+      
     }
   }
 };
