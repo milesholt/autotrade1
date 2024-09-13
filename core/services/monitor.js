@@ -329,13 +329,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
 
 
-                      var mailOptions = {
+                      /*var mailOptions = {
                         from: 'contact@milesholt.co.uk',
                         to: 'miles_holt@hotmail.com',
                         subject: 'Started monitoring trade. ' + monitorData.epic,
                         text: JSON.stringify(monitorAnalysis)
                       };
-                      mailer.actions.sendMail(mailOptions);
+                      mailer.actions.sendMail(mailOptions);*/
 
                       var counter = 0;
 
