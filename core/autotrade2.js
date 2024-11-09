@@ -14,23 +14,24 @@ const fs = require("fs");
 const path = require("path");
 var actions = {};
 
-const express = require('express');
+const express = require("express");
 const app = express();
 
-console.log('running os logs:');
+console.log("running os logs:");
 
-const os = require('os');
+const os = require("os");
 
 // Get all network interfaces
 const networkInterfaces = os.networkInterfaces();
 
 // Log each interface's IP address
 for (const [name, interfaces] of Object.entries(networkInterfaces)) {
-    interfaces.forEach(netInterface => { // Renamed to netInterface
-        if (netInterface.family === 'IPv4' && !netInterface.internal) {
-            console.log(`Server's IP Address (${name}): ${netInterface.address}`);
-        }
-    });
+  interfaces.forEach((netInterface) => {
+    // Renamed to netInterface
+    if (netInterface.family === "IPv4" && !netInterface.internal) {
+      console.log(`Server's IP Address (${name}): ${netInterface.address}`);
+    }
+  });
 }
 /*
 
@@ -72,6 +73,7 @@ const trendHandler = require("./handlers/trendHandler.js");
 const priceDataHandler = require("./handlers/priceDataHandler.js");
 const tradeHandler = require("./handlers/tradeHandler.js");
 const aiHandler = require("./handlers/aiHandler.js");
+const strategy2Handler = require("./handlers/strategy2Handler.js");
 
 /*
 
@@ -381,11 +383,11 @@ actions.exec = async function () {
     //Setup lines
     supportline = await breakoutStrategy.actions.calcResistSupport(
       pricedata2,
-      "support",
+      "support"
     );
     resistanceline = await breakoutStrategy.actions.calcResistSupport(
       pricedata2,
-      "resistance",
+      "resistance"
     );
     lineData.support = supportline;
     lineData.resistance = resistanceline;
@@ -457,6 +459,8 @@ actions.exec = async function () {
 
     //Run AI processes
     await aiHandler.actions.iniRun();
+
+    await strategy2Handler.actions.iniRun();
 
     //Determine trade
     //await tradeHandler.actions.determineTrade2();
