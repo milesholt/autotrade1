@@ -458,7 +458,7 @@ actions.exec = async function () {
     await tradeHandler.actions.determineNearProfit();
 
     //Run AI processes
-    await aiHandler.actions.iniRun();
+    //await aiHandler.actions.iniRun();
 
     await strategy2Handler.actions.iniRun();
 
