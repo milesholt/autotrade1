@@ -48,7 +48,7 @@ actions.iniRun = async function () {
     marketidx: mid,
   };
 
-  let data = prices[support].map((r) => parseFloat(r.close).toFixed(2));
+  let data = prices.support.map((r) => parseFloat(r.close).toFixed(2));
   const smaData = actions.calculateSMA(data, 20);
 
   console.log("sma data:");
@@ -117,8 +117,6 @@ actions.calculateFibonacciLevels = async function (high, low) {
   };
 };
 
-
 module.exports = {
-    actions: actions,
-  };
-  
+  actions: actions,
+};
