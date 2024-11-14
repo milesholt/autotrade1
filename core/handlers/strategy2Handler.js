@@ -48,10 +48,10 @@ actions.iniRun = async function () {
     marketidx: mid,
   };
 
-  console.log("------------------------prices---------------------");
-  console.log(prices);
+  //console.log("------------------------prices---------------------");
+  //console.log(prices);
 
-  let data = prices.support.map((r) => parseFloat(r.close).toFixed(2));
+  let data = pricedata.support.map((r) => parseFloat(r.close).toFixed(2));
   const smaData = actions.calculateSMA(data, 20);
 
   console.log("sma data:");
