@@ -51,7 +51,8 @@ actions.iniRun = async function () {
   //console.log("------------------------prices---------------------");
   //console.log(prices);
 
-  let data = await pricedata.support.map((r) => parseFloat(r.close).toFixed(2));
+  //let data = await pricedata.support.map((r) => parseFloat(r.close).toFixed(2));
+  let data = pricedata.support.map((p) => p.close);
   console.log("data:");
   console.log(data);
 
