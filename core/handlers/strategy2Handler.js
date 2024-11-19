@@ -51,7 +51,10 @@ actions.iniRun = async function () {
   //console.log("------------------------prices---------------------");
   //console.log(prices);
 
-  let data = pricedata.support.map((r) => parseFloat(r.close).toFixed(2));
+  let data = await pricedata.support.map((r) => parseFloat(r.close).toFixed(2));
+  console.log("data:");
+  console.log(data);
+
   const smaData = actions.calculateSMA(data, 20);
 
   console.log("sma data:");
