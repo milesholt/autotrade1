@@ -91,8 +91,8 @@ actions.calculateEMA = async function (data, period) {
 
 // MACD
 actions.calculateMACD = async function (data) {
-  const ema12 = this.calculateEMA(data, 12);
-  const ema26 = this.calculateEMA(data, 26);
+  const ema12 = await this.calculateEMA(data, 12);
+  const ema26 = await this.calculateEMA(data, 26);
   const macd = ema12.map((val, idx) => (val || 0) - (ema26[idx] || 0));
   const signal = this.calculateEMA(macd, 9);
   return { macd, signal };
