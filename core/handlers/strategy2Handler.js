@@ -58,7 +58,7 @@ actions.iniRun = async function () {
 
   const smaData = actions.calculateSMA(data, 20);
   const macd = actions.calculateMACD(data);
-  
+
   //const bollinger = actions.calculateBollingerBands(prices, 20, 2);
 
   console.log("sma data:");
@@ -66,8 +66,6 @@ actions.iniRun = async function () {
 
   console.log("macd");
   console.log(macd);
-
-
 };
 
 // Simple Moving Average
@@ -94,7 +92,7 @@ actions.calculateMACD = async function (data) {
   const ema12 = await this.calculateEMA(data, 12);
   const ema26 = await this.calculateEMA(data, 26);
   const macd = ema12.map((val, idx) => (val || 0) - (ema26[idx] || 0));
-  const signal = this.calculateEMA(macd, 9);
+  const signal = await this.calculateEMA(macd, 9);
   return { macd, signal };
 };
 
