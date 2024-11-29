@@ -56,8 +56,8 @@ actions.iniRun = async function () {
   console.log("data:");
   console.log(data);
 
-  const smaData = actions.calculateSMA(data, 20);
-  const macd = actions.calculateMACD(data);
+  const smaData = await actions.calculateSMA(data, 20);
+  const macd = await actions.calculateMACD(data);
 
   //const bollinger = actions.calculateBollingerBands(prices, 20, 2);
 
