@@ -58,14 +58,16 @@ actions.iniRun = async function () {
 
   const smaData = await actions.calculateSMA(data, 20);
   const macd = await actions.calculateMACD(data);
-
-  //const bollinger = actions.calculateBollingerBands(prices, 20, 2);
+  const bollinger = await actions.calculateBollingerBands(prices, 20, 2);
 
   console.log("sma data:");
   console.log(smaData);
 
   console.log("macd");
   console.log(macd);
+
+  console.log("bollinger");
+  console.log(bollinger);
 };
 
 // Simple Moving Average
