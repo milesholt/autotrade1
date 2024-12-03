@@ -104,7 +104,7 @@ actions.calculateBollingerBands = async function (
   period,
   stdDevMultiplier
 ) {
-  const sma = this.calculateSMA(data, period);
+  const sma = await this.calculateSMA(data, period);
   const stdDev = data.map((_, idx, arr) => {
     if (idx < period - 1) return null;
     const slice = arr.slice(idx - period + 1, idx + 1);
