@@ -72,7 +72,7 @@ actions.iniRun = async function () {
   let recommendation = await actions.analyzeSignals(sma, macd, bollinger);
 
   console.log("recommendation:");
-  console.log(reccomendation);
+  console.log(recomendation);
 };
 
 actions.analyzeSignals = async function (sma, macd, bollinger) {
