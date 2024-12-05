@@ -69,11 +69,35 @@ actions.iniRun = async function () {
   console.log("bollinger");
   console.log(bollinger);
 
-  this.recommendation = this.decisionService.analyzeSignals(
-    sma,
-    macd,
-    bollinger
-  );
+  let recommendation = await actions.analyzeSignals(sma, macd, bollinger);
+
+  console.log("recommendation:");
+  console.log(reccomendation);
+};
+
+actions.analyzeSignals = async function (sma, macd, bollinger) {
+  let buySignals = 0;
+  let sellSignals = 0;
+
+  // SMA Crossover Strategy
+  if (sma[sma.length - 2] < sma[sma.length - 1]) buySignals++;
+  else sellSignals++;
+
+  // MACD Strategy
+  const latestMacd = macd.macd[macd.macd.length - 1];
+  const latestSignal = macd.signal[macd.signal.length - 1];
+  if (latestMacd > latestSignal) buySignals++;
+  else sellSignals++;
+
+  // Bollinger Bands Strategy
+  const price = sma[sma.length - 1]; // Assume closing price
+  const latestUpper = bollinger.upper[bollinger.upper.length - 1];
+  const latestLower = bollinger.lower[bollinger.lower.length - 1];
+  if (price > latestUpper) sellSignals++;
+  else if (price < latestLower) buySignals++;
+
+  // Decision
+  return buySignals > sellSignals ? "BUY" : "SELL";
 };
 
 // Simple Moving Average
