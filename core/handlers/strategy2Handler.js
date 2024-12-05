@@ -68,6 +68,12 @@ actions.iniRun = async function () {
 
   console.log("bollinger");
   console.log(bollinger);
+
+  this.recommendation = this.decisionService.analyzeSignals(
+    sma,
+    macd,
+    bollinger
+  );
 };
 
 // Simple Moving Average
