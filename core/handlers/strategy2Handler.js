@@ -56,110 +56,136 @@ actions.iniRun = async function () {
   console.log("data:");
   console.log(data);
 
-  const sma = await actions.calculateSMA(data, 20);
-  const macd = await actions.calculateMACD(data);
-  const bollinger = await actions.calculateBollingerBands(data, 20, 2);
+  //const sma = await actions.calculateSMA(data, 20);
+  //const macd = await actions.calculateMACD(data);
+  //const bollinger = await actions.calculateBollingerBands(data, 20, 2);
 
-  console.log("sma data:");
-  console.log(sma);
-
-  console.log("macd");
-  console.log(macd);
-
-  console.log("bollinger");
-  console.log(bollinger);
-
-  let recommendation = await actions.analyzeSignals(sma, macd, bollinger);
-
-  console.log("recommendation:");
-  console.log(recommendation);
+  // Run the analysis
+  const result = await this.actions.analyseSignals(data);
+  console.log("Trading Signal:", result.signal);
+  console.log("Certainty:", result.certainty);
 };
 
-actions.analyzeSignals = async function (sma, macd, bollinger) {
-  let buySignals = 0;
-  let sellSignals = 0;
-
-  // SMA Crossover Strategy
-  if (sma[sma.length - 2] < sma[sma.length - 1]) buySignals++;
-  else sellSignals++;
-
-  // MACD Strategy
-  const latestMacd = macd.macd[macd.macd.length - 1];
-  const latestSignal = macd.signal[macd.signal.length - 1];
-  if (latestMacd > latestSignal) buySignals++;
-  else sellSignals++;
-
-  // Bollinger Bands Strategy
-  const price = sma[sma.length - 1]; // Assume closing price
-  const latestUpper = bollinger.upper[bollinger.upper.length - 1];
-  const latestLower = bollinger.lower[bollinger.lower.length - 1];
-  if (price > latestUpper) sellSignals++;
-  else if (price < latestLower) buySignals++;
-
-  // Decision
-  return buySignals > sellSignals ? "BUY" : "SELL";
-};
-
-// Simple Moving Average
+// Helper function: Simple Moving Average
 actions.calculateSMA = async function (data, period) {
   return data.map((_, idx, arr) => {
-    if (idx < period - 1) return null;
+    if (idx < period - 1) return null; // Not enough data for SMA
     const slice = arr.slice(idx - period + 1, idx + 1);
-    return slice.reduce((acc, val) => acc + val, 0) / period;
+    return slice.reduce((sum, value) => sum + value, 0) / period;
   });
 };
 
-// Exponential Moving Average
+// Helper function: Exponential Moving Average
 actions.calculateEMA = async function (data, period) {
-  const k = 2 / (period + 1);
-  let ema = [data[0]];
-  for (let i = 1; i < data.length; i++) {
-    ema.push(data[i] * k + ema[i - 1] * (1 - k));
-  }
-  return ema;
+  const multiplier = 2 / (period + 1);
+  return data.reduce((ema, value, idx) => {
+    if (idx === 0) {
+      ema.push(value); // First EMA is the first data point
+    } else {
+      ema.push(value * multiplier + ema[idx - 1] * (1 - multiplier));
+    }
+    return ema;
+  }, []);
 };
 
-// MACD
-actions.calculateMACD = async function (data) {
-  const ema12 = await this.calculateEMA(data, 12);
-  const ema26 = await this.calculateEMA(data, 26);
-  const macd = ema12.map((val, idx) => (val || 0) - (ema26[idx] || 0));
-  const signal = await this.calculateEMA(macd, 9);
-  return { macd, signal };
-};
-
-// Bollinger Bands
-actions.calculateBollingerBands = async function (
+// Helper function: MACD
+actions.calculateMACD = async function (
   data,
-  period,
-  stdDevMultiplier
+  shortPeriod,
+  longPeriod,
+  signalPeriod
 ) {
-  const sma = await this.calculateSMA(data, period);
-  const stdDev = data.map((_, idx, arr) => {
-    if (idx < period - 1) return null;
-    const slice = arr.slice(idx - period + 1, idx + 1);
-    const mean = slice.reduce((acc, val) => acc + val, 0) / period;
-    return Math.sqrt(
-      slice.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / period
-    );
-  });
-  const upper = sma.map((val, idx) => val + stdDev[idx] * stdDevMultiplier);
-  const lower = sma.map((val, idx) => val - stdDev[idx] * stdDevMultiplier);
-  return { upper, lower };
+  const emaShort = await this.actions.calculateEMA(data, shortPeriod);
+  const emaLong = await this.actions.calculateEMA(data, longPeriod);
+  const macdLine = emaShort.map((val, idx) => (val || 0) - (emaLong[idx] || 0));
+  const signalLine = await this.actions.calculateEMA(
+    macdLine.filter((val) => val !== undefined),
+    signalPeriod
+  );
+  const histogram = macdLine.map(
+    (val, idx) => (val || 0) - (signalLine[idx] || 0)
+  );
+  return { macdLine, signalLine, histogram };
 };
 
-// Fibonacci Retracement (basic)
-actions.calculateFibonacciLevels = async function (high, low) {
-  const diff = high - low;
-  return {
-    levels: [
-      high,
-      high - 0.236 * diff,
-      high - 0.382 * diff,
-      high - 0.618 * diff,
-      low,
-    ],
-  };
+// Helper function: Bollinger Bands
+actions.calculateBollingerBands = async function (data, period, multiplier) {
+  const sma = await this.actions.calculateSMA(data, period);
+  const bands = sma.map((mean, idx) => {
+    if (mean === null) return { upper: null, lower: null };
+    const slice = data.slice(idx - period + 1, idx + 1);
+    const stdDev = Math.sqrt(
+      slice.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / period
+    );
+    return {
+      upper: mean + multiplier * stdDev,
+      lower: mean - multiplier * stdDev,
+    };
+  });
+  return bands;
+};
+
+// Helper function: Fibonacci Levels
+actions.getFibonacciLevels = async function (data) {
+  const high = Math.max(...data);
+  const low = Math.min(...data);
+  const ratios = [0.236, 0.382, 0.5, 0.618, 0.786];
+  const levels = ratios.map((ratio) => high - (high - low) * ratio);
+  const currentPrice = data.at(-1);
+  const support = levels.filter((level) => level < currentPrice).at(-1) || null;
+  const resistance =
+    levels.filter((level) => level > currentPrice).at(0) || null;
+  return { high, low, currentPrice, support, resistance };
+};
+
+// Decision-making function: Analyse Signals
+actions.analyseSignals = async function (data) {
+  const sma = await this.actions.calculateSMA(data, 20).at(-1); // Last SMA value
+  const macd = await this.actions.calculateMACD(data, 12, 26, 9);
+  const bollinger = await this.actions
+    .calculateBollingerBands(data, 20, 2)
+    .at(-1);
+  const fibonacci = await this.actions.getFibonacciLevels(data);
+
+  let signal = "HOLD";
+  let certainty = 0;
+
+  // Check SMA relative to Fibonacci levels
+  if (fibonacci.support && sma < fibonacci.support) {
+    signal = "BUY";
+    certainty += 0.3;
+  }
+  if (fibonacci.resistance && sma > fibonacci.resistance) {
+    signal = "SELL";
+    certainty += 0.3;
+  }
+
+  // MACD indicator
+  const macdTrend = macd.histogram.at(-1);
+  if (macdTrend > 0) {
+    signal = "BUY";
+    certainty += 0.4;
+  } else if (macdTrend < 0) {
+    signal = "SELL";
+    certainty += 0.4;
+  }
+
+  // Bollinger Bands
+  if (bollinger.lower && data.at(-1) < bollinger.lower) {
+    signal = "BUY";
+    certainty += 0.3;
+  }
+  if (bollinger.upper && data.at(-1) > bollinger.upper) {
+    signal = "SELL";
+    certainty += 0.3;
+  }
+
+  // Default to HOLD if certainty is too low
+  if (certainty < 0.5) {
+    signal = "HOLD";
+  }
+
+  return { signal, certainty };
 };
 
 module.exports = {
