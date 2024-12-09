@@ -110,9 +110,25 @@ actions.calculateMACD = async function (
 
 // Helper function: Bollinger Bands
 actions.calculateBollingerBands = async function (data, period, multiplier) {
+  console.log("doing bollinger function, data is:");
+  console.log(data);
+
+  console.log("period:");
+  console.log(period);
+
+  console.log("multiplier:");
+  console.log(multiplier);
+
   const sma = await actions.calculateSMA(data, period);
+
+  console.log('sma:');
+  console.log(sma);.
+
   const bands = sma.map((mean, idx) => {
-    if (mean === null) return { upper: null, lower: null };
+    if (mean === null) {
+      console.log("mean is null");
+      return { upper: null, lower: null };
+    }
     const slice = data.slice(idx - period + 1, idx + 1);
     const stdDev = Math.sqrt(
       slice.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / period
@@ -147,7 +163,7 @@ actions.analyseSignals = async function (data) {
   ];
   const fibonacci = await actions.getFibonacciLevels(data);
 
-  console.log('bollinger');
+  console.log("bollinger");
   console.log(bollinger);
 
   let signal = "HOLD";
@@ -175,17 +191,17 @@ actions.analyseSignals = async function (data) {
 
   // Bollinger Bands
   if (bollinger && bollinger.lower !== null && bollinger.upper !== null) {
-  if (bollinger.lower && data[data.length - 1] < bollinger.lower) {
-    signal = "BUY";
-    certainty += 0.3;
+    if (bollinger.lower && data[data.length - 1] < bollinger.lower) {
+      signal = "BUY";
+      certainty += 0.3;
+    }
+    if (bollinger.upper && data[data.length - 1] > bollinger.upper) {
+      signal = "SELL";
+      certainty += 0.3;
+    }
+  } else {
+    console.log("Bolinger is undefined or null, skipping.");
   }
-  if (bollinger.upper && data[data.length - 1] > bollinger.upper) {
-    signal = "SELL";
-    certainty += 0.3;
-  }
-} else {
-  console.log('Bolinger is undefined or null, skipping.');
-}
 
   // Default to HOLD if certainty is too low
   if (certainty < 0.5) {
