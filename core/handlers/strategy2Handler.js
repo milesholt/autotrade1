@@ -61,7 +61,7 @@ actions.iniRun = async function () {
   //const bollinger = await actions.calculateBollingerBands(data, 20, 2);
 
   // Run the analysis
-  const result = await this.actions.analyseSignals(data);
+  const result = await actions.analyseSignals(data);
   console.log("Trading Signal:", result.signal);
   console.log("Certainty:", result.certainty);
 };
@@ -95,10 +95,10 @@ actions.calculateMACD = async function (
   longPeriod,
   signalPeriod
 ) {
-  const emaShort = await this.actions.calculateEMA(data, shortPeriod);
-  const emaLong = await this.actions.calculateEMA(data, longPeriod);
+  const emaShort = await actions.calculateEMA(data, shortPeriod);
+  const emaLong = await actions.calculateEMA(data, longPeriod);
   const macdLine = emaShort.map((val, idx) => (val || 0) - (emaLong[idx] || 0));
-  const signalLine = await this.actions.calculateEMA(
+  const signalLine = await actions.calculateEMA(
     macdLine.filter((val) => val !== undefined),
     signalPeriod
   );
@@ -110,7 +110,7 @@ actions.calculateMACD = async function (
 
 // Helper function: Bollinger Bands
 actions.calculateBollingerBands = async function (data, period, multiplier) {
-  const sma = await this.actions.calculateSMA(data, period);
+  const sma = await actions.calculateSMA(data, period);
   const bands = sma.map((mean, idx) => {
     if (mean === null) return { upper: null, lower: null };
     const slice = data.slice(idx - period + 1, idx + 1);
@@ -140,11 +140,9 @@ actions.getFibonacciLevels = async function (data) {
 
 // Decision-making function: Analyse Signals
 actions.analyseSignals = async function (data) {
-  const sma = await this.actions.calculateSMA(data, 20).at(-1); // Last SMA value
-  const macd = await this.actions.calculateMACD(data, 12, 26, 9);
-  const bollinger = await this.actions
-    .calculateBollingerBands(data, 20, 2)
-    .at(-1);
+  const sma = await actions.calculateSMA(data, 20).at(-1); // Last SMA value
+  const macd = await actions.calculateMACD(data, 12, 26, 9);
+  const bollinger = await actions.calculateBollingerBands(data, 20, 2).at(-1);
   const fibonacci = await this.actions.getFibonacciLevels(data);
 
   let signal = "HOLD";
