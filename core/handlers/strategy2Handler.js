@@ -147,6 +147,9 @@ actions.analyseSignals = async function (data) {
   ];
   const fibonacci = await actions.getFibonacciLevels(data);
 
+  console.log('bollinger');
+  console.log(bollinger);
+
   let signal = "HOLD";
   let certainty = 0;
 
@@ -171,6 +174,7 @@ actions.analyseSignals = async function (data) {
   }
 
   // Bollinger Bands
+  if (bollinger && bollinger.lower !== null && bollinger.upper !== null) {
   if (bollinger.lower && data[data.length - 1] < bollinger.lower) {
     signal = "BUY";
     certainty += 0.3;
@@ -179,6 +183,9 @@ actions.analyseSignals = async function (data) {
     signal = "SELL";
     certainty += 0.3;
   }
+} else {
+  console.log('Bolinger is undefined or null, skipping.');
+}
 
   // Default to HOLD if certainty is too low
   if (certainty < 0.5) {
