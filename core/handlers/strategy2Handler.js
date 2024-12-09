@@ -131,7 +131,7 @@ actions.getFibonacciLevels = async function (data) {
   const low = Math.min(...data);
   const ratios = [0.236, 0.382, 0.5, 0.618, 0.786];
   const levels = ratios.map((ratio) => high - (high - low) * ratio);
-  const currentPrice = data.at(-1);
+  const currentPrice = data[data.length - 1];
   const support =
     levels.filter((level) => level < currentPrice).slice(-1)[0] || null;
   const resistance = levels.filter((level) => level > currentPrice)[0] || null;
