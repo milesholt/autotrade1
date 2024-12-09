@@ -132,9 +132,9 @@ actions.getFibonacciLevels = async function (data) {
   const ratios = [0.236, 0.382, 0.5, 0.618, 0.786];
   const levels = ratios.map((ratio) => high - (high - low) * ratio);
   const currentPrice = data.at(-1);
-  const support = levels.filter((level) => level < currentPrice).at(-1) || null;
-  const resistance =
-    levels.filter((level) => level > currentPrice).at(0) || null;
+  const support =
+    levels.filter((level) => level < currentPrice).slice(-1)[0] || null;
+  const resistance = levels.filter((level) => level > currentPrice)[0] || null;
   return { high, low, currentPrice, support, resistance };
 };
 
@@ -161,7 +161,7 @@ actions.analyseSignals = async function (data) {
   }
 
   // MACD indicator
-  const macdTrend = macd.histogram.at(-1);
+  const macdTrend = macd.histogram[macd.histogram.length - 1];
   if (macdTrend > 0) {
     signal = "BUY";
     certainty += 0.4;
@@ -171,11 +171,11 @@ actions.analyseSignals = async function (data) {
   }
 
   // Bollinger Bands
-  if (bollinger.lower && data.at(-1) < bollinger.lower) {
+  if (bollinger.lower && data[data.length - 1] < bollinger.lower) {
     signal = "BUY";
     certainty += 0.3;
   }
-  if (bollinger.upper && data.at(-1) > bollinger.upper) {
+  if (bollinger.upper && data[data.length - 1] > bollinger.upper) {
     signal = "SELL";
     certainty += 0.3;
   }
