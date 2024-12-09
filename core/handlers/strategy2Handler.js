@@ -122,7 +122,7 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
   const sma = await actions.calculateSMA(data, period);
 
   console.log('sma:');
-  console.log(sma);.
+  console.log(sma);
 
   const bands = sma.map((mean, idx) => {
     if (mean === null) {
