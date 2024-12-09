@@ -215,17 +215,18 @@ actions.analyseSignals = async function (data) {
   }
 
   // Bollinger Bands
-  if (bollinger && bollinger.lower !== null && bollinger.upper !== null) {
-    if (bollinger.lower && data[data.length - 1] < bollinger.lower) {
+  if (bollinger && bollinger.lower !== undefined && bollinger.upper !== undefined) {
+    const lastPrice = data[data.length - 1]; // Most recent price
+    if (lastPrice < bollinger.lower) {
       signal = "BUY";
       certainty += 0.3;
     }
-    if (bollinger.upper && data[data.length - 1] > bollinger.upper) {
+    if (lastPrice > bollinger.upper) {
       signal = "SELL";
       certainty += 0.3;
     }
   } else {
-    console.log("Bolinger is undefined or null, skipping.");
+    console.warn("Bollinger Bands are undefined or incomplete. Skipping this indicator.");
   }
 
   // Default to HOLD if certainty is too low
