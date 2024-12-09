@@ -143,7 +143,7 @@ actions.analyseSignals = async function (data) {
   const sma = await actions.calculateSMA(data, 20).at(-1); // Last SMA value
   const macd = await actions.calculateMACD(data, 12, 26, 9);
   const bollinger = await actions.calculateBollingerBands(data, 20, 2).at(-1);
-  const fibonacci = await this.actions.getFibonacciLevels(data);
+  const fibonacci = await actions.getFibonacciLevels(data);
 
   let signal = "HOLD";
   let certainty = 0;
