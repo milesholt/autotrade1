@@ -68,10 +68,16 @@ actions.iniRun = async function () {
 
 // Helper function: Simple Moving Average
 actions.calculateSMA = async function (data, period) {
+  if (data.length < period) {
+    throw new Error("Data length must be greater than or equal to the period.");
+  }
   return data.map((_, idx, arr) => {
-    if (idx < period - 1) return null; // Not enough data for SMA
+    if (idx < period - 1) {
+      return undefined; // Not enough data for SMA
+    }
     const slice = arr.slice(idx - period + 1, idx + 1);
-    return slice.reduce((sum, value) => sum + value, 0) / period;
+    const sum = slice.reduce((acc, val) => acc + val, 0);
+    return sum / period;
   });
 };
 
@@ -124,7 +130,7 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
   console.log('sma:');
   console.log(sma);
 
-  const bands = sma.map((mean, idx) => {
+  /*const bands = sma.map((mean, idx) => {
     if (mean === null) {
       console.log("mean is null");
       return { upper: null, lower: null };
@@ -138,7 +144,26 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
       lower: mean - multiplier * stdDev,
     };
   });
-  return bands;
+  return bands;*/
+
+  return data.map((_, idx) => {
+    if (idx < period - 1) {
+      return { upper: undefined, lower: undefined }; // Not enough data for Bollinger Bands
+    }
+
+    const slice = data.slice(idx - period + 1, idx + 1);
+    const mean = sma[idx];
+
+    // Standard deviation
+    const variance = slice.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / period;
+    const stdDev = Math.sqrt(variance);
+
+    return {
+      upper: mean + multiplier * stdDev,
+      lower: mean - multiplier * stdDev,
+    };
+  });
+  
 };
 
 // Helper function: Fibonacci Levels
