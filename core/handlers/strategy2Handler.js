@@ -65,7 +65,14 @@ actions.iniRun = async function () {
   console.log("Trading Signal:", result.signal);
   console.log("Certainty:", result.certainty);
 
-  return result;
+  //return result;
+  if((result.signal == 'BUY || result.signal == 'SELL') && result.certainty >= 0.7){
+    console.log('Making trade...');
+    set.decision = result.signal;
+    await actions.beginTrade(set);  
+  } else {
+    console.log('Did not make trade');
+  }
 };
 
 // Helper function: Simple Moving Average
@@ -245,6 +252,106 @@ actions.analyseSignals = async function (data) {
   return { signal, certainty };
 };
 
+actions.beginTrade = async function (set) {
+  console.log(
+    "BEGINNING TRADE USING STRATEGY HANDLER 2... Epic: " +
+      market.epic +
+      " Set epic: " +
+      set.epic
+  );
+
+  //var lastClosePrice = pricedata[pricedata.length - 1];
+  var dir = set.decision;
+  var entryPrice = dir == "SELL" ? set.lastCloseBid : set.lastCloseAsk;
+
+  const tradeParams = {
+    entryPrice: entryPrice,
+    stopPercentage: 5,
+    riskPercentage: 1,
+    accountEquity: 10000,
+    valuePerPoint: 1,
+    riskRewardRatio: 2,
+  };
+  //
+
+  const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
+
+  tradeDetails.direction = dir;
+  tradeDetails.entryPrice = entryPrice;
+  set.details = tradeDetails;
+  //console.log(tradeDetails);
+  await actions.openPosition(tradeDetails, set);
+};
+
+actions.calculateTradeDetails = function (params, set) {
+  const {
+    entryPrice,
+    stopPercentage,
+    riskPercentage,
+    accountEquity,
+    valuePerPoint,
+    riskRewardRatio,
+  } = params;
+
+  // Calculate Stop Distance in Points
+  const stopDistance = entryPrice * (stopPercentage / 100);
+
+  // Calculate Stop Loss Price for a Short Position
+  const stopLossPrice = entryPrice + stopDistance;
+
+  // Calculate Limit Distance in Points based on Risk-Reward Ratio
+  const limitDistance = stopDistance * riskRewardRatio;
+
+  // Calculate Take Profit Price for a Short Position
+  const takeProfitPrice = entryPrice - limitDistance;
+
+  // Calculate Risk Per Trade
+  const riskPerTrade = accountEquity * (riskPercentage / 100);
+
+  // Calculate Position Size
+  const size = riskPerTrade / (stopDistance * valuePerPoint);
+
+  let cp = entryPrice;
+  // stopDistance = Math.abs(cp - stopDistanceLevel);
+  // limitDistance = Math.abs(cp - limitDistanceLevel);
+
+  let minSize =
+    markets[set.marketidx].minimumSize.type == "points"
+      ? markets[set.marketidx].minimumSize.value
+      : lib.toNumber(cp * markets[set.marketidx].minimumSize.value);
+
+  if (size <= minSize) {
+    console.log("size is less than minSize, using minSize");
+    console.log("previous size:");
+    console.log(size);
+
+    size = minSize;
+
+    console.log("new size:");
+    console.log(size);
+  }
+  console.log("calculating size:");
+  console.log("value per point:");
+  console.log(valuePerPoint);
+  console.log("risk per trade:");
+  console.log(riskPerTrade);
+  console.log("stop distance:");
+  console.log(stopDistance);
+
+  console.log("minimum size order:");
+  console.log(minSize);
+
+  console.log("size:");
+  console.log(size);
+
+  return {
+    stopDistance,
+    stopLossPrice,
+    limitDistance,
+    takeProfitPrice,
+    size,
+  };
+};
 
 actions.openPosition = async function (details, set) {
   console.log("Beginning trade using Strategy Handler 2...");
