@@ -188,9 +188,6 @@ actions.analyseSignals = async function (data) {
   const sma = await actions.calculateSMA(data, 20)[data.length - 1]; // Last SMA value
   const macd = await actions.calculateMACD(data, 12, 26, 9);
   
-  //const bollinger = await actions.calculateBollingerBands(data, 20, 2)[data.length - 1];
-  //const bollinger = await actions.calculateBollingerBands(data, 20, 2);
-
   // Get the last Bollinger Band values
   const bollingerArray = await actions.calculateBollingerBands(data, 20, 2);
   const bollinger = bollingerArray[bollingerArray.length - 1];
