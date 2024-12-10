@@ -146,7 +146,7 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
   });
   return bands;*/
 
-  return data.map((_, idx) => {
+  const bollinger = data.map((_, idx) => {
     if (idx < period - 1 || sma[idx] === undefined) {
       return { upper: undefined, lower: undefined }; // Not enough data
     }
@@ -163,6 +163,9 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
       lower: mean - multiplier * stdDev,
     };
   });
+
+  console.log('bollinger output');
+  console.log(bollinger);
 };
 
 // Helper function: Fibonacci Levels
