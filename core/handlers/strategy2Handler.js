@@ -147,8 +147,8 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
   return bands;*/
 
   return data.map((_, idx) => {
-    if (idx < period - 1) {
-      return { upper: undefined, lower: undefined }; // Not enough data for Bollinger Bands
+    if (idx < period - 1 || sma[idx] === undefined) {
+      return { upper: undefined, lower: undefined }; // Not enough data
     }
 
     const slice = data.slice(idx - period + 1, idx + 1);
