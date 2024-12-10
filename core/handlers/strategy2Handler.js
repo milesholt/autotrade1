@@ -64,6 +64,8 @@ actions.iniRun = async function () {
   const result = await actions.analyseSignals(data);
   console.log("Trading Signal:", result.signal);
   console.log("Certainty:", result.certainty);
+
+  return result;
 };
 
 // Helper function: Simple Moving Average
