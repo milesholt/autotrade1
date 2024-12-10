@@ -166,6 +166,7 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
 
   console.log('bollinger output');
   console.log(bollinger);
+  return bollinger;
 };
 
 // Helper function: Fibonacci Levels
