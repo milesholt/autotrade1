@@ -186,9 +186,8 @@ actions.getFibonacciLevels = async function (data) {
 actions.analyseSignals = async function (data) {
   const sma = await actions.calculateSMA(data, 20)[data.length - 1]; // Last SMA value
   const macd = await actions.calculateMACD(data, 12, 26, 9);
-  const bollinger = await actions.calculateBollingerBands(data, 20, 2)[
-    data.length - 1
-  ];
+  //const bollinger = await actions.calculateBollingerBands(data, 20, 2)[data.length - 1];
+  const bollinger = await actions.calculateBollingerBands(data, 20, 2);
   const fibonacci = await actions.getFibonacciLevels(data);
 
   console.log("bollinger");
