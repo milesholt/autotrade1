@@ -163,7 +163,6 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
       lower: mean - multiplier * stdDev,
     };
   });
-  
 };
 
 // Helper function: Fibonacci Levels
