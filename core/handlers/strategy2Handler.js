@@ -265,13 +265,13 @@ actions.beginTrade = async function (set) {
   var entryPrice = dir == "SELL" ? set.lastCloseBid : set.lastCloseAsk;
 
   const tradeParams = {
-    entryPrice: entryPrice,
-    stopPercentage: 5,
-    riskPercentage: 1,
-    accountEquity: 10000,
-    valuePerPoint: 1,
-    riskRewardRatio: 2,
-  };
+  entryPrice: entryPrice,  // Depends on market conditions at entry
+  stopPercentage: 1,       // Tight stop (0.5% - 1% for scalping)
+  riskPercentage: 0.5,     // Small risk (0.25% - 1% of account equity)
+  accountEquity: 10000,    // Account balance for calculation (this stays the same)
+  valuePerPoint: 1,        // Assuming a low value per point for smaller trades
+  riskRewardRatio: 2,      // 1:2 risk/reward ratio for favorable returns
+};
   //
 
   const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
