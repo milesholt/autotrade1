@@ -264,6 +264,17 @@ actions.beginTrade = async function (set) {
   var dir = set.decision;
   var entryPrice = dir == "SELL" ? set.lastCloseBid : set.lastCloseAsk;
 
+  //Original parameters for opening a trade, but distance was too large
+  const tradeParams = {
+    entryPrice: entryPrice,
+    stopPercentage: 5,
+    riskPercentage: 1,
+    accountEquity: 10000,
+    valuePerPoint: 1,
+    riskRewardRatio: 2,
+  };
+
+  //Suggested parameters for scalping
   const tradeParams = {
   entryPrice: entryPrice,  // Depends on market conditions at entry
   stopPercentage: 1,       // Tight stop (0.5% - 1% for scalping)
