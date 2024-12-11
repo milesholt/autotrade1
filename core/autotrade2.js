@@ -533,6 +533,7 @@ loopHandler.actions.require();
 notificationHandler.actions.require();
 errorHandler.actions.require();
 aiHandler.actions.require();
+strategy2Handler.actions.require();
 
 log.actions.require();
 analytics.actions.require();
