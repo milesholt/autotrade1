@@ -164,7 +164,9 @@ actions.getFibonacciLevels = async function (data) {
 // Decision-making function: Analyse Signals
 actions.analyseSignals = async function (data) {
   
-  const sma = await actions.calculateSMA(data, 20)[data.length - 1]; // Last SMA value
+  const smaArray = await actions.calculateSMA(data, 20); 
+  const sma = smaArray[smaArray.length - 1]; // Last SMA value
+  
   const macd = await actions.calculateMACD(data, 12, 26, 9);
   
   // Get the last Bollinger Band values
@@ -172,6 +174,9 @@ actions.analyseSignals = async function (data) {
   const bollinger = bollingerArray[bollingerArray.length - 1];
   
   const fibonacci = await actions.getFibonacciLevels(data);
+
+  console.log('fibonacci');
+  console.log(fibonacci);
 
   console.log("fibonacci support:");
   console.log(fibonacci.support);
