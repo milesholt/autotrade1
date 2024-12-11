@@ -125,37 +125,9 @@ actions.calculateMACD = async function (
 
 // Helper function: Bollinger Bands
 actions.calculateBollingerBands = async function (data, period, multiplier) {
-  console.log("doing bollinger function, data is:");
-  console.log(data);
-
-  console.log("period:");
-  console.log(period);
-
-  console.log("multiplier:");
-  console.log(multiplier);
-
-  const sma = await actions.calculateSMA(data, period);
-
-  console.log('sma:');
-  console.log(sma);
-
-  /*const bands = sma.map((mean, idx) => {
-    if (mean === null) {
-      console.log("mean is null");
-      return { upper: null, lower: null };
-    }
-    const slice = data.slice(idx - period + 1, idx + 1);
-    const stdDev = Math.sqrt(
-      slice.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / period
-    );
-    return {
-      upper: mean + multiplier * stdDev,
-      lower: mean - multiplier * stdDev,
-    };
-  });
-  return bands;*/
-
-  const bollinger = data.map((_, idx) => {
+  
+ const sma = await actions.calculateSMA(data, period);
+ const bollinger = data.map((_, idx) => {
     if (idx < period - 1 || sma[idx] === undefined) {
       return { upper: undefined, lower: undefined }; // Not enough data
     }
@@ -173,8 +145,6 @@ actions.calculateBollingerBands = async function (data, period, multiplier) {
     };
   });
 
-  console.log('bollinger output');
-  console.log(bollinger);
   return bollinger;
 };
 
@@ -203,21 +173,33 @@ actions.analyseSignals = async function (data) {
   
   const fibonacci = await actions.getFibonacciLevels(data);
 
-  console.log("bollinger");
-  console.log(bollinger);
+  console.log("fibonacci support:");
+  console.log(fibonacci.support);
+
+  console.log("fiboonacci resistance:");
+  console.log(fibonacci.resistance);
+
+  console.log('simple moving averages');
+  console.log(sma);
 
   let signal = "HOLD";
   let certainty = 0;
+  let sma_signal = "HOLD";
 
   // Check SMA relative to Fibonacci levels
   if (fibonacci.support && sma < fibonacci.support) {
     signal = "BUY";
     certainty += 0.3;
+    sma_signal = "BUY";
   }
   if (fibonacci.resistance && sma > fibonacci.resistance) {
     signal = "SELL";
     certainty += 0.3;
+    sma_signal = "SELL";
   }
+
+  console.log('sma signal');
+  console.log(sma_signal);
 
   // MACD indicator
   const macdTrend = macd.histogram[macd.histogram.length - 1];
