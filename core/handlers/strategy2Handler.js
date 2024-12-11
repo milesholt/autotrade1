@@ -191,40 +191,71 @@ actions.analyseSignals = async function (data) {
     signal = "BUY";
     certainty += 0.3;
     sma_signal = "BUY";
+    console.log('sma: ' + sma + ' is less than fibonacci support: ' + fibonacci.support);
   }
   if (fibonacci.resistance && sma > fibonacci.resistance) {
     signal = "SELL";
     certainty += 0.3;
     sma_signal = "SELL";
+    console.log('sma: ' + sma + ' is greater than fibonacci resistance: ' + fibonacci.resistance);
+
   }
 
   console.log('sma signal');
   console.log(sma_signal);
+  console.log('certainty');
+  console.log(certainty);
 
   // MACD indicator
   const macdTrend = macd.histogram[macd.histogram.length - 1];
+
+  let macd_signal = "HOLD";
+  
   if (macdTrend > 0) {
     signal = "BUY";
     certainty += 0.4;
+    macd_signal = "BUY";
+    console.log('macdTrend: ' + macdTrend + ' is greater than 0');
+
   } else if (macdTrend < 0) {
     signal = "SELL";
     certainty += 0.4;
+    macd_signal = "SELL";
+    console.log('macdTrend: ' + macdTrend + ' is less than 0');
   }
 
+  console.log('macd signal');
+  console.log(macd_signal);
+  console.log('certainty');
+  console.log(certainty);
+
+
   // Bollinger Bands
+  let bollinger_signal = "HOLD";
+  
   if (bollinger && bollinger.lower !== undefined && bollinger.upper !== undefined) {
     const lastPrice = data[data.length - 1]; // Most recent price
     if (lastPrice < bollinger.lower) {
       signal = "BUY";
       certainty += 0.3;
+      bollinger_signal = "BUY";
+      console.log('lastPrice: ' + lastPrice + ' is less than bollinger lower: ' + bollinger.lower);
     }
     if (lastPrice > bollinger.upper) {
       signal = "SELL";
       certainty += 0.3;
+      bollinger_signal = "SELL";
+      console.log('lastPrice: ' + lastPrice + ' is greater than bollinger upper: ' + bollinger.upper);
     }
   } else {
     console.warn("Bollinger Bands are undefined or incomplete. Skipping this indicator.");
   }
+
+  console.log('bollinger signal');
+  console.log(bollinger_signal);
+  console.log('certainty');
+  console.log(certainty);
+
 
   // Default to HOLD if certainty is too low
   if (certainty < 0.5) {
