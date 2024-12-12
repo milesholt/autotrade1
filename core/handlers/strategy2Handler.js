@@ -154,14 +154,18 @@ actions.getFibonacciLevels = async function (data) {
   const high = Math.max(...data);
   const low = Math.min(...data);
   const ratios = [0.236, 0.382, 0.5, 0.618, 0.786];
-  const levels = ratios.map((ratio) => high - (high - low) * ratio);
-  const currentPrice = data[data.length - 1];
+  
+  // Calculate levels and sort them in ascending order
+  const levels = ratios.map((ratio) => high - (high - low) * ratio).sort((a, b) => a - b);
+ 
+  const currentPrice = data[data.length - 1]; // Most recent price
 
   console.log("High:", high, "Low:", low, "Current Price:", currentPrice, "Levels:", levels);
-
-  const support = levels.filter((level) => level < currentPrice).slice(-1)[0] || null;
-  const resistance = levels.filter((level) => level > currentPrice)[0] || null;
-
+  
+  // Find support and resistance
+  const support = levels.filter((level) => level < currentPrice).slice(-1)[0] || null; // Closest lower level
+  const resistance = levels.filter((level) => level > currentPrice)[0] || null; // Closest higher level
+  
   console.log("Calculated Support:", support, "Calculated Resistance:", resistance);
 
   return { high, low, currentPrice, support, resistance };
