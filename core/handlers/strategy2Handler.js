@@ -265,7 +265,6 @@ actions.analyseSignals = async function (data) {
 
 
   // Determine Final Signal
-  let signal = "HOLD";
   const certainty = Math.max(buyCertainty, sellCertainty);
 
   if (certainty >= 0.7) {
