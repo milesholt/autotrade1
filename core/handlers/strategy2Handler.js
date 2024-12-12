@@ -163,6 +163,9 @@ actions.getFibonacciLevels = async function (data) {
 
 // Decision-making function: Analyse Signals
 actions.analyseSignals = async function (data) {
+
+  let buyCertainty = 0;
+  let sellCertainty = 0;
   
   const smaArray = await actions.calculateSMA(data, 20); 
   const sma = smaArray[smaArray.length - 1]; // Last SMA value
@@ -193,14 +196,12 @@ actions.analyseSignals = async function (data) {
 
   // Check SMA relative to Fibonacci levels
   if (fibonacci.support && sma < fibonacci.support) {
-    signal = "BUY";
-    certainty += 0.3;
+    buyCertainty += 0.3;
     sma_signal = "BUY";
     console.log('sma: ' + sma + ' is less than fibonacci support: ' + fibonacci.support);
   }
   if (fibonacci.resistance && sma > fibonacci.resistance) {
-    signal = "SELL";
-    certainty += 0.3;
+    sellCertainty += 0.3;
     sma_signal = "SELL";
     console.log('sma: ' + sma + ' is greater than fibonacci resistance: ' + fibonacci.resistance);
 
@@ -213,18 +214,15 @@ actions.analyseSignals = async function (data) {
 
   // MACD indicator
   const macdTrend = macd.histogram[macd.histogram.length - 1];
-
   let macd_signal = "HOLD";
   
   if (macdTrend > 0) {
-    signal = "BUY";
-    certainty += 0.4;
+    buyCertainty += 0.4;
     macd_signal = "BUY";
     console.log('macdTrend: ' + macdTrend + ' is greater than 0');
 
   } else if (macdTrend < 0) {
-    signal = "SELL";
-    certainty += 0.4;
+    sellCertainty += 0.4;
     macd_signal = "SELL";
     console.log('macdTrend: ' + macdTrend + ' is less than 0');
   }
@@ -241,14 +239,12 @@ actions.analyseSignals = async function (data) {
   if (bollinger && bollinger.lower !== undefined && bollinger.upper !== undefined) {
     const lastPrice = data[data.length - 1]; // Most recent price
     if (lastPrice < bollinger.lower) {
-      signal = "BUY";
-      certainty += 0.3;
+      buyCertainty += 0.3;
       bollinger_signal = "BUY";
       console.log('lastPrice: ' + lastPrice + ' is less than bollinger lower: ' + bollinger.lower);
     }
     if (lastPrice > bollinger.upper) {
-      signal = "SELL";
-      certainty += 0.3;
+      sellCertainty += 0.3;
       bollinger_signal = "SELL";
       console.log('lastPrice: ' + lastPrice + ' is greater than bollinger upper: ' + bollinger.upper);
     }
@@ -262,10 +258,26 @@ actions.analyseSignals = async function (data) {
   console.log(certainty);
 
 
-  // Default to HOLD if certainty is too low
-  if (certainty < 0.5) {
-    signal = "HOLD";
+  // Determine Final Signal
+  let signal = "HOLD";
+  const certainty = Math.max(buyCertainty, sellCertainty);
+
+  if (certainty >= 0.7) {
+    if (buyCertainty > sellCertainty) {
+      signal = "STRONG BUY";
+    } else if (sellCertainty > buyCertainty) {
+      signal = "STRONG SELL";
+    }
+  } else if (certainty >= 0.5) {
+    if (buyCertainty > sellCertainty) {
+      signal = "BUY";
+    } else if (sellCertainty > buyCertainty) {
+      signal = "SELL";
+    }
   }
+
+  console.log("Buy Certainty:", buyCertainty, "Sell Certainty:", sellCertainty, "Final Signal:", signal, "Certainty:", certainty);
+
 
   return { signal, certainty };
 };
