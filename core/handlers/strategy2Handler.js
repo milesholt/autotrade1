@@ -166,6 +166,17 @@ actions.getFibonacciLevels = async function (data) {
   const support = levels.filter((level) => level < currentPrice).slice(-1)[0] || null; // Closest lower level
   const resistance = levels.filter((level) => level > currentPrice)[0] || null; // Closest higher level
   
+  // Handle cases where currentPrice is outside Fibonacci levels
+  if (!support && currentPrice < low) {
+    // Current price is below all Fibonacci levels
+    console.warn("Current price is below all Fibonacci levels.");
+  }
+
+  if (!resistance && currentPrice > high) {
+    // Current price is above all Fibonacci levels
+    console.warn("Current price is above all Fibonacci levels.");
+  }
+
   console.log("Calculated Support:", support, "Calculated Resistance:", resistance);
 
   return { high, low, currentPrice, support, resistance };
