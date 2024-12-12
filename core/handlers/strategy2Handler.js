@@ -66,9 +66,9 @@ actions.iniRun = async function () {
   console.log("Certainty:", result.certainty);
 
   //return result;
-  if((result.signal == 'BUY' || result.signal == 'SELL') && result.certainty >= 0.7){
+  if((result.signal == 'STRONG BUY' || result.signal == 'STRONG SELL') && result.certainty >= 0.7){
     console.log('Making trade...');
-    set.decision = result.signal;
+    set.decision = result.signal.replace('STRONG ', '');
     await actions.beginTrade(set);  
   } else {
     console.log('Did not make trade');
