@@ -265,7 +265,7 @@ actions.analyseSignals = async function (data) {
 
 
   // Determine Final Signal
-  const certainty = Math.max(buyCertainty, sellCertainty);
+  certainty = Math.max(buyCertainty, sellCertainty);
 
   if (certainty >= 0.7) {
     if (buyCertainty > sellCertainty) {
