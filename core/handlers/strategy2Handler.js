@@ -245,17 +245,27 @@ actions.analyseSignals = async function (data) {
 
   let buyCertainty = 0;
   let sellCertainty = 0;
-  
+  let certainty = 0;
+  let signal = "HOLD";
+ 
+  //Do technical analysis calculations
+
+  //SMA
   const smaArray = await actions.calculateSMA(data, 20); 
   const sma = smaArray[smaArray.length - 1]; // Last SMA value
-  
+
+  //MACD
   const macd = await actions.calculateMACD(data, 12, 26, 9);
   
-  // Get the last Bollinger Band values
+  //Bollinger
   const bollingerArray = await actions.calculateBollingerBands(data, 20, 2);
   const bollinger = bollingerArray[bollingerArray.length - 1];
-  
+
+  //Fibonacci
   const fibonacci = await actions.getFibonacciLevels(data);
+
+  //RSI
+  const rsi = await actions.calculateRSI(data, 14); // 14-period RSI
 
   console.log('fibonacci');
   console.log(fibonacci);
@@ -269,11 +279,12 @@ actions.analyseSignals = async function (data) {
   console.log('simple moving averages');
   console.log(sma);
 
-  let signal = "HOLD";
-  let certainty = 0;
-  let sma_signal = "HOLD";
+  console.log('rsi: ' + rsi);
+ 
 
   // Check SMA relative to Fibonacci levels
+  let sma_signal = "HOLD";
+  
   if (fibonacci.support && sma < fibonacci.support) {
     buyCertainty += 0.3;
     sma_signal = "BUY";
@@ -288,8 +299,27 @@ actions.analyseSignals = async function (data) {
 
   console.log('sma signal');
   console.log(sma_signal);
-  console.log('certainty');
-  console.log(certainty);
+
+
+  //Check for breakouts where support or resistance is null
+  
+  const high = Math.max(...data);
+  const low = Math.min(...data);
+  const currentPrice = data[data.length - 1]; // Most recent price
+
+  let break_signal = "HOLD";
+   
+  if (!fibonacci.resistance && currentPrice > high) {
+    buyCertainty += 0.3;
+    break_signal = "BUY"; // Example decision for breakouts
+  } else if (!fibonacci.support && currentPrice < low) {
+    sellCertainty += 0.3;
+    break_signal = "SELL"; // Example decision for breakdowns
+  } 
+
+  console.log('breakout signal');
+  console.log(break_signal);
+  
 
   // MACD indicator
   const macdTrend = macd.histogram[macd.histogram.length - 1];
@@ -308,9 +338,7 @@ actions.analyseSignals = async function (data) {
 
   console.log('macd signal');
   console.log(macd_signal);
-  console.log('certainty');
-  console.log(certainty);
-
+  
 
   // Bollinger Bands
   let bollinger_signal = "HOLD";
@@ -333,11 +361,10 @@ actions.analyseSignals = async function (data) {
 
   console.log('bollinger signal');
   console.log(bollinger_signal);
-  console.log('certainty');
-  console.log(certainty);
+  
 
-  //Calculate RSI
-  const rsi = await actions.calculateRSI(data, 14); // 14-period RSI
+  //Check RSI
+  
   let rsi_signal = "HOLD";
 
   if (rsi < 30) {
@@ -351,8 +378,6 @@ actions.analyseSignals = async function (data) {
   }
 
   console.log('RSI signal:', rsi_signal);
-
-
 
   // Determine Final Signal
   certainty = Math.max(buyCertainty, sellCertainty);
