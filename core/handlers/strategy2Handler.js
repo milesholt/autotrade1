@@ -192,6 +192,47 @@ actions.getFibonacciLevels = async function (data) {
   return { high, low, currentPrice, support, resistance };
 };
 
+
+// Function to calculate RSI
+actions.calculateRSI = async function (data, period = 14) {
+  if (data.length < period + 1) {
+    throw new Error("Not enough data to calculate RSI");
+  }
+
+  // Calculate the price changes
+  const changes = [];
+  for (let i = 1; i < data.length; i++) {
+    changes.push(data[i] - data[i - 1]);
+  }
+
+  // Separate gains and losses
+  const gains = changes.map((change) => (change > 0 ? change : 0));
+  const losses = changes.map((change) => (change < 0 ? Math.abs(change) : 0));
+
+  // Calculate the average gain and average loss for the first period
+  let avgGain = gains.slice(0, period).reduce((sum, gain) => sum + gain, 0) / period;
+  let avgLoss = losses.slice(0, period).reduce((sum, loss) => sum + loss, 0) / period;
+
+  const rsiArray = [];
+
+  // Start calculating RSI for the rest of the data
+  for (let i = period; i < changes.length; i++) {
+    // Update average gain and average loss using the smoothing technique
+    avgGain = (avgGain * (period - 1) + gains[i]) / period;
+    avgLoss = (avgLoss * (period - 1) + losses[i]) / period;
+
+    // Calculate RS and RSI
+    const rs = avgLoss === 0 ? 100 : avgGain / avgLoss;
+    const rsi = 100 - 100 / (1 + rs);
+
+    // Save RSI value
+    rsiArray.push(rsi);
+  }
+
+  return rsiArray; // Return an array of RSI values
+};
+
+
 // Decision-making function: Analyse Signals
 actions.analyseSignals = async function (data) {
 
