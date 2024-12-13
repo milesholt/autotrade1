@@ -65,13 +65,23 @@ actions.iniRun = async function () {
   console.log("Trading Signal:", result.signal);
   console.log("Certainty:", result.certainty);
 
+  //Checks before beginning trade
+  //if market.tradedBefore is set to false, it has been reset and so check is true
+  //if market.tradedBefore hours is over threshold of hours (tradeBeforeHours) then check is also true
+  
+  tradebeforeCheck =  market.tradedBefore !== false ? moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
+
   //return result;
-  if((result.signal == 'STRONG BUY' || result.signal == 'STRONG SELL') && result.certainty >= 0.7){
-    console.log('Making trade...');
-    set.decision = result.signal.replace('STRONG ', '');
-    await actions.beginTrade(set);  
+  if(tradebeforeCheck == true){
+    if((result.signal == 'STRONG BUY' || result.signal == 'STRONG SELL') && result.certainty >= 0.7 && tradebeforeCheck){
+      console.log('Making trade...');
+      set.decision = result.signal.replace('STRONG ', '');
+      await actions.beginTrade(set);  
+    } else {
+      console.log('Did not make trade');
+    }
   } else {
-    console.log('Did not make trade');
+    console.log('Last trade was not later than ' + tradeBeforeHours + ' hours, waiting.');
   }
 };
 
