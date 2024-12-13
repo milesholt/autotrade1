@@ -73,6 +73,11 @@ actions.iniRun = async function () {
 
   //return result;
   if(tradebeforeCheck == true){
+
+    console.log('tradebeforeCheck true, market tradeBefore is: ' + moment.utc(market.tradedBefore).local().valueOf());
+    console.log('tradebefore hours past: ' + moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours"));
+    console.log('tradeBeforeHours: ' + tradeBeforeHours);
+    
     if((result.signal == 'STRONG BUY' || result.signal == 'STRONG SELL') && result.certainty >= 0.7 && tradebeforeCheck){
       console.log('Making trade...');
       set.decision = result.signal.replace('STRONG ', '');
