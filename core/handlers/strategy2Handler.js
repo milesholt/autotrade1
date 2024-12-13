@@ -329,6 +329,23 @@ actions.analyseSignals = async function (data) {
   console.log('certainty');
   console.log(certainty);
 
+  //Calculate RSI
+  const rsi = await actions.calculateRSI(data, 14); // 14-period RSI
+  let rsi_signal = "HOLD";
+
+  if (rsi < 30) {
+    buyCertainty += 0.3;
+    rsi_signal = "BUY";
+    console.log('RSI: ' + rsi + ' is less than 30 (oversold). BUY Certainty increased.');
+  } else if (rsi > 70) {
+    sellCertainty += 0.3;
+    rsi_signal = "SELL";
+    console.log('RSI: ' + rsi + ' is greater than 70 (overbought). SELL Certainty increased.');
+  }
+
+  console.log('RSI signal:', rsi_signal);
+
+
 
   // Determine Final Signal
   certainty = Math.max(buyCertainty, sellCertainty);
