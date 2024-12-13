@@ -75,12 +75,14 @@ actions.iniRun = async function () {
   if(tradebeforeCheck == true){
 
     console.log('tradebeforeCheck is true');
-    console.log('market.tradedBefore is: ' + moment.utc(market.tradedBefore).local().valueOf() );
-    console.log('Local UTC Time is: ' + moment.utc().local() );
-
+    
+    const tradedBefore = moment.utc(market.tradedBefore).local().valueOf(); // market.tradedBefore
+    const localUtcTime = moment.utc().local(); // Local UTC Time
     const tradedBeforeDate = moment(tradedBefore).format('YYYY-MM-DD HH:mm:ss'); // Example format
     const localUtcTimeDate = moment(localUtcTime).format('YYYY-MM-DD HH:mm:ss');
 
+    console.log('market.tradedBefore is: ' + tradedBefore  );
+    console.log('Local UTC Time is: ' + localUtcTime );
     console.log(`Traded Before Date: ${tradedBeforeDate}`);
     console.log(`Local UTC Time Date: ${localUtcTimeDate}`);
     
