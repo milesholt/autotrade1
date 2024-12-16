@@ -330,12 +330,13 @@ actions.analyseSignals = async function (data) {
   };
 
 actions.getFibonacciLevels = async function (data) {
-  if (!data || data.length === 0 || !Array.isArray(data)) {
-    throw new Error("Data array is empty or invalid.");
-  }
 
   console.log('fibonacci data:');
   console.log(data);
+  
+  if (!data || data.length === 0 || !Array.isArray(data)) {
+    throw new Error("Data array is empty or invalid.");
+  }
 
   // Extract the high and low prices from the dataset
   const high = Math.max(...data.map(item => item.high));
