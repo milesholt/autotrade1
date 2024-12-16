@@ -48,6 +48,7 @@ actions.iniRun = async function () {
     marketidx: mid,
   };
 
+  console.log('------- RUNNING STRATEGY2 HANDLER ON EPIC: ' + market.epic + ' -------------');
   
   //console.log("------------------------prices---------------------");
   //console.log('prices length: ' + prices.length);
@@ -160,6 +161,10 @@ actions.analyseSignals = async function (data) {
 
   // Simple Moving Average (SMA) Analysis
   const currentPrice = data[data.length - 1].close;
+
+  console.log('Current price:');
+  console.log(currentPrice);
+  
   const smaValue = smaArray[smaArray.length - 1];
   console.log('SMA');
   console.log(smaValue);
