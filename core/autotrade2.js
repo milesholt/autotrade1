@@ -461,7 +461,7 @@ actions.exec = async function () {
     //Run AI processes
     //await aiHandler.actions.iniRun();
 
-    await strategy2Handler.actions.iniRun();
+    //await strategy2Handler.actions.iniRun();
     await strategy2Handler2.actions.iniRun();
 
     //Determine trade
