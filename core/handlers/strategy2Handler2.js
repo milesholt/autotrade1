@@ -334,6 +334,9 @@ actions.getFibonacciLevels = async function (data) {
     throw new Error("Data array is empty or invalid.");
   }
 
+  console.log('fibonacci data:');
+  console.log(data);
+
   // Extract the high and low prices from the dataset
   const high = Math.max(...data.map(item => item.high));
   const low = Math.min(...data.map(item => item.low));
