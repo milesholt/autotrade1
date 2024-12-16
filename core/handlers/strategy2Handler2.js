@@ -48,8 +48,11 @@ actions.iniRun = async function () {
     marketidx: mid,
   };
 
+  
   console.log("------------------------prices---------------------");
   console.log(prices);
+
+  console.log('prices length: ' + prices.length);
   console.log('pricedata length: ' + pricedata.support.length);
 };
 
