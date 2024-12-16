@@ -161,6 +161,9 @@ actions.analyseSignals = async function (data) {
   // Simple Moving Average (SMA) Analysis
   const currentPrice = data[data.length - 1].close;
   const smaValue = smaArray[smaArray.length - 1];
+  console.log('SMA');
+  console.log(smaValue);
+  
   if (currentPrice > smaValue) {
     buyCertainty += WEIGHTS.SMA;
     explanations.push("Price is above SMA (uptrend indication)");
@@ -170,6 +173,8 @@ actions.analyseSignals = async function (data) {
   }
 
   // MACD Analysis
+  console.log('MACD');
+  console.log(macd);
   if (macd.histogram > 0) {
     buyCertainty += WEIGHTS.MACD;
     explanations.push("MACD histogram is positive (bullish momentum)");
@@ -190,6 +195,8 @@ actions.analyseSignals = async function (data) {
   }
 
   // Fibonacci Levels Analysis
+  console.log('Fibonacci');
+  console.log(fibonacci);
   const fibLevels = fibonacci.levels;
   if (currentPrice >= fibLevels.level236 && currentPrice <= fibLevels.level382) {
     buyCertainty += WEIGHTS.Fibonacci;
@@ -200,6 +207,8 @@ actions.analyseSignals = async function (data) {
   }
 
   // RSI Analysis
+  console.log('RSI');
+  console.log(rsi);
   if (rsi < 30) {
     buyCertainty += WEIGHTS.RSI;
     explanations.push("RSI below 30 (oversold condition)");
@@ -217,6 +226,8 @@ actions.analyseSignals = async function (data) {
   }
 
   // ADX Analysis
+  console.log('ADX');
+  console.log(adx);
   if (adx > 25) {
     if (macd.histogram > 0) {
       buyCertainty += WEIGHTS.ADX;
