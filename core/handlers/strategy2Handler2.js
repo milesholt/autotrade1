@@ -330,7 +330,7 @@ actions.analyseSignals = async function (data) {
   };
 
 actions.getFibonacciLevels = async function (data) {
-  if (!data || data.length === 0) {
+  if (!data || data.length === 0 || !Array.isArray(data)) {
     throw new Error("Data array is empty or invalid.");
   }
 
