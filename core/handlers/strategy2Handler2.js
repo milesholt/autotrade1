@@ -224,7 +224,7 @@ actions.analyseSignals = async function (data) {
   }
 
   return { signal, buyCertainty, sellCertainty, explanations };
-}
+};
 
 // New helper functions
  actions.calculateSMA = async function(data, period) {
@@ -236,7 +236,7 @@ actions.analyseSignals = async function (data) {
       sma.push(avg);
     }
     return sma;
-  }
+  };
 
  actions.calculateMACD = async function(data, fastPeriod, slowPeriod, signalPeriod) {
     // Calculate MACD
@@ -246,7 +246,7 @@ actions.analyseSignals = async function (data) {
     const signalLine = actions.calculateEMA(macdLine, signalPeriod);
     const histogram = macdLine.map((val, index) => val - signalLine[index]);
     return { macdLine, signalLine, histogram: histogram[histogram.length - 1] };
-  }
+  };
 
   actions.calculateBollingerBands = async function(data, period, multiplier) {
     const sma = await actions.calculateSMA(data, period);
@@ -262,7 +262,7 @@ actions.analyseSignals = async function (data) {
     const upper = sma.map((val, index) => val + multiplier * stdDev[index]);
     const lower = sma.map((val, index) => val - multiplier * stdDev[index]);
     return { upper, lower };
-  }
+  };
 
   actions.calculateRSI = async function(data, period) {
     const gains = [];
@@ -301,11 +301,11 @@ actions.analyseSignals = async function (data) {
     }
 
     return rsiArray[rsiArray.length - 1];
-  }
+  };
 
   actions.getVolume = async function(data) {
     return data.map((item) => item.volume);
-  }
+  };
 
  actions.calculateADX = async function(data, period) {
   const trArray = []; // True Range values
@@ -374,7 +374,7 @@ actions.analyseSignals = async function (data) {
 
   // Return the most recent ADX value
   return adxArray[adxArray.length - 1];
-}
+};
 
 
 actions.getAverageVolume = async function(data, period) {
@@ -385,7 +385,7 @@ actions.getAverageVolume = async function(data, period) {
   const recentData = data.slice(data.length - period);
   const totalVolume = recentData.reduce((sum, item) => sum + item.volume, 0);
   return totalVolume / period;
-},
+};
 
 function calculateMomentum(data, period = 14) {
     const momentum = [];
@@ -401,7 +401,7 @@ function calculateMomentum(data, period = 14) {
     }
 
     return momentum;
-}
+};
 
 actions.calculateEMA = function(data, period) {
     if (!Array.isArray(data) || data.length === 0) {
@@ -428,8 +428,12 @@ actions.calculateEMA = function(data, period) {
     }
 
     return ema;
-}
+};
 
+
+module.exports = {
+  actions: actions,
+};
 
 
  
