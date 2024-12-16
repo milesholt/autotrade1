@@ -48,6 +48,25 @@ actions.iniRun = async function () {
     marketidx: mid,
   };
 
+  console.log("------------------------prices---------------------");
+  console.log(pricedata);
+  console.log('pricedata length: ' + pricedata.support.length);
+};
+
+actions.iniRunOff = async function () {
+  var set = {
+    epic: market.epic,
+    dataPath: aiDataDir,
+    prices: prices,
+    results: [],
+    findings: {},
+    go: false,
+    output: {},
+    lastCloseBid: lastCloseBid,
+    lastCloseAsk: lastCloseAsk,
+    marketidx: mid,
+  };
+
   //console.log("------------------------prices---------------------");
   //console.log(prices);
 
