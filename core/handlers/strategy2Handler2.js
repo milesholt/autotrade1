@@ -228,6 +228,16 @@ actions.analyseSignals = async function (data) {
     explanations.push("Price above Bollinger upper band (overbought condition)");
   }
 
+  // Fibonacci Levels Analysis
+  const fibLevels = fibonacci.levels;
+  if (currentPrice >= fibLevels.level236 && currentPrice <= fibLevels.level382) {
+    buyCertainty += WEIGHTS.Fibonacci;
+    explanations.push("Price near Fibonacci 0.236-0.382 retracement level (potential support)");
+  } else if (currentPrice >= fibLevels.level618 && currentPrice <= fibLevels.level100) {
+    sellCertainty += WEIGHTS.Fibonacci;
+    explanations.push("Price near Fibonacci 0.618-1.0 retracement level (potential resistance)");
+  }
+
   // RSI Analysis
   if (rsi < 30) {
     buyCertainty += WEIGHTS.RSI;
@@ -238,7 +248,7 @@ actions.analyseSignals = async function (data) {
   }
 
   // Volume Analysis
-  const averageVolume = actions.calculateAverageVolume(data);
+  const averageVolume = await actions.calculateAverageVolume(data);
   const currentVolume = volume[volume.length - 1];
   if (currentVolume > 1.5 * averageVolume) {
     buyCertainty += WEIGHTS.Volume;
@@ -295,8 +305,8 @@ actions.analyseSignals = async function (data) {
 
  actions.calculateMACD = async function(data, fastPeriod, slowPeriod, signalPeriod) {
     // Calculate MACD
-    const emaFast = actions.calculateEMA(data, fastPeriod);
-    const emaSlow = actions.calculateEMA(data, slowPeriod);
+    const emaFast = await actions.calculateEMA(data, fastPeriod);
+    const emaSlow = await actions.calculateEMA(data, slowPeriod);
     const macdLine = emaFast.map((val, index) => val - emaSlow[index]);
     const signalLine = actions.calculateEMA(macdLine, signalPeriod);
     const histogram = macdLine.map((val, index) => val - signalLine[index]);
@@ -318,6 +328,34 @@ actions.analyseSignals = async function (data) {
     const lower = sma.map((val, index) => val - multiplier * stdDev[index]);
     return { upper, lower };
   };
+
+actions.getFibonacciLevels = async function (data) {
+  if (!data || data.length === 0) {
+    throw new Error("Data array is empty or invalid.");
+  }
+
+  // Extract the high and low prices from the dataset
+  const high = Math.max(...data.map(item => item.high));
+  const low = Math.min(...data.map(item => item.low));
+
+  // Calculate the Fibonacci levels
+  const diff = high - low;
+  const levels = {
+    level0: low,
+    level236: low + 0.236 * diff,
+    level382: low + 0.382 * diff,
+    level50: low + 0.5 * diff,
+    level618: low + 0.618 * diff,
+    level100: high
+  };
+
+  return {
+    high,
+    low,
+    levels
+  };
+};
+
 
   actions.calculateRSI = async function(data, period) {
     const gains = [];
@@ -442,7 +480,7 @@ actions.getAverageVolume = async function(data, period) {
   return totalVolume / period;
 };
 
-function calculateMomentum(data, period = 14) {
+actions.calculateMomentum = async function (data, period = 14) {
     const momentum = [];
 
     for (let i = 0; i < data.length; i++) {
@@ -458,7 +496,7 @@ function calculateMomentum(data, period = 14) {
     return momentum;
 };
 
-actions.calculateEMA = function(data, period) {
+actions.calculateEMA = async function(data, period) {
     if (!Array.isArray(data) || data.length === 0) {
         throw new Error("Data must be a non-empty array.");
     }
