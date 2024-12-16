@@ -50,10 +50,20 @@ actions.iniRun = async function () {
 
   
   console.log("------------------------prices---------------------");
-  console.log(prices);
+  
 
   console.log('prices length: ' + prices.length);
   console.log('pricedata length: ' + pricedata.support.length);
+
+  //price length is 71 (3 days)
+
+  // Iterate through the arrays
+  pricedata.support.forEach((item, index) => {
+    item.volume = prices[index].lastTradedVolume;
+  });
+
+  console.log(pricedata.support);
+  
 };
 
 actions.iniRunOff = async function () {
