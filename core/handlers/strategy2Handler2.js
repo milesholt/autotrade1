@@ -34,6 +34,76 @@ actions.require = async function () {
   moment = core.moment;
 };
 
+actions.iniRun = async function () {
+  var set = {
+    epic: market.epic,
+    dataPath: aiDataDir,
+    prices: prices,
+    results: [],
+    findings: {},
+    go: false,
+    output: {},
+    lastCloseBid: lastCloseBid,
+    lastCloseAsk: lastCloseAsk,
+    marketidx: mid,
+  };
+
+  //console.log("------------------------prices---------------------");
+  //console.log(prices);
+
+  //let data = await pricedata.support.map((r) => parseFloat(r.close).toFixed(2));
+  //let data = pricedata.support.map((p) => p.close);
+
+  let data = prices;
+  console.log("data:");
+  console.log(data);
+
+  //const sma = await actions.calculateSMA(data, 20);
+  //const macd = await actions.calculateMACD(data);
+  //const bollinger = await actions.calculateBollingerBands(data, 20, 2);
+
+  // Run the analysis
+  const result = await actions.analyseSignals(data);
+  console.log("Trading Signal:", result.signal);
+  console.log("Certainty:", result.certainty);
+
+  //Checks before beginning trade
+  //if market.tradedBefore is set to false, it has been reset and so check is true
+  //if market.tradedBefore hours is over threshold of hours (tradeBeforeHours) then check is also true
+  
+  tradebeforeCheck =  market.tradedBefore !== false ? moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
+
+  //return result;
+  /*if(tradebeforeCheck == true){
+
+    console.log('tradebeforeCheck is true');
+    
+    const tradedBefore = moment.utc(market.tradedBefore).local().valueOf(); // market.tradedBefore
+    const localUtcTime = moment.utc().local(); // Local UTC Time
+    const tradedBeforeDate = moment(tradedBefore).format('YYYY-MM-DD HH:mm:ss'); // Example format
+    const localUtcTimeDate = moment(localUtcTime).format('YYYY-MM-DD HH:mm:ss');
+
+    console.log('market.tradedBefore is: ' + tradedBefore  );
+    console.log('Local UTC Time is: ' + localUtcTime );
+    console.log(`Traded Before Date: ${tradedBeforeDate}`);
+    console.log(`Local UTC Time Date: ${localUtcTimeDate}`);
+    
+    console.log('Hours difference: ' + moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours"));
+    console.log('tradeBeforeHours threshold: ' + tradeBeforeHours);
+    
+    if((result.signal == 'STRONG BUY' || result.signal == 'STRONG SELL') && result.certainty >= 0.7 && tradebeforeCheck){
+      console.log('Making trade...');
+      set.decision = result.signal.replace('STRONG ', '');
+      await actions.beginTrade(set);  
+    } else {
+      console.log('Did not make trade');
+    }
+  } else {
+    console.log('Last trade was not later than ' + tradeBeforeHours + ' hours, waiting.');
+  }*/
+  
+};
+
 
 actions.analyseSignals = async function (data) {
   // Constants for weights
