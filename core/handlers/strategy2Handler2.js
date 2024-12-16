@@ -76,9 +76,9 @@ actions.iniRun = async function () {
     volume: 11277
   }*/
 
-  console.log(pricedata.support);
+  
 
-  let data = pricedata;
+  let data = pricedata.support;
 
   // Run the analysis
   const result = await actions.analyseSignals(data);
