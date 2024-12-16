@@ -1,4 +1,41 @@
-async function analyseSignals(data) {
+var actions = {};
+var core;
+var lib;
+var loop;
+var notification;
+var api;
+var monitor;
+var util;
+var log;
+var lib;
+var error;
+var moment;
+
+//Call specific service to handle ai actions
+//const ai = require("../services/ai.js");
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function () {
+  core = require.main.exports;
+  lib = core.lib.actions;
+  cloud = core.cloudHandler.actions;
+  loop = core.loopHandler.actions.loop;
+  notification = core.notificationHandler.actions;
+  log = core.log.actions;
+  api = core.api;
+  monitor = core.monitor.actions;
+  error = core.errorHandler.actions;
+  util = core.util;
+  moment = core.moment;
+};
+
+
+actions.analyseSignals = async function (data) {
   // Constants for weights
   const WEIGHTS = {
     SMA: 0.2,
@@ -120,8 +157,7 @@ async function analyseSignals(data) {
 }
 
 // New helper functions
-const actions = {
-  async calculateSMA(data, period) {
+ actions.calculateSMA = async function(data, period) {
     // Calculate Simple Moving Average
     const sma = [];
     for (let i = period - 1; i < data.length; i++) {
@@ -130,9 +166,9 @@ const actions = {
       sma.push(avg);
     }
     return sma;
-  },
+  }
 
-  async calculateMACD(data, fastPeriod, slowPeriod, signalPeriod) {
+ actions.calculateMACD = async function(data, fastPeriod, slowPeriod, signalPeriod) {
     // Calculate MACD
     const emaFast = actions.calculateEMA(data, fastPeriod);
     const emaSlow = actions.calculateEMA(data, slowPeriod);
@@ -140,9 +176,9 @@ const actions = {
     const signalLine = actions.calculateEMA(macdLine, signalPeriod);
     const histogram = macdLine.map((val, index) => val - signalLine[index]);
     return { macdLine, signalLine, histogram: histogram[histogram.length - 1] };
-  },
+  }
 
-  async calculateBollingerBands(data, period, multiplier) {
+  actions.calculateBollingerBands = async function(data, period, multiplier) {
     const sma = await actions.calculateSMA(data, period);
     const stdDev = [];
 
@@ -156,9 +192,9 @@ const actions = {
     const upper = sma.map((val, index) => val + multiplier * stdDev[index]);
     const lower = sma.map((val, index) => val - multiplier * stdDev[index]);
     return { upper, lower };
-  },
+  }
 
-  async calculateRSI(data, period) {
+  actions.calculateRSI = async function(data, period) {
     const gains = [];
     const losses = [];
 
@@ -195,13 +231,13 @@ const actions = {
     }
 
     return rsiArray[rsiArray.length - 1];
-  },
+  }
 
-  async getVolume(data) {
+  actions.getVolume = async function(data) {
     return data.map((item) => item.volume);
-  },
+  }
 
-  async calculateADX(data, period) {
+ actions.calculateADX = async function(data, period) {
   const trArray = []; // True Range values
   const plusDMArray = []; // +DM values
   const minusDMArray = []; // -DM values
@@ -268,10 +304,10 @@ const actions = {
 
   // Return the most recent ADX value
   return adxArray[adxArray.length - 1];
-},
+}
 
 
-  async function getAverageVolume(data, period) {
+actions.getAverageVolume = async function(data, period) {
   if (data.length < period) {
     throw new Error("Not enough data to calculate the average volume for the specified period.");
   }
@@ -295,9 +331,9 @@ function calculateMomentum(data, period = 14) {
     }
 
     return momentum;
-},
+}
 
-function calculateEMA(data, period) {
+actions.calculateEMA = function(data, period) {
     if (!Array.isArray(data) || data.length === 0) {
         throw new Error("Data must be a non-empty array.");
     }
@@ -322,7 +358,6 @@ function calculateEMA(data, period) {
     }
 
     return ema;
-}
 }
 
 
