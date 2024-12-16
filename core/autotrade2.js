@@ -74,6 +74,7 @@ const priceDataHandler = require("./handlers/priceDataHandler.js");
 const tradeHandler = require("./handlers/tradeHandler.js");
 const aiHandler = require("./handlers/aiHandler.js");
 const strategy2Handler = require("./handlers/strategy2Handler.js");
+const strategy2Handler2 = require("./handlers/strategy2Handler2.js");
 
 /*
 
@@ -461,6 +462,7 @@ actions.exec = async function () {
     //await aiHandler.actions.iniRun();
 
     await strategy2Handler.actions.iniRun();
+    await strategy2Handler2.actions.iniRun();
 
     //Determine trade
     //await tradeHandler.actions.determineTrade2();
@@ -534,6 +536,7 @@ notificationHandler.actions.require();
 errorHandler.actions.require();
 aiHandler.actions.require();
 strategy2Handler.actions.require();
+strategy2Handler2.actions.require();
 
 log.actions.require();
 analytics.actions.require();
