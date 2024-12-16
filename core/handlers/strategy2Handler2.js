@@ -49,7 +49,7 @@ actions.iniRun = async function () {
   };
 
   console.log("------------------------prices---------------------");
-  console.log(pricedata);
+  console.log(prices);
   console.log('pricedata length: ' + pricedata.support.length);
 };
 
