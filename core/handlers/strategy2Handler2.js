@@ -169,7 +169,8 @@ actions.analyseSignals = async function (data) {
     RSI: 0.2,
     Volume: 0.1,
     ADX: 0.1,
-    Momentum: 0.1
+    Momentum: 0.1,
+    Fibonacci: 0.2
   };
 
   let buyCertainty = 0;
