@@ -475,7 +475,7 @@ actions.getFibonacciLevels = async function (data) {
 };
 
 
-actions.getAverageVolume = async function(data, period) {
+actions.calculateAverageVolume = async function(data, period) {
   if (data.length < period) {
     throw new Error("Not enough data to calculate the average volume for the specified period.");
   }
