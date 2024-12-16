@@ -62,7 +62,30 @@ actions.iniRun = async function () {
     item.volume = prices[index].lastTradedVolume;
   });
 
+  /*
+  {
+    price: 2654.47,
+    open: 2655.15,
+    close: 2654.47,
+    high: 2657.09,
+    low: 2650.79,
+    diff: 1,
+    time: '2024-12-16 15:00:00',
+    closeAsk: 2654.62,
+    closeBid: 2654.32,
+    volume: 11277
+  }*/
+
   console.log(pricedata.support);
+
+  let data = pricedata;
+
+  // Run the analysis
+  const result = await actions.analyseSignals(data);
+  console.log('signal result from strategy2Handler2:');
+  console.log(result);
+  
+
   
 };
 
