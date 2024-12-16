@@ -49,12 +49,9 @@ actions.iniRun = async function () {
   };
 
   
-  console.log("------------------------prices---------------------");
-  
-
-  console.log('prices length: ' + prices.length);
-  console.log('pricedata length: ' + pricedata.support.length);
-
+  //console.log("------------------------prices---------------------");
+  //console.log('prices length: ' + prices.length);
+  //console.log('pricedata length: ' + pricedata.support.length);
   //price length is 71 (3 days)
 
   // Iterate through the arrays
@@ -325,9 +322,6 @@ actions.analyseSignals = async function (data) {
   };
 
 actions.getFibonacciLevels = async function (data) {
-
-  console.log('fibonacci data:');
-  console.log(data);
   
   if (!data || data.length === 0 || !Array.isArray(data)) {
     throw new Error("Data array is empty or invalid.");
