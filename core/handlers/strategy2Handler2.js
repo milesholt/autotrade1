@@ -328,8 +328,8 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
         }
   });
   
-  const emaFast = await actions.calculateEMA(data, fastPeriod);
-  const emaSlow = await actions.calculateEMA(data, slowPeriod);
+  const emaFast = await actions.calculateEMA(closePrices, fastPeriod);
+  const emaSlow = await actions.calculateEMA(closePrices, slowPeriod);
 
   console.log("EMA Fast:", emaFast);
   console.log("EMA Slow:", emaSlow);
