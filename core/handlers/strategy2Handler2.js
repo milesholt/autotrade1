@@ -378,7 +378,7 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
     return { upper, lower };
   };
 
-actions.getFibonacciLevels = async function (data) {
+actions.getFibonacciLevelsOld = async function (data) {
   
   if (!data || data.length === 0 || !Array.isArray(data)) {
     throw new Error("Data array is empty or invalid.");
@@ -406,6 +406,54 @@ actions.getFibonacciLevels = async function (data) {
   };
 };
 
+actions.getFibonacciLevels = async function (data) {
+if (!Array.isArray(data) || data.length < 24) {
+        throw new Error("Insufficient data. At least 24 hourly entries required.");
+    }
+
+    // Step 1: Get the last 24 data points (most recent day)
+    const recentData = data.slice(-24); // Last 24 points
+
+    // Step 2: Calculate High, Low, and Close
+    const high = Math.max(...recentData.map(entry => entry.high));
+    const low = Math.min(...recentData.map(entry => entry.low));
+    const close = recentData[recentData.length - 1].close; // Final hour's close
+
+    // Step 3: Calculate Pivot Point
+    const PP = (high + low + close) / 3
+
+    // Step 4: Calculate Fibonacci-based Support and Resistance levels
+    const range = high - low;
+
+    const R1 = PP + (range * 0.382);
+    const R2 = PP + (range * 0.618);
+    const R3 = PP + (range * 1.0);
+
+    const S1 = PP - (range * 0.382);
+    const S2 = PP - (range * 0.618);
+    const S3 = PP - (range * 1.0);
+
+  const levels = {
+    level0: low,
+    level236: low + 0.236 * range,
+    level382: low + 0.382 * range,
+    level50: low + 0.5 * range,
+    level618: low + 0.618 * range,
+    level786: low + 0.786 * range,
+    level100: high
+  };
+
+    // Step 6: Return results
+    return {
+        high,
+        low,
+        close,
+        pivotPoint: PP,
+        supportLevels: { S1, S2, S3 },
+        resistanceLevels: { R1, R2, R3 },
+        levels
+    };
+};
 
   actions.calculateRSI = async function(data, period) {
     const gains = [];
