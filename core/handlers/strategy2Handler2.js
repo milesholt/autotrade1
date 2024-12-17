@@ -328,17 +328,32 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
         }
   });
   
-  const emaFast = await actions.calculateEMA(closePrices, fastPeriod);
-  const emaSlow = await actions.calculateEMA(closePrices, slowPeriod);
+  // Ensure periods are valid
+    if (fastPeriod >= slowPeriod) {
+        throw new Error("Fast period must be smaller than slow period.");
+    }
 
-  console.log("EMA Fast:", emaFast);
-  console.log("EMA Slow:", emaSlow);
+    // Calculate EMA arrays
+    const emaFast = await actions.calculateEMA(closePrices, fastPeriod);
+    const emaSlow = await actions.calculateEMA(closePrices, slowPeriod);
 
-  const macdLine = emaFast.map((val, index) => val - emaSlow[index]);
-  console.log("MACD Line:", macdLine);
+    // Trim emaFast and emaSlow to the same length
+    const minLength = Math.min(emaFast.length, emaSlow.length);
+    const trimmedEmaFast = emaFast.slice(-minLength);
+    const trimmedEmaSlow = emaSlow.slice(-minLength);
 
-  const signalLine = await actions.calculateEMA(macdLine, signalPeriod);
-  const histogram = macdLine.map((val, index) => val - signalLine[index]);
+    // Calculate MACD Line
+    const macdLine = trimmedEmaFast.map((val, index) => val - trimmedEmaSlow[index]);
+
+    // Calculate Signal Line (ensure macdLine has enough valid data)
+    const signalLine = await actions.calculateEMA(macdLine.slice(signalPeriod - 1), signalPeriod);
+
+    // Trim macdLine to align with signalLine
+    const alignedMacdLine = macdLine.slice(-(signalLine.length));
+
+    // Calculate Histogram
+    const histogram = alignedMacdLine.map((val, index) => val - signalLine[index]);
+
 
   return {
     macdLine,
