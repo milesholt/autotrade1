@@ -420,6 +420,8 @@ actions.getFibonacciLevels = async function (data) {
     const close = recentData[recentData.length - 1].close;
 
     // Step 3: Calculate Pivot Point
+    // The pivot point, or average point, is the median price level for that day.
+    // This means the average of the highest price, lowest price, and the most significant (recent) close price over a 24 hour period.
     const PP = (high + low + close) / 3;
 
     // Step 4: Calculate Fibonacci-based Support and Resistance levels
