@@ -122,6 +122,12 @@ actions.iniRun = async function () {
 };
 
 actions.analyseSignals = async function (data) {
+
+  // Make sure data is array and not empty
+  if (!Array.isArray(data) || data.length === 0) {
+        throw new Error("Data must be a non-empty array.");
+  }
+  
   // Constants for weights
   const WEIGHTS = {
     SMA: 0.2,
@@ -312,6 +318,16 @@ actions.analyseSignals = async function (data) {
   };
 
 actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeriod) {
+
+  // Extract the 'close' property for MACD calculation
+  const closePrices = data.map(item => {
+        if (item && typeof item.close === 'number') {
+            return item.close;
+        } else {
+            throw new Error("Invalid data format. Each item must have a numeric 'close' property.");
+        }
+  });
+  
   const emaFast = await actions.calculateEMA(data, fastPeriod);
   const emaSlow = await actions.calculateEMA(data, slowPeriod);
 
