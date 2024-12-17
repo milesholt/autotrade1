@@ -311,15 +311,25 @@ actions.analyseSignals = async function (data) {
     return sma;
   };
 
- actions.calculateMACD = async function(data, fastPeriod, slowPeriod, signalPeriod) {
-    // Calculate MACD
-    const emaFast = await actions.calculateEMA(data, fastPeriod);
-    const emaSlow = await actions.calculateEMA(data, slowPeriod);
-    const macdLine = emaFast.map((val, index) => val - emaSlow[index]);
-    const signalLine = actions.calculateEMA(macdLine, signalPeriod);
-    const histogram = macdLine.map((val, index) => val - signalLine[index]);
-    return { macdLine, signalLine, histogram: histogram[histogram.length - 1] };
+actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeriod) {
+  const emaFast = await actions.calculateEMA(data, fastPeriod);
+  const emaSlow = await actions.calculateEMA(data, slowPeriod);
+
+  console.log("EMA Fast:", emaFast);
+  console.log("EMA Slow:", emaSlow);
+
+  const macdLine = emaFast.map((val, index) => val - emaSlow[index]);
+  console.log("MACD Line:", macdLine);
+
+  const signalLine = await actions.calculateEMA(macdLine, signalPeriod);
+  const histogram = macdLine.map((val, index) => val - signalLine[index]);
+
+  return {
+    macdLine,
+    signalLine,
+    histogram: histogram[histogram.length - 1],
   };
+};
 
   actions.calculateBollingerBands = async function(data, period, multiplier) {
     const sma = await actions.calculateSMA(data, period);
@@ -505,8 +515,7 @@ actions.calculateMomentum = async function (data, period = 14) {
 
 
 
-
-actions.calculateEMA = async function(data, period) {
+actions.calculateEMA = async function (data, period) {
     if (!Array.isArray(data) || data.length === 0) {
         throw new Error("Data must be a non-empty array.");
     }
@@ -517,21 +526,29 @@ actions.calculateEMA = async function(data, period) {
     const multiplier = 2 / (period + 1);
     let ema = [];
 
+    // Validate data points and filter invalid values
+    const validData = data.filter(val => typeof val === 'number' && !isNaN(val));
+    if (validData.length < period) {
+        throw new Error("Insufficient valid data points to calculate EMA.");
+    }
+
     // Calculate the initial SMA for the first 'period' elements
-    const initialSMA = data
+    const initialSMA = validData
         .slice(0, period)
         .reduce((acc, val) => acc + val, 0) / period;
 
     ema.push(initialSMA);
 
     // Calculate the EMA for the rest of the data
-    for (let i = period; i < data.length; i++) {
-        const currentEMA = (data[i] - ema[ema.length - 1]) * multiplier + ema[ema.length - 1];
+    for (let i = period; i < validData.length; i++) {
+        const currentEMA =
+            (validData[i] - ema[ema.length - 1]) * multiplier + ema[ema.length - 1];
         ema.push(currentEMA);
     }
 
     return ema;
 };
+
 
 
 actions.beginTrade = async function (set) {
