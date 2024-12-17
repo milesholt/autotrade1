@@ -489,21 +489,22 @@ actions.calculateAverageVolume = async function(data, period) {
   return totalVolume / period;
 };
 
+
 actions.calculateMomentum = async function (data, period = 14) {
-    const momentum = [];
+  if (data.length <= period) {
+    throw new Error("Not enough data points to calculate momentum.");
+  }
 
-    for (let i = 0; i < data.length; i++) {
-        if (i < period) {
-            momentum.push(null); // Not enough data to calculate momentum
-        } else {
-            const currentPrice = data[i].close;
-            const previousPrice = data[i - period].close;
-            momentum.push(currentPrice - previousPrice);
-        }
-    }
+  // Calculate momentum for the last data point
+  const currentPrice = data[data.length - 1].close;
+  const priceNPeriodsAgo = data[data.length - 1 - period].close;
+  const momentum = currentPrice - priceNPeriodsAgo;
 
-    return momentum;
-};
+  return momentum; // Single value for the most recent point
+}
+
+
+
 
 actions.calculateEMA = async function(data, period) {
     if (!Array.isArray(data) || data.length === 0) {
