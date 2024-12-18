@@ -451,7 +451,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                 //NOTE: If you're selling to open then you are buying to close.
                                 //So if your are SELLING you close at the ASK price. If your are BUYING, you close at the BID price.
-                                console.log('EPIC: ' + ep);
+                                //console.log('EPIC: ' + ep);
                                 //console.log('DATA: ');
                                 //console.log(p);
 
@@ -461,13 +461,18 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                   markets[x.marketId].closeloss = false;
 
 
-                                //console.log('Epics match: ' + ep +  ' | ' + x.epic);
-                                //console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newLimit + ' newStop: ' + x.newStop);
+                                console.log('Epics match: ' + ep +  ' | ' + x.epic);
+                                console.log('epic: ' + ep + ' close ask: ' + d.closePrice.ask + 'close bid: ' + d.closePrice.bid + ' newlimit: ' + x.newLimit + ' newStop: ' + x.newStop);
 
                                 //our settings
                                 let closePrice = dir == 'BUY' ? d.closePrice.bid : d.closePrice.ask;
                                 //remove decimal places as we did with newLimit
                                 closePrice = parseFloat(closePrice.toString().split('.')[0]);
+
+                                console.log('closePrice: ' + closePrice + ' type: ' + typeof closePrice);
+                                console.log('newLimit: ' + x.newLimit + ' type: ' + typeof x.newLimit); 
+                                console.log('greater than: ' + closePrice >= x.newLimit);
+                                console.log('less than: ' + closePrice <= x.newLimit);
 
                                 //use new limit level
                                 if(dir == 'BUY' && closePrice >= x.newLimit) markets[x.marketId].closeprofit = true;
