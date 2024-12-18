@@ -482,8 +482,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                 //console.log('stream data: ');
                                 //console.log(d);
 
-                                //NOTE - Make sure to clear monitordata if you update limitClosePerc or stopClosePerc on config,
-                                //as tmp monitor data is updated with new limits or stops unless monitor restarts.
+                                //NOTE - Make sure to clear monitordata if you update limitClosePerc or stopClosePerc on config, as tmp monitor data is not updated with new limits or stops unless monitor restarts.
 
                                 //use new limit level
                                 if(dir == 'BUY' && closePrice >= x.newLimit) markets[x.marketId].closeprofit = true;
