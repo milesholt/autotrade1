@@ -75,7 +75,7 @@ stopClosePerc = 0.25;*/
 stopClosePerc = 1;*/
 
 limitClosePerc = 0.25;
-stopClosePerc = 0.25;
+stopClosePerc = 1;
 
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
