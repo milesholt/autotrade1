@@ -469,11 +469,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                 //remove decimal places as we did with newLimit
                                 closePrice = parseFloat(closePrice.toString().split('.')[0]);
 
-                                console.log('closePrice: ' + closePrice + ' type: ' + typeof closePrice);
-                                console.log('newLimit: ' + x.newLimit + ' type: ' + typeof x.newLimit); 
-                                console.log('greater than: ' + closePrice >= x.newLimit);
-                                console.log('less than: ' + closePrice <= x.newLimit);
-                                console.log('tmp monitor data: ');
+                                //console.log('closePrice: ' + closePrice + ' type: ' + typeof closePrice);
+                                //console.log('newLimit: ' + x.newLimit + ' type: ' + typeof x.newLimit); 
+                                //console.log('greater than: ' + closePrice >= x.newLimit);
+                                //console.log('less than: ' + closePrice <= x.newLimit);
+                                //console.log('tmp monitor data: ');
                                 //console.log(x);
 
                                 //console.log('market: ');
@@ -481,6 +481,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                 //console.log('stream data: ');
                                 //console.log(d);
+
+                                //NOTE - Make sure to clear monitordata if you update limitClosePerc or stopClosePerc on config,
+                                //as tmp monitor data is updated with new limits or stops unless monitor restarts.
 
                                 //use new limit level
                                 if(dir == 'BUY' && closePrice >= x.newLimit) markets[x.marketId].closeprofit = true;
