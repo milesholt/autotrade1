@@ -66,10 +66,17 @@ tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
 
+//previous limit and stop close percentages
 /*limitClosePerc = 0.15;
 stopClosePerc = 0.25;*/
-limitClosePerc = 1;
-stopClosePerc = 1;
+
+//set these to one to turn off
+/*limitClosePerc = 1;
+stopClosePerc = 1;*/
+
+limitClosePerc = 0.25;
+stopClosePerc = 0.25;
+
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
 
