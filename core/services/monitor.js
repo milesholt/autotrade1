@@ -474,13 +474,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                 console.log('greater than: ' + closePrice >= x.newLimit);
                                 console.log('less than: ' + closePrice <= x.newLimit);
                                 console.log('tmp monitor data: ');
-                                console.log(x);
+                                //console.log(x);
 
-                                console.log('market: ');
-                                console.log(markets[x.marketId]);
+                                //console.log('market: ');
+                                //console.log(markets[x.marketId]);
 
-                                console.log('stream data: ');
-                                console.log(d);
+                                //console.log('stream data: ');
+                                //console.log(d);
 
                                 //use new limit level
                                 if(dir == 'BUY' && closePrice >= x.newLimit) markets[x.marketId].closeprofit = true;
