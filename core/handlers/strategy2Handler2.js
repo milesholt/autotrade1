@@ -414,8 +414,16 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
     let validMacdLine = macdLine.filter(value => value !== null);
 
     // Calculate the Signal Line (EMA of the MACD Line)
-    let signalLine = await actions.calculateEMA(validMacdLine, signalPeriod);
-
+    // Ensure Signal Line length matches MACD Line length
+    let validMacdLine = macdLine.filter(value => value !== null);
+    let signalLineRaw = await actions.calculateEMA(validMacdLine, signalPeriod);
+    let signalLine = macdLine.map((value, index) => {
+        if (index >= slowPeriod - 1 && signalLineRaw[index - (slowPeriod - 1)] !== undefined) {
+            return signalLineRaw[index - (slowPeriod - 1)];
+        }
+        return null;
+    });
+   
     // Calculate the MACD Histogram (difference between MACD Line and Signal Line)
     let histogram = validMacdLine.map((value, index) => {
         if (index < signalLine.length) {
