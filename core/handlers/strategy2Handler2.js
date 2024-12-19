@@ -193,13 +193,30 @@ actions.analyseSignals = async function (data) {
   // MACD Analysis
   console.log('MACD');
   console.log(macd);
-  if (macd.histogram > 0) {
+  /*if (macd.histogram > 0) {
     buyCertainty += WEIGHTS.MACD;
     explanations.push("MACD histogram is positive (bullish momentum)");
   } else {
     sellCertainty += WEIGHTS.MACD;
     explanations.push("MACD histogram is negative (bearish momentum)");
-  }
+  }*/
+
+  
+    // Find the most recent valid points
+    const lastIndex = macd.macdLine.length - 1;
+    const prevIndex = macd.macdLine.length - 2;
+
+    if (macd.macdLine[lastIndex] > macd.signalLine[lastIndex] && macd.macdLine[prevIndex] <= macd.signalLine[prevIndex]) {
+        // MACD Line just crossed above Signal Line
+        buyCertainty += WEIGHTS.MACD;
+        explanations.push("MACDLine is above signalLine (bullish momentum)");
+    } else if (macd.macdLine[lastIndex] < macd.signalLine[lastIndex] && macd.macdLine[prevIndex] >= macd.signalLine[prevIndex]) {
+        // MACD Line just crossed below Signal Line
+        sellCertainty += WEIGHTS.MACD;
+        explanations.push("MACDLine is below signalLine (bearish momentum)");
+    } 
+
+
 
   // Bollinger Bands Analysis
   const lowerBand = bollingerArray.lower[bollingerArray.lower.length - 1];
