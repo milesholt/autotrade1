@@ -415,7 +415,6 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
 
     // Calculate the Signal Line (EMA of the MACD Line)
     // Ensure Signal Line length matches MACD Line length
-    let validMacdLine = macdLine.filter(value => value !== null);
     let signalLineRaw = await actions.calculateEMA(validMacdLine, signalPeriod);
     let signalLine = macdLine.map((value, index) => {
         if (index >= slowPeriod - 1 && signalLineRaw[index - (slowPeriod - 1)] !== undefined) {
