@@ -263,7 +263,7 @@ actions.analyseSignals = async function (data) {
   // ADX Analysis
   console.log('ADX');
   console.log(adx);
-  if (adx > 25) {
+  /*if (adx > 25) {
     if (macd.histogram > 0) {
       buyCertainty += WEIGHTS.ADX;
       explanations.push("ADX confirms strong bullish trend");
@@ -271,7 +271,7 @@ actions.analyseSignals = async function (data) {
       sellCertainty += WEIGHTS.ADX;
       explanations.push("ADX confirms strong bearish trend");
     }
-  }
+  }*/
 
   // Momentum Analysis
   if (momentum > 0) {
