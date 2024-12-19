@@ -117,6 +117,14 @@ actions.iniRun = async function () {
     }
   } else {
     console.log('Last trade was not later than ' + tradeBeforeHours + ' hours, waiting.');
+    console.log('market.tradedBefore is: ' + tradedBefore  );
+    console.log('Local UTC Time is: ' + localUtcTime );
+    console.log(`Traded Before Date: ${tradedBeforeDate}`);
+    console.log(`Local UTC Time Date: ${localUtcTimeDate}`);
+    console.log('Hours difference: ' + moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours"));
+    console.log('tradeBeforeHours threshold: ' + tradeBeforeHours);
+   
+    
   }
   
 };
