@@ -67,6 +67,8 @@ lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
 
 //previous limit and stop close percentages
+//dont forget to clear monitorlog to restart monitoring with new percentage values
+
 /*limitClosePerc = 0.15;
 stopClosePerc = 0.25;*/
 
