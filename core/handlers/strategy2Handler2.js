@@ -153,7 +153,14 @@ actions.analyseSignals = async function (data) {
 
   // Run calculations concurrently
   const [
-    smaArray,
+    smaArray10,
+    smaArray20,
+    smaArray50,
+    smaArray70,
+    emaArray10,
+    emaArray20,
+    emaArray50,
+    emaArray70,
     macd,
     bollingerArray,
     fibonacci,
@@ -162,7 +169,14 @@ actions.analyseSignals = async function (data) {
     adx,
     momentum
   ] = await Promise.all([
+    actions.calculateSMA(data, 10),
     actions.calculateSMA(data, 20),
+    actions.calculateSMA(data, 50),
+    actions.calculateSMA(data, 70),
+    actions.calculateEMA(data, 10),
+    actions.calculateEMA(data, 20),
+    actions.calculateEMA(data, 50),
+    actions.calculateEMA(data, 70),
     actions.calculateMACD(data, 12, 26, 9),
     actions.calculateBollingerBands(data, 20, 2),
     actions.getFibonacciLevels(data),
@@ -172,17 +186,63 @@ actions.analyseSignals = async function (data) {
     actions.calculateMomentum(data, 10)
   ]);
 
-  // Simple Moving Average (SMA) Analysis
   const currentPrice = data[data.length - 1].close;
-
   console.log('Current price:');
   console.log(currentPrice);
   
-  const smaValue = smaArray[smaArray.length - 1];
-  console.log('SMA');
-  console.log(smaValue);
   
-  if (currentPrice > smaValue) {
+  // Simple (SMA) and Exponential (EMA) Moving Average Analysis
+  const smaValue10 = smaArray10[smaArray10.length - 1];
+  const smaValue20 = smaArray20[smaArray20.length - 1];
+  const smaValue50 = smaArray50[smaArray50.length - 1];
+  const smaValue70 = smaArray70[smaArray70.length - 1];
+
+  //EMA
+  const emaValue10 = emaArray10[emaArray10.length - 1];
+  const emaValue20 = emaArray20[emaArray20.length - 1];
+  const emaValue50 = emaArray50[emaArray50.length - 1];
+  const emaValue70 = emaArray70[emaArray70.length - 1];
+
+  console.log('sma and ema moving averges);
+
+  let maAnalysis = {
+    'SMA10': {
+      'value': smaValue10,
+      'signal': currentPrice > smaValue10 ? 'BUY' : 'SELL'
+    },
+    'SMA20': {
+      'value': smaValue20,
+      'signal': currentPrice > smaValue20 ? 'BUY' : 'SELL'
+    },
+    'SMA50': {
+      'value': smaValue50,
+      'signal': currentPrice > smaValue50 ? 'BUY' : 'SELL'
+    },
+    'SMA70': {
+      'value': smaValue70,
+      'signal': currentPrice > smaValue70 ? 'BUY' : 'SELL'
+    },
+    'EMA10': {
+      'value': emaValue10,
+      'signal': currentPrice > emaValue10 ? 'BUY' : 'SELL'
+    },
+    'EMA20': {
+      'value': emaValue20,
+      'signal': currentPrice > emaValue20 ? 'BUY' : 'SELL'
+    },
+    'EMA50': {
+      'value': emaValue50,
+      'signal': currentPrice > emaValue50 ? 'BUY' : 'SELL'
+    },
+    'EMA70': {
+      'value': emaValue70,
+      'signal': currentPrice > emaValue70 ? 'BUY' : 'SELL'
+    }
+  }
+
+  console.log(maAnalysis);
+
+  if (currentPrice > smaValue20) {
     buyCertainty += WEIGHTS.SMA;
     explanations.push("Price is above SMA (uptrend indication)");
   } else {
