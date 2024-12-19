@@ -137,7 +137,14 @@ actions.analyseSignals = async function (data) {
   
   // Constants for weights
   const WEIGHTS = {
-    SMA: 0.2,
+    SMA10: 0.1,
+    SMA20: 0.2,
+    SMA50: 0.3,
+    SMA70: 0.4,
+    EMA10: 0.1,
+    EMA20: 0.2,
+    EMA50: 0.3,
+    EMA70: 0.4,
     MACD: 0.3,
     Bollinger: 0.2,
     RSI: 0.2,
@@ -146,6 +153,7 @@ actions.analyseSignals = async function (data) {
     Momentum: 0.1,
     Fibonacci: 0.2
   };
+
 
   let buyCertainty = 0;
   let sellCertainty = 0;
@@ -242,11 +250,68 @@ actions.analyseSignals = async function (data) {
 
   console.log(maAnalysis);
 
+  // Initialize weighted certainty scores
+let MAbuyCertainty = 0;
+let MAsellCertainty = 0;
+let MAtotalWeight = 0;
+
+// Calculate weighted certainty for each moving average
+for (const key in maAnalysis) {
+  const weight = weights[key] || 0; // Use weight if defined, otherwise 0
+  MAtotalWeight += weight;
+
+  if (maAnalysis[key].signal === 'BUY') {
+    MAbuyCertainty += weight;
+  } else if (maAnalysis[key].signal === 'SELL') {
+    MAsellCertainty += weight;
+  }
+}
+
+// Normalize certainties to percentages
+const MAbuyCertaintyPercentage = ((MAbuyCertainty / MAtotalWeight) * 100).toFixed(2);
+const MAsellCertaintyPercentage = ((MAsellCertainty / MAtotalWeight) * 100).toFixed(2);
+
+// Determine overall signal
+const overallMASignal = MAbuyCertainty > MAsellCertainty ? 'BUY' : 'SELL';
+
+  
+// Define thresholds for confidence levels
+const MAconfidenceLevels = {
+  strong: 40, // Strong confidence if the difference > 40%
+  moderate: 20 // Moderate confidence if the difference > 20%
+};
+
+// Calculate difference between buyCertainty and sellCertainty
+const MAcertaintyDifference = Math.abs(MAbuyCertaintyPercentage - MAsellCertaintyPercentage);
+
+// Determine confidence level
+let MAconfidence = '';
+if (MAcertaintyDifference > MAconfidenceLevels.strong) {
+  MAconfidence = overallMASignal === 'BUY' ? 'STRONG BUY' : 'STRONG SELL';
+} else if (MAcertaintyDifference > MAconfidenceLevels.moderate) {
+  MAconfidence = overallMASignal === 'BUY' ? 'BUY' : 'SELL';
+} else {
+  MAconfidence = 'NEUTRAL';
+}
+
+
+// Add overall certainty to the result
+maAnalysis.overallAnalysis = {
+  signal: overallMASignal,
+  confidence: MAconfidence,
+  buyCertainty: MAbuyCertaintyPercentage + '%',
+  sellCertainty: MAsellCertaintyPercentage + '%',
+  totalWeight: totalWeight
+};
+
+// Log the full analysis
+console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
+
   if (currentPrice > smaValue20) {
-    buyCertainty += WEIGHTS.SMA;
+    buyCertainty += WEIGHTS.SMA20;
     explanations.push("Price is above SMA (uptrend indication)");
   } else {
-    sellCertainty += WEIGHTS.SMA;
+    sellCertainty += WEIGHTS.SMA20;
     explanations.push("Price is below SMA (downtrend indication)");
   }
 
