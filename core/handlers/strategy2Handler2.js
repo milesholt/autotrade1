@@ -211,7 +211,7 @@ actions.analyseSignals = async function (data) {
   const emaValue50 = emaArray50[emaArray50.length - 1];
   const emaValue70 = emaArray70[emaArray70.length - 1];
 
-  console.log('sma and ema moving averges);
+  console.log('sma and ema moving averges');
 
   let maAnalysis = {
     'SMA10': {
