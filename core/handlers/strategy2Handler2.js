@@ -426,22 +426,25 @@ maAnalysis.overallAnalysis = {
   //Confirm RSI with MACD and Bollinger indicators
   const rsiData = {
     rsi: rsi,                      
-    sellIndicators: sellIndicators
+    sellIndicators: sellIndicators,
     buyIndicators: buyIndicators
   }
 
-  const rsiSignal = await actions.determineRSIBasedAction(rsiData);
+  const rsiSignal = await actions.determineRSI(rsiData);
 
   console.log('rsiSignal');
   console.log(rsiSignal);
 
   if(rsiSignal.action == 'BUY'){
-    buyCertainty += WEIGHTS.Volume;
+    buyCertainty += WEIGHTS.RSI;
     buyIndicators.push('RSI');
     explanations.push(rsiSignal.outcome);
   }
 
   if(rsiSignal.action == 'SELL'){
+    sellCertainty += WEIGHTS.RSI;
+    sellIndicators.push('RSI');
+    explanations.push(rsiSignal.outcome);
   }
 
   // Volume Analysis
