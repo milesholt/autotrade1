@@ -609,7 +609,7 @@ actions.determineRSI = async function(data) {
   let outcome = '';
 
   // RSI Overbought Check (SELL Condition)
-  if (rsi > 70) {
+  if (rsi > 50) {
     // Confirm overbought condition using existing sellIndicators
     if (sellIndicators.includes("MACD")) {
       reasons.push("MACD indicates bearish momentum");
@@ -622,11 +622,13 @@ actions.determineRSI = async function(data) {
 
     // SELL if confirmed by enough indicators
     if (certainty >= 2) {
-      action = "SELL";
-      reasons.push("Confirmed overbought condition by multiple indicators");
-      outcome = 'RSI - overbought confirmed by multiple indicators';
+      if(rsi > 70){
+        action = "SELL";
+        reasons.push("Confirmed overbought condition by multiple indicators");
+        outcome = 'RSI - overbought confirmed by multiple indicators';
+      }
     } else {
-      if(rsi > 50 && buyIndicators.includes('MA')){
+      if(buyIndicators.includes('MA')){
         action = "BUY";
         reasons.push("Overbought not confirmed and RIS above 50. MA confirms uptrend.");
         outcome = 'RSI - Above 50, confirmed by MA uptrend.';
