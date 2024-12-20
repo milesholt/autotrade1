@@ -329,9 +329,10 @@ maAnalysis.overallAnalysis = {
     explanations.push("Moving Averages Analaysis is SELL (downtrend indication)");
   }
 
-// Log the full analysis
-/*console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
+  console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
 
+// Log the full analysis
+/*
   if (currentPrice > smaValue20) {
     buyCertainty += WEIGHTS.SMA20;
     explanations.push("Price is above SMA (uptrend indication)");
