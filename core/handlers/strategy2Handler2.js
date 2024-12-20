@@ -337,7 +337,7 @@ maAnalysis.overallAnalysis = {
   if(MAconfidence == 'STRONG SELL'){
     sellIndicators.push('MA');
     sellCertainty += (WEIGHTS.MA * 2);
-    explanations.push("Moving Averages Analaysis is STRONG SELL (downtrend indication)");
+    explanations.push("Moving Averages Analysis is STRONG SELL (downtrend indication)");
   }
 
   console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
