@@ -634,6 +634,12 @@ actions.determineRSI = async function(data) {
     }
   }
 
+  if(rsi < 40 && sellIndicators.includes('MA')){
+        action = "SELL";
+        reasons.push("Oversold not confirmed and RIS below 0. MA confirms downtrend.");
+        outcome = 'RSI - Below 0, confirmed by MA downtrend.';
+      }
+
   // RSI Oversold Check (BUY Condition)
   if (rsi < 30) {
     // Confirm oversold condition using existing buyIndicators
@@ -650,12 +656,9 @@ actions.determineRSI = async function(data) {
     if (certainty >= 2) {
       action = "BUY";
       reasons.push("RSI - Confirmed oversold condition by multiple indicators");
+      outcome = 'RSI - Confirmed oversold';
     } else {
-      if(rsi < 0 && sellIndicators.includes('MA')){
-        action = "SELL";
-        reasons.push("Oversold not confirmed and RIS below 0. MA confirms downtrend.");
-        outcome = 'RSI - Below 0, confirmed by MA downtrend.';
-      }
+      
     }
   }
 
