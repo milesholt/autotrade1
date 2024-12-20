@@ -142,7 +142,7 @@ actions.analyseSignals = async function (data) {
   
   // Constants for weights
   const WEIGHTS = {
-    MA: 0.2,
+    MA: 0.3,
     SMA10: 0.1,
     SMA20: 0.2,
     SMA50: 0.3,
