@@ -446,17 +446,7 @@ maAnalysis.overallAnalysis = {
   }*/
 
 
-  //ROC Analysis
-  if(roc >= 0.5){
-    buyCertainty += WEIGHTS.ROC;
-    buyIndicators.push('ROC');
-    explanations.push("ROC above 0.5% - BUY");
-  }
-  if(roc <= -0.5){
-    sellCertainty += WEIGHTS.ROC;
-    sellIndicators.push('ROC');
-    explanations.push("ROC less than 0.5% - SELL");
-  }
+  
 
   // Momentum Analysis
   /*if (momentum > 0) {
@@ -482,6 +472,18 @@ maAnalysis.overallAnalysis = {
   const baseThreshold = market.volatilityThreshold;
   const momentumThreshold = await actions.calculateDynamicThreshold(baseThreshold, atr, currentPrice);
   const rocThreshold = momentumThreshold * 0.5; // Adjust ROC threshold relative to momentum
+
+  //ROC Analysis
+  if(roc > rocThreshold){
+    buyCertainty += WEIGHTS.ROC;
+    buyIndicators.push('ROC');
+    explanations.push("ROC above 0.5% - BUY");
+  }
+  if(roc < -rocThreshold){
+    sellCertainty += WEIGHTS.ROC;
+    sellIndicators.push('ROC');
+    explanations.push("ROC less than 0.5% - SELL");
+  }
 
   let momentumSignal = 'NEUTRAL';
   if (adjustedMomentum > momentumThreshold && roc > rocThreshold) {
