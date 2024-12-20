@@ -134,6 +134,11 @@ actions.analyseSignals = async function (data) {
   if (!Array.isArray(data) || data.length === 0) {
         throw new Error("Data must be a non-empty array.");
   }
+
+  //Split data
+  const highs = data.map(point => point.high);
+  const lows = data.map(point => point.low);
+  const closes = data.map(point => point.close);
   
   // Constants for weights
   const WEIGHTS = {
@@ -175,7 +180,9 @@ actions.analyseSignals = async function (data) {
     rsi,
     volume,
     adx,
-    momentum
+    momentum,
+    atr,
+    roc
   ] = await Promise.all([
     actions.calculateSMA(data, 10),
     actions.calculateSMA(data, 20),
@@ -191,7 +198,9 @@ actions.analyseSignals = async function (data) {
     actions.calculateRSI(data, 14),
     actions.getVolume(data),
     actions.calculateADX(data, 14),
-    actions.calculateMomentum(data, 10)
+    actions.calculateMomentum(data, 14),
+    actions.calculateATR(highs,lows,closes, 20),
+    actions.calculateROC(data, 14)
   ]);
 
   const currentPrice = data[data.length - 1].close;
@@ -399,13 +408,42 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   }*/
 
   // Momentum Analysis
-  if (momentum > 0) {
+  /*if (momentum > 0) {
     buyCertainty += WEIGHTS.Momentum;
     explanations.push("Positive momentum supports upward movement");
   } else {
     sellCertainty += WEIGHTS.Momentum;
     explanations.push("Negative momentum supports downward movement");
+  }*/
+
+  
+  console.log("Rate of Change (ROC):", roc.toFixed(2) + "%");
+  console.log("Momentum (Smoothed):", momentum.toFixed(2));
+  const adjustedMomentum = momentum / atr;
+
+  console.log("ATR:", atr.toFixed(2));
+  console.log("Volatility-Adjusted Momentum:", adjustedMomentum.toFixed(2));
+
+  // Define thresholds for momentum confidence
+  //const momentumThreshold = 10; // Example threshold
+  //const rocThreshold = 5;
+
+  const baseThreshold = market.volatilityThreshold;
+  const momentumThreshold = await actions.calculateDynamicThreshold(baseThreshold, atr, currentPrice);
+  const rocThreshold = momentumThreshold * 0.5; // Adjust ROC threshold relative to momentum
+
+  let momentumSignal = 'NEUTRAL';
+  if (adjustedMomentum > momentumThreshold && roc > rocThreshold) {
+    momentumSignal = 'STRONG UPTREND';
+  } else if (adjustedMomentum > 0 && roc > 0) {
+    momentumSignal = 'UPTREND';
+  } else if (adjustedMomentum < -momentumThreshold && roc < -rocThreshold) {
+    momentumSignal = 'STRONG DOWNTREND';
+  } else if (adjustedMomentum < 0 && roc < 0) {
+    momentumSignal = 'DOWNTREND';
   }
+  
+  console.log("Momentum Signal:", momentumSignal);
 
   // Normalize certainties
   const totalCertainty = buyCertainty + sellCertainty;
@@ -454,7 +492,27 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   return { signal, confidence, buyCertainty, sellCertainty, explanations };
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // New helper functions
+
+actions.calculateDynamicThreshold = async function(baseThreshold, atrValue, currentPrice) {
+  const volatilityFactor = atrValue / currentPrice; // ATR as % of price
+  return baseThreshold * (1 + volatilityFactor); // Scale threshold
+}
+
+ //Returns SMA array with the period as a starting index (all data outside of the period)
  actions.calculateSMA = async function(data, period) {
     // Calculate Simple Moving Average
     const sma = [];
@@ -465,6 +523,42 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
     }
     return sma;
   };
+
+//Returns single recent SMA value, with period as last index (all data inside of period)
+actions.calculateSMARecent = async function(data, period) {
+  if (data.length < period) return null;
+  const sum = data.slice(-period).reduce((acc, val) => acc + val.close, 0);
+  return sum / period;
+};
+
+// Function to calculate Rate of Change (ROC)
+actions.calculateROC = async function(prices, period) {
+  if (prices.length < period) return null; // Not enough data
+  const currentPrice = prices[prices.length - 1];
+  const pastPrice = prices[prices.length - 1 - period];
+  return ((currentPrice - pastPrice) / pastPrice) * 100;
+}
+
+//Calculate ATR - To help momentum adjust for volatility
+actions.calculateATR = async function(highs, lows, closes, period) {
+  const trueRanges = highs.map((high, i) => {
+    if (i === 0) return null; // Skip first period
+    const low = lows[i];
+    const prevClose = closes[i - 1];
+    return Math.max(high - low, Math.abs(high - prevClose), Math.abs(low - prevClose));
+  }).filter((tr) => tr !== null);
+
+  return await actions.calculateSMARecent(trueRanges, period);
+}
+
+
+actions.calculateMomentum = async function(prices, period) {
+  const smoothedCurrent = await actions.calculateSMARecent(prices.slice(-period), period);
+  const smoothedPast = await actions.calculateSMARecent(prices.slice(0, -period), period);
+  if (smoothedCurrent === null || smoothedPast === null) return null; // Not enough data
+  return smoothedCurrent - smoothedPast;
+}
+
 
 /*actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeriod) {
 
@@ -788,7 +882,7 @@ actions.calculateAverageVolume = async function(data, period) {
 };
 
 
-actions.calculateMomentum = async function (data, period = 14) {
+actions.calculateMomentumOld = async function (data, period = 14) {
   if (data.length <= period) {
     throw new Error("Not enough data points to calculate momentum.");
   }
