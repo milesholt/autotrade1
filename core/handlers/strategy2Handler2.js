@@ -157,7 +157,7 @@ actions.analyseSignals = async function (data) {
     Volume: 0.1,
     ADX: 0.1,
     ROC: 0.2,
-    Momentum: 0.1,
+    Momentum: 0.2,
     Fibonacci: 0.2
   };
 
