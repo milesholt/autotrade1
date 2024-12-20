@@ -198,7 +198,7 @@ actions.analyseSignals = async function (data) {
     actions.calculateRSI(data, 14),
     actions.getVolume(data),
     actions.calculateADX(data, 14),
-    actions.calculateMomentum(data, 14),
+    actions.calculateMomentum(closes, 14),
     actions.calculateATR(highs,lows,closes, 20),
     actions.calculateROC(closes, 14)
   ]);
@@ -525,9 +525,9 @@ actions.calculateDynamicThreshold = async function(baseThreshold, atrValue, curr
   };
 
 //Returns single recent SMA value, with period as last index (all data inside of period)
-actions.calculateSMARecent = async function(data, period) {
-  if (data.length < period) return null;
-  const sum = data.slice(-period).reduce((acc, val) => acc + val.close, 0);
+actions.calculateSMARecent = async function(prices, period) {
+  if (prices.length < period) return null;
+  const sum = prices.slice(-period).reduce((acc, val) => acc + val, 0);
   return sum / period;
 };
 
