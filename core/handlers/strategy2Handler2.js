@@ -301,7 +301,7 @@ maAnalysis.overallAnalysis = {
   confidence: MAconfidence,
   buyCertainty: MAbuyCertaintyPercentage + '%',
   sellCertainty: MAsellCertaintyPercentage + '%',
-  totalWeight: totalWeight
+  totalWeight: MAtotalWeight
 };
 
 // Log the full analysis
