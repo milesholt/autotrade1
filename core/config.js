@@ -194,6 +194,7 @@ markets = [
     marketClosed: [19, 1],
     expiry: "DFB",
     streamingPricesAvailable: true,
+    volatilityThreshold: 0.02
   },
   {
     id: 1,
@@ -210,6 +211,7 @@ markets = [
     marketClosed: [0, 0],
     expiry: "DFB",
     streamingPricesAvailable: true,
+    volatilityThreshold: 0.005
   },
   {
     id: 2,
@@ -226,6 +228,7 @@ markets = [
     marketClosed: [21, 23],
     expiry: "DFB",
     streamingPricesAvailable: true,
+    volatilityThreshold: 0.01
   },
   //{'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
   //{'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [22,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
