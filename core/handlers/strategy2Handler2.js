@@ -156,6 +156,7 @@ actions.analyseSignals = async function (data) {
     RSI: 0.2,
     Volume: 0.1,
     ADX: 0.1,
+    ROC: 0.1,
     Momentum: 0.1,
     Fibonacci: 0.2
   };
@@ -443,6 +444,19 @@ maAnalysis.overallAnalysis = {
       explanations.push("ADX confirms strong bearish trend");
     }
   }*/
+
+
+  //ROC Analysis
+  if(roc >= 0.5){
+    buyCertainty += WEIGHTS.ROC;
+    buyIndicators.push('ROC');
+    explanations.push("ROC above 0.5% - BUY");
+  }
+  if(roc <= -0.5){
+    sellCertainty += WEIGHTS.ROC;
+    sellIndicators.push('ROC');
+    explanations.push("ROC less than 0.5% - SELL");
+  }
 
   // Momentum Analysis
   /*if (momentum > 0) {
