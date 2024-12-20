@@ -318,12 +318,12 @@ maAnalysis.overallAnalysis = {
 
  const MAThreshold = 60;
 
-  if(MAbuyCertaintyPercentage >= MAThreshold && maAnalysis.confidence == 'STRONG BUY'){
+  if(maAnalysis.confidence == 'STRONG BUY'){
     buyIndicators.push('MA');
     buyCertainty += WEIGHTS.MA;
     explanations.push("Moving Averages Analysis is BUY (uptrend indication)");
   }
-  if(MAsellCertaintyPercentage >= MAThreshold && maAnalysis.confidence == 'STRONG SELL'){
+  if(maAnalysis.confidence == 'STRONG SELL'){
     sellIndicators.push('MA');
     sellCertainty += WEIGHTS.MA;
     explanations.push("Moving Averages Analaysis is SELL (downtrend indication)");
