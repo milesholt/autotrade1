@@ -156,7 +156,11 @@ actions.analyseSignals = async function (data) {
     Volume: 0.1,
     ADX: 0.1,
     Momentum: 0.1,
-    Fibonacci: 0.2
+    Fibonacci: 0.2,
+    STRONG_UPTREND: 0.2,
+    UPTREND: 0.1,
+    STRONG_DOWNTREND: 0.2,
+    DOWNTREND: 0.1
   };
 
 
@@ -435,12 +439,20 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   let momentumSignal = 'NEUTRAL';
   if (adjustedMomentum > momentumThreshold && roc > rocThreshold) {
     momentumSignal = 'STRONG UPTREND';
+    buyCertainty += WEIGHTS.STRONG_UPTREND;
+    explanations.push("Momentum suggests Strong Uptrend");
   } else if (adjustedMomentum > 0 && roc > 0) {
     momentumSignal = 'UPTREND';
+    buyCertainty += WEIGHTS.UPTREND;
+    explanations.push("Momentum suggests Uptrend");
   } else if (adjustedMomentum < -momentumThreshold && roc < -rocThreshold) {
     momentumSignal = 'STRONG DOWNTREND';
+    sellCertainty += WEIGHTS.STRONG_DOWNTREND;
+    explanations.push("Momentum suggests Strong Downtrend");
   } else if (adjustedMomentum < 0 && roc < 0) {
     momentumSignal = 'DOWNTREND';
+    sellCertainty += WEIGHTS.DOWNTREND;
+    explanations.push("Momentum suggests Downtrend");
   }
   
   console.log("Momentum Signal:", momentumSignal);
