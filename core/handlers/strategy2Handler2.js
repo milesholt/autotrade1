@@ -439,7 +439,7 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
     explanations.push("Momentum suggests Strong Uptrend");
   } else if (adjustedMomentum > 0 && roc > 0) {
     momentumSignal = 'UPTREND';
-    buyCertainty += WEIGHTS.Momentum
+    buyCertainty += WEIGHTS.Momentum;
     explanations.push("Momentum suggests Uptrend");
   } else if (adjustedMomentum < -momentumThreshold && roc < -rocThreshold) {
     momentumSignal = 'STRONG DOWNTREND';
