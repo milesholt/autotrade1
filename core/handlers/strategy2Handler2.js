@@ -142,6 +142,7 @@ actions.analyseSignals = async function (data) {
   
   // Constants for weights
   const WEIGHTS = {
+    MA: 0.2,
     SMA10: 0.1,
     SMA20: 0.2,
     SMA50: 0.3,
@@ -163,6 +164,8 @@ actions.analyseSignals = async function (data) {
   let buyCertainty = 0;
   let sellCertainty = 0;
   const explanations = [];
+  const buyIndicators = [];
+  const sellIndicators = [];
 
   // Run calculations concurrently
   const [
@@ -313,8 +316,21 @@ maAnalysis.overallAnalysis = {
   totalWeight: MAtotalWeight
 };
 
+ const MAThreshold = 60;
+
+  if(MAbuyCertaintyPercentage >= MAThreshold && maAnalysis.confidence == 'STRONG BUY'){
+    buyIndicators.push('MA');
+    buyCertainty += WEIGHTS.MA;
+    explanations.push("Moving Averages Analysis is BUY (uptrend indication)");
+  }
+  if(MAsellCertaintyPercentage >= MAThreshold && maAnalysis.confidence == 'STRONG SELL'){
+    sellIndicators.push('MA');
+    sellCertainty += WEIGHTS.MA;
+    explanations.push("Moving Averages Analaysis is SELL (downtrend indication)");
+  }
+
 // Log the full analysis
-console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
+/*console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
 
   if (currentPrice > smaValue20) {
     buyCertainty += WEIGHTS.SMA20;
@@ -322,7 +338,7 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   } else {
     sellCertainty += WEIGHTS.SMA20;
     explanations.push("Price is below SMA (downtrend indication)");
-  }
+  }*/
 
   // MACD Analysis
   console.log('MACD');
@@ -343,10 +359,12 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
     if (macd.macdLine[lastIndex] > macd.signalLine[lastIndex] && macd.macdLine[prevIndex] <= macd.signalLine[prevIndex]) {
         // MACD Line just crossed above Signal Line
         buyCertainty += WEIGHTS.MACD;
+        buyIndicators.push('MACD');
         explanations.push("MACDLine is above signalLine (bullish momentum)");
     } else if (macd.macdLine[lastIndex] < macd.signalLine[lastIndex] && macd.macdLine[prevIndex] >= macd.signalLine[prevIndex]) {
         // MACD Line just crossed below Signal Line
         sellCertainty += WEIGHTS.MACD;
+        sellIndicators.push('MACD');
         explanations.push("MACDLine is below signalLine (bearish momentum)");
     } 
 
@@ -357,9 +375,11 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   const upperBand = bollingerArray.upper[bollingerArray.upper.length - 1];
   if (currentPrice < lowerBand) {
     buyCertainty += WEIGHTS.Bollinger;
+    buyIndicators.push('Bollinger');
     explanations.push("Price below Bollinger lower band (reversion expected)");
   } else if (currentPrice > upperBand) {
     sellCertainty += WEIGHTS.Bollinger;
+    sellIndicators.push('Bollinger');
     explanations.push("Price above Bollinger upper band (overbought condition)");
   }
 
@@ -369,9 +389,11 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   const fibLevels = fibonacci.levels;
   if (currentPrice >= fibLevels.level236 && currentPrice <= fibLevels.level382) {
     buyCertainty += WEIGHTS.Fibonacci;
+    buyIndicators.push('Fibonacci');
     explanations.push("Price near Fibonacci 0.236-0.382 retracement level (potential support)");
   } else if (currentPrice >= fibLevels.level618 && currentPrice <= fibLevels.level100) {
     sellCertainty += WEIGHTS.Fibonacci;
+    sellIndicators.push('Fibonacci');
     explanations.push("Price near Fibonacci 0.618-1.0 retracement level (potential resistance)");
   }
 
@@ -380,9 +402,11 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   console.log(rsi);
   if (rsi < 30) {
     buyCertainty += WEIGHTS.RSI;
+    buyIndicators.push('RSI');
     explanations.push("RSI below 30 (oversold condition)");
   } else if (rsi > 70) {
     sellCertainty += WEIGHTS.RSI;
+    sellIndicators.push('RSI');
     explanations.push("RSI above 70 (overbought condition)");
   }
 
@@ -391,6 +415,7 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   const currentVolume = volume[volume.length - 1];
   if (currentVolume > 1.5 * averageVolume) {
     buyCertainty += WEIGHTS.Volume;
+    buyIndicators.push('Volume');
     explanations.push("High volume supports upward price movement");
   }
 
@@ -436,18 +461,22 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   if (adjustedMomentum > momentumThreshold && roc > rocThreshold) {
     momentumSignal = 'STRONG UPTREND';
     buyCertainty += (WEIGHTS.Momentum * 2);
+    buyIndicators.push('Momentum');
     explanations.push("Momentum suggests Strong Uptrend");
   } else if (adjustedMomentum > 0 && roc > 0) {
     momentumSignal = 'UPTREND';
     buyCertainty += WEIGHTS.Momentum;
+    buyIndicators.push('Momentum');
     explanations.push("Momentum suggests Uptrend");
   } else if (adjustedMomentum < -momentumThreshold && roc < -rocThreshold) {
     momentumSignal = 'STRONG DOWNTREND';
     sellCertainty += (WEIGHTS.Momentum * 2);
+    sellIndicators.push('Momentum');
     explanations.push("Momentum suggests Strong Downtrend");
   } else if (adjustedMomentum < 0 && roc < 0) {
     momentumSignal = 'DOWNTREND';
     sellCertainty += WEIGHTS.Momentum;
+    sellIndicators.push('Momentum');
     explanations.push("Momentum suggests Downtrend");
   }
   
@@ -468,10 +497,14 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
     signal = "SELL";
   }*/
 
+  console.log('Indicators');
+  console.log(buyIndicators);
+  console.log(sellIndicators);
+
   if (buyCertainty > sellCertainty) {
     const confidenceLevel = Math.abs(buyCertainty - sellCertainty);
 
-    if (confidenceLevel > 0.7) {
+    if (confidenceLevel > 0.7 && buyIndicators.length >= 3) {
       signal = "BUY";
       confidence = "Strong";
     } else if (confidenceLevel > 0.4) {
@@ -484,7 +517,7 @@ console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maA
   } else if (sellCertainty > buyCertainty) {
     const confidenceLevel = Math.abs(sellCertainty - buyCertainty);
 
-    if (confidenceLevel > 0.7) {
+    if (confidenceLevel > 0.7 && sellIndicators.length >= 3) {
       signal = "SELL";
       confidence = "Strong";
     } else if (confidenceLevel > 0.4) {
