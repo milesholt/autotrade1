@@ -257,7 +257,7 @@ let MAtotalWeight = 0;
 
 // Calculate weighted certainty for each moving average
 for (const key in maAnalysis) {
-  const weight = weights[key] || 0; // Use weight if defined, otherwise 0
+  const weight = WEIGHTS[key] || 0; // Use weight if defined, otherwise 0
   MAtotalWeight += weight;
 
   if (maAnalysis[key].signal === 'BUY') {
