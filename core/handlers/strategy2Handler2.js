@@ -318,15 +318,26 @@ maAnalysis.overallAnalysis = {
 
  const MAThreshold = 60;
 
-  if(MAconfidence == 'STRONG BUY'){
+  if(MAconfidence == 'BUY'){
     buyIndicators.push('MA');
     buyCertainty += WEIGHTS.MA;
     explanations.push("Moving Averages Analysis is BUY (uptrend indication)");
   }
-  if(MAconfidence == 'STRONG SELL'){
+  if(MAconfidence == 'SELL'){
     sellIndicators.push('MA');
     sellCertainty += WEIGHTS.MA;
     explanations.push("Moving Averages Analaysis is SELL (downtrend indication)");
+  }
+
+  if(MAconfidence == 'STRONG BUY'){
+    buyIndicators.push('MA');
+    buyCertainty += (WEIGHTS.MA * 2);
+    explanations.push("Moving Averages Analysis is STRONG BUY (uptrend indication)");
+  }
+  if(MAconfidence == 'STRONG SELL'){
+    sellIndicators.push('MA');
+    sellCertainty += (WEIGHTS.MA * 2);
+    explanations.push("Moving Averages Analaysis is STRONG SELL (downtrend indication)");
   }
 
   console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
