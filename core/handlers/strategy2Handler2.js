@@ -200,7 +200,7 @@ actions.analyseSignals = async function (data) {
     actions.calculateADX(data, 14),
     actions.calculateMomentum(data, 14),
     actions.calculateATR(highs,lows,closes, 20),
-    actions.calculateROC(data, 14)
+    actions.calculateROC(closes, 14)
   ]);
 
   const currentPrice = data[data.length - 1].close;
