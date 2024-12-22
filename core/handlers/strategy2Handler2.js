@@ -95,6 +95,15 @@ actions.iniRun = async function () {
   const tradedBeforeDate = moment(tradedBefore).format('YYYY-MM-DD HH:mm:ss'); // Example format
   const localUtcTimeDate = moment(localUtcTime).format('YYYY-MM-DD HH:mm:ss');
 
+
+  let day = moment.utc().local().format('ddd');
+  if( day == 'Sat' || day == 'Sun'){
+    console.log('Should be the weekend. Day is: ' + day);
+    console.log('Not beginning trade because it is the weekend and markets will be closed.');
+    isDeal = false;
+    return false;
+  }
+
   //return result;
   if(tradebeforeCheck == true){
 
