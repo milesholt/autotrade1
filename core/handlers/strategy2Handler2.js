@@ -132,8 +132,8 @@ actions.iniRun = async function () {
       var month4Hours = (market.data.trend4Hours == market.data.prevtrend4Hours ? market.data.trend4Hours : 'ranging');
 
       var t = {
-        1week: market.data.midtrend4Hours,
-        2weeks: market.data.trend4Hours,
+        week1: market.data.midtrend4Hours,
+        weeks2: market.data.trend4Hours,
         prev2weeks: market.data.prevtrend4Hours,
         month: month4Hours     
       }
@@ -142,14 +142,14 @@ actions.iniRun = async function () {
       //So in this case, we only open a trade when the signal aligns with wider trendlines using 4 hour trends
       //This also tries to hold when the market might be ranging on a higher scale or have high volatility
 
-      var condition1 = result.signal == 'BUY' && (t.1week == 'ranging' || t.2weeks == 'bullish') && t.month == 'bullish';
-      var condition2 = result.signal == 'BUY' && (t.1week == 'bullish' || t.2weeks == 'ranging') && t.month == 'bullish';
-      var condition3 = result.signal == 'SELL' && (t.1week == 'ranging' || t.2weeks == 'bearish') && t.month == 'bearish';
-      var condition4 = result.signal == 'SELL' && (t.1week == 'bearish' || t.2weeks == 'ranging') && t.month == 'bearish';
+      var condition1 = result.signal == 'BUY' && (t.week1 == 'ranging' || t.weeks2 == 'bullish') && t.month == 'bullish';
+      var condition2 = result.signal == 'BUY' && (t.week1 == 'bullish' || t.weeks2 == 'ranging') && t.month == 'bullish';
+      var condition3 = result.signal == 'SELL' && (t.week1 == 'ranging' || t.weeks2 == 'bearish') && t.month == 'bearish';
+      var condition4 = result.signal == 'SELL' && (t.week1 == 'bearish' || t.weeks2 == 'ranging') && t.month == 'bearish';
 
       //Exclude these conditions because it suggests the market might be changing direction 
-      var exclusion1 = result.signal == 'BUY' && t.1week == 'ranging' && t.2weeks == 'ranging' && t.month == 'bullish';
-      var exclusion2 = result.signal == 'SELL' && t.1week == 'ranging' && t.2weeks == 'ranging' && t.month == 'bearish';
+      var exclusion1 = result.signal == 'BUY' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bullish';
+      var exclusion2 = result.signal == 'SELL' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bearish';
       
       var goAhead = (condition1 || condition2 || condition3 || condition4) && (!exclusion1 && !exclusion2);
 
