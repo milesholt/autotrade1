@@ -127,7 +127,7 @@ actions.iniRun = async function () {
       //midtrend4Hours is half this, being 6 days - roughly 1 week
       //monthly - by combining trend4Hours with previous 4Hours, that gives us almost 4 weeks, which is roughly a month
 
-      /If the first two weeks is the same as previous two weeks (which is roughly a month, set as the latest direction for the month
+      //If the first two weeks is the same as previous two weeks (which is roughly a month, set as the latest direction for the month
       //Otherwise if first two weeks differ or go in the opposite direction as previous two weeks, count as ranging
       var month4Hours = (market.data.trend4Hours == market.data.prevtrend4Hours ? market.data.trend4Hours : 'ranging');
 
