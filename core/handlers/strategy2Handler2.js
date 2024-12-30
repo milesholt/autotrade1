@@ -162,7 +162,7 @@ actions.iniRun = async function () {
           await actions.beginTrade(set);  
       
        } else {
-          console.log('Didn't make trade, because 4 hour trends didnt confirm');
+          console.log('Did not make trade, because 4 hour trends didnt confirm');
           console.log(t); 
        }
 
