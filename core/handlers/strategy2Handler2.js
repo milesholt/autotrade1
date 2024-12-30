@@ -146,8 +146,12 @@ actions.iniRun = async function () {
       var condition2 = result.signal == 'BUY' && (t.1week == 'bullish' || t.2weeks == 'ranging') && t.month == 'bullish';
       var condition3 = result.signal == 'SELL' && (t.1week == 'ranging' || t.2weeks == 'bearish') && t.month == 'bearish';
       var condition4 = result.signal == 'SELL' && (t.1week == 'bearish' || t.2weeks == 'ranging') && t.month == 'bearish';
+
+      //Exclude these conditions because it suggests the market might be changing direction 
+      var exclusion1 = result.signal == 'BUY' && t.1week == 'ranging' && t.2weeks == 'ranging' && t.month == 'bullish';
+      var exclusion2 = result.signal == 'SELL' && t.1week == 'ranging' && t.2weeks == 'ranging' && t.month == 'bearish';
       
-      var goAhead = condition1 || condition2 || condition3 || condition4;
+      var goAhead = (condition1 || condition2 || condition3 || condition4) && (!exclusion1 && !exclusion2);
 
       if (goAhead) {
 
