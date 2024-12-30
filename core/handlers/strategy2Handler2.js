@@ -121,8 +121,49 @@ actions.iniRun = async function () {
     if((result.signal == 'BUY' || result.signal == 'SELL') && result.confidence == 'Strong' && tradebeforeCheck){
       console.log('Making trade...');
       set.decision = result.signal;
-      await actions.beginTrade(set);  
-    } else {
+
+      //Here we have 4 Hour trends which are as follows in terms of hours
+      //trend4Hours is 284 hours (hourly pricedata length - 71 * 4), which equates to 1 week and 5 days - roughly 2 weeks
+      //midtrend4Hours is half this, being 6 days - roughly 1 week
+      //monthly - by combining trend4Hours with previous 4Hours, that gives us almost 4 weeks, which is roughly a month
+
+      /If the first two weeks is the same as previous two weeks (which is roughly a month, set as the latest direction for the month
+      //Otherwise if first two weeks differ or go in the opposite direction as previous two weeks, count as ranging
+      var month4Hours = (market.data.trend4Hours == market.data.prevtrend4Hours ? market.data.trend4Hours : 'ranging');
+
+      var t = {
+        1week: market.data.midtrend4Hours,
+        2weeks: market.data.trend4Hours,
+        prev2weeks: market.data.prevtrend4Hours,
+        month: month4Hours     
+      }
+
+      //Logic, we want to open a trade that's following a wider trend and not changing direction
+      //So in this case, we only open a trade when the signal aligns with wider trendlines using 4 hour trends
+      //This also tries to hold when the market might be ranging on a higher scale or have high volatility
+
+      var condition1 = result.signal == 'BUY' && (t.1week == 'ranging' || t.2weeks == 'bullish') && t.month == 'bullish';
+      var condition2 = result.signal == 'BUY' && (t.1week == 'bullish' || t.2weeks == 'ranging') && t.month == 'bullish';
+      var condition3 = result.signal == 'SELL' && (t.1week == 'ranging' || t.2weeks == 'bearish') && t.month == 'bearish';
+      var condition4 = result.signal == 'SELL' && (t.1week == 'bearish' || t.2weeks == 'ranging') && t.month == 'bearish';
+      
+      var goAhead = condition1 || condition2 || condition3 || condition4;
+
+      if (goAhead) {
+
+          console.log('4 hours trends confirmed direction of trade. Going ahead');
+          console.log(t);
+        
+          // Proceed with trade
+          await actions.beginTrade(set);  
+      
+       } else {
+          console.log('Didn't make trade, because 4 hour trends didnt confirm');
+          console.log(t); 
+       }
+
+      
+          } else {
       console.log('Did not make trade');
     }
   } else {
