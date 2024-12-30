@@ -47,6 +47,8 @@ actions.determine4HourTrend = async function(){
   //here we grab the previous 4 hour trend, which should be stored so long as it is not ranging
   let prevStored = lib.isDefined(markets[mid].data,'prevtrend4Hours') ? lib.deepCopy(markets[mid].data.prevtrend4Hours) : prevtrend4Hours;
 
+  //if 4hourtrend is not ranging, go by the 4hourtrend
+  //if 4hourtrend is ranging, go by the previous 4hourtrend
   prevtrend4Hours = trend4Hours !== 'ranging' ? trend4Hours : prevStored;
 }
 
