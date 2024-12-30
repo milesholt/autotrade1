@@ -83,9 +83,9 @@ actions.iniRun = async function () {
   console.log('signal result from strategy2Handler2:');
   console.log(result);
 
-  console.log('trend4hours: ' + market.trend4Hours);
-  console.log('midtrend4hours: ' + market.midtrend4Hours);
-  console.log('prevtrend4hours: ' + market.prevtrend4Hours);
+  console.log('trend4Hours: ' + trend4Hours);
+  console.log('midtrend4Hours: ' + midtrend4Hours);
+  console.log('prevtrend4Hours: ' + prevtrend4Hours);
 
    //Checks before beginning trade
   //if market.tradedBefore is set to false, it has been reset and so check is true
