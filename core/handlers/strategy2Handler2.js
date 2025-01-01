@@ -1509,7 +1509,7 @@ actions.openPosition = async function (details, set) {
             //Send email
             //Handle ticket error
             analysis.errorInformation = rc;
-            await notification.notify("deal-ticket-error", analysis);
+            //await notification.notify("deal-ticket-error", analysis);
           }
         } else {
           //There can be a deal id but also an error, so check for errors again
@@ -1534,9 +1534,9 @@ actions.openPosition = async function (details, set) {
               //Handle deal being rejected
               //Send notification
               analysis.errorInformation = rc;
-              await notification.notify("deal-rejected", analysis);
+              //await notification.notify("deal-rejected", analysis);
               let e = { body: { errorCode: "deal-rejected", error: rc } };
-              await error.handleErrors(e);
+              //await error.handleErrors(e);
             }
           });
         }
