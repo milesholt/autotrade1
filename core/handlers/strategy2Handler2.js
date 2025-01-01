@@ -1587,7 +1587,7 @@ actions.openPosition = async function (details, set) {
       );
       finalMessage =
         "Tried to make a trade, but it failed. Will go again in 1 hour.";
-      await notification.notify("deal-ticket-error", analysis);
+      //await notification.notify("deal-ticket-error", analysis);
     }
   } else {
     //Handle already trading on position
