@@ -233,7 +233,23 @@ markets = [
     streamingPricesAvailable: true,
     volatilityThreshold: 0.01
   },
-  {'id':3, 'alias': 'Spot Silver', 'epic': 'CS.D.USCSI.TODAY.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 3, 'marketClosed' : [0,0], 'expiry': 'DFB', 'streamingPricesAvailable': true },
+  {
+   id : 3, 
+   alias: 'Spot Silver', 
+   epic: 'CS.D.USCSI.TODAY.IP', 
+   data: {}, 
+   deal: {}, 
+   tradedBefore : false, 
+   stopDistancePerc : 0.6, 
+   limitDistancePerc : 0.6, 
+   minimumStop : {'value': null, 'type': 'points'},
+   minimumSize : {'value': null, 'type': 'points'}, 
+   size : 3, 
+   marketClosed : [0,0], 
+   expiry: 'DFB', 
+   streamingPricesAvailable: true,
+   volatilityThreshold: 0.008
+  },
 
   //{'id':3, 'alias': 'Chicago Wheat', 'epic': 'CC.D.W.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'}, 'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [19,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
   //{'id':4, 'alias': 'London Gas Oil', 'epic': 'CC.D.LGO.USS.IP', 'data': {}, 'deal': {}, 'tradedBefore' : false, 'stopDistancePerc' : 0.6, 'limitDistancePerc' : 0.6, 'minimumStop' : {'value': null, 'type': 'points'},'minimumSize' : {'value': null, 'type': 'points'}, 'size': 5, 'marketClosed' : [22,1], 'expiry': 'DFB', 'streamingPricesAvailable': true },
