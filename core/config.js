@@ -79,7 +79,14 @@ stopClosePerc = 1;*/
 /*limitClosePerc = 0.25;
 stopClosePerc = 1;*/
 
-limitClosePerc = 0.35;
+
+/* January 2025*/
+/*limitClosePerc = 0.35;
+stopClosePerc = 0.9;*/
+
+
+/* February 2025*/
+limitClosePerc = 0.6;
 stopClosePerc = 0.9;
 
 bumpVolatilityLimit = 0.6;
