@@ -222,6 +222,36 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
 
                                 //if stream price goes beyond settings, take action
 
+
+                                  //Switch to trailing stop if 20% profit
+                                 // Calculate profit threshold
+                                 let profitThreshold = p.level * (1 + 0.2); // 20% above entry price
+                                 let breakEven = p.level; // Adjust if you want different logic
+                                 let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
+                            
+                                 if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
+                                  console.log("Profit target reached. Updating to trailing stop...");
+
+                                    let stopDistance = Math.abs(currentPrice - p.stopLevel);
+                                    let trailingStopDistance = stopDistance / 2; // Adjust to desired trailing stop distance
+                            
+                                    let updateData = {
+                                      stopLevel: null,
+                                      stopDistance: null,
+                                      trailingStop: true,
+                                      trailingStopIncrement: trailingStopDistance
+                                    };
+                            
+                                    //Update position and switch to trailing stop
+                                    await api.editPosition(m.dealId, updateData).then(async r =>{
+                                        console.log("Trailing stop applied:");
+                                        console.log(util.inspect(r, false, null));
+                                    }).catch(e => console.log(e));
+                                   
+                                 } else {
+                                  console.log("Trade is not yet in profit. No update needed.");
+                                 }
+
                                 //NOTE: If you're selling to open then you are buying to close.
                                 //So if your are SELLING you close at the ASK price. If your are BUYING, you close at the BID price.
                                 //console.log('EPIC: ' + ep);
