@@ -239,7 +239,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                       stopLevel: null,
                                       stopDistance: null,
                                       trailingStop: true,
-                                      trailingStopIncrement: trailingStopDistance
+                                      trailingStopDistance: trailingStopDistance
                                     };
                             
                                     //Update position and switch to trailing stop
