@@ -474,14 +474,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   console.log("Profit target reached. Updating to trailing stop...");
 
-                                    let stopDistance = Math.abs(currentPrice - p.stopLevel);
-                                    let trailingStopDistance = stopDistance / 2; // Adjust to desired trailing stop distance
-                            
-                                    let updateData = {
-                                      trailingStop: true,
-                                      trailingStopDistance: trailingStopDistance
-                                    };
-
+                                    
 
                                    let trailingStopDistance = Math.abs(p.level - p.stopLevel); // Use existing stop distance
                                    let trailingStopIncrement = trailingStopDistance * 0.1; // Example: Increment is 10% of distance
