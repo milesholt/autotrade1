@@ -478,11 +478,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     let trailingStopDistance = stopDistance / 2; // Adjust to desired trailing stop distance
                             
                                     let updateData = {
-                                      stopLevel: null,
-                                      stopDistance: null,
                                       trailingStop: true,
                                       trailingStopDistance: trailingStopDistance
                                     };
+
                             
                                     //Update position and switch to trailing stop
 
