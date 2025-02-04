@@ -482,9 +482,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                    let updateData = {
                                         guaranteedStop: false,  // Required constraint
                                         stopLevel: p.stopLevel,  // Required when enabling trailing stop
+                                        limitLevel: null,
                                         trailingStop: true,
-                                        trailingStopDistance: trailingStopDistance
+                                        trailingStopDistance: trailingStopDistance,
+                                        trailingStopIncrement: trailingStopIncrement
                                     };
+/*
+                                   {
+    "stopLevel": "2788.85",
+    "limitLevel": null,
+    "trailingStop": "true",
+    "trailingStopDistance": "2789",
+    "trailingStopIncrement": "278.88"
+}*/
 
                             
                                     //Update position and switch to trailing stop
