@@ -455,7 +455,15 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                  //Switch to trailing stop if 20% profit
                                  // Calculate profit threshold
-                                 let profitThreshold = p.level * (1 + 0.2); // 20% above entry price
+                                 //let profitThreshold = p.level * (1 + 0.2); // 20% above entry price
+                                 
+                                 let profitThreshold;
+                                 if (dir === "BUY") {
+                                      profitThreshold = p.level + (0.2 * (p.limitLevel - p.level));
+                                  } else if (dir === "SELL") {
+                                      profitThreshold = p.level - (0.2 * (p.level - p.stopLevel));
+                                  }
+                              
                                  let breakEven = p.level; // Adjust if you want different logic
                                  let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
 
