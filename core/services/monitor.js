@@ -173,6 +173,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                     monitorData.createdTimeStamp =  Date.now();
                     monitorData.createdDate =  moment.utc(Date.now()).local().format('LT');
 
+                    //set trailing stop 
+                    monitorData.trailingStop = false;
+
 
                     console.log(arr.epic);
                     epic = arr.epic;
@@ -456,10 +459,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  let breakEven = p.level; // Adjust if you want different logic
                                  let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
 
-                                 console.log('TtT');
-                                 console.log('dir', dir);
-                                 console.log('currentPrice', currentPrice);
-                                 console.log('profitThreshold', profitThreshold);
+                                 //console.log('dir', dir);
+                                 //console.log('currentPrice', currentPrice);
+                                 //console.log('profitThreshold', profitThreshold);
                             
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   console.log("Profit target reached. Updating to trailing stop...");
@@ -475,13 +477,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     };
                             
                                     //Update position and switch to trailing stop
+
+                                  if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
+                                    
                                     await api.editPosition(m.dealId, updateData).then(async r =>{
                                         console.log("Trailing stop applied:");
                                         console.log(util.inspect(r, false, null));
+                                        markets[x.marketId].trailingStop = true;
                                     }).catch(e => console.log(e));
+
+                                  }
                                    
                                  } else {
-                                  console.log("Trade is not yet in profit. No update needed.");
+                                  //console.log("Trade is not yet in profit. No update needed.");
                                  }
 
                                 //NOTE: If you're selling to open then you are buying to close.
