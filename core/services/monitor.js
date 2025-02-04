@@ -479,14 +479,21 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                    let trailingStopDistance = Math.abs(p.level - p.stopLevel); // Use existing stop distance
                                    let trailingStopIncrement = trailingStopDistance * 0.1; // Example: Increment is 10% of distance
 
-                                   let updateData = {
+                                   /*let updateData = {
                                         //guaranteedStop: false,  // Required constraint
                                         stopLevel: p.stopLevel,  // Required when enabling trailing stop
                                         limitLevel: p.limitLevel,
                                         trailingStop: true,
                                         trailingStopDistance: trailingStopDistance,
                                         trailingStopIncrement: trailingStopIncrement
-                                    };
+                                    };*/
+
+                                   let updateData = {
+                                        guaranteedStop: true,  // Required constraint
+                                        stopLevel: p.stopLevel,  // Required when enabling trailing stop
+                                        limitLevel: p.limitLevel,
+                                        trailingStop: false
+                                   };
 /*
 {
     "stopLevel": "2788.85",
