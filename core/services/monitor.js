@@ -493,27 +493,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                         trailingStopIncrement: trailingStopIncrement
                                     };
 
-                                   
-                                   /*let updateData = {
-                                        guaranteedStop: true,  // Required constraint
-                                        stopLevel: 2788.85,  // Required when enabling trailing stop
-                                        limitLevel: 2873.38,
-                                        trailingStop: false
-                                   };*/
-/*
-{
-    "stopLevel": "2788.85",
-    "limitLevel": "2873.38",
-    "trailingStop": "true",
-    "trailingStopDistance": "2789",
-    "trailingStopIncrement": "278.88"
-}
-*/
-
-                            
+                                                          
                                     //Update position and switch to trailing stop
 
-                                  //if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
+                                  if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
 
                                     console.log("Profit target reached. Updating to trailing stop...");
                                   
@@ -527,7 +510,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     console.log(updateData);
 
 
-                                  //}
+                                  }
                                    
                                  } else {
                                   //console.log("Trade is not yet in profit. No update needed.");
