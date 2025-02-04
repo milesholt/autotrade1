@@ -488,7 +488,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                   if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
                                     
-                                    await api.editPosition(m.dealId, updateData).then(async r =>{
+                                    await api.editPosition(x.dealId, updateData).then(async r =>{
                                         console.log("Trailing stop applied:");
                                         console.log(util.inspect(r, false, null));
                                         markets[x.marketId].trailingStop = true;
