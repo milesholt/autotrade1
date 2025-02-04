@@ -230,6 +230,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                  let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
 
                                  console.log('TtT');
+                                 console.log('dir', dir);
+                                 console.log('currentPrice', currentPrice);
+                                 console.log('profitThreshold', profitThreshold);
                             
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   console.log("Profit target reached. Updating to trailing stop...");
