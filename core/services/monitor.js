@@ -472,6 +472,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  console.log('dir', dir);
                                  console.log('currentPrice', currentPrice);
                                  console.log('profitThreshold', profitThreshold);
+                                 console.log(markets[x.marketId].trailingStop);
                             
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   
@@ -514,7 +515,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                   if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
 
-                                    
+                                    console.log('UPDATE STOP');
                                     
                                     await api.editPosition(x.dealId, updateData).then(async r =>{
                                         console.log("Trailing stop applied:");
