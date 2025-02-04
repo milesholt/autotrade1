@@ -228,6 +228,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,streamLogDir){
                                  let profitThreshold = p.level * (1 + 0.2); // 20% above entry price
                                  let breakEven = p.level; // Adjust if you want different logic
                                  let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
+
+                                 console.log('TtT');
                             
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   console.log("Profit target reached. Updating to trailing stop...");
