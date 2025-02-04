@@ -472,7 +472,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  //console.log('profitThreshold', profitThreshold);
                             
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
-                                  console.log("Profit target reached. Updating to trailing stop...");
+                                  
 
 
                                   
@@ -490,9 +490,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                         trailingStopIncrement: trailingStopIncrement
                                     };*/
 
-                                   console.log('updateData');
-                                   console.log(updateData);
-
+                                   
                                    let updateData = {
                                         guaranteedStop: true,  // Required constraint
                                         stopLevel: 2788.85,  // Required when enabling trailing stop
@@ -513,12 +511,18 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     //Update position and switch to trailing stop
 
                                   if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
+
+                                    console.log("Profit target reached. Updating to trailing stop...");
                                     
                                     await api.editPosition(x.dealId, updateData).then(async r =>{
                                         console.log("Trailing stop applied:");
                                         console.log(util.inspect(r, false, null));
                                         markets[x.marketId].trailingStop = true;
                                     }).catch(e => console.log(e));
+
+                                    console.log('updateData');
+                                    console.log(updateData);
+
 
                                   }
                                    
