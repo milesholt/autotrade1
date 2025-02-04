@@ -469,15 +469,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  let breakEven = p.level; // Adjust if you want different logic
                                  let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
 
-                                 console.log('dir', dir);
-                                 console.log('currentPrice', currentPrice);
-                                 console.log('profitThreshold', profitThreshold);
-                                 console.log(markets[x.marketId].trailingStop);
+                                 //console.log('dir', dir);
+                                 //console.log('currentPrice', currentPrice);
+                                 //console.log('profitThreshold', profitThreshold);
+                                 //console.log(markets[x.marketId].trailingStop);
                             
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   
 
-                                  console.log("Profit target reached. Updating to trailing stop...");
                                   
                                     
 
@@ -515,8 +514,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
                                   if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
 
-                                    console.log('UPDATE STOP');
-                                    
+                                    console.log("Profit target reached. Updating to trailing stop...");
+                                  
                                     await api.editPosition(x.dealId, updateData).then(async r =>{
                                         console.log("Trailing stop applied:");
                                         console.log(util.inspect(r, false, null));
