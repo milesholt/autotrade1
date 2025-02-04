@@ -515,7 +515,7 @@ actions.checkOpenTrade = async function(mrk,ep,tmid){
 
                           console.log('timediff: ' + timediff);
 
-                          if(timediff >= 5){
+                          if(timediff >= 0){
 
                             //if(market.streamingPricesAvailable === true){
                                 console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
