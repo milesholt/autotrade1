@@ -505,7 +505,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     console.log('dir', dir);
                                     console.log('currentPrice', currentPrice);
                                     console.log('profitThreshold', profitThreshold);
-                                    console.log('market dealId', markets[x.marketId].ticket.dealId);
+                                    console.log('market dealId', markets[x.marketId].deal.dealId);
                                     console.log('market epic', markets[x.marketId].epic);
                                     
                             
