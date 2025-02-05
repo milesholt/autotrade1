@@ -486,7 +486,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                    let trailingStopIncrement = trailingStopDistance * 0.1; // Example: Increment is 10% of distance
 
                                    let updateData = {
-                                        guaranteedStop: false,  // Required constraint
+                                        //guaranteedStop: false,  // Required constraint
                                         stopLevel: p.stopLevel,  // Required when enabling trailing stop
                                         limitLevel: p.limitLevel,
                                         trailingStop: true,
@@ -504,9 +504,18 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     console.log("Deal Id: " + x.dealId);
                                   
                                     await api.editPosition(x.dealId, updateData).then(async r =>{
-                                        console.log("Trailing stop applied:");
                                         console.log(util.inspect(r, false, null));
-                                        markets[x.marketId].trailingStop = true;
+                                      
+                                        if(r.dealStatus == 'ACCEPTED'){
+                                           console.log("Trailing stop applied:");
+                                           markets[x.marketId].trailingStop = true;
+                                        }
+
+                                        if(r.dealStatus == 'REJECTED'){
+                                          console.log('Trailing stop was rejected');
+                                          
+                                        }
+                                        
                                     }).catch(e => console.log(e));
 
                                     console.log('updateData');
