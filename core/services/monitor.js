@@ -486,15 +486,14 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                    let trailingStopIncrement = trailingStopDistance * 0.1; // Example: Increment is 10% of distance
 
                                    let updateData = {
-                                        guaranteedStop: false,  // Required constraint
-                                        stopLevel: p.stopLevel,  // Required when enabling trailing stop
-                                        limitLevel: p.limitLevel,
-                                        trailingStop: true,
-                                        trailingStopDistance: trailingStopDistance,
-                                        trailingStopIncrement: trailingStopIncrement
-                                    };
-
-                                                          
+                                      guaranteedStop: "false",  // Convert boolean to string
+                                      stopLevel: String(p.stopLevel),  // Convert numbers to strings
+                                      limitLevel: String(p.limitLevel),
+                                      trailingStop: "true",
+                                      trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
+                                      trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
+                                  };
+                                   
                                     //Update position and switch to trailing stop
 
                                   //if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
