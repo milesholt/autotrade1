@@ -496,7 +496,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                                           
                                     //Update position and switch to trailing stop
 
-                                  if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
+                                  //if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
 
                                     console.log("Profit target reached. Updating to trailing stop...");
                                   
@@ -510,7 +510,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     console.log(updateData);
 
 
-                                  }
+                                  //}
                                    
                                  } else {
                                   //console.log("Trade is not yet in profit. No update needed.");
