@@ -482,7 +482,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                   
                                     
 
-                                   let trailingStopDistance = Math.abs(p.level - (p.stopLevel/2)); // Use existing stop distance
+                                   let trailingStopDistance = currentPrice * 0.20; // 20% points trailing behind current price
                                    let trailingStopIncrement = (trailingStopDistance * 0.1) > 1 ? trailingStopDistance * 0.1 : 1; // Example: Increment is 10% of distance
 
                                    let updateData = {
