@@ -479,10 +479,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   
 
-                                  
-                                    
+                                    //Trailing distance needs to be 20% of points differnece between currentPrice and stopLevel
+                                    let difference = Math.abs(p.stopLevel - currentPrice); // Absolute difference
+                                    let trailingStopDistance = difference * 0.20;
 
-                                   let trailingStopDistance = currentPrice * 0.20; // 20% points trailing behind current price
                                    let trailingStopIncrement = (trailingStopDistance * 0.1) > 1 ? trailingStopDistance * 0.1 : 1; // Example: Increment is 10% of distance
 
                                    let updateData = {
