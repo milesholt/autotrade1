@@ -490,8 +490,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                       stopLevel: String(p.stopLevel),  // Convert numbers to strings
                                       limitLevel: String(p.limitLevel),
                                       trailingStop: "true",
-                                      trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
-                                      trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
+                                      trailingStopDistance: "10",
+                                      trailingStopIncrement: "1"
+                                      //trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
+                                      //trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
                                   };
                                    
                                     //Update position and switch to trailing stop
