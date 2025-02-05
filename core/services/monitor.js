@@ -465,7 +465,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  if (dir === "BUY") {
                                       profitThreshold = p.level + (0.2 * (p.limitLevel - p.level));
                                   } else if (dir === "SELL") {
-                                      profitThreshold = p.level - (0.2 * (p.level - p.stopLevel));
+                                      profitThreshold = p.level - (0.2 * (p.level - p.limitLevel));
                                   }
                               
                                  let breakEven = p.level; // Adjust if you want different logic
