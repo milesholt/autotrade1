@@ -343,6 +343,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                       mailer.actions.sendMail(mailOptions);*/
 
                       var counter = 0;
+                      var index = 0;
 
                       //update monitor log
                       console.log('updating monitorData:');
@@ -358,7 +359,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
 
 
-
+                        index += 1;
                         counter += 3;
 
                         //NOTE - This is reading from the streamLog being written in Heroku server, not Github!
@@ -496,7 +497,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                                           
                                     //Update position and switch to trailing stop
 
-                                  if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
+                                  //if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
+                                   if(index == 1){
 
                                     console.log("Profit target reached. Updating to trailing stop...");
                                     console.log("Deal Id: " + x.dealId);
