@@ -523,9 +523,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                               //Set new stop level 20% of difference between current price, and existing stop level. So this should reduce loss by 20% if moving in the right direction.
                                               let guaranteedStopLevel;
                                               if (dir === "BUY") {
-                                                  guaranteedStopLevel = currentPrice - (0.2 * (currentPrice - p.stopLevel));
+                                                  guaranteedStopLevel = p.stopLevel + (0.2 * (p.level - p.stopLevel));
                                               } else if (dir === "SELL") {
-                                                  guaranteedStopLevel = currentPrice + (0.2 * (p.stopLevel - currentPrice));
+                                                  guaranteedStopLevel = p.stopLevel - (0.2 * (p.stopLevel - p.level));
                                               }
                                           
                                               let updateData2 = {
