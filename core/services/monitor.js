@@ -482,23 +482,23 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     //Trailing distance needs to be 20% of points differnece between currentPrice and stopLevel
                                     let difference = Math.abs(p.stopLevel - currentPrice); // Absolute difference
                                     let trailingStopDistance = difference * 0.20;
+                                    let trailingStopIncrement = (trailingStopDistance * 0.1) > 1 ? trailingStopDistance * 0.1 : 1; // Example: Increment is 10% of distance
 
-                                   let trailingStopIncrement = (trailingStopDistance * 0.1) > 1 ? trailingStopDistance * 0.1 : 1; // Example: Increment is 10% of distance
+                                    let updateData = {
+                                        guaranteedStop: "false",  // Convert boolean to string
+                                        stopLevel: String(p.stopLevel),  // Convert numbers to strings
+                                        limitLevel: String(p.limitLevel),
+                                        trailingStop: "true",
+                                        trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
+                                        trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
+                                    };
 
-                                   let updateData = {
-                                      guaranteedStop: "false",  // Convert boolean to string
-                                      stopLevel: String(p.stopLevel),  // Convert numbers to strings
-                                      limitLevel: String(p.limitLevel),
-                                      trailingStop: "true",
-                                      trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
-                                      trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
-                                  };
                                    
                                     //Update position and switch to trailing stop
 
                                   if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
                                   //if(index == 1){
-
+                                    
                                     console.log("Profit target reached. Updating to trailing stop...");
                                     console.log("Deal Id: " + x.dealId);
                                     console.log('dir', dir);
@@ -507,8 +507,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     console.log('profitThreshold', profitThreshold);
                                     console.log('market dealId', markets[x.marketId].deal.dealId);
                                     console.log('market epic', markets[x.marketId].epic);
-                                    
-                            
                                   
                                     await api.editPosition(x.dealId, updateData).then(async r =>{
                                         console.log(util.inspect(r, false, null));
@@ -519,8 +517,31 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                         }
 
                                         if(r.dealStatus == 'REJECTED'){
-                                          console.log('Trailing stop was rejected');
                                           
+                                              console.log('Trailing stop was rejected, market might not allow trailing, trying to adjust guarranteed stop instead.');
+
+                                              //Set new stop level 20% of difference between current price, and existing stop level. So this should reduce loss by 20% if moving in the right direction.
+                                              let guaranteedStopLevel;
+                                              if (dir === "BUY") {
+                                                  guaranteedStopLevel = currentPrice - (0.2 * (currentPrice - p.stopLevel));
+                                              } else if (dir === "SELL") {
+                                                  guaranteedStopLevel = currentPrice + (0.2 * (p.stopLevel - currentPrice));
+                                              }
+                                          
+                                              let updateData2 = {
+                                                  guaranteedStop: "true",
+                                                  stopLevel: String(guaranteedStopLevel.toFixed(2)), // Format properly
+                                                  limitLevel: String(p.limitLevel),
+                                                  trailingStop: "false"
+                                              };
+                                          
+                                              await api.editPosition(x.dealId, updateData2).then(r => {
+                                                  if (r.dealStatus == 'ACCEPTED') {
+                                                      console.log("Guaranteed stop applied:", guaranteedStopLevel);
+                                                  } else {
+                                                      console.log("Failed to apply guaranteed stop.");
+                                                  }
+                                              }).catch(e => console.log(e));
                                         }
                                         
                                     }).catch(e => console.log(e));
