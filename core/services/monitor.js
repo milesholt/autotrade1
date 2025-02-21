@@ -507,7 +507,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
 
                                    //check for guaranteed stop and if adjusted needed
-                                  if(!lib.actions.isDefined(markets[x.marketId],'guaranteedStop'){
+                                  if(!lib.actions.isDefined(markets[x.marketId],'guaranteedStop')){
                                     if(markets[x.marketId].adjustedStop == true && markets[x.marketId].guaranteedStop == true){
                                        if ((dir === "BUY" && currentPrice > profitThreshold50) || (dir === "SELL" && currentPrice < profitThreshold50)) {
 
