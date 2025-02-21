@@ -506,39 +506,67 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                     };
 
 
-                                   //check for guaranteed stop and if adjusted needed
-                                  if(!lib.actions.isDefined(markets[x.marketId],'guaranteedStop')){
-                                    if(markets[x.marketId].adjustedStop == true && markets[x.marketId].guaranteedStop == true){
-                                       if ((dir === "BUY" && currentPrice > profitThreshold50) || (dir === "SELL" && currentPrice < profitThreshold50)) {
+                                  // Check if guaranteed stop is defined
+let isGuaranteedStopDefined = lib.actions.isDefined(markets[x.marketId], 'guaranteedStop');
+let isTrailingStopDefined = lib.actions.isDefined(markets[x.marketId], 'trailingStop');
 
-                                              //adjust guaranteed stop level 
-                                              if (dir === "BUY") {
-                                                  if(currentPrice > profitThreshold50) guaranteedStopLevel = p.stopLevel + (0.5 * (p.level - p.stopLevel));
-                                                  if(currentPrice > profitThreshold80) guaranteedStopLevel = p.stopLevel + (0.8 * (p.level - p.stopLevel));
-                                              } else if (dir === "SELL") {
-                                                  if(currentPrice < profitThreshold50) guaranteedStopLevel = p.stopLevel - (0.5 * (p.stopLevel - p.level));
-                                                  if(currentPrice < profitThreshold80) guaranteedStopLevel = p.stopLevel - (0.8 * (p.stopLevel - p.level));
-                                              }
-                                         
-                                              let adjustData = {
-                                                  guaranteedStop: "true",
-                                                  stopLevel: String(guaranteedStopLevel.toFixed(2)), // Format properly
-                                                  limitLevel: String(p.limitLevel),
-                                                  trailingStop: "false"
-                                              };
-                                          
-                                              await api.editPosition(x.dealId, adjustData).then(r => {
-                                                  if (r.dealStatus == 'ACCEPTED') {
-                                                      console.log("Guaranteed stop applied:", guaranteedStopLevel);
-                                                      markets[x.marketId].adjustedStop = true;
-                                                      markets[x.marketId].guaranteedStop = true;
-                                                  } else {
-                                                      console.log("Failed to apply guaranteed stop.");
-                                                  }
-                                              }).catch(e => console.log(e));
-                                       }
-                                    }
-                                  }
+if (isTrailingStopDefined && markets[x.marketId].guaranteedStop == false) {
+    if (!isGuaranteedStopDefined || (isGuaranteedStopDefined && guaranteedStop !== false)) {
+        if (markets[x.marketId].adjustedStop == true && markets[x.marketId].guaranteedStop == true) {
+            
+            let shouldAdjust = false;
+            let guaranteedStopLevel = null;
+
+            // Ensure tracking properties exist
+            if (!markets[x.marketId].hasOwnProperty('adjustedStop50')) {
+                markets[x.marketId].adjustedStop50 = false;
+            }
+            if (!markets[x.marketId].hasOwnProperty('adjustedStop80')) {
+                markets[x.marketId].adjustedStop80 = false;
+            }
+
+            // Check and apply stop adjustments
+            if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
+                (dir === "SELL" && currentPrice < profitThreshold50 && !markets[x.marketId].adjustedStop50)) {
+                guaranteedStopLevel = dir === "BUY" 
+                    ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
+                    : p.stopLevel - (0.5 * (p.stopLevel - p.level));
+                markets[x.marketId].adjustedStop50 = true; // Mark threshold as hit
+                shouldAdjust = true;
+            } 
+            else if ((dir === "BUY" && currentPrice > profitThreshold80 && !markets[x.marketId].adjustedStop80) || 
+                     (dir === "SELL" && currentPrice < profitThreshold80 && !markets[x.marketId].adjustedStop80)) {
+                guaranteedStopLevel = dir === "BUY" 
+                    ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
+                    : p.stopLevel - (0.8 * (p.stopLevel - p.level));
+                markets[x.marketId].adjustedStop80 = true; // Mark threshold as hit
+                shouldAdjust = true;
+            }
+
+            if (shouldAdjust) {
+                let adjustData = {
+                    guaranteedStop: "true",
+                    stopLevel: String(guaranteedStopLevel.toFixed(2)),
+                    limitLevel: String(p.limitLevel),
+                    trailingStop: "false"
+                };
+
+                await api.editPosition(x.dealId, adjustData).then(r => {
+                    if (r.dealStatus == 'ACCEPTED') {
+                        console.log("Guaranteed stop applied:", guaranteedStopLevel);
+                        markets[x.marketId].adjustedStop = true;
+                        markets[x.marketId].guaranteedStop = true;
+                    } else {
+                        console.log("Failed to apply guaranteed stop.");
+                        markets[x.marketId].adjustedStop = false;
+                        markets[x.marketId].guaranteedStop = false;
+                    }
+                }).catch(e => console.log(e));
+            }
+        } 
+    }
+}
+
 
                                    
                                     //Update position and switch to trailing stop
@@ -566,6 +594,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                         }
 
                                         if(r.dealStatus == 'REJECTED'){
+
+                                              markets[x.marketId].trailingStop == false;
+                                              markets[x.marketId].adjustedStop = false;
                                           
                                               console.log('Trailing stop was rejected, market might not allow trailing, trying to adjust guarranteed stop instead.');
 
@@ -591,6 +622,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                                       markets[x.marketId].guaranteedStop = true;
                                                   } else {
                                                       console.log("Failed to apply guaranteed stop.");
+                                                      markets[x.marketId].adjustedStop = false;
+                                                      markets[x.marketId].guaranteedStop = false;
                                                   }
                                               }).catch(e => console.log(e));
                                         }
