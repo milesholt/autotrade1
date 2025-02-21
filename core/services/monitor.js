@@ -578,7 +578,11 @@ if (isTrailingStopDefined) {
                                    
                                     //Update position and switch to trailing stop
 
-                                  if(!lib.actions.isDefined(markets[x.marketId],'trailingStop') || markets[x.marketId].trailingStop == false){
+                                   if (!markets[x.marketId].hasOwnProperty('adjustedTrailing')) {
+                                      markets[x.marketId].adjustedTrailing = false;
+                                    }  
+
+                                  if(markets[x.marketId].adjustedTrailing == false){
                                   //if(index == 1){
                                     
                                     console.log("Profit target reached. Updating to trailing stop...");
@@ -589,6 +593,8 @@ if (isTrailingStopDefined) {
                                     console.log('profitThreshold', profitThreshold);
                                     console.log('market dealId', markets[x.marketId].deal.dealId);
                                     console.log('market epic', markets[x.marketId].epic);
+
+                                    
                                   
                                     await api.editPosition(x.dealId, updateData).then(async r =>{
                                         console.log(util.inspect(r, false, null));
@@ -597,13 +603,15 @@ if (isTrailingStopDefined) {
                                            console.log("Trailing stop applied:");
                                            markets[x.marketId].trailingStop = true;
                                            markets[x.marketId].adjustedStop = true;
+                                           markets[x.marketId].adjustedTrailing = true;
                                            
                                         }
 
                                         if(r.dealStatus == 'REJECTED'){
 
-                                              markets[x.marketId].trailingStop == false;
+                                              markets[x.marketId].trailingStop = false;
                                               markets[x.marketId].adjustedStop = false;
+                                              markets[x.marketId].adjustedTrailing = true;
                                           
                                               console.log('Trailing stop was rejected, market might not allow trailing, trying to adjust guarranteed stop instead.');
 
