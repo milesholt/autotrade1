@@ -462,6 +462,11 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  //Switch to trailing stop if 20% profit
                                  // Calculate profit threshold
                                  //let profitThreshold = p.level * (1 + 0.2); // 20% above entry price
+
+
+                                //Addition - we've added further profit thresholds for 20%, 50% and 80%
+                                //And also guaranteedStop adjustment where trailingStop cant be used by market
+
                                  
                                  let profitThreshold;
                                  let profitThreshold50;
@@ -490,7 +495,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                             
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
                                   
-
+                                    //First setup trailingstop when 20% profit reached
                                     //Trailing distance needs to be 20% of points differnece between currentPrice and stopLevel
                                     let difference = Math.abs(p.stopLevel - currentPrice); // Absolute difference
                                     let trailingStopDistance = difference * 0.20;
@@ -505,15 +510,19 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                         trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
                                     };
 
-
-                                  // Check if guaranteed stop is defined
+                                  //The following is for checks with guaranteedStop, where thresold is above 50% or 80%
+                                  //This check should only request API once and not run at every interval
+                                   
+                                  
 let isGuaranteedStopDefined = lib.actions.isDefined(markets[x.marketId], 'guaranteedStop');
 let isTrailingStopDefined = lib.actions.isDefined(markets[x.marketId], 'trailingStop');
+                                   
+//Only proceed if trailingstop already tried
+if (isTrailingStopDefined) {
 
-if (isTrailingStopDefined && markets[x.marketId].guaranteedStop == false) {
-    if (!isGuaranteedStopDefined || (isGuaranteedStopDefined && guaranteedStop !== false)) {
-        if (markets[x.marketId].adjustedStop == true && markets[x.marketId].guaranteedStop == true) {
-            
+            //Do adjustment checks for thresholds
+
+            //Set default
             let shouldAdjust = false;
             let guaranteedStopLevel = null;
 
@@ -563,8 +572,6 @@ if (isTrailingStopDefined && markets[x.marketId].guaranteedStop == false) {
                     }
                 }).catch(e => console.log(e));
             }
-        } 
-    }
 }
 
 
