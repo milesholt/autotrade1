@@ -555,12 +555,20 @@ if (isTrailingStopDefined) {
             }
 
             if (shouldAdjust) {
-                let adjustData = {
+                /*let adjustData = {
                     guaranteedStop: "true",
                     stopLevel: String(guaranteedStopLevel.toFixed(2)),
                     limitLevel: String(p.limitLevel),
                     trailingStop: "false"
-                };
+                };*/
+
+                let adjustData = {
+                    "stopLevel": String(guaranteedStopLevel.toFixed(2)),,
+                    "limitLevel": String(p.limitLevel),
+                    "trailingStop": "false",
+                    "trailingStopDistance": null,
+                    "trailingStopIncrement": null
+                }
 
                 await api.editPosition(x.dealId, adjustData).then(r => {
                     if (r.dealStatus == 'ACCEPTED') {
@@ -625,12 +633,20 @@ if (isTrailingStopDefined) {
                                                   guaranteedStopLevel = p.stopLevel - (0.2 * (p.stopLevel - p.level));
                                               }
                                           
-                                              let updateData2 = {
+                                              /*let updateData2 = {
                                                   guaranteedStop: "true",
                                                   stopLevel: String(guaranteedStopLevel.toFixed(2)), // Format properly
                                                   limitLevel: String(p.limitLevel),
                                                   trailingStop: "false"
-                                              };
+                                              };*/
+
+                                              let updateData2 = {
+                                                  "stopLevel": String(guaranteedStopLevel.toFixed(2)),
+                                                  "limitLevel": String(p.limitLevel),
+                                                  "trailingStop": "false",
+                                                  "trailingStopDistance": null,
+                                                  "trailingStopIncrement": null
+                                              }
                                           
                                               await api.editPosition(x.dealId, updateData2).then(r => {
                                                   if (r.dealStatus == 'ACCEPTED') {
