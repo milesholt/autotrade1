@@ -520,7 +520,7 @@ let isTrailingStopDefined = lib.actions.isDefined(markets[x.marketId], 'trailing
 //Only proceed if trailingstop already tried
 if (isTrailingStopDefined) {
 
-            console.log('checking guaranteed thresholds');
+            //console.log('checking guaranteed thresholds');
 
             //Do adjustment checks for thresholds
 
