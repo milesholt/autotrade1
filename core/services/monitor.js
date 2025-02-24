@@ -563,7 +563,7 @@ if (isTrailingStopDefined) {
                 };*/
 
                 let adjustData = {
-                    "stopLevel": String(guaranteedStopLevel.toFixed(2)),,
+                    "stopLevel": String(guaranteedStopLevel.toFixed(2)),
                     "limitLevel": String(p.limitLevel),
                     "trailingStop": "false",
                     "trailingStopDistance": null,
