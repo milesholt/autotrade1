@@ -99,7 +99,6 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
   isStreamRunning[epic] = false;
 
   markets[mid].trailingStop == false;
-  markets[mid].guaranteedStop == false;
   markets[mid].adjustedStop == false;
 
   console.log('epic: ' + arr.epic + ' mid: ' + arr.marketId +  ' streamingPricesAvailable:' + markets[arr.marketId].streamingPricesAvailable);
@@ -465,13 +464,13 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
 
                                 //Addition - we've added further profit thresholds for 20%, 50% and 80%
-                                //And also guaranteedStop adjustment where trailingStop cant be used by market
+                                //And also adjustedStop level adjustment where trailingStop cant be used by market
 
                                  
                                  let profitThreshold;
                                  let profitThreshold50;
                                  let profitThreshold80;
-                                 let guaranteedStopLevel;
+                                 let adjustedStopLevel;
                               
                                  if (dir === "BUY") {
                                       profitThreshold = p.level + (0.2 * (p.limitLevel - p.level));
@@ -510,23 +509,23 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                         trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
                                     };
 
-                                  //The following is for checks with guaranteedStop, where thresold is above 50% or 80%
+                                  //The following is for checks with newStop, where threshold is above 50% or 80%
                                   //This check should only request API once and not run at every interval
                                    
                                   
-let isGuaranteedStopDefined = lib.actions.isDefined(markets[x.marketId], 'guaranteedStop');
+let isAdjustedStopDefined = lib.actions.isDefined(markets[x.marketId], 'adjustedStop');
 let isTrailingStopDefined = lib.actions.isDefined(markets[x.marketId], 'trailingStop');
                                    
 //Only proceed if trailingstop already tried
 if (isTrailingStopDefined) {
 
-            //console.log('checking guaranteed thresholds');
+            //console.log('checking adjusted stop thresholds');
 
             //Do adjustment checks for thresholds
 
             //Set default
             let shouldAdjust = false;
-            let guaranteedStopLevel = null;
+            let adjustedStopLevel = null;
 
             // Ensure tracking properties exist
             if (!markets[x.marketId].hasOwnProperty('adjustedStop50')) {
@@ -537,17 +536,23 @@ if (isTrailingStopDefined) {
             }
 
             // Check and apply stop adjustments
+            //Also run check each time monitor restarts and if adustedStop is defined but is false 
+  
             if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
-                (dir === "SELL" && currentPrice < profitThreshold50 && !markets[x.marketId].adjustedStop50)) {
-                guaranteedStopLevel = dir === "BUY" 
+                (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1) ||
+                (dir === "SELL" && currentPrice < profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
+                (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1)) {
+                adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.5 * (p.stopLevel - p.level));
                 markets[x.marketId].adjustedStop50 = true; // Mark threshold as hit
                 shouldAdjust = true;
             } 
             else if ((dir === "BUY" && currentPrice > profitThreshold80 && !markets[x.marketId].adjustedStop80) || 
-                     (dir === "SELL" && currentPrice < profitThreshold80 && !markets[x.marketId].adjustedStop80)) {
-                guaranteedStopLevel = dir === "BUY" 
+                     (dir === "BUY" && currentPrice > profitThreshold80 && markets[x.marketId].adjustedStop80 == false && index == 1) || 
+                     (dir === "SELL" && currentPrice < profitThreshold80 && !markets[x.marketId].adjustedStop80) ||
+                     (dir === "SELL" && currentPrice < profitThreshold80 && markets[x.marketId].adjustedStop80 == false && index == 1)) {
+                adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.8 * (p.stopLevel - p.level));
                 markets[x.marketId].adjustedStop80 = true; // Mark threshold as hit
@@ -557,13 +562,13 @@ if (isTrailingStopDefined) {
             if (shouldAdjust) {
                 /*let adjustData = {
                     guaranteedStop: "true",
-                    stopLevel: String(guaranteedStopLevel.toFixed(2)),
+                    stopLevel: String(adjustedStopLevel.toFixed(2)),
                     limitLevel: String(p.limitLevel),
                     trailingStop: "false"
                 };*/
 
                 let adjustData = {
-                    "stopLevel": String(guaranteedStopLevel.toFixed(2)),
+                    "stopLevel": String(adjustedStopLevel.toFixed(2)),
                     "limitLevel": String(p.limitLevel),
                     "trailingStop": "false",
                     "trailingStopDistance": null,
@@ -572,13 +577,11 @@ if (isTrailingStopDefined) {
 
                 await api.editPosition(x.dealId, adjustData).then(r => {
                     if (r.dealStatus == 'ACCEPTED') {
-                        console.log("Guaranteed stop applied:", guaranteedStopLevel);
+                        console.log("Adjusted stop level applied:", adjustedStopLevel);
                         markets[x.marketId].adjustedStop = true;
-                        markets[x.marketId].guaranteedStop = true;
                     } else {
-                        console.log("Failed to apply guaranteed stop.");
+                        console.log("Failed to apply adjusted stop.");
                         markets[x.marketId].adjustedStop = false;
-                        markets[x.marketId].guaranteedStop = false;
                     }
                 }).catch(e => console.log(e));
             }
@@ -628,20 +631,20 @@ if (isTrailingStopDefined) {
                                               //Set new stop level 20% of difference between current price, and existing stop level. So this should reduce loss by 20% if moving in the right direction.
                                               
                                               if (dir === "BUY") {
-                                                  guaranteedStopLevel = p.stopLevel + (0.2 * (p.level - p.stopLevel));
+                                                  adjustedStopLevel = p.stopLevel + (0.2 * (p.level - p.stopLevel));
                                               } else if (dir === "SELL") {
-                                                  guaranteedStopLevel = p.stopLevel - (0.2 * (p.stopLevel - p.level));
+                                                  adjustedStopLevel = p.stopLevel - (0.2 * (p.stopLevel - p.level));
                                               }
                                           
                                               /*let updateData2 = {
                                                   guaranteedStop: "true",
-                                                  stopLevel: String(guaranteedStopLevel.toFixed(2)), // Format properly
+                                                  stopLevel: String(adjustedStopLevel.toFixed(2)), // Format properly
                                                   limitLevel: String(p.limitLevel),
                                                   trailingStop: "false"
                                               };*/
 
                                               let updateData2 = {
-                                                  "stopLevel": String(guaranteedStopLevel.toFixed(2)),
+                                                  "stopLevel": String(adjustedStopLevel.toFixed(2)),
                                                   "limitLevel": String(p.limitLevel),
                                                   "trailingStop": "false",
                                                   "trailingStopDistance": null,
@@ -650,13 +653,13 @@ if (isTrailingStopDefined) {
                                           
                                               await api.editPosition(x.dealId, updateData2).then(r => {
                                                   if (r.dealStatus == 'ACCEPTED') {
-                                                      console.log("Guaranteed stop applied:", guaranteedStopLevel);
+                                                      console.log("Adjusted stop applied:", adjustedStopLevel);
                                                       markets[x.marketId].adjustedStop = true;
-                                                      markets[x.marketId].guaranteedStop = true;
+                                                      
                                                   } else {
-                                                      console.log("Failed to apply guaranteed stop.");
+                                                      console.log("Failed to apply adjusted stop.");
                                                       markets[x.marketId].adjustedStop = false;
-                                                      markets[x.marketId].guaranteedStop = false;
+                                                      
                                                   }
                                               }).catch(e => console.log(e));
                                         }
