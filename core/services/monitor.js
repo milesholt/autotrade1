@@ -88,7 +88,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
   arr.dealId = dealId;
   arr.dealRef = dealRef;
   arr.streamLogDir = streamLogDir;
-  arr.direction =  direction;
+  arr.direction =  markets[mid].deal.direction;
   arr.subscribed = false;
 
   markets[mid].closeprofit = false;
@@ -161,8 +161,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                       'stopLevel': p.stopLevel,
                       'level': p.level
                     }
-                    monitorData.newLimit = direction == 'BUY' ? monitorData.newlimitBuy : monitorData.newlimitSell;
-                    monitorData.newStop = direction == 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
+                    monitorData.newLimit = p.direction == 'BUY' ? monitorData.newlimitBuy : monitorData.newlimitSell;
+                    monitorData.newStop = p.direction == 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
 
                     //convert newlimit to have only one decimal place
                     //monitorData.newLimit = parseFloat(monitorData.newLimit.toFixed(2).slice(0, -1));
