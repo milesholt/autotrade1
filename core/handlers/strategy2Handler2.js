@@ -1230,6 +1230,20 @@ actions.beginTrade = async function (set) {
   };*/
 
   //Suggested parameters for scalping
+  /*const tradeParams = {
+  entryPrice: entryPrice,  // Depends on market conditions at entry
+  stopPercentage: 1,       // Tight stop (0.5% - 1% for scalping)
+  riskPercentage: 0.5,     // Small risk (0.25% - 1% of account equity)
+  accountEquity: 10000,    // Account balance for calculation (this stays the same)
+  valuePerPoint: 1,        // Assuming a low value per point for smaller trades
+  riskRewardRatio: 2,      // 1:2 risk/reward ratio for favorable returns
+};*/
+
+  //Changed stop percentage from 1 to 0.9
+  //This ways riskreward ratio would be 2 : 0.9, (£100/£40)
+  //stopPercentage in config has been set to 1 (100%)
+  //this way it will always cut around £40, as sometimes it would still hit £50 if monitor not working
+
   const tradeParams = {
   entryPrice: entryPrice,  // Depends on market conditions at entry
   stopPercentage: 1,       // Tight stop (0.5% - 1% for scalping)
