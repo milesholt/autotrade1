@@ -1246,7 +1246,7 @@ actions.beginTrade = async function (set) {
 
   const tradeParams = {
   entryPrice: entryPrice,  // Depends on market conditions at entry
-  stopPercentage: 1,       // Tight stop (0.5% - 1% for scalping)
+  stopPercentage: 0.9,       // Tight stop (0.5% - 1% for scalping)
   riskPercentage: 0.5,     // Small risk (0.25% - 1% of account equity)
   accountEquity: 10000,    // Account balance for calculation (this stays the same)
   valuePerPoint: 1,        // Assuming a low value per point for smaller trades
