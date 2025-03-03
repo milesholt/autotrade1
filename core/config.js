@@ -91,7 +91,7 @@ stopClosePerc = 0.9;
 
 /* March 2025*/
 limitClosePerc = 0.8;
-stopClosePerc = 0.9;
+stopClosePerc = 1.0;
 
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
