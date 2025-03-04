@@ -580,7 +580,7 @@ if(mrkt.closeprofit == true){
 
 
 
-actions.determineStopLevelAdjustment = function(){
+actions.determineStopLevelAdjustment = async function(){
 
   console.log('determining Stop Level adjustment for: ' + epic);
 
@@ -740,7 +740,7 @@ if (isTrailingStopDefined) {
 
 /* Determine Stop Level Adjustment (Original) */
 
-actions.determineStopLevelAdjustmentOff = function(){
+actions.determineStopLevelAdjustmentOff = async function(){
 
   console.log('determining Stop Level adjustment for: ' + epic);
 
