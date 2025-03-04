@@ -710,7 +710,73 @@ actions.determineStopLevelAdjustment = function(){
                           }
                       }).catch(e => console.log(e));
                   }
-      } //if trailingstop defined
+      } else {
+
+        //No trailing stop defined, try with trailing stop
+        
+        console.log("Profit target reached. Updating to trailing stop...");
+        console.log("Deal Id: " + p.dealId);
+        console.log('dir', dir);
+        console.log('currentPrice', currentPrice);
+        console.log('entryPrice', p.level);
+        console.log('profitThreshold', profitThreshold);
+        console.log('market dealId', markets[p.marketId].deal.dealId);
+        console.log('market epic', markets[p.marketId].epic);
+
+        await api.editPosition(p.dealId, updateData).then(async r =>{
+            console.log(util.inspect(r, false, null));
+          
+            if(r.dealStatus == 'ACCEPTED'){
+               console.log("Trailing stop applied:");
+               markets[p.marketId].trailingStop = true;
+               markets[p.marketId].adjustedStop = true;
+               markets[p.marketId].adjustedTrailing = true;
+               
+            }
+
+            if(r.dealStatus == 'REJECTED'){
+
+                  markets[p.marketId].trailingStop = false;
+                  markets[p.marketId].adjustedStop = false;
+                  markets[p.marketId].adjustedTrailing = true;
+              
+                  console.log('Trailing stop was rejected, market might not allow trailing, trying to adjust stop level instead.');
+
+                  //Set new stop level 20% of difference between current price, and existing stop level. So this should reduce loss by 20% if moving in the right direction.
+                  
+                  if (dir === "BUY") {
+                      adjustedStopLevel = p.stopLevel + (0.2 * (p.level - p.stopLevel));
+                  } else if (dir === "SELL") {
+                      adjustedStopLevel = p.stopLevel - (0.2 * (p.stopLevel - p.level));
+                  }
+              
+                  let updateData2 = {
+                      "stopLevel": String(adjustedStopLevel.toFixed(2)),
+                      "limitLevel": String(p.limitLevel),
+                      "trailingStop": "false",
+                      "trailingStopDistance": null,
+                      "trailingStopIncrement": null
+                  }
+              
+                  await api.editPosition(p.dealId, updateData2).then(r => {
+                      if (r.dealStatus == 'ACCEPTED') {
+                          console.log("Adjusted stop applied:", adjustedStopLevel);
+                          markets[x.marketId].adjustedStop = true;
+                          
+                      } else {
+                          console.log("Failed to apply adjusted stop.");
+                          markets[x.marketId].adjustedStop = false;
+                          
+                      }
+                  }).catch(e => console.log(e));
+            }
+            
+        }).catch(e => console.log(e));
+
+        console.log('updateData');
+        console.log(updateData);
+
+     } //if trailing or not 
        
     } // if price above treshold
     
