@@ -575,6 +575,35 @@ if(mrkt.closeprofit == true){
 }
 }
 
+
+/* Determine Stop Level Adjustment */
+
+actions.determineStopLevelAdjustment = function(){
+
+  //Determine whether to adjust the stop level when in profit each hour. 
+  //This is in additional to the same adjustment checks which are done in the monitor but fail
+
+  /*
+
+  1) Is the profit level above 20%, 50%, 80%?
+  2) If true, has the stop level been adjusted already for that percentage?
+  3) If false, move the stop level 20%, 50%, 80%
+   
+
+  */
+  let x = {};
+  monitors.forEach(monitor =>{
+     if(monitor.epic == epic) x = monitor;
+  });
+
+  if(!lib.isEmpty(x)){
+
+    const dir = x.direction;
+  
+  }
+
+}
+
 module.exports = {
   actions: actions
 }
