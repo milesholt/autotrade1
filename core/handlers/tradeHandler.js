@@ -642,8 +642,8 @@ actions.determineStopLevelAdjustment = async function(){
       //The following is for checks with newStop, where threshold is above 50% or 80%
       //This check should only request API once and not run at every interval
                                         
-      let isAdjustedStopDefined = lib.actions.isDefined(markets[p.marketId], 'adjustedStop');
-      let isTrailingStopDefined = lib.actions.isDefined(markets[p.marketId], 'trailingStop');
+      let isAdjustedStopDefined = lib.isDefined(markets[p.marketId], 'adjustedStop');
+      let isTrailingStopDefined = lib.isDefined(markets[p.marketId], 'trailingStop');
 
 
 if (isTrailingStopDefined) {
@@ -802,8 +802,8 @@ actions.determineStopLevelAdjustmentOff = async function(){
       //The following is for checks with newStop, where threshold is above 50% or 80%
       //This check should only request API once and not run at every interval
                                         
-      let isAdjustedStopDefined = lib.actions.isDefined(markets[p.marketId], 'adjustedStop');
-      let isTrailingStopDefined = lib.actions.isDefined(markets[p.marketId], 'trailingStop');
+      let isAdjustedStopDefined = lib.isDefined(markets[p.marketId], 'adjustedStop');
+      let isTrailingStopDefined = lib.isDefined(markets[p.marketId], 'trailingStop');
                                    
       //Only proceed if trailingstop already tried
       if (isTrailingStopDefined) {
