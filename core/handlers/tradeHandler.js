@@ -580,6 +580,8 @@ if(mrkt.closeprofit == true){
 
 actions.determineStopLevelAdjustment = function(){
 
+  console.log('determining Stop Level adjustment for: ' + epic);
+
   //Determine whether to adjust the stop level when in profit each hour. 
   //This is in additional to the same adjustment checks which are done in the monitor but fail
 
@@ -591,18 +593,130 @@ actions.determineStopLevelAdjustment = function(){
    
 
   */
-  let x = {};
+  let p = {};
   monitors.forEach(monitor =>{
-     if(monitor.epic == epic) x = monitor;
+     if(monitor.epic == epic) p = monitor;
   });
 
-  if(!lib.isEmpty(x)){
+  if(!lib.isEmpty(p)){
 
-    const dir = x.direction;
+    const dir = p.direction;
+
+    let profitThreshold;
+    let profitThreshold50;
+    let profitThreshold80;
+    let adjustedStopLevel;
+                              
+    if (dir === "BUY") {
+        profitThreshold = p.level + (0.2 * (p.limitLevel - p.level));
+        profitThreshold50 = p.level + (0.5 * (p.limitLevel - p.level));
+        profitThreshold80 = p.level + (0.8 * (p.limitLevel - p.level));
+    } else if (dir === "SELL") {
+        profitThreshold = p.level - (0.2 * (p.level - p.limitLevel));
+        profitThreshold50 = p.level - (0.5 * (p.level - p.limitLevel));
+        profitThreshold80 = p.level - (0.8 * (p.level - p.limitLevel));
+    }
+    
+    let breakEven = p.level; // Adjust if you want different logic
+    let currentPrice = dir == "BUY" ? lastCloseBid : lastCloseAsk;
+                                 
+     if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
+      
+        //First setup trailingstop when 20% profit reached
+        //Trailing distance needs to be 20% of points differnece between currentPrice and stopLevel
+        let difference = Math.abs(p.stopLevel - currentPrice); // Absolute difference
+        let trailingStopDistance = difference * 0.20;
+        let trailingStopIncrement = (trailingStopDistance * 0.1) > 1 ? trailingStopDistance * 0.1 : 1; // Example: Increment is 10% of distance
+
+        let updateData = {
+            guaranteedStop: "false",  // Convert boolean to string
+            stopLevel: String(p.stopLevel),  // Convert numbers to strings
+            limitLevel: String(p.limitLevel),
+            trailingStop: "true",
+            trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
+            trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
+        };
+
+      //The following is for checks with newStop, where threshold is above 50% or 80%
+      //This check should only request API once and not run at every interval
+                                        
+      let isAdjustedStopDefined = lib.actions.isDefined(markets[p.marketId], 'adjustedStop');
+      let isTrailingStopDefined = lib.actions.isDefined(markets[p.marketId], 'trailingStop');
+                                   
+      //Only proceed if trailingstop already tried
+      if (isTrailingStopDefined) {
+      
+                  console.log('checking adjusted stop thresholds');
+      
+                  //Do adjustment checks for thresholds
+      
+                  //Set default
+                  let shouldAdjust = false;
+                  let adjustedStopLevel = null;
+      
+                  // Ensure tracking properties exist
+                  if (!markets[p.marketId].hasOwnProperty('adjustedStop50')) {
+                      markets[p.marketId].adjustedStop50 = false;
+                  }
+                  if (!markets[p.marketId].hasOwnProperty('adjustedStop80')) {
+                      markets[p.marketId].adjustedStop80 = false;
+                  }
+      
+                  // Check and apply stop adjustments
+                  //Also run check each time monitor restarts and if adustedStop is defined but is false 
+        
+                  if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[p.marketId].adjustedStop50) || 
+                      (dir === "BUY" && currentPrice > profitThreshold50 && markets[p.marketId].adjustedStop50 == false && index == 1) ||
+                      (dir === "SELL" && currentPrice < profitThreshold50 && !markets[p.marketId].adjustedStop50) || 
+                      (dir === "SELL" && currentPrice < profitThreshold50 && markets[p.marketId].adjustedStop50 == false && index == 1)) {
+                      adjustedStopLevel = dir === "BUY" 
+                          ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
+                          : p.stopLevel - (0.5 * (p.stopLevel - p.level));
+                      markets[p.marketId].adjustedStop50 = true; // Mark threshold as hit
+                      shouldAdjust = true;
+                  } 
+                  else if ((dir === "BUY" && currentPrice > profitThreshold80 && !markets[p.marketId].adjustedStop80) || 
+                           (dir === "BUY" && currentPrice > profitThreshold80 && markets[p.marketId].adjustedStop80 == false && index == 1) || 
+                           (dir === "SELL" && currentPrice < profitThreshold80 && !markets[p.marketId].adjustedStop80) ||
+                           (dir === "SELL" && currentPrice < profitThreshold80 && markets[p.marketId].adjustedStop80 == false && index == 1)) {
+                      adjustedStopLevel = dir === "BUY" 
+                          ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
+                          : p.stopLevel - (0.8 * (p.stopLevel - p.level));
+                      markets[p.marketId].adjustedStop80 = true; // Mark threshold as hit
+                      shouldAdjust = true;
+                  }
+      
+                  if (shouldAdjust) {
+
+                    console.log('Profit level reached, adjusting stop level');
+                    console.log('adjustedStop50: ' + markets[p.marketId].adjustedStop50);
+                    console.log('adjustedStop80: ' + markets[p.marketId].adjustedStop80);
+                      
+                    let adjustData = {
+                          "stopLevel": String(adjustedStopLevel.toFixed(2)),
+                          "limitLevel": String(p.limitLevel),
+                          "trailingStop": "false",
+                          "trailingStopDistance": null,
+                          "trailingStopIncrement": null
+                      }
+      
+                      await api.editPosition(p.dealId, adjustData).then(r => {
+                          if (r.dealStatus == 'ACCEPTED') {
+                              console.log("Adjusted stop level applied:", adjustedStopLevel);
+                              markets[p.marketId].adjustedStop = true;
+                          } else {
+                              console.log("Failed to apply adjusted stop.");
+                              markets[p.marketId].adjustedStop = false;
+                          }
+                      }).catch(e => console.log(e));
+                  }
+      } //if trailingstop defined
+       
+    } // if price above treshold
+    
+  } // if x
   
-  }
-
-}
+} //end of function
 
 module.exports = {
   actions: actions
