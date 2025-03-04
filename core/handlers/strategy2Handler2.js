@@ -1239,18 +1239,14 @@ actions.beginTrade = async function (set) {
   riskRewardRatio: 2,      // 1:2 risk/reward ratio for favorable returns
 };*/
 
-  //Changed stop percentage from 1 to 0.9
-  //This ways riskreward ratio would be 2 : 0.9, (£100/£40)
-  //stopPercentage in config has been set to 1 (100%)
-  //this way it will always cut around £40, as sometimes it would still hit £50 if monitor not working
-
+  //Adjust to be £40 loss, but maintain £100 profit
   const tradeParams = {
-  entryPrice: entryPrice,  // Depends on market conditions at entry
-  stopPercentage: 0.9,       // Tight stop (0.5% - 1% for scalping)
-  riskPercentage: 0.5,     // Small risk (0.25% - 1% of account equity)
-  accountEquity: 10000,    // Account balance for calculation (this stays the same)
-  valuePerPoint: 1,        // Assuming a low value per point for smaller trades
-  riskRewardRatio: 2,      // 1:2 risk/reward ratio for favorable returns
+  entryPrice: entryPrice,
+  stopPercentage: 1,       // Stop distance remains unchanged
+  riskPercentage: 0.4,     // Reduced risk to £40
+  accountEquity: 10000,    // Account balance
+  valuePerPoint: 1,        // Assuming low value per point
+  riskRewardRatio: 2.5,    // Adjusted to maintain £100 profit with £40 risk
 };
   //
 
