@@ -636,7 +636,7 @@ actions.determineStopLevelAdjustment = async function(){
         console.log('Checking adjusted stop thresholds...');
     
         let shouldAdjust = false;
-        let adjustedStopLevel = null;
+        let adjustedStopLevel = p.stopLevel;
     
         // Ensure tracking properties exist
         markets[p.marketId].adjustedStop50 ??= false;
@@ -703,12 +703,12 @@ actions.determineStopLevelAdjustment = async function(){
                         }
                     } catch (error) {
                         console.error("API error while adjusting stop:", error);
-                        markets[p.marketId].adjustedStop = false;
+                        markets[p.marketId].adjustedStop = null; 
                     }
                 }
             } catch (error) {
                 console.error("API error while applying trailing stop:", error);
-                markets[p.marketId].adjustedStop = false;
+                markets[p.marketId].adjustedStop = null; 
             }
     
           } //if already adjusted or not yet failed
