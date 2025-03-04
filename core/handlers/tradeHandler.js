@@ -629,106 +629,92 @@ actions.determineStopLevelAdjustment = async function(){
         let difference = Math.abs(p.stopLevel - currentPrice); // Absolute difference
         let trailingStopDistance = difference * 0.20;
         let trailingStopIncrement = (trailingStopDistance * 0.1) > 1 ? trailingStopDistance * 0.1 : 1; // Example: Increment is 10% of distance
+                                            
+        let isAdjustedStopDefined = lib.isDefined(markets[p.marketId], 'adjustedStop');
+        let isTrailingStopDefined = lib.isDefined(markets[p.marketId], 'trailingStop');
 
-        let updateData = {
-            guaranteedStop: "false",  // Convert boolean to string
-            stopLevel: String(p.stopLevel),  // Convert numbers to strings
-            limitLevel: String(p.limitLevel),
-            trailingStop: "true",
-            trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
-            trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
-        };
-
-      //The following is for checks with newStop, where threshold is above 50% or 80%
-      //This check should only request API once and not run at every interval
-                                        
-      let isAdjustedStopDefined = lib.isDefined(markets[p.marketId], 'adjustedStop');
-      let isTrailingStopDefined = lib.isDefined(markets[p.marketId], 'trailingStop');
-
-
-if (isTrailingStopDefined) {
-    console.log('Checking adjusted stop thresholds...');
-
-    let shouldAdjust = false;
-    let adjustedStopLevel = null;
-
-    // Ensure tracking properties exist
-    markets[p.marketId].adjustedStop50 ??= false;
-    markets[p.marketId].adjustedStop80 ??= false;
-
-    // Define threshold levels dynamically
-    const thresholds = [
-        { level: 0.5, key: 'adjustedStop50', threshold: profitThreshold50 },
-        { level: 0.8, key: 'adjustedStop80', threshold: profitThreshold80 }
-    ];
-
-    for (const { level, key, threshold } of thresholds) {
-        if ((dir === "BUY" && currentPrice > threshold && !markets[p.marketId][key]) ||
-            (dir === "SELL" && currentPrice < threshold && !markets[p.marketId][key])) {
-
-            adjustedStopLevel = calculateAdjustedStop(dir, p.stopLevel, p.level, level);
-            markets[p.marketId][key] = true;
-            shouldAdjust = true;
-        }
-    }
-
-    if (shouldAdjust) {
-        console.log('Profit level reached, adjusting stop level...');
-
-        let adjustData = {
-            "stopLevel": adjustedStopLevel.toFixed(2),
-            "limitLevel": String(p.limitLevel),
-            "trailingStop": "false"
-        };
-
-        try {
-            const response = await api.editPosition(p.dealId, adjustData);
-            if (response.dealStatus === 'ACCEPTED') {
-                console.log("Adjusted stop level applied:", adjustedStopLevel);
-                markets[p.marketId].adjustedStop = true;
-            } else {
-                console.warn("Failed to apply adjusted stop:", response);
-                markets[p.marketId].adjustedStop = false;
+        console.log('Checking adjusted stop thresholds...');
+    
+        let shouldAdjust = false;
+        let adjustedStopLevel = null;
+    
+        // Ensure tracking properties exist
+        markets[p.marketId].adjustedStop50 ??= false;
+        markets[p.marketId].adjustedStop80 ??= false;
+    
+        // Define threshold levels dynamically
+        const thresholds = [
+            { level: 0.2, key: 'adjustedStop', threshold: profitThreshold },
+            { level: 0.5, key: 'adjustedStop50', threshold: profitThreshold50 },
+            { level: 0.8, key: 'adjustedStop80', threshold: profitThreshold80 }
+        ];
+    
+        for (const { level, key, threshold } of thresholds) {
+            if ((dir === "BUY" && currentPrice > threshold && !markets[p.marketId][key]) ||
+                (dir === "SELL" && currentPrice < threshold && !markets[p.marketId][key])) {
+    
+                adjustedStopLevel = calculateAdjustedStop(dir, p.stopLevel, p.level, level);
+                markets[p.marketId][key] = true;
+                shouldAdjust = true;
             }
-        } catch (error) {
-            console.error("API error while adjusting stop:", error);
         }
-    }
-} else {
-    console.log("Profit target reached. Updating to trailing stop...");
-
-    try {
-        const response = await api.editPosition(p.dealId, updateData);
-        if (response.dealStatus === 'ACCEPTED') {
-            console.log("Trailing stop applied.");
-            markets[p.marketId].trailingStop = true;
-            markets[p.marketId].adjustedStop = true;
-            markets[p.marketId].adjustedTrailing = true;
-        } else {
-            console.warn("Trailing stop was rejected. Trying to adjust stop level instead...");
-
-            adjustedStopLevel = calculateAdjustedStop(dir, p.stopLevel, p.level, 0.2);
-            let updateData2 = {
+    
+        if (shouldAdjust) {
+            console.log('Profit level reached, adjusting stop level...');
+    
+            let trailingData = {
+                guaranteedStop: "false",  // Convert boolean to string
+                stopLevel: String(p.stopLevel),  // Convert numbers to strings
+                limitLevel: String(p.limitLevel),
+                trailingStop: "true",
+                trailingStopDistance: String(trailingStopDistance.toFixed(2)),  // Round and convert
+                trailingStopIncrement: String(trailingStopIncrement.toFixed(2)) // Round and convert
+            };
+    
+            let adjustData = {
                 "stopLevel": adjustedStopLevel.toFixed(2),
                 "limitLevel": String(p.limitLevel),
                 "trailingStop": "false"
             };
 
-            const fallbackResponse = await api.editPosition(p.dealId, updateData2);
-            if (fallbackResponse.dealStatus === 'ACCEPTED') {
-                console.log("Adjusted stop applied:", adjustedStopLevel);
-                markets[p.marketId].adjustedStop = true;
-            } else {
-                console.warn("Failed to apply adjusted stop:", fallbackResponse);
+          //Check if stop level not adjusted yet or not failed to adjust
+          if (!isAdjustedStopDefined || (isAdjustedStopDefined && markets[p.marketId].adjustedStop !== false)) {
+          
+            try {
+                //First try trailing stop
+                const response = await api.editPosition(p.dealId, trailingData);
+                if (response.dealStatus === 'ACCEPTED') {
+                    console.log("Trailing stop applied.");
+                    markets[p.marketId].trailingStop = true;
+                    markets[p.marketId].adjustedStop = true;
+                    markets[p.marketId].adjustedTrailing = true;
+                } else {
+
+                    //Then try adjusting stop level
+                    console.warn("Trailing stop was rejected. Trying to adjust stop level instead...");
+                    try {
+                        const response = await api.editPosition(p.dealId, adjustData);
+                        if (response.dealStatus === 'ACCEPTED') {
+                            console.log("Adjusted stop level applied:", adjustedStopLevel);
+                            markets[p.marketId].adjustedStop = true;
+                        } else {
+                            console.warn("Failed to apply adjusted stop:", response);
+                            markets[p.marketId].adjustedStop = false;
+                        }
+                    } catch (error) {
+                        console.error("API error while adjusting stop:", error);
+                        markets[p.marketId].adjustedStop = false;
+                    }
+                }
+            } catch (error) {
+                console.error("API error while applying trailing stop:", error);
                 markets[p.marketId].adjustedStop = false;
             }
-        }
-    } catch (error) {
-        console.error("API error while applying trailing stop:", error);
-    }
-
-  } //if trailing or not
-
+    
+          } //if already adjusted or not yet failed
+          
+        } //if should adjust
+  
   }//if threshold reached
 
   } //if p
