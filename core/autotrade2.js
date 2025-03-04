@@ -455,9 +455,10 @@ actions.exec = async function () {
     //Final analysis
     await analysisHandler.actions.finalAnalysis();
 
-    //Do any checks for existing trades
+    //Do any checks for open trades
     await tradeHandler.actions.determineNearProfit();
-
+    await tradeHandler.actions.determineStopLevelAdjustment();
+    
     //Run AI processes
     //await aiHandler.actions.iniRun();
 
