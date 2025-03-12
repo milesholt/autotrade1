@@ -563,9 +563,9 @@ if (isTrailingStopDefined) {
                 if(index == 1) console.log('we should be here');
                 //markets[x.marketId].adjustedStop = true; // Mark threshold as hit
                 shouldAdjust = true;
-            } else if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
+            } else if ((dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == false) || 
                 (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1) ||
-                (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50) || 
+                (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == false) || 
                 (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
@@ -573,9 +573,9 @@ if (isTrailingStopDefined) {
                 adjust50 = true;
                 shouldAdjust = true;
             } 
-            else if ((dir === "BUY" && currentPrice > profitThreshold80 && !markets[x.marketId].adjustedStop80) || 
+            else if ((dir === "BUY" && currentPrice > profitThreshold80 && markets[x.marketId].adjustedStop80 == false) || 
                      (dir === "BUY" && currentPrice > profitThreshold80 && markets[x.marketId].adjustedStop80 == false && index == 1) || 
-                     (dir === "SELL" && currentPrice < profitThreshold80 && !markets[x.marketId].adjustedStop80) ||
+                     (dir === "SELL" && currentPrice < profitThreshold80 && markets[x.marketId].adjustedStop80 == false) ||
                      (dir === "SELL" && currentPrice < profitThreshold80 && markets[x.marketId].adjustedStop80 == false && index == 1)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
