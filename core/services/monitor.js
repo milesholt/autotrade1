@@ -537,6 +537,10 @@ if (isTrailingStopDefined) {
             let adjustedStopLevel = null;
 
             // Ensure tracking properties exist
+
+            if (!markets[x.marketId].hasOwnProperty('adjustedStop')) {
+                markets[x.marketId].adjustedStop = false;
+            }
             if (!markets[x.marketId].hasOwnProperty('adjustedStop50')) {
                 markets[x.marketId].adjustedStop50 = false;
             }
@@ -546,6 +550,10 @@ if (isTrailingStopDefined) {
 
             // Check and apply stop adjustments
             //Also run check each time monitor restarts and if adustedStop is defined but is false 
+
+            if(dir === "SELL" && currentPrice < profitThreshold){
+              if(index == 1) console.log('we should be here2');
+            }
 
             if ((dir === "BUY" && currentPrice > profitThreshold && !markets[x.marketId].adjustedStop) || 
                 (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == false && index == 1) ||
