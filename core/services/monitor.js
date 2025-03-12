@@ -534,11 +534,12 @@ if (isTrailingStopDefined) {
 
             //Set default
             let shouldAdjust = false;
+            let adjust50 = false;
+            let adjust80 = false;
             let adjustedStopLevel = null;
 
             // Ensure tracking properties exist
-            markets[x.marketId].adjustedStop = false;
-
+            
             if (!markets[x.marketId].hasOwnProperty('adjustedStop')) {
                 markets[x.marketId].adjustedStop = false;
             }
@@ -552,14 +553,6 @@ if (isTrailingStopDefined) {
             // Check and apply stop adjustments
             //Also run check each time monitor restarts and if adustedStop is defined but is false 
 
-            if(dir === "SELL" && currentPrice < profitThreshold){
-              if(index == 1){
-                console.log('we should be here2');
-                console.log('adjustedStop: ' + markets[x.marketId].adjustedStop);
-              }
-              
-            }
-
             if ((dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == false) || 
                 (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == false && index == 1) ||
                 (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == false) || 
@@ -572,12 +565,12 @@ if (isTrailingStopDefined) {
                 shouldAdjust = true;
             } else if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
                 (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1) ||
-                (dir === "SELL" && currentPrice < profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
+                (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50) || 
                 (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.5 * (p.stopLevel - p.level));
-                markets[x.marketId].adjustedStop50 = true; // Mark threshold as hit
+                adjust50 = true;
                 shouldAdjust = true;
             } 
             else if ((dir === "BUY" && currentPrice > profitThreshold80 && !markets[x.marketId].adjustedStop80) || 
@@ -587,11 +580,11 @@ if (isTrailingStopDefined) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.8 * (p.stopLevel - p.level));
-                markets[x.marketId].adjustedStop80 = true; // Mark threshold as hit
+                adjust80 = true;
                 shouldAdjust = true;
             }
 
-            if (shouldAdjust) {
+            if (shouldAdjust && markets[x.marketId].adjustedStop == false) {
 
                 if(index == 1) console.log('shouldAdjust is true');
               
@@ -612,8 +605,11 @@ if (isTrailingStopDefined) {
 
                 await api.editPosition(x.dealId, adjustData).then(r => {
                     if (r.dealStatus == 'ACCEPTED') {
-                        console.log("Adjusted stop level applied:", adjustedStopLevel);
+                        if(index == 1) console.log("Adjusted stop level applied:", adjustedStopLevel);
                         markets[x.marketId].adjustedStop = true;
+                        if(adjust50) markets[x.marketId].adjustedStop50 = true;
+                        if(adjust80) markets[x.marketId].adjustedStop80 = true;
+                        shouldAdjust = false;
                     } else {
                         console.log("Failed to apply adjusted stop.");
                         markets[x.marketId].adjustedStop = false;
