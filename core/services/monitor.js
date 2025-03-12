@@ -552,12 +552,16 @@ if (isTrailingStopDefined) {
             //Also run check each time monitor restarts and if adustedStop is defined but is false 
 
             if(dir === "SELL" && currentPrice < profitThreshold){
-              if(index == 1) console.log('we should be here2');
+              if(index == 1){
+                console.log('we should be here2');
+                console.log('adjustedStop: ' + markets[x.marketId].adjustedStop);
+              }
+              
             }
 
-            if ((dir === "BUY" && currentPrice > profitThreshold && !markets[x.marketId].adjustedStop) || 
+            if ((dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == false) || 
                 (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == false && index == 1) ||
-                (dir === "SELL" && currentPrice < profitThreshold && !markets[x.marketId].adjustedStop) || 
+                (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == false) || 
                 (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == false && index == 1)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.2 * (p.level - p.stopLevel)) 
