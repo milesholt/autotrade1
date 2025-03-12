@@ -705,6 +705,8 @@ if (isTrailingStopDefined) {
                                     console.log(updateData);
 
 
+                                  } else {
+                                    console.log('adjustedTrailing is true for epic: ' + markets[x.marketId].epic );
                                   }
                                    
                                  } else {
