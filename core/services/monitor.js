@@ -554,6 +554,7 @@ if (isTrailingStopDefined) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.2 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.2 * (p.stopLevel - p.level));
+                if(index == 1) console.log('we should be here');
                 markets[x.marketId].adjustedStop = true; // Mark threshold as hit
                 shouldAdjust = true;
             } else if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
