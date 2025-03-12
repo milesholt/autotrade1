@@ -616,7 +616,10 @@ if (isTrailingStopDefined) {
                     }
                 }).catch(e => console.log(e));
             } else {
-              if(index == 1) console.log('shouldAdjust was not true');
+              if(index == 1){
+                console.log('shouldAdjust was not true');
+                if(markets[x.marketId].adjustedStop == true) console.log('adjustedStop already applied');
+              }
             }
 }
 
