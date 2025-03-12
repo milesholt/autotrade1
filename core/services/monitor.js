@@ -528,7 +528,7 @@ let isTrailingStopDefined = lib.actions.isDefined(markets[x.marketId], 'trailing
 //Only proceed if trailingstop already tried
 if (isTrailingStopDefined) {
 
-            //console.log('checking adjusted stop thresholds');
+            if(index == 1) console.log('checking adjusted stop thresholds');
 
             //Do adjustment checks for thresholds
 
@@ -546,8 +546,17 @@ if (isTrailingStopDefined) {
 
             // Check and apply stop adjustments
             //Also run check each time monitor restarts and if adustedStop is defined but is false 
-  
-            if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
+
+            if ((dir === "BUY" && currentPrice > profitThreshold && !markets[x.marketId].adjustedStop) || 
+                (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == false && index == 1) ||
+                (dir === "SELL" && currentPrice < profitThreshold && !markets[x.marketId].adjustedStop) || 
+                (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == false && index == 1)) {
+                adjustedStopLevel = dir === "BUY" 
+                    ? p.stopLevel + (0.2 * (p.level - p.stopLevel)) 
+                    : p.stopLevel - (0.2 * (p.stopLevel - p.level));
+                markets[x.marketId].adjustedStop = true; // Mark threshold as hit
+                shouldAdjust = true;
+            } else if ((dir === "BUY" && currentPrice > profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
                 (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1) ||
                 (dir === "SELL" && currentPrice < profitThreshold50 && !markets[x.marketId].adjustedStop50) || 
                 (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1)) {
@@ -569,6 +578,9 @@ if (isTrailingStopDefined) {
             }
 
             if (shouldAdjust) {
+
+                if(index == 1) console.log('shouldAdjust is true');
+              
                 /*let adjustData = {
                     guaranteedStop: "true",
                     stopLevel: String(adjustedStopLevel.toFixed(2)),
@@ -593,6 +605,8 @@ if (isTrailingStopDefined) {
                         markets[x.marketId].adjustedStop = false;
                     }
                 }).catch(e => console.log(e));
+            } else {
+              if(index == 1) console.log('shouldAdjust was not true');
             }
 }
 
