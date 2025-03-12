@@ -544,23 +544,23 @@ if (isTrailingStopDefined) {
             
             if (!markets[x.marketId].hasOwnProperty('adjustedStop')) {
                 markets[x.marketId].adjustedStop = false;
-                adustedStopUndefined = true;
+                adjustedStopUndefined = true;
             }
             if (!markets[x.marketId].hasOwnProperty('adjustedStop50')) {
                 markets[x.marketId].adjustedStop50 = false;
-                adustedStop50Undefined = true;
+                adjustedStop50Undefined = true;
             }
             if (!markets[x.marketId].hasOwnProperty('adjustedStop80')) {
                 markets[x.marketId].adjustedStop80 = false;
-                adustedStop80Undefined = true;
+                adjustedStop80Undefined = true;
             }
 
             // Check and apply stop adjustments
             //Also run check each time monitor restarts and if adustedStop is defined but is false 
 
-            if ((dir === "BUY" && currentPrice > profitThreshold && adustedStopUndefined) || 
+            if ((dir === "BUY" && currentPrice > profitThreshold && adjustedStopUndefined) || 
                 (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == false && index == 1) ||
-                (dir === "SELL" && currentPrice < profitThreshold && adustedStopUndefined) || 
+                (dir === "SELL" && currentPrice < profitThreshold && adjustedStopUndefined) || 
                 (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == false && index == 1)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.2 * (p.level - p.stopLevel)) 
@@ -570,9 +570,9 @@ if (isTrailingStopDefined) {
                 shouldAdjust = true;
             } 
   
-            if ((dir === "BUY" && currentPrice > profitThreshold50 && adustedStop50Undefined) || 
+            if ((dir === "BUY" && currentPrice > profitThreshold50 && adjustedStop50Undefined) || 
                 (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1) ||
-                (dir === "SELL" && currentPrice < profitThreshold50 && adustedStop50Undefined) || 
+                (dir === "SELL" && currentPrice < profitThreshold50 && adjustedStop50Undefined) || 
                 (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == false && index == 1)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
@@ -581,9 +581,9 @@ if (isTrailingStopDefined) {
                 shouldAdjust = true;
             } 
             
-            if ((dir === "BUY" && currentPrice > profitThreshold80 && adustedStop80Undefined) || 
+            if ((dir === "BUY" && currentPrice > profitThreshold80 && adjustedStop80Undefined) || 
                      (dir === "BUY" && currentPrice > profitThreshold80 && markets[x.marketId].adjustedStop80 == false && index == 1) || 
-                     (dir === "SELL" && currentPrice < profitThreshold80 && adustedStop80Undefined) ||
+                     (dir === "SELL" && currentPrice < profitThreshold80 && adjustedStop80Undefined) ||
                      (dir === "SELL" && currentPrice < profitThreshold80 && markets[x.marketId].adjustedStop80 == false && index == 1)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
