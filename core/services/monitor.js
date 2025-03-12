@@ -543,6 +543,7 @@ if (isTrailingStopDefined) {
             // Ensure tracking properties exist
             
             if (!markets[x.marketId].hasOwnProperty('adjustedStop')) {
+                if(index == 1) console.log('here');
                 markets[x.marketId].adjustedStop = false;
                 adjustedStopUndefined = true;
             }
