@@ -487,12 +487,21 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                  let breakEven = p.level; // Adjust if you want different logic
                                  let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
 
-                                 //console.log('dir', dir);
-                                 //console.log('currentPrice', currentPrice);
-                                 //console.log('profitThreshold', profitThreshold);
-                                 //console.log(markets[x.marketId].trailingStop);
-                            
+
+                              if(index == 1){
+                                console.log('dir', dir);
+                                console.log('currentPrice', currentPrice);
+                                console.log('profitThreshold', profitThreshold);
+                                console.log(markets[x.marketId].trailingStop);
+                                     
+                              }
+
+                                     
                                  if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
+
+                                   if(index == 1){
+                                     console.log('Threshold reached');
+                                   }
                                   
                                     //First setup trailingstop when 20% profit reached
                                     //Trailing distance needs to be 20% of points differnece between currentPrice and stopLevel
