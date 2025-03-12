@@ -569,6 +569,8 @@ if (isTrailingStopDefined) {
                 //markets[x.marketId].adjustedStop = true; // Mark threshold as hit
                 shouldAdjust = true;
                 console.log('adjusted20 set to true');
+                console.log('adjustedStopUndefined: ' + adjustedStopUndefined);
+                console.log('adjustedStop: ' + markets[x.marketId].adjustedStop);
             } 
   
             if ((dir === "BUY" && currentPrice > profitThreshold50 && adjustedStop50Undefined == true) || 
