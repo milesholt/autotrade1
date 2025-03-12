@@ -98,8 +98,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
   isStreamRunning[epic] = false;
 
-  markets[mid].trailingStop == false;
-  markets[mid].adjustedStop == false;
+  markets[mid].adjustedStop = false;
 
   console.log('epic: ' + arr.epic + ' mid: ' + arr.marketId +  ' streamingPricesAvailable:' + markets[arr.marketId].streamingPricesAvailable);
 
