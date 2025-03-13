@@ -130,7 +130,13 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   markets[mid_tmp].tradedBefore = moment().valueOf();
   markets[mid_tmp].closeloss = false;
   markets[mid_tmp].closeprofit = false;
+  markets[mid_tmp].trailingStop = false;
+  markets[mid_tmp].adjustedStop = false;
+  markets[mid_tmp].adjustedStop50 = false;
+  markets[mid_tmp].adjustedStop80 = false;
+  markets[mid_tmp].adjustedTrailing = true;
 
+  
   const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
   let t = trades_tmp.length > 0 ? trades_tmp[trades_tmp.length-1] : lib.deepCopy(trade);
