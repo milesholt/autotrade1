@@ -653,7 +653,7 @@ actions.determineStopLevelAdjustment = async function(){
             if ((dir === "BUY" && currentPrice > threshold && !markets[p.marketId][key]) ||
                 (dir === "SELL" && currentPrice < threshold && !markets[p.marketId][key])) {
     
-                adjustedStopLevel = calculateAdjustedStop(dir, p.stopLevel, p.level, level);
+                adjustedStopLevel = await actions.calculateAdjustedStop(dir, p.stopLevel, p.level, level);
                 markets[p.marketId][key] = true;
                 shouldAdjust = true;
             }
@@ -931,6 +931,13 @@ actions.determineStopLevelAdjustmentOff = async function(){
   } // if x
   
 } //end of function
+
+
+actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage) {
+    return dir === "BUY" 
+        ? stopLevel + (percentage * (level - stopLevel)) 
+        : stopLevel - (percentage * (stopLevel - level));
+}
 
 module.exports = {
   actions: actions
