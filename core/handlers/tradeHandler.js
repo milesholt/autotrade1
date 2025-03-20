@@ -621,6 +621,13 @@ actions.determineStopLevelAdjustment = async function(){
     
     let breakEven = p.level; // Adjust if you want different logic
     let currentPrice = dir == "BUY" ? lastCloseBid : lastCloseAsk;
+
+    
+    console.log('profitThreshold: ' + profitThreshold);
+    console.log('profitThreshold50: ' + profitThreshold50);
+    console.log('profitThreshold80: ' + profitThreshold80);
+    console.log('currentPrice: ' + currentPrice);
+    console.log('dir: ' + dir);
                                  
      if ((dir === "BUY" && currentPrice > profitThreshold) || (dir === "SELL" && currentPrice < profitThreshold)) {
       
@@ -639,6 +646,7 @@ actions.determineStopLevelAdjustment = async function(){
         let adjustedStopLevel = p.stopLevel;
     
         // Ensure tracking properties exist
+        markets[p.marketId].adjustedStop ??= false;
         markets[p.marketId].adjustedStop50 ??= false;
         markets[p.marketId].adjustedStop80 ??= false;
     
@@ -650,6 +658,9 @@ actions.determineStopLevelAdjustment = async function(){
         ];
     
         for (const { level, key, threshold } of thresholds) {
+
+            console.log(key + ': ' +  markets[p.marketId][key]);
+          
             if ((dir === "BUY" && currentPrice > threshold && !markets[p.marketId][key]) ||
                 (dir === "SELL" && currentPrice < threshold && !markets[p.marketId][key])) {
     
@@ -677,7 +688,7 @@ actions.determineStopLevelAdjustment = async function(){
                 "trailingStop": "false"
             };
 
-          //Check if stop level not adjusted yet or not failed to adjust
+          //Check if stop level not adjusted yet or not failed to adjust (null)
           if (!isAdjustedStopDefined || (isAdjustedStopDefined && markets[p.marketId].adjustedStop !== false)) {
           
             try {
