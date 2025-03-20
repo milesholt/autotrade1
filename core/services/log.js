@@ -134,7 +134,7 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   markets[mid_tmp].adjustedStop = false;
   markets[mid_tmp].adjustedStop50 = false;
   markets[mid_tmp].adjustedStop80 = false;
-  markets[mid_tmp].adjustedTrailing = true;
+  markets[mid_tmp].adjustedTrailing = false;
 
   
   const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
