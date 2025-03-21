@@ -48,7 +48,11 @@ actions.checkLastClosedTrade = async function(){
        let transactions = r.transactions;
 
      //get last transanction
-     let lastTrade = transactions[0];
+     //let lastTrade = transactions[0];
+
+     let lastTrade = transactions.filter((m) => m.instrumentName == 'Spot Gold')[0];
+     console.log(lastTrade);
+     
     
      /*  
      Example of closed transaction
@@ -82,7 +86,7 @@ actions.checkLastClosedTrades = async function(){
    let to = undefined;
    await api.acctTransaction(type,from, to, pageSize,1).then(async r => {
      let transactions = r.transactions;
-       
+     
      /*  
      Example of closed transaction
      {
