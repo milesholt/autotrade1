@@ -28,6 +28,7 @@ actions.require = async function () {
   notification = core.notificationHandler.actions;
   log = core.log.actions;
   api = core.api;
+  check = core.checkHandler.actions;
   monitor = core.monitor.actions;
   error = core.errorHandler.actions;
   util = core.util;
@@ -100,7 +101,7 @@ actions.iniRun = async function () {
 
 
   //We will also get the last closed trade from the api
-  let lastTrades = await check.actions.checkLastClosedTrades();
+  let lastTrades = await check.checkLastClosedTrades();
 
   //Filter last by instrumentName
   let lastTrade = null;
