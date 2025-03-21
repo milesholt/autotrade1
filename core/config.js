@@ -196,6 +196,7 @@ markets = [
   {
     id: 0,
     alias: "Corn",
+    instrumentName: "Corn",
     epic: "CC.D.C.USS.IP",
     data: {},
     deal: {},
@@ -213,6 +214,7 @@ markets = [
   {
     id: 1,
     alias: "MXNJPY",
+    instrumentName: "MXN/JPY",
     epic: "CS.D.MXNJPY.TODAY.IP",
     data: {},
     deal: {},
@@ -230,6 +232,7 @@ markets = [
   {
     id: 2,
     alias: "Spot Gold",
+    instrumentName: "Spot Gold",
     epic: "CS.D.USCGC.TODAY.IP",
     data: {},
     deal: {},
