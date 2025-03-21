@@ -49,47 +49,26 @@ actions.checkLastClosedTrade = async function(){
 
      //get last transanction
      let lastTrade = transactions[0];
-     const localUtcTime = moment.utc().local(); // Local UTC Time
-  
-     const lastClosedTime = moment.utc(lastTrade.dateUtc).local().valueOf();
-     console.log('Last closed date');
-     console.log(lastClosedTime);
-     console.log('Local time');
-     console.log(localUtcTime);
-     console.log('Difference');
-     const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
-     const lastDiffMinutes = localUtcTime.diff(lastClosedTime, "minutes");
+    
+     /*  
+     Example of closed transaction
+     {
+        date: '2025-03-14',
+        dateUtc: '2025-03-14T12:16:54',
+        openDateUtc: '2025-03-13T00:02:06',
+        instrumentName: 'MXN/JPY',
+        period: 'DFB',
+        profitAndLoss: '£41.89',
+        transactionType: 'DEAL',
+        reference: 'DIAAAAS285KGSBC',
+        openLevel: '735.4',
+        closeLevel: '743.1',
+        size: '+5.44',
+        currency: '£',
+        cashTransaction: false
+      }*/
 
-     console.log(lastDiffHours + ' hours');
-     console.log(lastDiffMinutes + ' minutes');
-  
-
-     //instrument name
-     //lastTrade.instrumentName;
-
-     return lastTrade; 
-     /* 
-      transactions.forEach(async transaction =>{
-         if(transaction.reference == dealId2){
-           console.log(dealId2);
-           console.log('dealId found. position has been closed');
-
-           let closeAnalysis = {
-             timestamp: moment.utc(transaction.dateUTC).local().valueOf(),
-             date: moment.utc(transaction.dateUTC).local().format('LLL'),
-             lastClose: transaction.closeLevel,
-             direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
-             openLevel: transaction.openLevel,
-             amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
-             result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
-             data: 'NO DATA',
-             dealId: dealId,
-             transactionDealId: transaction.reference
-           }
-         }
-       }
-      */
-                          
+     return lastTrade;                      
    });
 }
 
