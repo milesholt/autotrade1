@@ -49,10 +49,17 @@ actions.checkLastClosedTrade = async function(){
 
      //get last transanction
      let lastTrade = transactions[0];
-
-     
-     console.log(transactions);
-
+     const localUtcTime = moment.utc().local(); // Local UTC Time
+  
+     const lastClosedTime = moment.utc(lastTrade.dateUtc).local().valueOf();
+     console.log('Last closed date');
+     console.log(lastClosedTime);
+     console.log('Local time');
+     console.log(localUtcTime);
+     console.log('Difference');
+     const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
+     console.log(lastDiffHours + ' hours');
+  
 
      //instrument name
      //lastTrade.instrumentName;
