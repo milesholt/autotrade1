@@ -48,12 +48,7 @@ actions.checkLastClosedTrade = async function(){
        let transactions = r.transactions;
 
      //get last transanction
-     //let lastTrade = transactions[0];
-
-     let lastTrade = transactions.filter((m) => m.instrumentName == 'MXN/JPY')[0];
-     console.log(markets[0].instrumentName);
-     console.log(lastTrade);
-     
+     let lastTrade = transactions[0];
     
      /*  
      Example of closed transaction
