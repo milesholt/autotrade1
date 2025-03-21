@@ -32,6 +32,52 @@ actions.require = async function(){
   trade = core.tradeHandler.actions;
 }
 
+
+/* 
+
+CHECK LAST CLOSED TRADE
+
+*/
+
+actions.checkLastClosedTrade = async function(){
+   let pageSize = 20;
+   let type = 'ALL_DEAL';
+   let from = undefined;
+   let to = undefined;
+   await api.acctTransaction(type,from, to, pageSize,1).then(async r => {
+       let transactions = r.transactions;
+
+     //get last transanction
+     let lastTrade = transactions[0];
+
+     console.log('last closed transaction was: ');
+     console.log(lastTrade);
+      
+     /* 
+      transactions.forEach(async transaction =>{
+         if(transaction.reference == dealId2){
+           console.log(dealId2);
+           console.log('dealId found. position has been closed');
+
+           let closeAnalysis = {
+             timestamp: moment.utc(transaction.dateUTC).local().valueOf(),
+             date: moment.utc(transaction.dateUTC).local().format('LLL'),
+             lastClose: transaction.closeLevel,
+             direction: transaction.size.indexOf('+') !== -1 ? 'BUY': 'SELL',
+             openLevel: transaction.openLevel,
+             amount: lib.toNumber(transaction.profitAndLoss.split('£')[1]),
+             result: transaction.profitAndLoss.indexOf('-') !== -1 ? 'LOSS' : 'PROFIT',
+             data: 'NO DATA',
+             dealId: dealId,
+             transactionDealId: transaction.reference
+           }
+         }
+       }
+      */
+                          
+   }
+}
+
 /*
 
 CHECK OPEN TRADES
