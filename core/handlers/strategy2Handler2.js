@@ -105,7 +105,7 @@ actions.iniRun = async function () {
 
   //Filter last by instrumentName
   let lastTrade = null;
-  lastTrade = lastTrades.filter((m) => m.instrumentName == market.instrumentName)[0]; 
+  if(lastTrades.length) lastTrade = lastTrades.filter((m) => m.instrumentName == market.instrumentName)[0]; 
   
   if(lastTrade !== null){
     console.log('Found last closed trade');
