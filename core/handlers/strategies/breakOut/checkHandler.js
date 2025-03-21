@@ -75,7 +75,7 @@ actions.checkLastClosedTrade = async function(){
        }
       */
                           
-   }
+   });
 }
 
 /*
