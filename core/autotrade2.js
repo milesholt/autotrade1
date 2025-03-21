@@ -518,6 +518,7 @@ module.exports = {
   errorHandler: errorHandler,
   tradeHandler: tradeHandler,
   aiHandler: aiHandler,
+  checkHandler: checkHandler
 };
 
 //After export, call child module requirements
