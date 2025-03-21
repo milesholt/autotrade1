@@ -113,6 +113,9 @@ actions.iniRun = async function () {
     console.log('Difference');
     const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
     console.log(lastDiffHours + ' hours');
+
+    tradebeforeCheck = lastDiffHours >= 8;
+    
   }
 
 
