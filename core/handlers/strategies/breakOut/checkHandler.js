@@ -40,7 +40,7 @@ CHECK LAST CLOSED TRADE
 */
 
 actions.checkLastClosedTrade = async function(){
-   let pageSize = 20;
+   let pageSize = 10;
    let type = 'ALL_DEAL';
    let from = undefined;
    let to = undefined;
@@ -49,6 +49,13 @@ actions.checkLastClosedTrade = async function(){
 
      //get last transanction
      let lastTrade = transactions[0];
+
+     
+     console.log(transactions);
+
+
+     //instrument name
+     //lastTrade.instrumentName;
 
      return lastTrade; 
      /* 
