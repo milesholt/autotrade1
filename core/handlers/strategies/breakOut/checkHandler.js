@@ -50,7 +50,8 @@ actions.checkLastClosedTrade = async function(){
      //get last transanction
      //let lastTrade = transactions[0];
 
-     let lastTrade = transactions.filter((m) => m.instrumentName == 'Spot Gold')[0];
+     let lastTrade = transactions.filter((m) => m.instrumentName == 'MXN/JPY')[0];
+     console.log(markets[0].instrumentName);
      console.log(lastTrade);
      
     
