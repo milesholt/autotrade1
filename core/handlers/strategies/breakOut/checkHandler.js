@@ -58,8 +58,10 @@ actions.checkLastClosedTrade = async function(){
      console.log(localUtcTime);
      console.log('Difference');
      const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
+     const lastDiffMinutes = localUtcTime.diff(lastClosedTime, "minutes");
+
      console.log(lastDiffHours + ' hours');
-     console.log(lastDiffHours + ' minutes');
+     console.log(lastDiffMinutes + ' minutes');
   
 
      //instrument name
