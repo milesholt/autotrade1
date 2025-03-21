@@ -99,6 +99,23 @@ actions.iniRun = async function () {
   const localUtcTimeDate = moment(localUtcTime).format('YYYY-MM-DD HH:mm:ss');
 
 
+  //We will also get the last closed trade from the api
+  lastTrade = await check.actions.checkLastClosedTrade();
+  
+  if(lastTrade.instrumentName == market.instrumentName){
+    console.log('Instrument names match');
+    //closed date
+    const lastClosedTime = moment.utc(lastTrade.dateUtc).local().valueOf();
+    console.log('Last closed date');
+    console.log(lastClosedTime);
+    console.log('Local time');
+    console.log(localUtcTime);
+    console.log('Difference');
+    const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
+    console.log(lastDiffHours + ' hours');
+  }
+
+
   let day = moment.utc().local().format('ddd');
   if( day == 'Sat' || day == 'Sun'){
     console.log('Should be the weekend. Day is: ' + day);
