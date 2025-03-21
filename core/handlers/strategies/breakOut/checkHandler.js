@@ -50,9 +50,7 @@ actions.checkLastClosedTrade = async function(){
      //get last transanction
      let lastTrade = transactions[0];
 
-     console.log('last closed transaction was: ');
-     console.log(lastTrade);
-      
+     return lastTrade; 
      /* 
       transactions.forEach(async transaction =>{
          if(transaction.reference == dealId2){
