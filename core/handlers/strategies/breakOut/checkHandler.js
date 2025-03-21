@@ -72,7 +72,7 @@ actions.checkLastClosedTrade = async function(){
    });
 }
 
-/* GET CLOSED TRADES FROM MARKET
+/* GET CLOSED TRADES FROM MARKET */
 
 
 actions.checkLastClosedTrades = async function(){
