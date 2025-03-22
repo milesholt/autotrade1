@@ -82,25 +82,8 @@ actions.checkLastClosedTrades = async function(){
    let to = undefined;
    await api.acctTransaction(type,from, to, pageSize,1).then(async r => {
      let transactions = r.transactions;
-     
-     /*  
-     Example of closed transaction
-     {
-        date: '2025-03-14',
-        dateUtc: '2025-03-14T12:16:54',
-        openDateUtc: '2025-03-13T00:02:06',
-        instrumentName: 'MXN/JPY',
-        period: 'DFB',
-        profitAndLoss: '£41.89',
-        transactionType: 'DEAL',
-        reference: 'DIAAAAS285KGSBC',
-        openLevel: '735.4',
-        closeLevel: '743.1',
-        size: '+5.44',
-        currency: '£',
-        cashTransaction: false
-      }*/
-
+       console.log('Last closed trades');
+       console.log(transactions);
      return transactions;                      
    });
 }
