@@ -103,6 +103,9 @@ actions.iniRun = async function () {
   //We will also get the last closed trade from the api
   let lastTrades = await check.checkLastClosedTrades();
 
+  console.log('lastTrades');
+  console.log(lastTrades);
+
   //Filter last by instrumentName
   let lastTrade = null;
   if(lastTrades.length) lastTrade = lastTrades.filter((m) => m.instrumentName == market.instrumentName)[0]; 
