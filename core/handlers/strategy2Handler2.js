@@ -35,6 +35,15 @@ actions.require = async function () {
   moment = core.moment;
 };
 
+
+actions.test = async function(){
+let lastTrades = await check.checkLastClosedTrades();
+
+  console.log('lastTrades');
+  console.log(lastTrades);
+
+}
+
 actions.iniRun = async function () {
   var set = {
     epic: market.epic,
