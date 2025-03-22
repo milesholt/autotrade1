@@ -80,11 +80,10 @@ actions.checkLastClosedTrades = async function(){
    let type = 'ALL_DEAL';
    let from = undefined;
    let to = undefined;
-   await api.acctTransaction(type,from, to, pageSize,1).then(async r => {
-     let transactions = r.transactions;
+   return await api.acctTransaction(type,from, to, pageSize,1).then(r => {
+       let transactions = r.transactions;
        console.log('Last closed trades');
-       console.log(transactions);
-     return transactions;                      
+       return transactions;                      
    });
 }
 
