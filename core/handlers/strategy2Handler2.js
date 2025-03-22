@@ -113,7 +113,7 @@ actions.iniRun = async function () {
   let lastTrades = await check.checkLastClosedTrades();
 
   console.log('lastTrades');
-  console.log(lastTrades);
+  //console.log(lastTrades);
 
   //Filter last by instrumentName
   let lastTrade = null;
@@ -126,7 +126,7 @@ actions.iniRun = async function () {
     console.log('Last closed date');
     console.log(lastClosedTime);
     console.log('Local time');
-    console.log(localUtcTime);
+    //console.log(localUtcTime);
     console.log('Difference');
     const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
     console.log(lastDiffHours + ' hours');
