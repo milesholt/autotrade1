@@ -677,10 +677,8 @@ if (isTrailingStopDefined) {
                                            markets[x.marketId].adjustedStop = true;
                                            markets[x.marketId].adjustedTrailing = true;
                                            
-                                        }
-
-                                        if(r.dealStatus == 'REJECTED'){
-
+                                        } else {
+                                          
                                               markets[x.marketId].trailingStop = false;
                                               markets[x.marketId].adjustedTrailing = false;
                                           
