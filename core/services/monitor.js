@@ -521,8 +521,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                   //This check should only request API once and not run at every interval
                                    
                                   
-let isAdjustedStopDefined = lib.actions.isDefined(markets[x.marketId], 'adjustedStop');
-let isTrailingStopDefined = lib.actions.isDefined(markets[x.marketId], 'trailingStop');
+let isAdjustedStopDefined = lib.actions.isValid(markets[x.marketId], 'adjustedStop');
+let isTrailingStopDefined = lib.actions.isValid(markets[x.marketId], 'trailingStop');
                                    
 //Only proceed if trailingstop already tried
 if (isTrailingStopDefined) {
