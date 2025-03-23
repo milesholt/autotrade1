@@ -524,8 +524,10 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 let isAdjustedStopDefined = lib.actions.isValid(markets[x.marketId], 'adjustedStop');
 let isTrailingStopDefined = lib.actions.isValid(markets[x.marketId], 'trailingStop');
                                    
-//Only proceed if trailingstop already tried
+//Only proceed if trailingstop already tried and not null
 if (isTrailingStopDefined) {
+  //only if trailing stop rejected
+  if(markets[x.marketId].trailingStop == false){
 
             if(index == 1) console.log('checking adjusted stop thresholds');
 
@@ -560,9 +562,9 @@ if (isTrailingStopDefined) {
             //Also run check each time monitor restarts and if adustedStop is defined but is false 
 
             if ((dir === "BUY" && currentPrice > profitThreshold && adjustedStopUndefined == true) || 
-                (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == null && index == 1) ||
+                (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == null) ||
                 (dir === "SELL" && currentPrice < profitThreshold && adjustedStopUndefined == true) || 
-                (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == null && index == 1)) {
+                (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == null)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.2 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.2 * (p.stopLevel - p.level));
@@ -576,9 +578,9 @@ if (isTrailingStopDefined) {
             } 
   
             if ((dir === "BUY" && currentPrice > profitThreshold50 && adjustedStop50Undefined == true) || 
-                (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == null && index == 1) ||
+                (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == null) ||
                 (dir === "SELL" && currentPrice < profitThreshold50 && adjustedStop50Undefined == true) || 
-                (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == null && index == 1)) {
+                (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == null)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.5 * (p.stopLevel - p.level));
@@ -588,9 +590,9 @@ if (isTrailingStopDefined) {
             } 
             
             if ((dir === "BUY" && currentPrice > profitThreshold80 && adjustedStop80Undefined == true) || 
-                     (dir === "BUY" && currentPrice > profitThreshold80 && markets[x.marketId].adjustedStop80 == null && index == 1) || 
+                     (dir === "BUY" && currentPrice > profitThreshold80 && markets[x.marketId].adjustedStop80 == null) || 
                      (dir === "SELL" && currentPrice < profitThreshold80 && adjustedStop80Undefined == true) ||
-                     (dir === "SELL" && currentPrice < profitThreshold80 && markets[x.marketId].adjustedStop80 == null && index == 1)) {
+                     (dir === "SELL" && currentPrice < profitThreshold80 && markets[x.marketId].adjustedStop80 == null)) {
                 adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
                     : p.stopLevel - (0.8 * (p.stopLevel - p.level));
@@ -628,6 +630,8 @@ if (isTrailingStopDefined) {
                     } else {
                         console.log("Failed to apply adjusted stop.");
                         markets[x.marketId].adjustedStop = false;
+                        if(adjust50) markets[x.marketId].adjustedStop50 = false;
+                        if(adjust80) markets[x.marketId].adjustedStop80 = false;
                     }
                 }).catch(e => console.log(e));
             } else {
@@ -635,8 +639,10 @@ if (isTrailingStopDefined) {
                   console.log('shouldAdjust was not true');
                   if(markets[x.marketId].adjustedStop == true) console.log('adjustedStop already applied');
                   shouldAdjust = false;
+                  
                 }                              
             }
+  }
 }
 
 
@@ -647,6 +653,7 @@ if (isTrailingStopDefined) {
                                       markets[x.marketId].adjustedTrailing = null;
                                     }  
 
+                                   //only if trailing stop not tried
                                   if(markets[x.marketId].adjustedTrailing == null){
                                   //if(index == 1){
                                     
@@ -675,7 +682,6 @@ if (isTrailingStopDefined) {
                                         if(r.dealStatus == 'REJECTED'){
 
                                               markets[x.marketId].trailingStop = false;
-                                              markets[x.marketId].adjustedStop = false;
                                               markets[x.marketId].adjustedTrailing = false;
                                           
                                               console.log('Trailing stop was rejected, market might not allow trailing, trying to adjust guarranteed stop instead.');
