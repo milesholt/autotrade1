@@ -644,11 +644,12 @@ actions.determineStopLevelAdjustment = async function(){
     
         let shouldAdjust = false;
         let adjustedStopLevel = p.stopLevel;
+        let adjustingKey = 'adjustedStop';
     
         // Ensure tracking properties exist
-        markets[p.marketId].adjustedStop ??= false;
-        markets[p.marketId].adjustedStop50 ??= false;
-        markets[p.marketId].adjustedStop80 ??= false;
+        markets[p.marketId].adjustedStop ??= null;
+        markets[p.marketId].adjustedStop50 ??= null;
+        markets[p.marketId].adjustedStop80 ??= null;
     
         // Define threshold levels dynamically
         const thresholds = [
@@ -661,12 +662,13 @@ actions.determineStopLevelAdjustment = async function(){
 
             console.log(key + ': ' +  markets[p.marketId][key]);
           
-            if ((dir === "BUY" && currentPrice > threshold && !markets[p.marketId][key]) ||
-                (dir === "SELL" && currentPrice < threshold && !markets[p.marketId][key])) {
+            if ((dir === "BUY" && currentPrice > threshold && markets[p.marketId][key] == null) ||
+                (dir === "SELL" && currentPrice < threshold && markets[p.marketId][key] == null)) {
     
                 adjustedStopLevel = await actions.calculateAdjustedStop(dir, p.stopLevel, p.level, level);
                 markets[p.marketId][key] = true;
                 shouldAdjust = true;
+                adjustingKey = key;
             }
         }
     
@@ -711,10 +713,13 @@ actions.determineStopLevelAdjustment = async function(){
                         } else {
                             console.warn("Failed to apply adjusted stop:", response);
                             markets[p.marketId].adjustedStop = false;
+                            markets[p.marketId][adjustingKey] = false;
                         }
                     } catch (error) {
                         console.error("API error while adjusting stop:", error);
                         markets[p.marketId].adjustedStop = null; 
+                        markets[p.marketId][adjustingKey] = null;
+
                     }
                 }
             } catch (error) {
