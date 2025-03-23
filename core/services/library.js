@@ -41,6 +41,15 @@ actions.isDefined = function(obj,prop){
   }
 }
 
+actions.isValid = function(obj,prop){
+  if (typeof obj !== 'undefined' && obj !== null) {
+    return obj.hasOwnProperty(prop) && obj[prop] !== null;
+  } else {
+    console.log('Parent object is not defined, so could not check for property');
+    return false;
+  }
+}
+
 actions.sortNumber = function(a, b) {
   return a - b;
 }
