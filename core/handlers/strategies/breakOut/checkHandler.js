@@ -133,7 +133,20 @@ actions.checkOpenTrades = async function(){
 
            }
          }
-       }
+       } else {
+            //No open positions, ensure defaults for all markets are set
+
+          for (const [i, m] of markets.entries()) {
+             mid = i;
+             markets[mid].trailingStop = null;
+             markets[mid].adjustedStop = null;
+             markets[mid].adjustedStop50 = null;
+             markets[mid].adjustedStop80 = null;
+             markets[mid].adjustedTrailing = null;
+          }
+        
+
+      }
   }).catch(e => console.log('catch error: showOpenPositions: ' + e));
 
     await stream.checkSubscriptions();
