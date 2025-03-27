@@ -638,6 +638,13 @@ actions.checkOpenTrade = async function(mrk,ep,tmid){
         markets[mid].tradedBefore = moment().valueOf();
         markets[mid].closeloss = false;
         markets[mid].closeprofit = false;
+        markets[mid].trailingStop = null;
+        markets[mid].adjustedStop = null;
+        markets[mid].adjustedStop50 = null;
+        markets[mid].adjustedStop80 = null;
+        markets[mid].adjustedTrailing = null;
+
+        
 
 
       });
