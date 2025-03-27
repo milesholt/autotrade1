@@ -33,7 +33,7 @@ actions.startTradeLog = async function(epic, analysis, dealId){
 
   let a = lib.deepCopy(analysis);
   delete a.pricedata;
-
+  
   markets.forEach((m,i) => {
     if(m.epic == epic){
       let t = lib.deepCopy(trade);
@@ -52,6 +52,15 @@ actions.startTradeLog = async function(epic, analysis, dealId){
       //console.log(t);
       trades.push(t);
       market.deal = t;
+
+      //Set market defaults when starting trade
+      market.closeloss = false;
+      market.closeprofit = false;
+      market.trailingStop = null;
+      market.adjustedStop = null;
+      market.adjustedStop50 = null;
+      market.adjustedStop80 = null;
+      market.adjustedTrailing = null;
     }
   });
 
