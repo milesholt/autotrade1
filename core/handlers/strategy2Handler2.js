@@ -125,13 +125,14 @@ actions.iniRun = async function () {
     const lastClosedTime = moment.utc(lastTrade.dateUtc).local().valueOf();
     console.log('Last closed date');
     console.log(lastClosedTime);
+    market.tradedBefore = lastClosedTime;
     console.log('Local time');
     //console.log(localUtcTime);
     console.log('Difference');
     const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
     console.log(lastDiffHours + ' hours');
 
-    tradebeforeCheck = lastDiffHours >= 8;
+    tradebeforeCheck = lastDiffHours >= tradeBeforeHours;
     
   }
 
