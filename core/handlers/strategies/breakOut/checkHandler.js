@@ -366,6 +366,15 @@ actions.checkDeal = async function(mrk,ep,tmid){
         }
       } else {
           console.log('No position found for epic: ' + ep);
+
+          //reset defaults in case
+          markets[mid].trailingStop = null;
+          markets[mid].adjustedStop = null;
+          markets[mid].adjustedStop50 = null;
+          markets[mid].adjustedStop80 = null;
+          markets[mid].adjustedTrailing = null;
+
+        
           console.log('Checking on monitor if any position is logged.');
           //check monitor
           if(monitors.length > 0){
