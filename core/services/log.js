@@ -145,6 +145,12 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
   markets[mid_tmp].adjustedStop80 = null;
   markets[mid_tmp].adjustedTrailing = null;
 
+   //update marketdata file
+  console.log('Closing log info for :' + epic);
+  console.log('Adjust trailing should be: ' + markets[mid_tmp].adjustedTrailing);
+  console.log('Adjust stop should be: ' + markets[mid_tmp].adjustedStop);
+  console.log('Trailing stop should be: ' + markets[mid_tmp].trailingStop);
+  cloud.updateFile(markets,marketDataDir);
   
   const tradeDataDir_tmp = 'core/data/'+epic+'/'+epic+'_tradedata.json';
   let trades_tmp = await cloud.getFile(tradeDataDir_tmp);
@@ -156,13 +162,6 @@ actions.closeTradeLog = async function(epic, closeAnalysis){
 
   accounts = await cloud.getFile(accountDataDir);
   accounts.push(ca);
-
-  //update marketdata file
-  console.log('Closing log info for :' + epic);
-  console.log('Adjust trailing should be: ' + markets[mid_tmp].adjustedTrailing);
-  console.log('Adjust stop should be: ' + markets[mid_tmp].adjustedStop);
-  console.log('Trailing stop should be: ' + markets[mid_tmp].trailingStop);
-  cloud.updateFile(markets,marketDataDir);
 
   //update tradedata file
   cloud.updateFile(trades_tmp,tradeDataDir_tmp);
