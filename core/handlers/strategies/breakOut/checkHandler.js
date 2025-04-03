@@ -90,7 +90,7 @@ actions.checkLastClosedTrades = async function(){
     //let from = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(); // 14 days ago
     //let to = new Date().toISOString(); // Current time
 
-  /console.log('from');
+  //console.log('from');
   //console.log(from);
   //console.log('to:');
   //console.log(to);
