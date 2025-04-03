@@ -121,6 +121,7 @@ actions.iniRun = async function () {
   
   if(lastTrade !== null){
     console.log('Found last closed trade');
+    console.log(lastTrade);
     //closed date
     const lastClosedTime = moment.utc(lastTrade.dateUtc).local().valueOf();
     console.log('Last closed date');
