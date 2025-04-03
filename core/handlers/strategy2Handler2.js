@@ -117,7 +117,11 @@ actions.iniRun = async function () {
 
   //Filter last by instrumentName
   let lastTrade = null;
-  if(lastTrades.length > 0) lastTrade = lastTrades.filter((m) => m.instrumentName == market.instrumentName)[0] || null; 
+  //if(lastTrades.length > 0) lastTrade = lastTrades.filter((m) => m.instrumentName == market.instrumentName)[0] || null; 
+
+  if (Array.isArray(lastTrades) && lastTrades.length > 0 && market?.instrumentName) {
+    lastTrade = lastTrades.find((m) => m.instrumentName === market.instrumentName) || null;
+  }
   
   if(lastTrade){
     console.log('Found last closed trade');
