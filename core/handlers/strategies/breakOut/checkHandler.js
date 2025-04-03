@@ -97,8 +97,6 @@ actions.checkLastClosedTrades = async function(){
   
    return await api.acctTransaction(type,from, to, pageSize,1).then(r => {
        let transactions = r.transactions;
-       console.log('Last closed trades');
-       console.log(transactions);
        return transactions;                      
    });
 }
