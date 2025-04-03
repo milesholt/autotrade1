@@ -344,8 +344,7 @@ actions.init = async function () {
   await checkHandler.actions.checkOpenTrades();
 
   //Test
-
-  await checkHandler.actions.checkLastClosedTrades();
+  //await checkHandler.actions.checkLastClosedTrades();
 
 };
 
