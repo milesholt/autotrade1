@@ -42,8 +42,14 @@ CHECK LAST CLOSED TRADE
 actions.checkLastClosedTrade = async function(){
    let pageSize = 10;
    let type = 'ALL_DEAL';
-   let from = undefined;
-   let to = undefined;
+   //let from = undefined;
+   //let to = undefined;
+
+   //let from = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(); // 7 days ago
+   let from = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(); // 14 days ago
+   let to = new Date().toISOString(); // Current time
+  
+  
    await api.acctTransaction(type,from, to, pageSize,1).then(async r => {
        let transactions = r.transactions;
 
@@ -78,8 +84,12 @@ actions.checkLastClosedTrade = async function(){
 actions.checkLastClosedTrades = async function(){
    let pageSize = 20;
    let type = 'ALL_DEAL';
-   let from = undefined;
-   let to = undefined;
+   //let from = undefined;
+   //let to = undefined;
+
+    let from = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(); // 14 days ago
+    let to = new Date().toISOString(); // Current time
+  
    return await api.acctTransaction(type,from, to, pageSize,1).then(r => {
        let transactions = r.transactions;
        console.log('Last closed trades');
