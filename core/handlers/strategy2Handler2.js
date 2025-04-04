@@ -1328,7 +1328,7 @@ actions.calculateTradeDetails = function (params, set) {
   const riskPerTrade = accountEquity * (riskPercentage / 100);
 
   // Calculate Position Size
-  const size = riskPerTrade / (stopDistance * valuePerPoint);
+  let size = riskPerTrade / (stopDistance * valuePerPoint);
 
   let cp = entryPrice;
   // stopDistance = Math.abs(cp - stopDistanceLevel);
