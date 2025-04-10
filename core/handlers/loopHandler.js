@@ -29,9 +29,10 @@ actions.loop = async function(msg = ''){
 
   await api.acctInfo()
         .then((r)=> {
-          accountBalance = r.accounts[0].balance;
+          accountBalance = r.accounts[0].balance.available;
           console.log('account balance: ' + accountBalance);
-  });
+        });
+  
 
 
   //check loop isn't already running
