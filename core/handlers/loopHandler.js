@@ -27,12 +27,12 @@ actions.loop = async function(msg = ''){
   let timestamp  = moment.utc().local().format('LLL');
   console.log('Time is:' + timestamp);
 
-  await api.acctInfo()
+ await api.acctInfo()
         .then((r)=> {
-          accountBalance = r.accounts[0].balance;
+          accountBalance = r.accounts[0].balance.available;
           console.log('account balance: ' + accountBalance);
-  });
-
+        });
+  
 
   //check loop isn't already running
   // if(!!isLoopRunning){
