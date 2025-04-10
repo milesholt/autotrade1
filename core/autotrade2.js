@@ -346,12 +346,12 @@ actions.init = async function () {
   //Test
   //await checkHandler.actions.checkLastClosedTrades();
 
-  await api.acctInfo()
+  /*await api.acctInfo()
         .then((r)=> {
           console.log(r);
-          const balance = r.accounts[0].balance;
-          console.log(balance);        
+          accountBalance = r.accounts[0].balance;
         });
+  */
 
 };
 
