@@ -21,7 +21,7 @@ let transporter = nodemailer.createTransport({
 // sendMail(mailOptions);
 
 actions.sendMail = function (mailOptions) {
-  sendMail(mailOptions, true);
+  //sendMail(mailOptions, true);
 };
 
 async function sendMail(mailOptions, tryagain) {
