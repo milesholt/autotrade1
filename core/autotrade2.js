@@ -346,6 +346,11 @@ actions.init = async function () {
   //Test
   //await checkHandler.actions.checkLastClosedTrades();
 
+  await api.acctInfo()
+        .then((r)=> {
+          console.log(r);
+        });
+
 };
 
 /*
