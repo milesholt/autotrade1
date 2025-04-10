@@ -348,7 +348,7 @@ actions.init = async function () {
 
   await api.acctInfo()
         .then((r)=> {
-          accountBalance = r.accounts[0].balance.balance;
+          accountBalance = r.accounts[0].balance.available;
           console.log('account balance: ' + accountBalance);
         });
   
