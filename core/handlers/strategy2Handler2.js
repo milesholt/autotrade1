@@ -1287,7 +1287,7 @@ actions.beginTrade = async function (set) {
   entryPrice: entryPrice,
   stopPercentage: 1,       // Stop distance remains unchanged
   riskPercentage: 0.4,     // Reduced risk to £40
-  accountEquity: 10000,    // Account balance
+  accountEquity: accountBalance,    // Account balance
   valuePerPoint: 1,        // Assuming low value per point
   riskRewardRatio: 2.5,    // Adjusted to maintain £100 profit with £40 risk
 };
