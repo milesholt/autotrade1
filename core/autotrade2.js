@@ -348,9 +348,9 @@ actions.init = async function () {
 
   await api.acctInfo()
         .then((r)=> {
-          //console.log(r);
-          const balance = r[0].balance;
-          console.log(balance);
+          console.log(r);
+          //const balance = r[0].balance;
+          //console.log(balance);
         });
 
 };
