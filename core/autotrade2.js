@@ -343,52 +343,6 @@ actions.init = async function () {
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();
 
-  //Test login live
-  
-  //Logout of demo
-  console.log('Logging out of demo');
-  await api
-    .logout()
-    .then((r) => {})
-    .catch((e) => console.log(e));
-
-  process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
-  process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
-  process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
-  process.env.IG_DEMO = "FALSE";
-
-  //Login to live
-  console.log('Logging into live');
-  console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
-  console.log('ig_password: ' + process.env.IG_PASSWORD);
-  console.log('api key: ' + process.env.IG_API_KEY);
-  console.log('demo: ' + process.env.IG_DEMO);
-
-  console.log('Logging out of live');
-  await api
-    .logout()
-    .then((r) => {})
-    .catch((e) => console.log(e));
-
-  process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_DEMO;
-  process.env.IG_PASSWORD = process.env.IG_PASSWORD_DEMO;
-  process.env.IG_API_KEY = process.env.IG_API_KEY_DEMO;
-  process.env.IG_DEMO = "TRUE";
-
-  //Login to live
-  console.log('Logging back to demo');
-  console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
-  console.log('ig_password: ' + process.env.IG_PASSWORD);
-  console.log('api key: ' + process.env.IG_API_KEY);
-  console.log('demo: ' + process.env.IG_DEMO);
-
-  
-  await api
-    .login(true)
-    .then((r) => {})
-    .catch((e) => console.log(e));
-
-
 };
 
 /*
