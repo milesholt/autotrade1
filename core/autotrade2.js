@@ -355,13 +355,14 @@ actions.init = async function () {
   process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
   process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
   process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
-  process.env.IG_DEMO = false;
+  process.env.IG_DEMO = 'FALSE';
 
   //Login to live
   console.log('Logging into live');
   console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
   console.log('ig_password: ' + process.env.IG_PASSWORD);
   console.log('api key: ' + process.env.IG_API_KEY);
+  console.log('demo: ' + process.env.IG_DEMO);
 
   
   await api
