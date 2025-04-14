@@ -334,11 +334,40 @@ actions.begin = async function () {
   */
 
 actions.init = async function () {
+
+  //First get live balance
+  try {
+    const loginRes = await ig.actions.loginLive();
+    //console.log('Live login success:', loginRes);
+  } catch (err) {
+    console.error('Live login error:', err);
+    return; // Exit early on login failure
+  }
+
+
+  await api.acctInfo()
+        .then((r)=> {
+          accountBalance = r.accounts[0].balance.available;
+          console.log('account balance: ' + accountBalance);
+        });
+  
+  
+  // Log back into demo account
+  try {
+    const demoRes = await ig.actions.loginDemo();
+    //console.log('Demo login success:', demoRes);
+  } catch (err) {
+    console.error('Demo login error:', err);
+  }
+
+  //Then continue with 
+
+  
   //Login
-  await api
+  /*await api
     .login(true)
     .then((r) => {})
-    .catch((e) => console.log(e));
+    .catch((e) => console.log(e));*/
 
   //Get hosted data files
   await cloudHandler.actions.getMainFiles();
