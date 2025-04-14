@@ -56,6 +56,9 @@ action.doLive = async function () {
     }
   }
 
+  liveTickets = [];
+  console.log('liveTickets cleared');
+
   // Log back into demo account
   try {
     const demoRes = await ig.actions.loginDemo();
