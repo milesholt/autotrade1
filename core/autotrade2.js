@@ -485,11 +485,7 @@ actions.exec = async function () {
 
   //Finish and loop again
 
-  isLoopRunning = false;
-
-  //Once loop is not running, do any live tickets
-  liveHandler.actions.doLive();
-  
+  isLoopRunning = false;  
   loopHandler.actions.loop(finalMessage);
   return false;
 };
