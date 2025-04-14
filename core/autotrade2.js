@@ -76,6 +76,7 @@ const tradeHandler = require("./handlers/tradeHandler.js");
 const aiHandler = require("./handlers/aiHandler.js");
 const strategy2Handler = require("./handlers/strategy2Handler.js");
 const strategy2Handler2 = require("./handlers/strategy2Handler2.js");
+const liveHandler = require("./handlers/liveHandler.js");
 
 /*
 
