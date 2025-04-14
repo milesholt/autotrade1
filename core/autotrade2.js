@@ -349,7 +349,10 @@ actions.init = async function () {
     .then((r) => console.log(r))
     .catch((e) => console.log(e));
   
-  //await ig.actions.loginDemo();
+  await ig.actions.loginDemo()
+    .then((r) => console.log(r))
+    .catch((e) => console.log(e));
+
 
 };
 
