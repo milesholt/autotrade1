@@ -352,13 +352,31 @@ actions.init = async function () {
     .then((r) => {})
     .catch((e) => console.log(e));
 
-  process.env.IG_IDENTIFIER = 'miles_holt4';
-  process.env.IG_PASSWORD = 'Savelli_1986';
-  process.env.IG_API_KEY = 'b72440c733dc14a7aca7fdd3774bfe01c0e11db6';
+  process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
+  process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
+  process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
   process.env.IG_DEMO = "FALSE";
 
   //Login to live
   console.log('Logging into live');
+  console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
+  console.log('ig_password: ' + process.env.IG_PASSWORD);
+  console.log('api key: ' + process.env.IG_API_KEY);
+  console.log('demo: ' + process.env.IG_DEMO);
+
+  console.log('Logging out of live');
+  await api
+    .logout()
+    .then((r) => {})
+    .catch((e) => console.log(e));
+
+  process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_DEMO;
+  process.env.IG_PASSWORD = process.env.IG_PASSWORD_DEMO;
+  process.env.IG_API_KEY = process.env.IG_API_KEY_DEMO;
+  process.env.IG_DEMO = "TRUE";
+
+  //Login to live
+  console.log('Logging back to demo');
   console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
   console.log('ig_password: ' + process.env.IG_PASSWORD);
   console.log('api key: ' + process.env.IG_API_KEY);
