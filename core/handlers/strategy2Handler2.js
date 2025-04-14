@@ -1494,6 +1494,9 @@ actions.openPosition = async function (details, set) {
       trailingStopIncrement: null,
     };
 
+    //set ticket also live
+    liveTickets.push(ticket);
+
     console.log("ticket:");
     console.log(ticket);
 
