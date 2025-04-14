@@ -2,6 +2,7 @@ var actions = {};
 var core;
 var moment;
 var api;
+var live;
 
 /*
 
@@ -13,6 +14,7 @@ actions.require = function(){
   core = require.main.exports;
   moment = core.moment;
   api = core.api;
+  live = core.liveHandler;
 }
 
 /*
@@ -97,8 +99,14 @@ actions.loopMarkets = async function(){
 
   }
 
+  //Once loop is finished, do any live tickets
+  await live.actions.doLive();
+
   //after looping through markets, execute these functions to finish / clean up -
   await stream.checkSubscriptions();
+
+  
+
 
   //another method
   //https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
