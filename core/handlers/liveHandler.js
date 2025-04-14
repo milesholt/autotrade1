@@ -50,7 +50,7 @@ action.doLive = async function(){
     liveTickets.forEach(ticket => {
       const details = ticket.details;
       const set = ticket.set;
-      await strategy.openPosition(details,set);
+      await actions.openLivePosition(details,set);
     });
 
     //log back into demo account
@@ -58,4 +58,36 @@ action.doLive = async function(){
     .then((r) => console.log(r))
     .catch((e) => console.log(e));
   
+}
+
+
+actions.openLivePosition = async function(){
+
+  console.log('Opening live position');
+
+  const ticket = {
+      currencyCode: "GBP",
+      direction: details.direction,
+      epic: set.epic,
+      expiry: markets[set.marketidx].expiry,
+      size: details.size.toFixed(2),
+      forceOpen: true,
+      orderType: "MARKET",
+      level: null,
+      limitDistance: details.limitDistance.toFixed(2),
+      limitLevel: null,
+      stopDistance: details.stopDistance.toFixed(2),
+      stopLevel: null,
+      guaranteedStop: false,
+      timeInForce: "FILL_OR_KILL",
+      trailingStop: null,
+      trailingStopIncrement: null,
+    };
+
+    await api
+      .deal(ticket)
+      .then(async (r) => {
+        console.log(util.inspect(r, false, null));
+      }).catch((e) => console.log(e));
+    
 }
