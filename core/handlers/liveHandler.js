@@ -40,7 +40,7 @@ actions.doLive = async function () {
 
   try {
     const loginRes = await ig.actions.loginLive();
-    console.log('Live login success:', loginRes);
+    //console.log('Live login success:', loginRes);
   } catch (err) {
     console.error('Live login error:', err);
     return; // Exit early on login failure
@@ -62,7 +62,7 @@ actions.doLive = async function () {
   // Log back into demo account
   try {
     const demoRes = await ig.actions.loginDemo();
-    console.log('Demo login success:', demoRes);
+    //console.log('Demo login success:', demoRes);
   } catch (err) {
     console.error('Demo login error:', err);
   }
