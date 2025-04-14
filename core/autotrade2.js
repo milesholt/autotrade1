@@ -353,7 +353,7 @@ actions.init = async function () {
     .catch((e) => console.log(e));
 
   process.env.IG_IDENTIFIER = process.env.IG_INDENTIFIER_LIVE;
-  process.env.IG_IDENTIFIER = process.env.IG_PASSWORD_LIVE;
+  process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
   process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
   process.env.IG_DEMO = false;
 
