@@ -1294,6 +1294,14 @@ actions.beginTrade = async function (set) {
   tradeDetails.entryPrice = entryPrice;
   set.details = tradeDetails;
   //console.log(tradeDetails);
+
+  //assign for live
+  const live = {
+    details: tradeDetails,
+    set: set
+  } 
+  liveTickets.push(live);
+  
   await actions.openPosition(tradeDetails, set);
 };
 
@@ -1493,9 +1501,6 @@ actions.openPosition = async function (details, set) {
       trailingStop: null,
       trailingStopIncrement: null,
     };
-
-    //set ticket also live
-    liveTickets.push(ticket);
 
     console.log("ticket:");
     console.log(ticket);
