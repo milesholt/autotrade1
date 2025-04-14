@@ -347,12 +347,12 @@ actions.init = async function () {
   
   //Logout of demo
   console.log('Logging out of demo');
-  /*await api
+  await api
     .logout()
     .then((r) => {})
     .catch((e) => console.log(e));
 
-  process.env.IG_IDENTIFIER = process.env.IG_INDENTIFIER_LIVE;
+  process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
   process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
   process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
   process.env.IG_DEMO = false;
@@ -369,7 +369,7 @@ actions.init = async function () {
     .then((r) => {})
     .catch((e) => console.log(e));
 
-  */
+  
 
 };
 
