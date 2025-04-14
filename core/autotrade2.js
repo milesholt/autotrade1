@@ -343,17 +343,7 @@ actions.init = async function () {
 
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();
-
-  //Test login switch
-  await ig.actions.loginLive()
-    .then((r) => console.log(r))
-    .catch((e) => console.log(e));
   
-  await ig.actions.loginDemo()
-    .then((r) => console.log(r))
-    .catch((e) => console.log(e));
-
-
 };
 
 /*
