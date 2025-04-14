@@ -98,3 +98,7 @@ actions.openLivePosition = async function (details, set) {
   }
 };
 
+module.exports = {
+  actions: actions,
+};
+
