@@ -14,8 +14,6 @@ var moment;
 //Call specific service to handle ai actions
 //const ai = require("../services/ai.js");
 
-const strategy = required("./strategy2Handler2.js");
-
 /*
 
 REQUIRE
