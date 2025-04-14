@@ -343,6 +343,29 @@ actions.init = async function () {
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();
 
+  //Test login live
+  
+  //Logout of demo
+  console.log('Logging out of demo');
+  await api
+    .logout()
+    .then((r) => {})
+    .catch((e) => console.log(e));
+
+  process.env.IG_IDENTIFIER = process.env.IG_INDENTIFIER_LIVE;
+  process.env.IG_IDENTIFIER = process.env.IG_PASSWORD_LIVE;
+  process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
+  process.env.IG_DEMO = false;
+
+  //Login to live
+  console.log('Logging into live');
+  await api
+    .login(true)
+    .then((r) => {})
+    .catch((e) => console.log(e));
+
+  
+
 };
 
 /*
