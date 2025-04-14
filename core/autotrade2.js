@@ -347,7 +347,7 @@ actions.init = async function () {
   
   //Logout of demo
   console.log('Logging out of demo');
-  await api
+  /*await api
     .logout()
     .then((r) => {})
     .catch((e) => console.log(e));
@@ -369,7 +369,7 @@ actions.init = async function () {
     .then((r) => {})
     .catch((e) => console.log(e));
 
-  
+  */
 
 };
 
