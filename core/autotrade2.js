@@ -486,6 +486,10 @@ actions.exec = async function () {
   //Finish and loop again
 
   isLoopRunning = false;
+
+  //Once loop is not running, do any live tickets
+  liveHandler.actions.doLive();
+  
   loopHandler.actions.loop(finalMessage);
   return false;
 };
@@ -542,6 +546,7 @@ errorHandler.actions.require();
 aiHandler.actions.require();
 strategy2Handler.actions.require();
 strategy2Handler2.actions.require();
+liveHandler.actions.require();
 
 log.actions.require();
 analytics.actions.require();
