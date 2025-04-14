@@ -345,8 +345,11 @@ actions.init = async function () {
   await checkHandler.actions.checkOpenTrades();
 
   //Test login switch
-  await ig.actions.loginLive();
-  await ig.actions.loginDemo();
+  await ig.actions.loginLive()
+    .then((r) => console.log(r))
+    .catch((e) => console.log(e));
+  
+  //await ig.actions.loginDemo();
 
 };
 
