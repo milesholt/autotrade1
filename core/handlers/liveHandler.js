@@ -40,8 +40,13 @@ actions.require = async function () {
 action.doLive = async function(){
     //first login to live account
     console.log('Logging into live account');
-    
+
+   //Test login switch
+   await ig.actions.loginLive()
+    .then((r) => console.log(r))
+    .catch((e) => console.log(e));
   
+
     liveTickets.forEach(ticket => {
       const details = ticket.details;
       const set = ticket.set;
@@ -49,5 +54,8 @@ action.doLive = async function(){
     });
 
     //log back into demo account
+    await ig.actions.loginDemo()
+    .then((r) => console.log(r))
+    .catch((e) => console.log(e));
   
 }
