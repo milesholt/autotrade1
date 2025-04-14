@@ -321,6 +321,7 @@ actions.begin = async function () {
   await actions.init();
   //Then execute main function, looping initially
   await loopHandler.actions.loop();
+  
 };
 
 /*
@@ -520,7 +521,8 @@ module.exports = {
   errorHandler: errorHandler,
   tradeHandler: tradeHandler,
   aiHandler: aiHandler,
-  checkHandler: checkHandler
+  checkHandler: checkHandler,
+  liveHandler: liveHandler
 };
 
 //After export, call child module requirements
