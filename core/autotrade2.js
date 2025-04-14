@@ -352,9 +352,9 @@ actions.init = async function () {
     .then((r) => {})
     .catch((e) => console.log(e));
 
-  process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
-  process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
-  process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
+  process.env.IG_IDENTIFIER = 'miles_holt4';
+  process.env.IG_PASSWORD = 'Savelli_1986';
+  process.env.IG_API_KEY = 'b72440c733dc14a7aca7fdd3774bfe01c0e11db6';
   process.env.IG_DEMO = "FALSE";
 
   //Login to live
