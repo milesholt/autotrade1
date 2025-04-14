@@ -1299,7 +1299,9 @@ actions.beginTrade = async function (set) {
   tradeDetails.entryPrice = entryPrice;
   set.details = tradeDetails;
   //console.log(tradeDetails);
-  await actions.openPosition(tradeDetails, set);
+
+  //This is handled by demo account now
+  //await actions.openPosition(tradeDetails, set);
 };
 
 actions.calculateTradeDetails = function (params, set) {
