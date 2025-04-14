@@ -346,6 +346,11 @@ actions.init = async function () {
   //Test
   //await checkHandler.actions.checkLastClosedTrades();
 
+  console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
+  console.log('ig_password: ' + process.env.IG_PASSWORD);
+  console.log('api key: ' + process.env.IG_API_KEY);
+  console.log('demo: ' + process.env.IG_DEMO);
+
   await api.acctInfo()
         .then((r)=> {
           accountBalance = r.accounts[0].balance.available;
