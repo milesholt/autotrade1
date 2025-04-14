@@ -193,7 +193,7 @@ size = 1;
  ];*/
 
 markets = [
-  {
+  /*{
     id: 0,
     alias: "Corn",
     instrumentName: "Corn",
@@ -210,7 +210,7 @@ markets = [
     expiry: "DFB",
     streamingPricesAvailable: true,
     volatilityThreshold: 0.02
-  },
+  },*/
   {
     id: 1,
     alias: "MXNJPY",
