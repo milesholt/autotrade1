@@ -49,6 +49,7 @@ const monitor = require("./services/monitor.js");
 const library = require("./services/library.js");
 const log = require("./services/log.js");
 const ai = require("./services/ai.js");
+const ig = require("./services/ig.js");
 
 /*
 
@@ -342,6 +343,10 @@ actions.init = async function () {
 
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();
+
+  //Test login switch
+  await ig.actions.loginLive();
+  await ig.actions.loginDemo();
 
 };
 
