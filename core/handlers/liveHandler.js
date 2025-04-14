@@ -38,5 +38,16 @@ actions.require = async function () {
 };
 
 action.doLive = async function(){
+    //first login to live account
+    console.log('Logging into live account');
+    
+  
+    liveTickets.forEach(ticket => {
+      const details = ticket.details;
+      const set = ticket.set;
+      await strategy.openPosition(details,set);
+    });
 
+    //log back into demo account
+  
 }
