@@ -37,57 +37,64 @@ actions.require = async function () {
   moment = core.moment;
 };
 
-action.doLive = async function(){
-    //first login to live account
-    console.log('Logging into live account');
+action.doLive = async function () {
+  console.log('Logging into live account');
 
-   //Test login switch
-   await ig.actions.loginLive()
-    .then((r) => console.log(r))
-    .catch((e) => console.log(e));
-  
+  try {
+    const loginRes = await ig.actions.loginLive();
+    console.log('Live login success:', loginRes);
+  } catch (err) {
+    console.error('Live login error:', err);
+    return; // Exit early on login failure
+  }
 
-    liveTickets.forEach(ticket => {
-      const details = ticket.details;
-      const set = ticket.set;
-      await actions.openLivePosition(details,set);
-    });
+  // Loop through tickets and open live positions
+  for (const ticket of liveTickets) {
+    const { details, set } = ticket;
+    try {
+      await actions.openLivePosition(details, set);
+    } catch (err) {
+      console.error('Error opening position:', err);
+    }
+  }
 
-    //log back into demo account
-    await ig.actions.loginDemo()
-    .then((r) => console.log(r))
-    .catch((e) => console.log(e));
-  
-}
+  // Log back into demo account
+  try {
+    const demoRes = await ig.actions.loginDemo();
+    console.log('Demo login success:', demoRes);
+  } catch (err) {
+    console.error('Demo login error:', err);
+  }
+};
 
-
-actions.openLivePosition = async function(){
-
-  console.log('Opening live position');
+actions.openLivePosition = async function (details, set) {
+  console.log('Opening live position for', set.epic);
 
   const ticket = {
-      currencyCode: "GBP",
-      direction: details.direction,
-      epic: set.epic,
-      expiry: markets[set.marketidx].expiry,
-      size: details.size.toFixed(2),
-      forceOpen: true,
-      orderType: "MARKET",
-      level: null,
-      limitDistance: details.limitDistance.toFixed(2),
-      limitLevel: null,
-      stopDistance: details.stopDistance.toFixed(2),
-      stopLevel: null,
-      guaranteedStop: false,
-      timeInForce: "FILL_OR_KILL",
-      trailingStop: null,
-      trailingStopIncrement: null,
-    };
+    currencyCode: "GBP",
+    direction: details.direction,
+    epic: set.epic,
+    expiry: markets[set.marketidx].expiry, // Assumes 'markets' is globally defined
+    size: parseFloat(details.size).toFixed(2),
+    forceOpen: true,
+    orderType: "MARKET",
+    level: null,
+    limitDistance: parseFloat(details.limitDistance).toFixed(2),
+    limitLevel: null,
+    stopDistance: parseFloat(details.stopDistance).toFixed(2),
+    stopLevel: null,
+    guaranteedStop: false,
+    timeInForce: "FILL_OR_KILL",
+    trailingStop: null,
+    trailingStopIncrement: null,
+  };
 
-    await api
-      .deal(ticket)
-      .then(async (r) => {
-        console.log(util.inspect(r, false, null));
-      }).catch((e) => console.log(e));
-    
-}
+  try {
+    const response = await api.deal(ticket);
+    console.log('Position response:', util.inspect(response, false, null));
+  } catch (err) {
+    console.error('Deal error:', err);
+    throw err; // re-throw so it can be caught upstream
+  }
+};
+
