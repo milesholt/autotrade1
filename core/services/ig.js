@@ -26,10 +26,7 @@ actions.loginLive = function(){
   process.env.IG_DEMO = "FALSE";
   
   return new Promise((resolve, reject) => {
-    api.login(true).then(r => {
-      console.log('Logged in live successfully');
-      resolve(r)                        
-    }).catch(e => reject(e));
+    api.login(true).then(r => resolve(r)).catch(e => reject(e));
   });
 }
 
