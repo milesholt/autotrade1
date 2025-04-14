@@ -35,7 +35,7 @@ actions.require = async function () {
   moment = core.moment;
 };
 
-action.doLive = async function () {
+actions.doLive = async function () {
   console.log('Logging into live account');
 
   try {
