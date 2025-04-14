@@ -16,9 +16,9 @@ actions.loginLive = function(){
 
   console.log('Logging in live');
 
-  return new Promise((resolve, reject) => {
+  /*return new Promise((resolve, reject) => {
     api.logout().then(r => resolve(r)).catch(e => reject(e));
-  });
+  });*/
 
   process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
   process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
