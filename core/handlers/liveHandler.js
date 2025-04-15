@@ -48,9 +48,9 @@ actions.doLive = async function () {
 
   // Loop through tickets and open live positions
   for (const ticket of liveTickets) {
-    const { details, set } = ticket;
+    //const { details, set } = ticket;
     try {
-      await actions.openLivePosition(details, set);
+      await actions.openLivePosition(ticket);
     } catch (err) {
       console.error('Error opening position:', err);
     }
@@ -68,10 +68,12 @@ actions.doLive = async function () {
   }
 };
 
-actions.openLivePosition = async function (details, set) {
-  console.log('Opening live position for', set.epic);
+actions.openLivePosition = async function (ticket) {
+  console.log('Opening live position for', ticket.epic);
 
-  const ticket = {
+  console.log(ticket);
+
+  /*const ticket = {
     currencyCode: "GBP",
     direction: details.direction,
     epic: set.epic,
@@ -88,7 +90,7 @@ actions.openLivePosition = async function (details, set) {
     timeInForce: "FILL_OR_KILL",
     trailingStop: null,
     trailingStopIncrement: null,
-  };
+  };*/
 
   try {
     const response = await api.deal(ticket);
