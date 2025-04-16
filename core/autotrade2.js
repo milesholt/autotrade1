@@ -396,7 +396,9 @@ actions.init = async function () {
    trailingStopIncrement: null
  };
 
-  await liveHandler.actions.openLivePosition(ticket);
+  liveTickets = [ticket];
+
+  await liveHandler.actions.doLive();
   
 };
 
