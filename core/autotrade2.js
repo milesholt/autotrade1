@@ -374,31 +374,6 @@ actions.init = async function () {
 
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();
-
-  //test
-
-  const ticket = {
-   currencyCode: 'GBP',
-   direction: 'SELL',
-   epic: 'CS.D.MXNJPY.TODAY.IP',
-   expiry: 'DFB',
-   size: '3.00',
-   forceOpen: true,
-   orderType: 'MARKET',
-   level: null,
-   limitDistance: '17.71',
-   limitLevel: null,
-   stopDistance: '7.08',
-   stopLevel: null,
-   guaranteedStop: false,
-   timeInForce: 'FILL_OR_KILL',
-   trailingStop: null,
-   trailingStopIncrement: null
- };
-
-  liveTickets = [ticket];
-
-  await liveHandler.actions.doLive();
   
 };
 
