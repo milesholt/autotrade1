@@ -382,7 +382,7 @@ actions.init = async function () {
    direction: 'SELL',
    epic: 'CS.D.MXNJPY.TODAY.IP',
    expiry: 'DFB',
-   size: '1.00',
+   size: '3.00',
    forceOpen: true,
    orderType: 'MARKET',
    level: null,
