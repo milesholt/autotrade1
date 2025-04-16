@@ -396,7 +396,7 @@ actions.init = async function () {
   
   liveTickets = [ticket];
 
-  liveHandler.actions.openLivePosition(ticket);
+  liveHandler.actions.doLive(ticket);
   
 };
 
