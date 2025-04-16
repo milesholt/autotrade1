@@ -104,6 +104,13 @@ actions.openLivePosition = async function (ticket) {
             console.log('Could not confirm deal when opening on live');
           }
     }
+
+    if(response.confirms.dealStatus == 'REJECTED'){
+      if(response.confirms.reason == 'MINIMUM_ORDER_SIZE_ERROR'){
+          //Minumum sizes can be different on live account, so update minimum size and try again
+          
+      }         
+    }
     
   } catch (err) {
     console.error('Deal error:', err);
