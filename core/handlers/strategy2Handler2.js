@@ -1377,7 +1377,11 @@ actions.openPosition = async function (details, set) {
 
   //Disable positions for specific epics here
   //if(set.epic == 'CC.D.C.USS.IP') return false;
-  if(markets[set.marketidx].minBalance < accountBalance) return false;
+  if(markets[set.marketidx].minBalance < accountBalance) {
+    console.log('Trade did not open because minimum balance was not available for epic: ' + set.epic);
+    console.log('Minimum balance required: ' + markets[set.marketidx].minBalance + ' and account balance was: ' + accountBalance);
+    return false;
+  }
   
   console.log("Beginning trade using Strategy Handler 2...");
 
