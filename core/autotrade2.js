@@ -376,7 +376,7 @@ actions.init = async function () {
   await checkHandler.actions.checkOpenTrades();
 
   //test
-  await liveHandler.actions.openLiveTicket();
+  await liveHandler.actions.openLivePosition();
   
 };
 
