@@ -1376,8 +1376,8 @@ actions.calculateTradeDetails = function (params, set) {
 actions.openPosition = async function (details, set) {
 
   //Disable positions for specific epics here
-  if(set.epic == 'CC.D.C.USS.IP') return false;
-  
+  //if(set.epic == 'CC.D.C.USS.IP') return false;
+  if(markets[set.marketidx].minBalance < accountBalance) return false;
   
   console.log("Beginning trade using Strategy Handler 2...");
 
