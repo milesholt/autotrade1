@@ -96,14 +96,6 @@ actions.openLivePosition = async function (ticket) {
   try {
     const response = await api.deal(ticket);
     console.log('Position response:', util.inspect(response, false, null));
-  } catch (err) {
-    console.error('Deal error:', err);
-    throw err; // re-throw so it can be caught upstream
-  }
-
-  try {
-    const response = await api.deal(ticket);
-    console.log('Position response:', util.inspect(response, false, null));
 
     //Handle errors if failed to open ticket 
     if (!response.confirms.dealId) {
