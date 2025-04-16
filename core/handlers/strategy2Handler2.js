@@ -1377,9 +1377,9 @@ actions.openPosition = async function (details, set) {
 
   //Disable positions for specific epics here
   //if(set.epic == 'CC.D.C.USS.IP') return false;
-  if(markets[set.marketidx].minBalance > accountBalance) {
+  if(markets[set.marketidx].minimumBalance > accountBalance) {
     console.log('Trade did not open because minimum balance was greater than available balance, for epic: ' + set.epic);
-    console.log('Minimum balance required: ' + markets[set.marketidx].minBalance + ' and account balance was: ' + accountBalance);
+    console.log('Minimum balance required: ' + markets[set.marketidx].minimumBalance + ' and account balance was: ' + accountBalance);
     return false;
   }
   
