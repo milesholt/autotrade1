@@ -678,6 +678,12 @@ if (isTrailingStopDefined) {
                                            markets[x.marketId].adjustedTrailing = true;
                                            
                                         } else {
+
+                                              //Skip if duplicate order created
+                                              if(r.dealStatus == 'REJECTED' && r.reason == 'DUPLICATE_ORDER_ERROR'){
+                                                console.log('Duplicated trailing order created, first one should be accepted');
+                                                return;
+                                              }
                                           
                                               markets[x.marketId].trailingStop = false;
                                               markets[x.marketId].adjustedTrailing = false;
