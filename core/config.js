@@ -193,7 +193,7 @@ size = 1;
  ];*/
 
 markets = [
-  /*{
+  {
     id: 0,
     alias: "Corn",
     instrumentName: "Corn",
@@ -210,9 +210,9 @@ markets = [
     expiry: "DFB",
     streamingPricesAvailable: true,
     volatilityThreshold: 0.02
-  },*/
+  },
   {
-    id: 0,
+    id: 1,
     alias: "MXNJPY",
     instrumentName: "MXN/JPY",
     epic: "CS.D.MXNJPY.TODAY.IP",
@@ -230,7 +230,7 @@ markets = [
     volatilityThreshold: 0.005
   },
   {
-    id: 1,
+    id: 2,
     alias: "Spot Gold",
     instrumentName: "Spot Gold",
     epic: "CS.D.USCGC.TODAY.IP",
