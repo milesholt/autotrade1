@@ -375,7 +375,7 @@ actions.init = async function () {
   //Check for any trades
   await checkHandler.actions.checkOpenTrades();
 
-  const ticket = {
+  /*const ticket = {
   currencyCode: 'GBP',
   direction: 'BUY',
   epic: 'CS.D.USCGC.TODAY.IP',
@@ -396,7 +396,7 @@ actions.init = async function () {
   
   liveTickets = [ticket];
 
-  liveHandler.actions.doLive(ticket);
+  liveHandler.actions.doLive(ticket);*/
   
 };
 
