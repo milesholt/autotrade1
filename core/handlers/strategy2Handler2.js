@@ -1376,9 +1376,9 @@ actions.calculateTradeDetails = function (params, set) {
 
 actions.openPosition = async function (details, set) {
 
-  if(markets[set.marketidx].minBalance > accountBalance) {
+  if(markets[set.marketidx].minimumBalance > accountBalance) {
     console.log('Trade did not open because minimum balance was greater than available balance, for epic: ' + set.epic);
-    console.log('Minimum balance required: ' + markets[set.marketidx].minBalance + ' and account balance was: ' + accountBalance);
+    console.log('Minimum balance required: ' + markets[set.marketidx].minimumBalance + ' and account balance was: ' + accountBalance);
     return false;
   }
 
