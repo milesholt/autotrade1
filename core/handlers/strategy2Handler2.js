@@ -1375,6 +1375,14 @@ actions.calculateTradeDetails = function (params, set) {
 };
 
 actions.openPosition = async function (details, set) {
+
+  if(markets[set.marketidx].minBalance > accountBalance) {
+    console.log('Trade did not open because minimum balance was greater than available balance, for epic: ' + set.epic);
+    console.log('Minimum balance required: ' + markets[set.marketidx].minBalance + ' and account balance was: ' + accountBalance);
+    return false;
+  }
+
+  
   console.log("Beginning trade using Strategy Handler 2...");
 
   //await notification.notify('trade-being-made', 'Trade is being made');
