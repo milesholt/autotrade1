@@ -1378,6 +1378,7 @@ actions.openPosition = async function (details, set) {
   //Disable positions for specific epics here
   if(set.epic == 'CC.D.C.USS.IP') return false;
   
+  
   console.log("Beginning trade using Strategy Handler 2...");
 
   //await notification.notify('trade-being-made', 'Trade is being made');
