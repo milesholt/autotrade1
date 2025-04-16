@@ -92,7 +92,7 @@ actions.openLivePosition = async function (ticket) {
     trailingStopIncrement: null,
   };*/
 
- const ticket = {
+ ticket = {
    currencyCode: 'GBP',
    direction: 'SELL',
    epic: 'CS.D.MXNJPY.TODAY.IP',
