@@ -108,7 +108,7 @@ actions.openLivePosition = async function (ticket) {
     if(response.confirms.dealStatus == 'REJECTED'){
       if(response.confirms.reason == 'MINIMUM_ORDER_SIZE_ERROR'){
           //Minumum sizes can be different on live account, so update minimum size and try again
-          await api.epicDetails([epic]).then(r => {
+          await api.epicDetails([epic]).then(async (r) => {
                 let minimumSize = r.marketDetails[0].dealingRules.minDealSize;
                 ticket.size = minimumSize;
                 console.log('Trying again with live minimum size');
