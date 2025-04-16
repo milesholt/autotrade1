@@ -69,6 +69,7 @@ actions.doLive = async function () {
 };
 
 actions.openLivePosition = async function (ticket) {
+
   console.log('Opening live position for', ticket.epic);
 
   console.log(ticket);
@@ -91,25 +92,6 @@ actions.openLivePosition = async function (ticket) {
     trailingStop: null,
     trailingStopIncrement: null,
   };*/
-
- ticket = {
-   currencyCode: 'GBP',
-   direction: 'SELL',
-   epic: 'CS.D.MXNJPY.TODAY.IP',
-   expiry: 'DFB',
-   size: '1.00',
-   forceOpen: true,
-   orderType: 'MARKET',
-   level: null,
-   limitDistance: '17.71',
-   limitLevel: null,
-   stopDistance: '7.08',
-   stopLevel: null,
-   guaranteedStop: false,
-   timeInForce: 'FILL_OR_KILL',
-   trailingStop: null,
-   trailingStopIncrement: null
- };
 
   try {
     const response = await api.deal(ticket);
