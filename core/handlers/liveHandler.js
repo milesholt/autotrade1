@@ -109,7 +109,14 @@ actions.openLivePosition = async function (ticket) {
       if(response.confirms.reason == 'MINIMUM_ORDER_SIZE_ERROR'){
           //Minumum sizes can be different on live account, so update minimum size and try again
           await api.epicDetails([epic]).then(async (r) => {
+            
                 let minimumSize = r.marketDetails[0].dealingRules.minDealSize.value;
+                let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
+      
+                market.minimumStop.value = stopDistance.value;
+                market.minimumStop.type = String(stopDistance.unit).toLowerCase();
+                market.minimumSize.value = minimumSize.value;
+                market.minimumSize.type = String(minimumSize.unit).toLowerCase();
 
                 console.log('live minimum size', minimumSize);
             
