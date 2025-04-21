@@ -502,7 +502,7 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                                      console.log('Threshold reached');
                                    }
                                   
-                                    //First setup trailingstop when 60% profit reached
+                                    //First setup trailingstop when 20% profit reached
                                     //Trailing distance needs to be 60% of points differnece between currentPrice and stopLevel
                                     let difference = Math.abs(p.stopLevel - currentPrice); // Absolute difference
                                     let trailingStopDistance = difference * 0.60;
