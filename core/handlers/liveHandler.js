@@ -68,6 +68,43 @@ actions.doLive = async function () {
   }
 };
 
+//Do any checks or get any details with live account pre-loop
+actions.preLive = async function(){
+
+  try {
+    const loginRes = await ig.actions.loginLive();
+    //console.log('Live login success:', loginRes);
+  } catch (err) {
+    console.error('Live login error:', err);
+    return; // Exit early on login failure
+  }
+
+  // Loop through tickets and open live positions
+  for (const m of markets) {
+    //Get market details
+    await api.epicDetails([m.epic]).then(async (r) => {
+            
+                let minimumSize = r.marketDetails[0].dealingRules.minDealSize.value;
+                let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
+      
+                market.minimumStop.value = stopDistance.value;
+                market.minimumStop.type = String(stopDistance.unit).toLowerCase();
+                market.minimumSize.value = minimumSize.value;
+                market.minimumSize.type = String(minimumSize.unit).toLowerCase();
+      
+    }).catch(e => console.log(e));
+  }
+  
+  // Log back into demo account
+  try {
+    const demoRes = await ig.actions.loginDemo();
+    //console.log('Demo login success:', demoRes);
+  } catch (err) {
+    console.error('Demo login error:', err);
+  }
+  
+}
+
 actions.openLivePosition = async function (ticket) {
 
   console.log('Opening live position for', ticket.epic);
@@ -108,7 +145,7 @@ actions.openLivePosition = async function (ticket) {
     if(response.confirms.dealStatus == 'REJECTED'){
       if(response.confirms.reason == 'MINIMUM_ORDER_SIZE_ERROR'){
           //Minumum sizes can be different on live account, so update minimum size and try again
-          await api.epicDetails([epic]).then(async (r) => {
+          await api.epicDetails([ticket.epic]).then(async (r) => {
             
                 let minimumSize = r.marketDetails[0].dealingRules.minDealSize.value;
                 let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
