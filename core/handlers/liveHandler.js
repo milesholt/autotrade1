@@ -80,17 +80,17 @@ actions.preLive = async function(){
   }
 
   // Loop through tickets and open live positions
-  for (const m of markets) {
+  for (const [idx, m] of markets.entries()) {
     //Get market details
     await api.epicDetails([m.epic]).then(async (r) => {
             
                 let minimumSize = r.marketDetails[0].dealingRules.minDealSize.value;
                 let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
       
-                market.minimumStop.value = stopDistance.value;
-                market.minimumStop.type = String(stopDistance.unit).toLowerCase();
-                market.minimumSize.value = minimumSize.value;
-                market.minimumSize.type = String(minimumSize.unit).toLowerCase();
+                markets[idx].minimumStop.value = stopDistance.value;
+                markets[idx].minimumStop.type = String(stopDistance.unit).toLowerCase();
+                markets[idx].minimumSize.value = minimumSize.value;
+                markets[idx].minimumSize.type = String(minimumSize.unit).toLowerCase();
 
                 console.log('PreLive - Live size and stop details should be updated for markets');
       
