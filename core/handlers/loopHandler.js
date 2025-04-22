@@ -73,10 +73,13 @@ actions.loopMarkets = async function(){
     await api.epicDetails([epic]).then(r => {
       let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
       let minimumSize = r.marketDetails[0].dealingRules.minDealSize;
-      market.minimumStop.value = stopDistance.value;
-      market.minimumStop.type = String(stopDistance.unit).toLowerCase();
-      market.minimumSize.value = minimumSize.value;
-      market.minimumSize.type = String(minimumSize.unit).toLowerCase();
+      
+      //Hardcoding from live account
+      //market.minimumStop.value = stopDistance.value;
+      //market.minimumStop.type = String(stopDistance.unit).toLowerCase();
+      //market.minimumSize.value = minimumSize.value;
+      //market.minimumSize.type = String(minimumSize.unit).toLowerCase();
+    
     }).catch(e => console.log(e));
 
 
