@@ -154,7 +154,7 @@ actions.openLivePosition = async function (ticket) {
           //Minumum sizes can be different on live account, so update minimum size and try again
           await api.epicDetails([ticket.epic]).then(async (r) => {
             
-                let minimumSize = r.marketDetails[0].dealingRules.minDealSize.value;
+                let minimumSize = r.marketDetails[0].dealingRules.minDealSize;
                 let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
       
                 market.minimumStop.value = stopDistance.value;
