@@ -29,6 +29,9 @@ actions.loop = async function(msg = ''){
   let timestamp  = moment.utc().local().format('LLL');
   console.log('Time is:' + timestamp);
 
+  //Do pre live - get any details from live account before running loop
+  live.actions.preLive();
+
   //check loop isn't already running
   // if(!!isLoopRunning){
   //   isLoopRunning = true;
