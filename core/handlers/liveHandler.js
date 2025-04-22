@@ -91,6 +91,8 @@ actions.preLive = async function(){
                 market.minimumStop.type = String(stopDistance.unit).toLowerCase();
                 market.minimumSize.value = minimumSize.value;
                 market.minimumSize.type = String(minimumSize.unit).toLowerCase();
+
+                console.log('PreLive - Live size and stop details should be updated for markets');
       
     }).catch(e => console.log(e));
   }
