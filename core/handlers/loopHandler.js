@@ -30,7 +30,7 @@ actions.loop = async function(msg = ''){
   console.log('Time is:' + timestamp);
 
   //Do pre live - get any details from live account before running loop
-  live.actions.preLive();
+  await live.actions.preLive();
 
   //check loop isn't already running
   // if(!!isLoopRunning){
