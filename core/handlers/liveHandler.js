@@ -92,6 +92,8 @@ actions.preLive = async function(){
                 markets[idx].minimumSize.value = minimumSize.value;
                 markets[idx].minimumSize.type = String(minimumSize.unit).toLowerCase();
 
+                console.log('epic: ' + markets[idx].epic + ' minSize: ', markets[idx].minimumSize.value);
+
                 console.log('PreLive - Live size and stop details should be updated for markets');
       
     }).catch(e => console.log(e));
