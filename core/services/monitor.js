@@ -733,7 +733,7 @@ if (isTrailingStopDefined) {
 
 
                                   } else {
-                                    if(index == 1) console.log('adjustedTrailing is true for epic: ' + markets[x.marketId].epic );
+                                    if(index == 1) console.log('adjustedTrailing is not null for epic: ' + markets[x.marketId].epic );
                                   }
                                    
                                  } else {
