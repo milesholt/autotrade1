@@ -345,12 +345,12 @@ actions.init = async function () {
 
   //Test
   //await checkHandler.actions.checkLastClosedTrades();
-  const tdealRef = 'NWMTWSTVLCATYQR';
-  const tdealId = 'DIAAAAPGH96ZCA9';
+  //const tdealRef = 'NWMTWSTVLCATYQR';
+  //const tdealId = 'DIAAAAPGH96ZCA9';
   
   //await checkHandler.actions.checkDealId(tdealRef);
   
-  await api.confirmPosition(String(tdealRef)).then(async positionData => {
+  /*await api.confirmPosition(String(tdealRef)).then(async positionData => {
       console.log(util.inspect(positionData, false, null));
   }).catch(async e => {
       console.log(e.body.errorCode);
@@ -360,7 +360,7 @@ actions.init = async function () {
       console.log(util.inspect(positionData, false, null));
   }).catch(async e => {
       console.log(e.body.errorCode);
-  });
+  });*/
 
   console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
   console.log('ig_password: ' + process.env.IG_PASSWORD);
