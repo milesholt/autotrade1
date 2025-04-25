@@ -353,8 +353,6 @@ actions.init = async function () {
   await api.getPosition(String(dealId)).then(async positionData => {
       console.log(util.inspect(positionData, false, null));
   }).catch(async e => {
-
-      console.log('Error finding position with dealId: ' + dealId);
       console.log(e.body.errorCode);
   });
 
