@@ -349,8 +349,14 @@ actions.init = async function () {
   const tdealId = 'DIAAAAPGH96ZCA9';
   
   //await checkHandler.actions.checkDealId(tdealRef);
-
-  await api.getPosition(String(dealId)).then(async positionData => {
+  
+  await api.confirmPosition(String(tdealRef)).then(async positionData => {
+      console.log(util.inspect(positionData, false, null));
+  }).catch(async e => {
+      console.log(e.body.errorCode);
+  });
+  
+  await api.getPosition(String(tdealId)).then(async positionData => {
       console.log(util.inspect(positionData, false, null));
   }).catch(async e => {
       console.log(e.body.errorCode);
