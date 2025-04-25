@@ -718,11 +718,15 @@ if (isTrailingStopDefined) {
 
                                               //Set new stop level 20% of difference between current price, and existing stop level. So this should reduce loss by 20% if moving in the right direction.
                                               
-                                              if (dir === "BUY") {
+                                              /*if (dir === "BUY") {
                                                   adjustedStopLevel = p.stopLevel + (0.2 * (p.level - p.stopLevel));
                                               } else if (dir === "SELL") {
                                                   adjustedStopLevel = p.stopLevel - (0.2 * (p.stopLevel - p.level));
-                                              }
+                                              }*/
+
+                                          adjustedStopLevel = dir === "BUY" 
+                    ? originalStopLevel + ((currentPrice - p.level)) 
+                    : originalStopLevel - ((p.level - currentPrice));
                                           
                                               /*let updateData2 = {
                                                   guaranteedStop: "true",
