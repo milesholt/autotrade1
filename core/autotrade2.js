@@ -345,6 +345,8 @@ actions.init = async function () {
 
   //Test
   //await checkHandler.actions.checkLastClosedTrades();
+  const tdealRef = 'NWMTWSTVLCATYQR';
+  await checkHandler.actions.checkDealId(tdealRef)
 
   console.log('ig_identifier: ' + process.env.IG_IDENTIFIER);
   console.log('ig_password: ' + process.env.IG_PASSWORD);
