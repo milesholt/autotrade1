@@ -634,7 +634,7 @@ actions.checkOpenTrade = async function(mrk,ep,tmid){
                   if(markets[mon.marketId].streamingPricesAvailable == true){
                     console.log('Open trade wasnt monitoring, starting monitoring. dealRef: ' + dealRef + ' dealId: ' + dealId + ' epic: ' + mon.epic);
                     //log orginal stopLevel if doesn't exist.
-                    if(!lib.isDefined(markets[mon.marketId].ticket, 'stopLevel')) markets[mon.marketId].ticket.stopLevel = positionData.position.stopLevel;
+                    if(!lib.isDefined(markets[mon.marketId].deal, 'stopLevel')) markets[mon.marketId].deal.stopLevel = positionData.position.stopLevel;
                     
                     await monitor.iniMonitor(dealId, dealRef, mon.epic, mon.marketId);
                   }
