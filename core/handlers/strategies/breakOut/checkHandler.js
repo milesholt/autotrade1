@@ -809,8 +809,10 @@ actions.checkDealId = async function(ref){
         //note this only works for unconfirmed positions
         await api.confirmPosition(String(ref)).then(async r => {
           let id = r.affectedDeals.length  ? r.affectedDeals[0].dealId : r.dealId;
+
+          
           console.log('returning dealId: ' + id);
-          //console.log(util.inspect(r, false, null));
+          console.log(util.inspect(r, false, null));
           resolve(id);
         }).catch(e => {
           console.log('could not confirm position with deal reference: ' +  ref);
