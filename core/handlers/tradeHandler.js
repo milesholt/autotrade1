@@ -621,6 +621,7 @@ actions.determineStopLevelAdjustment = async function(){
     
     let breakEven = p.level; // Adjust if you want different logic
     let currentPrice = dir == "BUY" ? lastCloseBid : lastCloseAsk;
+    let originalStopLevel = markets[p.marketId].deal.stopLevel ?? p.stopLevel;
 
     
     console.log('profitThreshold: ' + profitThreshold);
@@ -665,7 +666,7 @@ actions.determineStopLevelAdjustment = async function(){
             if ((dir === "BUY" && currentPrice > threshold && markets[p.marketId][key] == null) ||
                 (dir === "SELL" && currentPrice < threshold && markets[p.marketId][key] == null)) {
     
-                adjustedStopLevel = await actions.calculateAdjustedStop(dir, p.stopLevel, p.level, level);
+                adjustedStopLevel = await actions.calculateAdjustedStop(dir, p.stopLevel, p.level, level, currentPrice, originalStopLevel);
                 markets[p.marketId][key] = true;
                 shouldAdjust = true;
                 adjustingKey = key;
@@ -949,10 +950,15 @@ actions.determineStopLevelAdjustmentOff = async function(){
 } //end of function
 
 
-actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage) {
-    return dir === "BUY" 
+actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage, currentPrice, originalStopLevel) {
+    /*return dir === "BUY" 
         ? stopLevel + (percentage * (level - stopLevel)) 
-        : stopLevel - (percentage * (stopLevel - level));
+        : stopLevel - (percentage * (stopLevel - level));*/
+  
+    return dir === "BUY" 
+       ? originalStopLevel + ((currentPrice - level)) 
+       : originalStopLevel - ((level - currentPrice));
+
 }
 
 module.exports = {
