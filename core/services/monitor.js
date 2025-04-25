@@ -485,6 +485,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                               
                                  let breakEven = p.level; // Adjust if you want different logic
                                  let currentPrice = dir == "BUY" ? d.closePrice.bid : d.closePrice.ask;
+                                 //We should have the original stop level logged before monitoring, otherwise use current position stop level as failsafe
+                                 let originalStopLevel = markets[x.marketId].deal.stopLevel ?? p.stopLevel;
 
 
                               if(index == 1){
@@ -565,9 +567,16 @@ if (isTrailingStopDefined) {
                 (dir === "BUY" && currentPrice > profitThreshold && markets[x.marketId].adjustedStop == null) ||
                 (dir === "SELL" && currentPrice < profitThreshold && adjustedStopUndefined == true) || 
                 (dir === "SELL" && currentPrice < profitThreshold && markets[x.marketId].adjustedStop == null)) {
-                adjustedStopLevel = dir === "BUY" 
+                
+                /*adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.2 * (p.level - p.stopLevel)) 
-                    : p.stopLevel - (0.2 * (p.stopLevel - p.level));
+                    : p.stopLevel - (0.2 * (p.stopLevel - p.level));*/
+
+                //Move stopLevel same distance as currentPrice (in this case 20%)
+                adjustedStopLevel = dir === "BUY" 
+                    ? originalStopLevel + ((currentPrice - p.level)) 
+                    : originalStopLevel - ((p.level - currentPrice));
+              
                 
                 //markets[x.marketId].adjustedStop = true; // Mark threshold as hit
                 shouldAdjust = true;
@@ -581,9 +590,18 @@ if (isTrailingStopDefined) {
                 (dir === "BUY" && currentPrice > profitThreshold50 && markets[x.marketId].adjustedStop50 == null) ||
                 (dir === "SELL" && currentPrice < profitThreshold50 && adjustedStop50Undefined == true) || 
                 (dir === "SELL" && currentPrice < profitThreshold50 && markets[x.marketId].adjustedStop50 == null)) {
-                adjustedStopLevel = dir === "BUY" 
+                
+                /*adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.5 * (p.level - p.stopLevel)) 
-                    : p.stopLevel - (0.5 * (p.stopLevel - p.level));
+                    : p.stopLevel - (0.5 * (p.stopLevel - p.level));*/
+
+                 //Move stopLevel same distance as currentPrice (in this case 50%)
+                adjustedStopLevel = dir === "BUY" 
+                    ? originalStopLevel + ((currentPrice - p.level)) 
+                    : originalStopLevel - ((p.level - currentPrice));
+
+                
+              
                 adjust50 = true;
                 shouldAdjust = true;
                 console.log('adjusted50 set to true');
@@ -593,9 +611,17 @@ if (isTrailingStopDefined) {
                      (dir === "BUY" && currentPrice > profitThreshold80 && markets[x.marketId].adjustedStop80 == null) || 
                      (dir === "SELL" && currentPrice < profitThreshold80 && adjustedStop80Undefined == true) ||
                      (dir === "SELL" && currentPrice < profitThreshold80 && markets[x.marketId].adjustedStop80 == null)) {
-                adjustedStopLevel = dir === "BUY" 
+                
+              /*adjustedStopLevel = dir === "BUY" 
                     ? p.stopLevel + (0.8 * (p.level - p.stopLevel)) 
-                    : p.stopLevel - (0.8 * (p.stopLevel - p.level));
+                    : p.stopLevel - (0.8 * (p.stopLevel - p.level));*/
+
+                //Move stopLevel same distance as currentPrice (in this case 80%)
+                adjustedStopLevel = dir === "BUY" 
+                    ? originalStopLevel + ((currentPrice - p.level)) 
+                    : originalStopLevel - ((p.level - currentPrice));
+
+              
                 adjust80 = true;
                 shouldAdjust = true;
               console.log('adjusted80 set to true');
