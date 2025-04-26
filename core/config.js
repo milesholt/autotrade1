@@ -132,7 +132,7 @@ maxStop = 200;
 size = 1;
 
 desiredProfitAmount = 100; 
-desiredLossAmount = 40; 
+desiredLossAmount = 50; 
    
 //Main parameters
 // markets = [
