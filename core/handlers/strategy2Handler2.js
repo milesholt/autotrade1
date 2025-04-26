@@ -1294,17 +1294,6 @@ actions.beginTrade = async function (set) {
   riskRewardRatio: 2.5,    // Adjusted to maintain £100 profit with £40 risk
 };*/
 
-
-  //Adjusted for live, £50 loss and £100 - for wider room as live minimum sizes greater than demo
-  const tradeParams = {
-  entryPrice: entryPrice,
-  stopPercentage: 1,      
-  riskPercentage: 0.5,    
-  accountEquity: accountBalance,    
-  valuePerPoint: 1,        
-  riskRewardRatio: 2.5,    
-};
-
   /*const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
   tradeDetails.direction = dir;
   tradeDetails.entryPrice = entryPrice;
