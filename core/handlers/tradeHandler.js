@@ -1004,11 +1004,11 @@ actions.determineAdjustPosition = async function(dir, currentPrice, mk){
                           console.log("Adjusted position after reaching profit");  
                         
                           //Restart monitor once position updated, new position details should be fetched by api
-                          /*stream.actions.unsubscribe(monitorData.epic);
-                          monitorData.subscribed = false;
-                          isStreamRunning[monitorData.epic] = false;
-                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
-                          */
+                          stream.actions.unsubscribe(mk.epic);                      
+                          isStreamRunning[mk.epic] = false;
+                          monitors[mk.epic].subscribed = false;
+                          await monitor.iniMonitor(mk.deal.dealId, mk.deal.dealRef, mk.epic, mk.id);
+                      
                          
                       } else {
                           console.log("Failed to apply adjusted position after reaching profit");
