@@ -803,6 +803,36 @@ if (isTrailingStopDefined) {
                                 //console.log('stream data: ');
                                 //console.log(d);
 
+                                //Get Strategy2 data from market
+                                const m = markets[x.marketId].data.strategy2;
+                                  
+                                if(m.makeTrade === true){
+                                  
+                                  //If strategy2 would make trade, continue rather than closing
+                                  let adjustPositionData = {
+                                      "stopLevel": m.ticket.stopLevel,
+                                      "limitLevel": m.ticket.limitLevel,
+                                  }
+  
+                                  await api.editPosition(x.dealId, adjustPositionData).then(r => {
+                                      if (r.dealStatus == 'ACCEPTED') {
+                                          console.log("Adjusted position after reaching profit");  
+                                        
+                                          //Restart monitor once position updated, new position details should be fetched by api
+                                          stream.actions.unsubscribe(monitorData.epic);
+                                          monitorData.subscribed = false;
+                                          isStreamRunning[monitorData.epic] = false;
+                                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
+                                         
+                                      } else {
+                                          console.log("Failed to apply adjusted position after reaching profit");
+                                          //continue to close is failed to adjust position
+                                      }
+                                  }).catch(e => console.log(e));
+                                 
+                                }  
+                                  
+
                                 //NOTE - Make sure to clear monitordata if you update limitClosePerc or stopClosePerc on config, as tmp monitor data is not updated with new limits or stops unless monitor restarts.
 
                                 //use new limit level
