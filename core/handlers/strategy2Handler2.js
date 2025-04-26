@@ -194,7 +194,8 @@ actions.iniRun = async function () {
       //Log signal and whether to make a trade or not, to be used by monitor as to wether to continue trading
       market.data.strategy2 = {
           result: result,
-          makeTrade: goAhead
+          makeTrade: goAhead,
+          ticket: {}
       };
 
       if (goAhead) {
@@ -1621,6 +1622,8 @@ actions.openPosition = async function (details, set) {
       trailingStop: null,
       trailingStopIncrement: null,
     };
+
+    markets[set.marketidx].data.strategy2.ticket = ticket;
 
     liveTickets.push(ticket);
 
