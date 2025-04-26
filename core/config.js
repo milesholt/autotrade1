@@ -131,7 +131,7 @@ maxLimit = 100;
 maxStop = 200;
 size = 1;
 
-desiredProfitAmount = 100; 
+desiredProfitAmount = 110; 
 desiredLossAmount = 50; 
    
 //Main parameters
