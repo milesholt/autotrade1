@@ -673,8 +673,8 @@ actions.determineStopLevelAdjustment = async function(){
                 adjustingKey = key;
             }
 
-            //if threshold is 80% determine whether to adjust level and continue trade
-            if(threshold.level === 0.8) actions.determineAdjustPosition(dir,currentPrice,markets[p.marketId]);
+            //if threshold is 50% or 80% determine whether to adjust level and continue trade
+            if(threshold.level === 0.5 || threshold.level === 0.8) actions.determineAdjustPosition(dir,currentPrice,markets[p.marketId]);
         }
     
         if (shouldAdjust) {
