@@ -27,7 +27,7 @@ actions.require = async function(){
   error = core.errorHandler.actions;
   util =  core.util;
   moment =  core.moment;
-  strategy2 = core.strategy2Handler;
+  strategy2 = core.strategy2Handler2;
 }
 
 
