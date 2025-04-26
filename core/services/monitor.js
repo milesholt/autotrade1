@@ -19,6 +19,7 @@ const mailer = require('./mailer.js');
 const lib = require('./library.js');
 const log = require('./log.js');
 const check = require('../handlers/strategies/breakOut/checkHandler.js');
+const strategy2 = require('../handlers/strategy2Handler2.js');
 const github = require('./github.js');
 const testmailer = require('../tests/mailer.js');
 //Stream log
