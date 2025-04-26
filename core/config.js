@@ -131,6 +131,9 @@ maxLimit = 100;
 maxStop = 200;
 size = 1;
 
+desiredProfitAmount = 110; 
+desiredLossAmount = 50; 
+
 //Main parameters
 // markets = [
 //   //{'id':0, 'alias':'stellar', 'epic' : 'CS.D.XLMUSD.TODAY.IP', 'data': {}, 'deal' : {}, 'tradedbefore' : false, 'stopDistancePerc' : '0.08', 'minimumStop' : {'value': 0.01, 'type': 'percent'} },
@@ -207,6 +210,7 @@ markets = [
     minimumSize: { value: null, type: "points" },
     minimumBalance: 500,
     size: 1,
+    valuePerPoint: 1,
     marketClosed: [19, 1],
     expiry: "DFB",
     streamingPricesAvailable: true,
@@ -226,6 +230,7 @@ markets = [
     minimumSize: { value: null, type: "points" },
     minimumBalance: 50,
     size: 10,
+    valuePerPoint: 1,
     marketClosed: [0, 0],
     expiry: "DFB",
     streamingPricesAvailable: true,
@@ -245,6 +250,7 @@ markets = [
     minimumSize: { value: null, type: "points" },
     minimumBalance: 50,
     size: 5,
+    valuePerPoint: 1,
     marketClosed: [21, 23],
     expiry: "DFB",
     streamingPricesAvailable: true,
