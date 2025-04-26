@@ -84,7 +84,7 @@ actions.preLive = async function(){
     //Get market details
     await api.epicDetails([m.epic]).then(async (r) => {
 
-                console.log(util.inspect(r, false, null));
+                //console.log(util.inspect(r, false, null));
             
                 let minimumSize = r.marketDetails[0].dealingRules.minDealSize;
                 let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
