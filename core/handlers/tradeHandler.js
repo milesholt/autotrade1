@@ -27,6 +27,7 @@ actions.require = async function(){
   error = core.errorHandler.actions;
   util =  core.util;
   moment =  core.moment;
+  strategy2 = core.strategy2Handler2;
 }
 
 
@@ -671,6 +672,9 @@ actions.determineStopLevelAdjustment = async function(){
                 shouldAdjust = true;
                 adjustingKey = key;
             }
+
+            //if threshold is 80% determine whether to adjust level and continue trade
+            if(threshold.level === 0.8) actions.determineAdjustPosition(dir,currentPrice,markets[p.marketId]);
         }
     
         if (shouldAdjust) {
@@ -731,6 +735,8 @@ actions.determineStopLevelAdjustment = async function(){
           } //if already adjusted or not yet failed
           
         } //if should adjust
+
+       
   
   }//if threshold reached
 
@@ -959,6 +965,64 @@ actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage
        ? originalStopLevel + ((currentPrice - level)) 
        : originalStopLevel - ((level - currentPrice));
 
+}
+
+
+actions.determineAdjustPosition = async function(dir, currentPrice, mk){
+          const m = mk.data.strategy2;                           
+            
+          if(m.makeTrade === true){              
+                                        
+            try {
+                  const tradeParams = {
+                    entryPrice: currentPrice,
+                    desiredLossAmount: desiredLossAmount,      
+                    desiredProfitAmount: desiredProfitAmount,    
+                    accountEquity: accountBalance,    
+                    marketInfo: mk,        
+                    direction: dir,    
+                  };
+              
+                  const tradeDetails = await strategy2.actions.calculateTradeDetails(tradeParams, set);
+
+                  if (dir === "BUY") {
+                    m.limitLevel = closePrice + tradeDetails.limitDistance;
+                    m.stopLevel = closePrice - tradeDetails.stopDistance;
+                  } else if (dir === "SELL") {
+                    m.limitLevel = closePrice - tradeDetails.limitDistance;
+                    m.stopLevel = closePrice + tradeDetails.stopDistance;
+                  }
+                  
+                  //If strategy2 would make trade, continue rather than closing
+                  let adjustPositionData = {
+                      "stopLevel": m.stopLevel,
+                      "limitLevel": m.limitLevel,
+                  }
+
+                  await api.editPosition(x.dealId, adjustPositionData).then(r => {
+                      if (r.dealStatus == 'ACCEPTED') {
+                          console.log("Adjusted position after reaching profit");  
+                        
+                          //Restart monitor once position updated, new position details should be fetched by api
+                          stream.actions.unsubscribe(mk.epic);                      
+                          isStreamRunning[mk.epic] = false;
+                          monitors[mk.epic].subscribed = false;
+                          await monitor.iniMonitor(mk.deal.dealId, mk.deal.dealRef, mk.epic, mk.id);
+                      
+                         
+                      } else {
+                          console.log("Failed to apply adjusted position after reaching profit");
+                          //continue to close is failed to adjust position
+                      }
+                  }).catch(e => console.log(e));
+                  
+            } catch (error) {
+                  console.error("Error, unable to calulateTradeDetails for adjust position:", error.message);
+                  //continue to close position if unable to adjust
+            }
+                               
+          }  
+                                  
 }
 
 module.exports = {
