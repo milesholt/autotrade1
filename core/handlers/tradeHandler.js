@@ -999,7 +999,7 @@ actions.determineAdjustPosition = async function(dir, currentPrice, mk){
                       "limitLevel": m.limitLevel,
                   }
 
-                  await api.editPosition(x.dealId, adjustPositionData).then(r => {
+                  await api.editPosition(x.dealId, adjustPositionData).then(async r => {
                       if (r.dealStatus == 'ACCEPTED') {
                           console.log("Adjusted position after reaching profit");  
                         
