@@ -1278,7 +1278,7 @@ actions.beginTrade = async function (set) {
 };*/
 
   //Adjust to be £40 loss, but maintain £100 profit
-/*  const tradeParams = {
+ /* const tradeParams = {
   entryPrice: entryPrice,
   stopPercentage: 1,       // Stop distance remains unchanged
   riskPercentage: 0.4,     // Reduced risk to £40
@@ -1286,117 +1286,29 @@ actions.beginTrade = async function (set) {
   valuePerPoint: 1,        // Assuming low value per point
   riskRewardRatio: 2.5,    // Adjusted to maintain £100 profit with £40 risk
 };*/
-  //
-
- /* const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
-
-  tradeDetails.direction = dir;
-  tradeDetails.entryPrice = entryPrice;
-  set.details = tradeDetails;
-  //console.log(tradeDetails);*/
-
-  //assign for live
-  /*const live = {
-    details: tradeDetails,
-    set: set
-  } */
- // await actions.openPosition(tradeDetails, set);
-  await actions.prepareAndOpenTrade(entryPrice, dir, set);
-};
 
 
-// Call this to prepare and open a trade
-async function prepareAndOpenTrade(entryPrice, dir, set) {
-  const marketInfo = markets[set.marketidx];
-
-  // === Basic validation ===
-  /*if (accountBalance < marketInfo.minimumBalance) {
-    throw new Error(`Account balance (£${accountBalance}) is below minimum required margin (£${marketInfo.minimumBalance}) for this market.`);
-  }*/
-
-  // Calculate dynamic risk-reward ratio
-  const riskRewardRatio = desiredProfitAmount / desiredLossAmount;
-
+  //Adjusted for live, £50 loss and £100 - for wider room as live minimum sizes greater than demo
   const tradeParams = {
-    entryPrice: entryPrice,
-    stopPercentage: 1,          // Keeping 1% stop distance (could be adjustable if needed)
-    riskPerTrade: desiredLossAmount,  // £40 for example
-    valuePerPoint: marketInfo.valuePerPoint, // Use market's correct valuePerPoint
-    riskRewardRatio: riskRewardRatio,  // Now dynamically calculated
-  };
+  entryPrice: entryPrice,
+  stopPercentage: 1,      
+  riskPercentage: 0.5,    
+  accountEquity: accountBalance,    
+  valuePerPoint: 1,        
+  riskRewardRatio: 2.5,    
+};
 
   const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
 
   tradeDetails.direction = dir;
   tradeDetails.entryPrice = entryPrice;
   set.details = tradeDetails;
-
+  
   await actions.openPosition(tradeDetails, set);
-}
-
-// This function calculates the detailed trade info
-actions.calculateTradeDetails = function (params, set) {
-  const {
-    entryPrice,
-    stopPercentage,
-    riskPerTrade,
-    valuePerPoint,
-    riskRewardRatio,
-  } = params;
-
-  // === Calculate distances ===
-  const stopDistance = entryPrice * (stopPercentage / 100);
-  const limitDistance = stopDistance * riskRewardRatio;
-
-  const marketInfo = markets[set.marketidx];
-
-  // === Calculate size based on risk ===
-  let size = riskPerTrade / (stopDistance * valuePerPoint);
-
-  // Enforce minimum size
-  const minSize = marketInfo.minimumSize.type === "points"
-    ? marketInfo.minimumSize.value
-    : lib.toNumber(entryPrice * marketInfo.minimumSize.value);
-
-  if (size < minSize) {
-    console.warn(`Calculated size ${size.toFixed(2)} is below minimum size ${minSize}. Using minimum size.`);
-    size = minSize;
-  }
-
-  // === Calculate Stop Loss / Take Profit prices depending on direction ===
-  let stopLossPrice, takeProfitPrice;
-  if (dir === "BUY") {
-    // Going long
-    stopLossPrice = entryPrice - stopDistance;
-    takeProfitPrice = entryPrice + limitDistance;
-  } else {
-    // Going short
-    stopLossPrice = entryPrice + stopDistance;
-    takeProfitPrice = entryPrice - limitDistance;
-  }
-
-  console.log("Trade Calculation Summary:", {
-    entryPrice,
-    valuePerPoint,
-    stopDistance,
-    limitDistance,
-    size,
-    stopLossPrice,
-    takeProfitPrice,
-    minSize,
-  });
-
-  return {
-    stopDistance,
-    stopLossPrice,
-    limitDistance,
-    takeProfitPrice,
-    size,
-  };
+  
 };
 
 
-/*
 actions.calculateTradeDetails = function (params, set) {
   const {
     entryPrice,
@@ -1466,7 +1378,7 @@ actions.calculateTradeDetails = function (params, set) {
     size,
   };
 };
-*/
+
 
 
 actions.openPosition = async function (details, set) {
