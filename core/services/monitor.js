@@ -804,14 +804,27 @@ if (isTrailingStopDefined) {
                                 //console.log(d);
 
                                 //Get Strategy2 data from market
-                                const m = markets[x.marketId].data.strategy2;
+                                const m = markets[x.marketId].data.strategy2;                           
                                   
-                                if(m.makeTrade === true){
+                                if(m.makeTrade === true){              
+                                  
+                                  m.limitDistance = parseFloat(m.ticket.limitDistance);
+                                  m.stopDistance = parseFloat(m.ticket.stopDistance);
+                                  m.limitLevel = null;
+                                  m.stopLevel = null;
+                                  
+                                  if (dir === "BUY") {
+                                    m.limitLevel = closePrice + limitDistance;
+                                    m.stopLevel = closePrice - stopDistance;
+                                  } else if (dir === "SELL") {
+                                    m.limitLevel = closePrice - limitDistance;
+                                    m.stopLevel = closePrice + stopDistance;
+                                  }
                                   
                                   //If strategy2 would make trade, continue rather than closing
                                   let adjustPositionData = {
-                                      "stopLevel": m.ticket.stopLevel,
-                                      "limitLevel": m.ticket.limitLevel,
+                                      "stopLevel": m.stopLevel,
+                                      "limitLevel": m.limitLevel,
                                   }
   
                                   await api.editPosition(x.dealId, adjustPositionData).then(r => {
