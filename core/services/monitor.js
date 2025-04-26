@@ -819,7 +819,7 @@ if (isTrailingStopDefined) {
                                           direction: dir,    
                                         };
                                     
-                                        const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
+                                        const tradeDetails = await strategy2.actions.calculateTradeDetails(tradeParams, set);
 
                                         if (dir === "BUY") {
                                           m.limitLevel = closePrice + tradeDetails.limitDistance;
