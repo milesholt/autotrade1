@@ -1300,11 +1300,112 @@ actions.beginTrade = async function (set) {
   set.details = tradeDetails;
   //console.log(tradeDetails);
 
-  //This is handled by demo account now
-  //await actions.openPosition(tradeDetails, set);
+  try {
+
+        const tradeParams = {
+          entryPrice: entryPrice,
+          desiredLossAmount: desiredLossAmount,      
+          desiredProfitAmount: desiredProfitAmount,    
+          accountEquity: accountBalance,    
+          marketInfo: markets[set.marketidx],        
+          direction: dir,    
+        };
+    
+        const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
+        tradeDetails.direction = dir;
+        tradeDetails.entryPrice = entryPrice;
+        set.details = tradeDetails;
+        // Continue if tradeDetails was created successfully
+         
+        //This is handled by demo account now
+        //await actions.openPosition(tradeDetails, set);
+
+  } catch (error) {
+        console.error("Trade skipped:", error.message);
+  }
+  
 };
 
 actions.calculateTradeDetails = function (params, set) {
+  const {
+    entryPrice,
+    desiredLossAmount,
+    desiredProfitAmount,
+    accountEquity,
+    marketInfo,
+    direction,
+  } = params;
+
+  // Step 1: Margin Check
+  if (accountEquity < marketInfo.minimumBalance) {
+    throw new Error("Insufficient balance to meet minimum margin requirement.");
+  }
+
+  // Step 2: Risk Reward Ratio
+  const riskRewardRatio = desiredProfitAmount / desiredLossAmount;
+
+  // Step 3: Value per Point and Minimum Size
+  const valuePerPoint = marketInfo.valuePerPoint;
+  const minimumSize =
+    marketInfo.minimumSize.type == "points"
+      ? marketInfo.minimumSize.value
+      : lib.toNumber(cp * marketInfo.minimumSize.value);
+
+  // Step 4: Calculate Size  
+  let size = minimumSize; // Always use at least minimum size
+
+  // Step 5: Calculate Stop Distance needed to risk exactly desiredLossAmount
+  const riskPerPoint = size * valuePerPoint;
+  const stopDistance = desiredLossAmount / riskPerPoint;
+
+  // Step 6: Calculate dynamic Stop Percentage
+  const stopPercentage = (stopDistance / entryPrice) * 100;
+
+  // Step 7: Validate Stop Distance (too small check)
+  const MIN_STOP_PERCENTAGE = 0.5; // you can adjust this
+
+  if (stopPercentage < MIN_STOP_PERCENTAGE) {
+    throw new Error(`Stop percentage (${stopPercentage.toFixed(2)}%) is too small. Trade skipped.`);
+  }
+
+  // Step 8: Limit Distance and Take Profit
+  const limitDistance = stopDistance * riskRewardRatio;
+
+  let stopLossPrice, takeProfitPrice;
+
+  if (direction === "BUY") {
+    stopLossPrice = entryPrice - stopDistance;
+    takeProfitPrice = entryPrice + limitDistance;
+  } else if(direction === "SELL") {
+    stopLossPrice = entryPrice + stopDistance;
+    takeProfitPrice = entryPrice - limitDistance;
+  } else {
+    throw new Error("Invalid direction specified. Direction neither BUY nor SELL, or might be undefined");
+  }
+
+  // Debugging Output
+  console.log("=== Trade Details ===");
+  console.log(`Size: ${size}`);
+  console.log(`Stop Distance: ${stopDistance}`);
+  console.log(`Stop Percentage: ${stopPercentage}`);
+  console.log(`Limit Distance: ${limitDistance}`);
+  console.log(`Stop Loss Price: ${stopLossPrice}`);
+  console.log(`Take Profit Price: ${takeProfitPrice}`);
+
+  return {
+    stopDistance,
+    stopLossPrice,
+    limitDistance,
+    takeProfitPrice,
+    size,
+    riskRewardRatio,
+    stopPercentage,
+  };
+};
+
+
+
+/*actions.calculateTradeDetails = function (params, set) {
   const {
     entryPrice,
     stopPercentage,
@@ -1372,7 +1473,7 @@ actions.calculateTradeDetails = function (params, set) {
     takeProfitPrice,
     size,
   };
-};
+};*/
 
 actions.openPosition = async function (details, set) {
 
