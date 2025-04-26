@@ -805,7 +805,7 @@ if (isTrailingStopDefined) {
                                 //console.log(d);
 
                                 //Get Strategy2 data from market
-                                if(lib.actions.isDefined(markets[x.marketId].data,'strategy2'){
+                                if(lib.actions.isDefined(markets[x.marketId].data,'strategy2')){
                                   const m = markets[x.marketId].data.strategy2;                           
                                     
                                   if(m.makeTrade === true){              
