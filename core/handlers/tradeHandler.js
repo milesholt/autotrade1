@@ -961,6 +961,11 @@ actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage
 
 }
 
+
+actions.determineAdjustPosition = async function(){
+  
+}
+
 module.exports = {
   actions: actions
 }
