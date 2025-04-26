@@ -196,6 +196,13 @@ actions.iniRun = async function () {
       
       var goAhead = (condition1 || condition2 || condition3 || condition4) && (!exclusion1 && !exclusion2);
 
+      //Log signal and whether to make a trade or not, to be used by monitor as to wether to continue trading
+      market.data.strategy2 = {
+          result: result,
+          makeTrade: goAhead,
+          ticket: {}
+      };
+
       if (goAhead) {
 
           console.log('4 hours trends confirmed direction of trade. Going ahead');
