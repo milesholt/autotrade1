@@ -808,42 +808,54 @@ if (isTrailingStopDefined) {
                                 const m = markets[x.marketId].data.strategy2;                           
                                   
                                 if(m.makeTrade === true){              
-                                  
-                                  m.limitDistance = parseFloat(m.ticket.limitDistance);
-                                  m.stopDistance = parseFloat(m.ticket.stopDistance);
-                                  m.limitLevel = null;
-                                  m.stopLevel = null;
-                                  
-                                  if (dir === "BUY") {
-                                    m.limitLevel = closePrice + limitDistance;
-                                    m.stopLevel = closePrice - stopDistance;
-                                  } else if (dir === "SELL") {
-                                    m.limitLevel = closePrice - limitDistance;
-                                    m.stopLevel = closePrice + stopDistance;
-                                  }
-                                  
-                                  //If strategy2 would make trade, continue rather than closing
-                                  let adjustPositionData = {
-                                      "stopLevel": m.stopLevel,
-                                      "limitLevel": m.limitLevel,
-                                  }
-  
-                                  await api.editPosition(x.dealId, adjustPositionData).then(r => {
-                                      if (r.dealStatus == 'ACCEPTED') {
-                                          console.log("Adjusted position after reaching profit");  
+                                                              
+                                  try {
+                                        const tradeParams = {
+                                          entryPrice: closePrice,
+                                          desiredLossAmount: desiredLossAmount,      
+                                          desiredProfitAmount: desiredProfitAmount,    
+                                          accountEquity: accountBalance,    
+                                          marketInfo: markets[x.marketId],        
+                                          direction: dir,    
+                                        };
+                                    
+                                        const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
+
+                                        if (dir === "BUY") {
+                                          m.limitLevel = closePrice + tradeDetails.limitDistance;
+                                          m.stopLevel = closePrice - tradeDetails.stopDistance;
+                                        } else if (dir === "SELL") {
+                                          m.limitLevel = closePrice - tradeDetails.limitDistance;
+                                          m.stopLevel = closePrice + tradeDetails.stopDistance;
+                                        }
                                         
-                                          //Restart monitor once position updated, new position details should be fetched by api
-                                          stream.actions.unsubscribe(monitorData.epic);
-                                          monitorData.subscribed = false;
-                                          isStreamRunning[monitorData.epic] = false;
-                                          actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
-                                         
-                                      } else {
-                                          console.log("Failed to apply adjusted position after reaching profit");
-                                          //continue to close is failed to adjust position
-                                      }
-                                  }).catch(e => console.log(e));
-                                 
+                                        //If strategy2 would make trade, continue rather than closing
+                                        let adjustPositionData = {
+                                            "stopLevel": m.stopLevel,
+                                            "limitLevel": m.limitLevel,
+                                        }
+        
+                                        await api.editPosition(x.dealId, adjustPositionData).then(r => {
+                                            if (r.dealStatus == 'ACCEPTED') {
+                                                console.log("Adjusted position after reaching profit");  
+                                              
+                                                //Restart monitor once position updated, new position details should be fetched by api
+                                                stream.actions.unsubscribe(monitorData.epic);
+                                                monitorData.subscribed = false;
+                                                isStreamRunning[monitorData.epic] = false;
+                                                actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
+                                               
+                                            } else {
+                                                console.log("Failed to apply adjusted position after reaching profit");
+                                                //continue to close is failed to adjust position
+                                            }
+                                        }).catch(e => console.log(e));
+                                        
+                                  } catch (error) {
+                                        console.error("Error, unable to calulateTradeDetails for adjust position:", error.message);
+                                        //continue to close position if unable to adjust
+                                  }
+                                                     
                                 }  
                                   
 
