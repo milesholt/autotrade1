@@ -855,6 +855,7 @@ if (isTrailingStopDefined) {
                                                   stream.actions.unsubscribe(monitorData.epic);
                                                   monitorData.subscribed = false;
                                                   isStreamRunning[monitorData.epic] = false;
+                                                  isExtend = false;
                                                   actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
                                                  
                                               } else {
