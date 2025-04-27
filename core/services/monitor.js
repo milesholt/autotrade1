@@ -95,6 +95,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
   markets[mid].closeprofit = false;
   markets[mid].closeloss = false;
 
+  isExtend = false;
+
   console.log('closeloss default when monitoring starting: ' + markets[mid].closeloss);
 
   isStreamRunning[epic] = false;
@@ -805,13 +807,18 @@ if (isTrailingStopDefined) {
                                 //console.log(d);
 
                                 //Get Strategy2 data from market
-                                if(lib.actions.isDefined(markets[x.marketId].data,'strategy2')){
+                                if(lib.actions.isDefined(markets[x.marketId].data,'strategy2') && isExtend === false){
                                   let m = markets[x.marketId].data.strategy2;
                                   
                                   //get latest marketdata from demo  
-                                  const demoMarkets = await github.actions.getFile(marketDataDir,'version2');
-                                  m = demoMarkets[x.marketId].data.strategy2;
-                                    
+                                  try {
+                                    const demoMarkets = await github.actions.getFile(marketDataDir,'version2');
+                                    m = demoMarkets[x.marketId].data.strategy2;
+                                  } catch(error){
+                                    console.log('Failed to get demo market data, using live strategy2');
+                                    m = markets[x.marketId].data.strategy2;
+                                  }
+                                                          
                                   if(m.makeTrade === true){              
                                                                 
                                     try {
@@ -860,6 +867,9 @@ if (isTrailingStopDefined) {
                                           console.error("Error, unable to calulateTradeDetails for adjust position:", error.message);
                                           //continue to close position if unable to adjust
                                     }
+
+                                    //only try once while monitoring
+                                    isExtend = true;
                                                        
                                   }  //if maketrade 
                                 }  //strategy2 object exists
