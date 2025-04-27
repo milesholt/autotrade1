@@ -969,6 +969,15 @@ actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage
 
 
 actions.determineAdjustPosition = async function(dir, currentPrice, mk){
+          
+          //add for live
+          const pos = {
+            dir: dir,
+            currentPrice: currentPrice,
+            marketId: mk.id
+          };
+          liveExtendPositions.push(pos);
+  
           const m = mk.data.strategy2;                           
             
           if(m.makeTrade === true){              
