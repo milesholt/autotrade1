@@ -286,6 +286,7 @@ market = {};
 trades = [];
 accounts = [];
 liveTickets = [];
+liveExtendPositions = [];
 accountBalance = 0;
 monitors = [];
 streams = [];
