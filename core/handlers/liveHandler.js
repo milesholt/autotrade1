@@ -201,7 +201,7 @@ actions.openLivePosition = async function (ticket) {
 
 actions.extendLivePosition = async function (position) {  
   try{
-    trade.determineAdjustPosition(position.dir, position.currentPrice, markets[position.marketId]);
+    trade.determineAdjustPosition(position.dir, position.currentPrice, markets[position.marketId], position.thresholdLevel);
   } catch(err) { 
     console.log('Failed to extend live position');
     console.log(err);
