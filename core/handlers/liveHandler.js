@@ -49,7 +49,6 @@ actions.doLive = async function () {
 
   // Loop through tickets and open live positions
   for (const ticket of liveTickets) {
-    //const { details, set } = ticket;
     try {
       await actions.openLivePosition(ticket);
     } catch (err) {
@@ -64,7 +63,6 @@ actions.doLive = async function () {
   
   // Loop through tickets and open live positions
   for (const position of liveExtendPositions) {
-    //const { details, set } = ticket;
     try {
       await actions.extendLivePosition(position);
     } catch (err) {
