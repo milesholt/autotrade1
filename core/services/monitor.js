@@ -859,7 +859,8 @@ if (isTrailingStopDefined) {
                                                   actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
                                                  
                                               } else {
-                                                  console.log("Failed to apply adjusted position after reaching profit");
+                                                  console.log("Monitor - Failed to apply adjusted position after reaching profit");
+                                                  console.log(r.dealStatus);
                                                   //continue to close is failed to adjust position
                                               }
                                           }).catch(e => console.log(e));
