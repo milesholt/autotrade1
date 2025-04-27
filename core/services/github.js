@@ -30,7 +30,7 @@ actions.wait = async function(ms){
 }
 
 //Get file
-actions.getFile = async function(path){
+actions.getFile = async function(path, b = branch){
   isRunning = true;
   //console.log('Getting file from github: ' + path);
 
@@ -39,7 +39,7 @@ actions.getFile = async function(path){
   owner: owner,
   repo: repo,
   path: path,
-  ref: branch
+  ref: b
 }).catch(e => {
   if(!JSON.stringify(e).includes('HttpError')){
     console.log(e);
