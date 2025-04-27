@@ -201,9 +201,9 @@ actions.openLivePosition = async function (ticket) {
   }
 };
 
-actions.extendLivePosition = async function (position) {
+actions.extendLivePosition = async function (position) {  
   try{
-    trade.actions.adjustPosition(position.dir, position.currentPrice, markets[position.marketId]);
+    trade.determineAdjustPosition(position.dir, position.currentPrice, markets[position.marketId]);
   }).catch(e => console.log(e));
 }
 
