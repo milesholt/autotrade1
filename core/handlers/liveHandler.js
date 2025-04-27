@@ -31,6 +31,7 @@ actions.require = async function () {
   check = core.checkHandler.actions;
   monitor = core.monitor.actions;
   error = core.errorHandler.actions;
+  trade = core.tradeHandler.actions;
   util = core.util;
   moment = core.moment;
 };
@@ -56,9 +57,24 @@ actions.doLive = async function () {
     }
   }
 
-  liveTickets = [];
+   liveTickets = [];
   console.log('liveTickets cleared');
 
+
+  
+  // Loop through tickets and open live positions
+  for (const position of liveExtendPositions) {
+    //const { details, set } = ticket;
+    try {
+      await actions.extendLivePosition(position);
+    } catch (err) {
+      console.error('Error extending live position:', err);
+    }
+  }
+
+  liveExtendPositions = [];
+  console.log('liveExtendPositions cleared');
+ 
   // Log back into demo account
   try {
     const demoRes = await ig.actions.loginDemo();
@@ -184,6 +200,12 @@ actions.openLivePosition = async function (ticket) {
     throw err; // re-throw so it can be caught upstream
   }
 };
+
+actions.extendLivePosition = async function (position) {
+  try{
+    trade.actions.adjustPosition(position.dealId, position.dir, position.epic, position.market, position.marketId);
+  }).catch(e => console.log(e));
+}
 
 module.exports = {
   actions: actions,
