@@ -1020,7 +1020,7 @@ actions.determineAdjustPosition = async function(dir, currentPrice, mk){
                       
                          
                       } else {
-                          console.log("Failed to apply adjusted position after reaching profit");
+                          console.log("Failed to apply adjusted position after reaching threshold");
                           console.log(r.dealStatus);
                           //continue to close is failed to adjust position
                       }
