@@ -971,7 +971,7 @@ actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage
 actions.determineAdjustPosition = async function(dir, currentPrice, mk, thresholdLevel, isLive = false){
           
           //add for live if not via liveHandler
-          if(!isLive){
+          if(isLive === false){
             const pos = {
               dir: dir,
               currentPrice: currentPrice,
