@@ -674,7 +674,7 @@ actions.determineStopLevelAdjustment = async function(){
             }
 
             //if threshold is 50% or 80% determine whether to adjust level and continue trade
-            if(threshold.level === 0.5 || threshold.level === 0.8) actions.determineAdjustPosition(dir,currentPrice,markets[p.marketId]);
+            if(threshold.level === 0.5 || threshold.level === 0.8) actions.determineAdjustPosition(dir,currentPrice,markets[p.marketId], threshold.level);
         }
     
         if (shouldAdjust) {
@@ -968,7 +968,7 @@ actions.calculateAdjustedStop = async function(dir, stopLevel, level, percentage
 }
 
 
-actions.determineAdjustPosition = async function(dir, currentPrice, mk){
+actions.determineAdjustPosition = async function(dir, currentPrice, mk, thresholdLevel){
           
           //add for live
           const pos = {
@@ -1020,7 +1020,7 @@ actions.determineAdjustPosition = async function(dir, currentPrice, mk){
                       
                          
                       } else {
-                          console.log("Failed to apply adjusted position after reaching threshold");
+                          console.log("Failed to apply adjusted position after reaching threshold: " + thresholdLevel);
                           console.log(r.dealStatus);
                           //continue to close is failed to adjust position
                       }
