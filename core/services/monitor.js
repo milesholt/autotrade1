@@ -95,6 +95,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
   markets[mid].closeprofit = false;
   markets[mid].closeloss = false;
 
+  isExtend = false;
+
   console.log('closeloss default when monitoring starting: ' + markets[mid].closeloss);
 
   isStreamRunning[epic] = false;
@@ -805,7 +807,7 @@ if (isTrailingStopDefined) {
                                 //console.log(d);
 
                                 //Get Strategy2 data from market
-                                if(lib.actions.isDefined(markets[x.marketId].data,'strategy2')){
+                                if(lib.actions.isDefined(markets[x.marketId].data,'strategy2') && isExtend === false){
                                   const m = markets[x.marketId].data.strategy2;                           
                                     
                                   if(m.makeTrade === true){              
@@ -844,6 +846,7 @@ if (isTrailingStopDefined) {
                                                   stream.actions.unsubscribe(monitorData.epic);
                                                   monitorData.subscribed = false;
                                                   isStreamRunning[monitorData.epic] = false;
+                                                  isExtend = false;
                                                   actions.beginMonitor(monitorData.dealId,monitorData.dealRef,monitorData.epic,monitorData.marketId,monitorData.streamLogDir,true);
                                                  
                                               } else {
@@ -856,6 +859,9 @@ if (isTrailingStopDefined) {
                                           console.error("Error, unable to calulateTradeDetails for adjust position:", error.message);
                                           //continue to close position if unable to adjust
                                     }
+
+                                    //Only try once
+                                    isExtend = true;
                                                        
                                   }  //if maketrade 
                                 }  //strategy2 object exists
