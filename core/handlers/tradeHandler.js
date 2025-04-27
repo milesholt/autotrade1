@@ -974,7 +974,8 @@ actions.determineAdjustPosition = async function(dir, currentPrice, mk, threshol
           const pos = {
             dir: dir,
             currentPrice: currentPrice,
-            marketId: mk.id
+            marketId: mk.id,
+            thresholdLevel: thresholdLevel
           };
           liveExtendPositions.push(pos);
   
