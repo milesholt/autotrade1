@@ -806,7 +806,11 @@ if (isTrailingStopDefined) {
 
                                 //Get Strategy2 data from market
                                 if(lib.actions.isDefined(markets[x.marketId].data,'strategy2')){
-                                  const m = markets[x.marketId].data.strategy2;                           
+                                  let m = markets[x.marketId].data.strategy2;
+                                  
+                                  //get latest marketdata from demo  
+                                  const demoMarkets = await github.actions.getFile(marketDataDir,'version2');
+                                  m = demoMarkets[x.marketId].data.strategy2;
                                     
                                   if(m.makeTrade === true){              
                                                                 
