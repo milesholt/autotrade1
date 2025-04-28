@@ -1290,21 +1290,21 @@ actions.beginTrade = async function (set) {
 };*/
 
   //Adjust to be £40 loss, but maintain £100 profit
-  const tradeParams = {
+ /* const tradeParams = {
   entryPrice: entryPrice,
   stopPercentage: 1,       // Stop distance remains unchanged
   riskPercentage: 0.4,     // Reduced risk to £40
   accountEquity: accountBalance,    // Account balance
   valuePerPoint: 1,        // Assuming low value per point
   riskRewardRatio: 2.5,    // Adjusted to maintain £100 profit with £40 risk
-};
+};*/
   //
 
-  const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
+ /* const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
 
   tradeDetails.direction = dir;
   tradeDetails.entryPrice = entryPrice;
-  set.details = tradeDetails;
+  set.details = tradeDetails;*/
   //console.log(tradeDetails);
 
   try {
