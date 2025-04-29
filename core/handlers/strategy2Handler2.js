@@ -554,12 +554,39 @@ maAnalysis.overallAnalysis = {
   }
 
   // Volume Analysis
-  const averageVolume = await actions.calculateAverageVolume(data);
+  /*const averageVolume = await actions.calculateAverageVolume(data);
   const currentVolume = volume[volume.length - 1];
   if (currentVolume > 1.5 * averageVolume) {
     buyCertainty += WEIGHTS.Volume;
     buyIndicators.push('Volume');
     explanations.push("High volume supports upward price movement");
+  }*/
+
+  const averageVolume = await actions.calculateAverageVolume(data);
+  const currentVolume = volume[volume.length - 1];
+  
+  // Define which indicators are relevant for volume-confirmed moves
+  const volumeConfirmedBuyIndicators = ['MACD', 'Momentum'];
+  const volumeConfirmedSellIndicators = ['MACD', 'Momentum'];
+  
+  // High volume can confirm a potential buy signal
+  if (
+    currentVolume > 1.5 * averageVolume &&
+    volumeConfirmedBuyIndicators.some(indicator => buyIndicators.includes(indicator))
+  ) {
+    buyCertainty += WEIGHTS.Volume;
+    buyIndicators.push('Volume');
+    explanations.push("High volume supports upward price movement");
+  }
+  
+  // High volume can confirm a potential sell signal
+  if (
+    currentVolume > 1.5 * averageVolume &&
+    volumeConfirmedSellIndicators.some(indicator => sellIndicators.includes(indicator))
+  ) {
+    sellCertainty += WEIGHTS.Volume;
+    sellIndicators.push('Volume');
+    explanations.push("High volume supports downward price movement");
   }
 
   // ADX Analysis
