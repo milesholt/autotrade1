@@ -1647,7 +1647,8 @@ actions.openPosition = async function (details, set) {
       trailingStopIncrement: null,
     };
 
-    if(!lib.isDefined(markets[set.marketidx].data, 'strategy2') markets[set.marketidx].data.strategy2 = {};
+    console.log('market strategy2: ');
+    console.log(markets[set.marketidx].data.strategy2);
     markets[set.marketidx].data.strategy2.ticket = ticket;
 
     liveTickets.push(ticket);
