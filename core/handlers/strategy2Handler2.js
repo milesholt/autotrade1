@@ -1650,7 +1650,8 @@ actions.openPosition = async function (details, set) {
     analysis.ticket = ticket;
     //console.log(analysis);
 
-    if(!lib.isDefined(markets[set.marketidx].data, 'strategy2') markets[set.marketidx].data.strategy2 = {};
+    console.log('market strategy2: ');
+    console.log(markets[set.marketidx].data.strategy2);
     markets[set.marketidx].data.strategy2.ticket = ticket;
 
     //Open a ticket
