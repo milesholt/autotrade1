@@ -8,7 +8,9 @@ const util=require('util');
 
 actions.login = function(){
   return new Promise((resolve, reject) => {
-    api.login(true).then(r => resolve(r)).catch(e => reject(e));
+    api.login(true).then(r => resolve(r)).catch(e => {
+      console.log(e.body.errorCode);
+    });
   });
 }
 
