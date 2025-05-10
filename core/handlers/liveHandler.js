@@ -41,10 +41,9 @@ actions.doLive = async function () {
 
   try {
     const loginRes = await ig.actions.loginLive();
-    //console.log('Live login success:', loginRes);
   } catch (err) {
-    console.error('Live login error:', err);
-    return; // Exit early on login failure
+    console.log('Error logging into live');
+    return;
   }
 
   // Loop through tickets and open live positions
@@ -87,9 +86,8 @@ actions.preLive = async function(){
 
   try {
     const loginRes = await ig.actions.loginLive();
-    //console.log('Live login success:', loginRes);
   } catch (err) {
-    console.error('Live login error:', err);
+    console.log('Error logging into live');
     return; // Exit early on login failure
   }
 
