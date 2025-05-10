@@ -50,8 +50,8 @@ actions.doLive = async function () {
   for (const ticket of liveTickets) {
     try {
       await actions.openLivePosition(ticket);
-    } catch (err) {
-      console.error('Error opening position:', err);
+    } catch (e) {
+      console.error('Error opening position:', e.body.errorCode);
     }
   }
 
@@ -64,8 +64,8 @@ actions.doLive = async function () {
   for (const position of liveExtendPositions) {
     try {
       await actions.extendLivePosition(position);
-    } catch (err) {
-      console.error('Error extending live position:', err);
+    } catch (e) {
+      console.error('Error extending live position:', e.body.errorCode);
     }
   }
 
@@ -76,8 +76,8 @@ actions.doLive = async function () {
   try {
     const demoRes = await ig.actions.loginDemo();
     //console.log('Demo login success:', demoRes);
-  } catch (err) {
-    console.error('Demo login error:', err);
+  } catch (e) {
+    console.error('Demo login error:', e.body.errorCode);
   }
 };
 
@@ -86,8 +86,8 @@ actions.preLive = async function(){
 
   try {
     const loginRes = await ig.actions.loginLive();
-  } catch (err) {
-    console.log('Error logging into live');
+  } catch (e) {
+    console.log('Error logging into live', e.body.errorCode);
     return; // Exit early on login failure
   }
 
@@ -113,15 +113,14 @@ actions.preLive = async function(){
 
                 console.log('PreLive - Live size and stop details should be updated for markets');
       
-    }).catch(e => console.log(e));
+    }).catch(e => console.log(e.body.errorCode));
   }
   
   // Log back into demo account
   try {
     const demoRes = await ig.actions.loginDemo();
-    //console.log('Demo login success:', demoRes);
-  } catch (err) {
-    console.error('Demo login error:', err);
+  } catch (e) {
+    console.error('Demo login error:', e.body.errorCode);
   }
   
 }
