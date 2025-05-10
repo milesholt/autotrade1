@@ -22,7 +22,9 @@ actions.loginLive = function(){
   process.env.IG_DEMO = "FALSE";
   
   return new Promise((resolve, reject) => {
-    api.login(true).then(r => resolve(r)).catch(e => reject(e));
+    api.login(true).then(r => resolve(r)).catch(e => {
+      console.log(e.body.errorCode);
+    });
   });
 }
 
@@ -36,7 +38,9 @@ actions.loginDemo = function(){
   process.env.IG_DEMO = "TRUE";
   
   return new Promise((resolve, reject) => {
-    api.login(true).then(r => resolve(r)).catch(e => reject(e));
+    api.login(true).then(r => resolve(r)).catch(e => {
+      console.log(e.body.errorCode);
+    });
   });
 }
 
