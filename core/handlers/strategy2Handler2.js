@@ -325,8 +325,6 @@ actions.analyseSignals = async function (data) {
   const emaValue50 = emaArray50[emaArray50.length - 1];
   const emaValue70 = emaArray70[emaArray70.length - 1];
 
-  console.log('sma and ema moving averges');
-
   let maAnalysis = {
     'SMA10': {
       'value': smaValue10,
@@ -362,9 +360,7 @@ actions.analyseSignals = async function (data) {
     }
   }
 
-  console.log(maAnalysis);
-
-  // Initialize weighted certainty scores
+// Initialize weighted certainty scores
 let MAbuyCertainty = 0;
 let MAsellCertainty = 0;
 let MAtotalWeight = 0;
@@ -442,47 +438,22 @@ maAnalysis.overallAnalysis = {
     explanations.push("Moving Averages Analysis is STRONG SELL (downtrend indication)");
   }
 
-  console.log("SMA and EMA Moving Averages Analysis with Weighted Certainty:", maAnalysis);
+  //MACD Analysis
+  // Find the most recent valid points
+  const lastIndex = macd.macdLine.length - 1;
+  const prevIndex = macd.macdLine.length - 2;
 
-// Log the full analysis
-/*
-  if (currentPrice > smaValue20) {
-    buyCertainty += WEIGHTS.SMA20;
-    explanations.push("Price is above SMA (uptrend indication)");
-  } else {
-    sellCertainty += WEIGHTS.SMA20;
-    explanations.push("Price is below SMA (downtrend indication)");
-  }*/
-
-  // MACD Analysis
-  console.log('MACD');
-  console.log(macd);
-  /*if (macd.histogram > 0) {
-    buyCertainty += WEIGHTS.MACD;
-    explanations.push("MACD histogram is positive (bullish momentum)");
-  } else {
-    sellCertainty += WEIGHTS.MACD;
-    explanations.push("MACD histogram is negative (bearish momentum)");
-  }*/
-
-  
-    // Find the most recent valid points
-    const lastIndex = macd.macdLine.length - 1;
-    const prevIndex = macd.macdLine.length - 2;
-
-    if (macd.macdLine[lastIndex] > macd.signalLine[lastIndex] && macd.macdLine[prevIndex] <= macd.signalLine[prevIndex]) {
-        // MACD Line just crossed above Signal Line
-        buyCertainty += WEIGHTS.MACD;
-        buyIndicators.push('MACD');
-        explanations.push("MACDLine is above signalLine (bullish momentum)");
-    } else if (macd.macdLine[lastIndex] < macd.signalLine[lastIndex] && macd.macdLine[prevIndex] >= macd.signalLine[prevIndex]) {
-        // MACD Line just crossed below Signal Line
-        sellCertainty += WEIGHTS.MACD;
-        sellIndicators.push('MACD');
-        explanations.push("MACDLine is below signalLine (bearish momentum)");
-    } 
-
-
+  if (macd.macdLine[lastIndex] > macd.signalLine[lastIndex] && macd.macdLine[prevIndex] <= macd.signalLine[prevIndex]) {
+      // MACD Line just crossed above Signal Line
+      buyCertainty += WEIGHTS.MACD;
+      buyIndicators.push('MACD');
+      explanations.push("MACDLine is above signalLine (bullish momentum)");
+  } else if (macd.macdLine[lastIndex] < macd.signalLine[lastIndex] && macd.macdLine[prevIndex] >= macd.signalLine[prevIndex]) {
+      // MACD Line just crossed below Signal Line
+      sellCertainty += WEIGHTS.MACD;
+      sellIndicators.push('MACD');
+      explanations.push("MACDLine is below signalLine (bearish momentum)");
+  } 
 
   // Bollinger Bands Analysis
   const lowerBand = bollingerArray.lower[bollingerArray.lower.length - 1];
@@ -498,8 +469,6 @@ maAnalysis.overallAnalysis = {
   }
 
   // Fibonacci Levels Analysis
-  console.log('Fibonacci');
-  console.log(fibonacci);
   const fibLevels = fibonacci.levels;
   if (currentPrice >= fibLevels.level236 && currentPrice <= fibLevels.level382) {
     buyCertainty += WEIGHTS.Fibonacci;
@@ -512,17 +481,6 @@ maAnalysis.overallAnalysis = {
   }
 
   // RSI Analysis
-  console.log('RSI');
-  console.log(rsi);
-  /*if (rsi < 30) {
-    buyCertainty += WEIGHTS.RSI;
-    buyIndicators.push('RSI');
-    explanations.push("RSI below 30 (oversold condition)");
-  } else if (rsi > 70) {
-    sellCertainty += WEIGHTS.RSI;
-    sellIndicators.push('RSI');
-    explanations.push("RSI above 70 (overbought condition)");
-  }*/
 
   //Confirm RSI with MACD and Bollinger indicators
   const rsiData = {
@@ -532,10 +490,6 @@ maAnalysis.overallAnalysis = {
   }
 
   const rsiSignal = await actions.determineRSI(rsiData);
-
-  console.log('rsiSignal');
-  console.log(rsiSignal);
-
   if(rsiSignal.action == 'BUY'){
     buyCertainty += WEIGHTS.RSI;
     buyIndicators.push('RSI');
@@ -549,20 +503,6 @@ maAnalysis.overallAnalysis = {
   }
 
   // Volume Analysis
-  /*const averageVolume = await actions.calculateAverageVolume(data);
-  const currentVolume = volume[volume.length - 1];
-  if (currentVolume > 1.5 * averageVolume) {
-    buyCertainty += WEIGHTS.Volume;
-    buyIndicators.push('Volume');
-    explanations.push("High volume supports upward price movement");
-  }
-
-  if (currentVolume > 1.5 * averageVolume && sellIndicators.includes('MACD' || 'Momentum')) {
-    sellCertainty += WEIGHTS.Volume;
-    explanations.push("High volume supports downward price movement");
-  }*/
-
-  // Volume Analysis
   const averageVolume = await actions.calculateAverageVolume(data);
   const currentVolume = volume[volume.length - 1];
   
@@ -570,7 +510,7 @@ maAnalysis.overallAnalysis = {
   const volumeConfirmedBuyIndicators = ['MACD', 'Momentum'];
   const volumeConfirmedSellIndicators = ['MACD', 'Momentum'];
   
-  // High volume can confirm a potential buy signal
+  // High volume can confirm a potential BUY signal
   if (
     currentVolume > 1.5 * averageVolume &&
     volumeConfirmedBuyIndicators.some(indicator => buyIndicators.includes(indicator))
@@ -580,7 +520,7 @@ maAnalysis.overallAnalysis = {
     explanations.push("High volume supports upward price movement");
   }
   
-  // High volume can confirm a potential sell signal
+  // High volume can confirm a potential SELL signal
   if (
     currentVolume > 1.5 * averageVolume &&
     volumeConfirmedSellIndicators.some(indicator => sellIndicators.includes(indicator))
@@ -590,11 +530,7 @@ maAnalysis.overallAnalysis = {
     explanations.push("High volume supports downward price movement");
   }
 
-
-
   // ADX Analysis
-  console.log('ADX');
-  console.log(adx);
   /*if (adx > 25) {
     if (macd.histogram > 0) {
       buyCertainty += WEIGHTS.ADX;
@@ -605,30 +541,10 @@ maAnalysis.overallAnalysis = {
     }
   }*/
 
-
-  
-
   // Momentum Analysis
-  /*if (momentum > 0) {
-    buyCertainty += WEIGHTS.Momentum;
-    explanations.push("Positive momentum supports upward movement");
-  } else {
-    sellCertainty += WEIGHTS.Momentum;
-    explanations.push("Negative momentum supports downward movement");
-  }*/
-
-  
-  console.log("Rate of Change (ROC):", roc.toFixed(2) + "%");
-  console.log("Momentum (Smoothed):", momentum.toFixed(2));
   const adjustedMomentum = momentum / atr;
 
-  console.log("ATR:", atr.toFixed(2));
-  console.log("Volatility-Adjusted Momentum:", adjustedMomentum.toFixed(2));
-
   // Define thresholds for momentum confidence
-  //const momentumThreshold = 10; // Example threshold
-  //const rocThreshold = 5;
-
   const baseThreshold = market.volatilityThreshold;
   const momentumThreshold = await actions.calculateDynamicThreshold(baseThreshold, atr, currentPrice);
   const rocThreshold = momentumThreshold * 0.5; // Adjust ROC threshold relative to momentum
@@ -668,8 +584,6 @@ maAnalysis.overallAnalysis = {
     explanations.push("Momentum suggests Downtrend");
   }
   
-  console.log("Momentum Signal:", momentumSignal);
-
   // Normalize certainties
   const totalCertainty = buyCertainty + sellCertainty;
   buyCertainty = totalCertainty > 0 ? buyCertainty / totalCertainty : 0;
@@ -679,16 +593,6 @@ maAnalysis.overallAnalysis = {
   let signal = "HOLD";
   let confidence = "Neutral";
   
-  /*if (buyCertainty > sellCertainty && buyCertainty > 0.5) {
-    signal = "BUY";
-  } else if (sellCertainty > buyCertainty && sellCertainty > 0.5) {
-    signal = "SELL";
-  }*/
-
-  console.log('Indicators');
-  console.log(buyIndicators);
-  console.log(sellIndicators);
-
   if (buyCertainty > sellCertainty) {
     const confidenceLevel = Math.abs(buyCertainty - sellCertainty);
 
