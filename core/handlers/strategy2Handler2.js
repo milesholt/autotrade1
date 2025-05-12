@@ -185,11 +185,15 @@ actions.iniRun = async function () {
       var condition3 = result.signal == 'SELL' && (t.week1 == 'ranging' || t.weeks2 == 'bearish') && t.month == 'bearish';
       var condition4 = result.signal == 'SELL' && (t.week1 == 'bearish' || t.weeks2 == 'ranging') && t.month == 'bearish';
 
+      //If previous two week in same direction
+      var condition5 = result.signal == 'SELL' && t.prev2weeks == 'bearish';
+      var condition6 = result.signal == 'BUY' && t.prev2weeks == 'bullish';
+
       //Exclude these conditions because it suggests the market might be changing direction 
       var exclusion1 = result.signal == 'BUY' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bullish';
       var exclusion2 = result.signal == 'SELL' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bearish';
       
-      var goAhead = (condition1 || condition2 || condition3 || condition4) && (!exclusion1 && !exclusion2);
+      var goAhead = (condition1 || condition2 || condition3 || condition4 || condition5 || condition6) && (!exclusion1 && !exclusion2);
 
       //Log signal and whether to make a trade or not, to be used by monitor as to wether to continue trading
       markets[set.marketidx].data.strategy2 = {
