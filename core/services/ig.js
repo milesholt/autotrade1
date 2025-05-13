@@ -15,12 +15,7 @@ actions.login = function(){
 }
 
 actions.loginLive = function(){
-
-  console.log('Logging out');
-  api.logout().then(r => resolve(r)).catch(e => {
-      console.log(e);
-  });
-
+  
   console.log('Logging in live');
 
   process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
@@ -29,18 +24,17 @@ actions.loginLive = function(){
   process.env.IG_DEMO = "FALSE";
   
   return new Promise((resolve, reject) => {
-    api.login(true).then(r => resolve(r)).catch(e => {
-      console.log(e.body.errorCode);
-    });
-  });
+   api.logout().then(r => {
+     api.login(true).then(r => resolve(r)).catch(e => {
+        console.log(e.body.errorCode);
+       }); 
+     }).catch(e => {
+        console.log(e);
+     });    
+   });
 }
 
 actions.loginDemo = function(){
-
-  console.log('Logging out');
-  api.logout().then(r => resolve(r)).catch(e => {
-      console.log(e);
-  });
 
   console.log('Logging in demo');
 
@@ -49,11 +43,21 @@ actions.loginDemo = function(){
   process.env.IG_API_KEY = process.env.IG_API_KEY_DEMO;
   process.env.IG_DEMO = "TRUE";
   
-  return new Promise((resolve, reject) => {
+  /*return new Promise((resolve, reject) => {
     api.login(true).then(r => resolve(r)).catch(e => {
       console.log(e.body.errorCode);
     });
-  });
+  });*/
+
+  return new Promise((resolve, reject) => {
+   api.logout().then(r => {
+     api.login(true).then(r => resolve(r)).catch(e => {
+        console.log(e.body.errorCode);
+       }); 
+     }).catch(e => {
+        console.log(e);
+     });    
+   });
 }
 
 
