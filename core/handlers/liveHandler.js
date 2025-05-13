@@ -102,7 +102,7 @@ actions.preLive = async function(){
                 let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
 
                 console.log('epic', m.epic);
-                console.log('minimumSize', minimumSize);
+                
 
                 if(minimumSize < 1){
                   //Keep set minimumSize as this is likely an error with IG server
@@ -110,6 +110,8 @@ actions.preLive = async function(){
                   //Store latest minimum size
                   markets[idx].minimumSize.value = minimumSize.value;
                 }
+
+                console.log('minimumSize', markets[idx].minimumSize.value);
       
                 markets[idx].minimumStop.value = stopDistance.value;
                 markets[idx].minimumStop.type = String(stopDistance.unit).toLowerCase();
