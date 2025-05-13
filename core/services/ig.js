@@ -16,7 +16,7 @@ actions.login = function(){
 
 actions.loginLive = function(){
   
-  console.log('Logging in live..');
+  console.log('Logging in live...');
 
   process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_LIVE;
   process.env.IG_PASSWORD = process.env.IG_PASSWORD_LIVE;
