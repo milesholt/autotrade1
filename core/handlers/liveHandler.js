@@ -103,10 +103,16 @@ actions.preLive = async function(){
 
                 console.log('epic', m.epic);
                 console.log('minimumSize', minimumSize);
+
+                if(minimumSize < 1){
+                  //Keep set minimumSize as this is likely an error with IG server
+                } else {
+                  //Store latest minimum size
+                  markets[idx].minimumSize.value = minimumSize.value;
+                }
       
                 markets[idx].minimumStop.value = stopDistance.value;
                 markets[idx].minimumStop.type = String(stopDistance.unit).toLowerCase();
-                markets[idx].minimumSize.value = minimumSize.value;
                 markets[idx].minimumSize.type = String(minimumSize.unit).toLowerCase();
 
                 console.log('epic: ' + markets[idx].epic + ' minSize: ' + markets[idx].minimumSize.value);
