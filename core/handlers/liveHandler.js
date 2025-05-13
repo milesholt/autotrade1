@@ -104,7 +104,7 @@ actions.preLive = async function(){
                 console.log('epic', m.epic);
                 
 
-                if(minimumSize < 1){
+                if(minimumSize.value < 1){
                   //Keep set minimumSize as this is likely an error with IG server
                 } else {
                   //Store latest minimum size
