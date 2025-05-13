@@ -115,6 +115,14 @@ actions.preLive = async function(){
       
     }).catch(e => console.log(e.body.errorCode));
   }
+
+  await api.acctInfo()
+        .then((r)=> {
+          accountBalance = r.accounts[0].balance.available;
+          console.log('account balance: ' + accountBalance);
+        }).catch(e => console.log(e.body.errorCode));
+
+  
   
   // Log back into demo account
   try {
