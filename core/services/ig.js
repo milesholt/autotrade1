@@ -23,7 +23,7 @@ actions.loginLive = function(){
   process.env.IG_API_KEY = process.env.IG_API_KEY_LIVE;
   process.env.IG_DEMO = "FALSE";
   
-  return new Promise((resolve, reject) => {
+  /*return new Promise((resolve, reject) => {
    api.logout().then(r => {
        console.log('Logged out');
        api.login(true).then(r => resolve(r)).catch(e => {
@@ -33,7 +33,13 @@ actions.loginLive = function(){
      }).catch(e => {
         console.log(e);
      });    
-   });
+   });*/
+
+  return new Promise((resolve, reject) => {
+    api.login(true).then(r => resolve(r)).catch(e => {
+      console.log(e.body.errorCode);
+    });
+  });
 }
 
 actions.loginDemo = function(){
