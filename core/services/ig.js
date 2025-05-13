@@ -57,7 +57,7 @@ actions.loginDemo = function(){
     });
   });*/
 
-  return new Promise((resolve, reject) => {
+  /*return new Promise((resolve, reject) => {
    api.logout().then(r => {
      api.login(true).then(r => resolve(r)).catch(e => {
         console.log(e.body.errorCode);
@@ -65,7 +65,13 @@ actions.loginDemo = function(){
      }).catch(e => {
         console.log(e);
      });    
-   });
+   });*/
+
+  return new Promise((resolve, reject) => {
+    api.login(true).then(r => resolve(r)).catch(e => {
+      console.log(e.body.errorCode);
+    });
+  });
 }
 
 
