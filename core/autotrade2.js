@@ -336,7 +336,7 @@ actions.begin = async function () {
 actions.init = async function () {
 
   //First get live balance
-  try {
+  /*try {
     const loginRes = await ig.actions.loginLive();
     //console.log('Live login success:', loginRes);
   } catch (err) {
@@ -358,7 +358,7 @@ actions.init = async function () {
     //console.log('Demo login success:', demoRes);
   } catch (err) {
     console.error('Demo login error:', err);
-  }
+  }*/
 
   //Then continue with 
 
