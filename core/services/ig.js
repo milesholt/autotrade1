@@ -37,6 +37,11 @@ actions.loginLive = function(){
 
 actions.loginDemo = function(){
 
+  console.log('Logging out');
+  api.logout().then(r => resolve(r)).catch(e => {
+      console.log(e.body.errorCode);
+  });
+
   console.log('Logging in demo');
 
   process.env.IG_IDENTIFIER = process.env.IG_IDENTIFIER_DEMO;
