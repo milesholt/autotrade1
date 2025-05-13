@@ -25,6 +25,7 @@ actions.loginLive = function(){
   
   return new Promise((resolve, reject) => {
    api.logout().then(r => {
+     console.log('Logged out');
      api.login(true).then(r => resolve(r)).catch(e => {
         console.log(e.body.errorCode);
        }); 
