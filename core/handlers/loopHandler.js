@@ -99,7 +99,7 @@ actions.loopMarkets = async function(){
 
   //Once loop is finished, do any live tickets
   console.log('Finished looping markets, doing live tickets');
-  if(IS_LIVE === true) await live.actions.doLive();
+  if(IS_LIVE) await live.actions.doLive();
 
   //after looping through markets, execute these functions to finish / clean up -
   await stream.checkSubscriptions();
