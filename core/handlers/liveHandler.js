@@ -125,11 +125,11 @@ actions.preLive = async function(){
   
   
   // Log back into demo account
-  try {
+  /*try {
     const demoRes = await ig.actions.loginDemo();
   } catch (e) {
     console.error('Demo login error:', e.body.errorCode);
-  }
+  }*/
   
 }
 
