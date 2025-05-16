@@ -86,7 +86,7 @@ actions.preLive = async function(){
 
   //For demo testing, disable live login, and get account balance from demo account and minimum sizes from stored values
   
-  if(!IS_LIVE){
+  if(IS_LIVE){
     try {
       const loginRes = await ig.actions.loginLive();
     } catch (e) {
@@ -127,7 +127,7 @@ actions.preLive = async function(){
   
   
   // Log back into demo account
-  if(!IS_LIVE){
+  if(IS_LIVE){
     try {
       const demoRes = await ig.actions.loginDemo();
     } catch (e) {
