@@ -101,11 +101,9 @@ actions.preLive = async function(){
                 let minimumSize = r.marketDetails[0].dealingRules.minDealSize;
                 let stopDistance = r.marketDetails[0].dealingRules.minNormalStopOrLimitDistance;
 
-                console.log('epic', m.epic);
-                console.log('minimumSize', markets[idx].minimumSize.value);
-      
                 markets[idx].minimumStop.value = stopDistance.value;
-                markets[idx].minimumSize.value = minimumSize.value;
+                //Disable to use fixed minimum sizes
+                //markets[idx].minimumSize.value = minimumSize.value;
                 markets[idx].minimumStop.type = String(stopDistance.unit).toLowerCase();
                 markets[idx].minimumSize.type = String(minimumSize.unit).toLowerCase();
 
