@@ -93,6 +93,13 @@ actions.preLive = async function(){
       console.log('Error logging into live', e.body.errorCode);
       return; // Exit early on login failure
     }
+  } else {
+    //Log into demo
+    try {
+      const demoRes = await ig.actions.loginDemo();
+    } catch (e) {
+      console.error('Demo login error:', e.body.errorCode);
+    }
   }
 
   // Loop through tickets and open live positions
