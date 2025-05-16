@@ -86,12 +86,14 @@ actions.preLive = async function(){
 
   //For demo testing, disable live login, and get account balance from demo account and minimum sizes from stored values
   
-  /*try {
-    const loginRes = await ig.actions.loginLive();
-  } catch (e) {
-    console.log('Error logging into live', e.body.errorCode);
-    return; // Exit early on login failure
-  }*/
+  if(!IS_LIVE){
+    try {
+      const loginRes = await ig.actions.loginLive();
+    } catch (e) {
+      console.log('Error logging into live', e.body.errorCode);
+      return; // Exit early on login failure
+    }
+  }
 
   // Loop through tickets and open live positions
   for (const [idx, m] of markets.entries()) {
@@ -125,11 +127,13 @@ actions.preLive = async function(){
   
   
   // Log back into demo account
-  /*try {
-    const demoRes = await ig.actions.loginDemo();
-  } catch (e) {
-    console.error('Demo login error:', e.body.errorCode);
-  }*/
+  if(!IS_LIVE){
+    try {
+      const demoRes = await ig.actions.loginDemo();
+    } catch (e) {
+      console.error('Demo login error:', e.body.errorCode);
+    }
+  }
   
 }
 
