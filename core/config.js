@@ -133,6 +133,7 @@ size = 1;
 
 desiredProfitAmount = 100; 
 desiredLossAmount = 50; 
+IS_LIVE = false;
    
 //Main parameters
 // markets = [
