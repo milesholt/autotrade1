@@ -84,12 +84,14 @@ actions.doLive = async function () {
 //Do any checks or get any details with live account pre-loop
 actions.preLive = async function(){
 
-  try {
+  //For demo testing, disable live login, and get account balance from demo account and minimum sizes from stored values
+  
+  /*try {
     const loginRes = await ig.actions.loginLive();
   } catch (e) {
     console.log('Error logging into live', e.body.errorCode);
     return; // Exit early on login failure
-  }
+  }*/
 
   // Loop through tickets and open live positions
   for (const [idx, m] of markets.entries()) {
