@@ -1255,8 +1255,9 @@ actions.beginTrade = async function (set) {
           marketInfo: markets[set.marketidx],        
           direction: dir,    
         };
-    
-        const tradeDetails = await actions.calculateTradeDetails(tradeParams, set);
+
+        const marketStructure = actions.analyzeMarketStructure({ data, direction: dir });
+        const tradeDetails = await actions.calculateTradeDetails(tradeParams, set, marketStructure);
         tradeDetails.direction = dir;
         tradeDetails.entryPrice = entryPrice;
         set.details = tradeDetails;
@@ -1268,7 +1269,142 @@ actions.beginTrade = async function (set) {
   
 };
 
-actions.calculateTradeDetails = function (params, set) {
+/*actions.analyzeMarketStructure = function({ priceData, direction }) {
+  // priceData = Array of OHLC candles (or ticks) from recent N minutes
+
+  const recentLows = priceData.map(c => c.low);
+  const recentHighs = priceData.map(c => c.high);
+
+  const swingLow = Math.min(...recentLows);
+  const swingHigh = Math.max(...recentHighs);
+
+  const averageRange = priceData.reduce((acc, c) => acc + (c.high - c.low), 0) / priceData.length;
+
+  // "Noise buffer" could be set as 1.5x average range
+  const noiseBuffer = averageRange * 1.5;
+
+  return {
+    swingLow,
+    swingHigh,
+    noiseBuffer,
+  };
+};*/
+
+actions.analyzeMarketStructure = function ({ priceData, direction }) {
+  const lastCandles = priceData.slice(-20); // e.g., last 20 candles
+
+  const lows = lastCandles.map(c => c.low);
+  const highs = lastCandles.map(c => c.high);
+  const swingLow = Math.min(...lows);
+  const swingHigh = Math.max(...highs);
+
+  const averageRange = highs.map((h, i) => h - lows[i]).reduce((a, b) => a + b) / highs.length;
+  const noiseBuffer = averageRange * 1.2; // make configurable
+
+  return { swingLow, swingHigh, noiseBuffer };
+};
+
+
+actions.calculateTradeDetails = function (params, set, marketStructure) {
+  const {
+    entryPrice,
+    desiredLossAmount,
+    desiredProfitAmount,
+    accountEquity,
+    marketInfo,
+    direction,
+  } = params;
+
+  // Step 1: Margin Check
+  if (accountEquity < marketInfo.minimumBalance) {
+    throw new Error("Insufficient balance to meet minimum margin requirement.");
+  }
+
+  // Step 2: Risk Reward Ratio
+  const riskRewardRatio = desiredProfitAmount / desiredLossAmount;
+
+  // Step 3: Value per Point and Minimum Size
+  const valuePerPoint = marketInfo.valuePerPoint;
+  const minimumSize = marketInfo.minimumSize.type === "points"
+    ? marketInfo.minimumSize.value
+    : lib.toNumber(entryPrice * marketInfo.minimumSize.value);
+
+  // Step 4: Calculate Trade Size
+  let size = minimumSize;
+
+  // Step 5: Initial Stop Distance
+  let stopDistance = desiredLossAmount / (size * valuePerPoint);
+
+  // Step 6: Initial Stop Loss Price
+  let stopLossPrice;
+  if (direction === "BUY") {
+    stopLossPrice = entryPrice - stopDistance;
+  } else if (direction === "SELL") {
+    stopLossPrice = entryPrice + stopDistance;
+  } else {
+    throw new Error("Invalid direction. Must be BUY or SELL.");
+  }
+
+  // Step 7: Invisible Stop Adjustment (based on market structure)
+  const { swingLow, swingHigh, noiseBuffer } = marketStructure || {};
+  let invisibleStopLoss = stopLossPrice;
+
+  if (marketStructure) {
+    if (direction === "BUY") {
+      const safeStop = swingLow - noiseBuffer;
+      if (stopLossPrice > safeStop) {
+        invisibleStopLoss = safeStop;
+        stopDistance = entryPrice - invisibleStopLoss;
+      }
+    } else if (direction === "SELL") {
+      const safeStop = swingHigh + noiseBuffer;
+      if (stopLossPrice < safeStop) {
+        invisibleStopLoss = safeStop;
+        stopDistance = invisibleStopLoss - entryPrice;
+      }
+    }
+  }
+
+  // Step 8: Stop Percentage Check
+  const stopPercentage = (stopDistance / entryPrice) * 100;
+  const MIN_STOP_PERCENTAGE = 0.5;
+  if (stopPercentage < MIN_STOP_PERCENTAGE) {
+    throw new Error(`Stop percentage (${stopPercentage.toFixed(2)}%) is too small. Trade skipped.`);
+  }
+
+  // Step 9: Take Profit Calculation
+  const limitDistance = stopDistance * riskRewardRatio;
+  let takeProfitPrice;
+  if (direction === "BUY") {
+    takeProfitPrice = entryPrice + limitDistance;
+  } else {
+    takeProfitPrice = entryPrice - limitDistance;
+  }
+
+  // Final Debug Output
+  console.log("=== Trade Details ===");
+  console.log(`Size: ${size}`);
+  console.log(`Stop Distance: ${stopDistance}`);
+  console.log(`Stop %: ${stopPercentage.toFixed(2)}%`);
+  console.log(`Initial Stop Loss: ${stopLossPrice}`);
+  console.log(`Invisible Stop Loss: ${invisibleStopLoss}`);
+  console.log(`Take Profit Price: ${takeProfitPrice}`);
+
+  return {
+    stopDistance,
+    stopLossPrice,
+    invisibleStopLoss,
+    limitDistance,
+    takeProfitPrice,
+    size,
+    riskRewardRatio,
+    stopPercentage,
+  };
+};
+
+
+//Without stop hunting update
+/*actions.calculateTradeDetails = function (params, set) {
   const {
     entryPrice,
     desiredLossAmount,
@@ -1344,7 +1480,7 @@ actions.calculateTradeDetails = function (params, set) {
     stopPercentage,
   };
 };
-
+*/
 
 
 /*actions.calculateTradeDetails = function (params, set) {
@@ -1558,6 +1694,7 @@ actions.openPosition = async function (details, set) {
     console.log('market strategy2: ');
     console.log(markets[set.marketidx].data.strategy2);
     markets[set.marketidx].data.strategy2.ticket = ticket;
+    markets[set.marketidx].data.strategy2.details = set.details;
 
     liveTickets.push(ticket);
 
