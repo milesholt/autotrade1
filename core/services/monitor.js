@@ -105,9 +105,9 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
 
   console.log('epic: ' + arr.epic + ' mid: ' + arr.marketId +  ' streamingPricesAvailable:' + markets[arr.marketId].streamingPricesAvailable);
 
-
   isStreamingAvailable[arr.epic] = markets[arr.marketId].streamingPricesAvailable;
 
+  
   console.log(isStreamingAvailable);
 
   console.log(arr);
@@ -152,19 +152,28 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                     let limitDiff = lib.actions.toNumber(Math.abs(p.level - p.limitLevel) * limitClosePerc);
                     let stopDiff = lib.actions.toNumber(Math.abs(p.level - p.stopLevel) * stopClosePerc);
                     
-                    
                     let monitorData = {
-                      'newlimitBuy': lib.actions.toNumber(p.level + limitDiff),
-                      'newlimitSell':  lib.actions.toNumber(p.level - limitDiff),
-                      'newStopBuy':lib.actions.toNumber(p.level - stopDiff),
-                      'newStopSell':  lib.actions.toNumber(p.level + stopDiff),  
-                      'limitLevel': p.limitLevel,
-                      'stopLevel': p.stopLevel,
-                      'level': p.level
+                      newlimitBuy: lib.actions.toNumber(p.level + limitDiff),
+                      newlimitSell: lib.actions.toNumber(p.level - limitDiff),
+                      newStopBuy: lib.actions.toNumber(p.level - stopDiff),
+                      newStopSell: lib.actions.toNumber(p.level + stopDiff),
+                      limitLevel: p.limitLevel,
+                      stopLevel: p.stopLevel,
+                      level: p.level
+                    };
+                    
+                    // Pull from strategy details
+                    const strategyDetails = markets[arr.marketId]?.data?.strategy2?.details;
+                    const invisibleStop = strategyDetails?.invisibleStopLoss;
+                    
+                    // Handle fallback cleanly
+                    if (invisibleStop) {
+                      monitorData.newStop = invisibleStop;
+                    } else {
+                      console.warn(`No invisible stop found for market ${markets[arr.marketId]?.epic}`);
+                      monitorData.newStop = p.direction === 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
                     }
-                    monitorData.newLimit = p.direction == 'BUY' ? monitorData.newlimitBuy : monitorData.newlimitSell;
-                    monitorData.newStop = p.direction == 'BUY' ? monitorData.newStopBuy : monitorData.newStopSell;
-
+                                    
                     //convert newlimit to have only one decimal place
                     //monitorData.newLimit = parseFloat(monitorData.newLimit.toFixed(2).slice(0, -1));
 
