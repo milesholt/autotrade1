@@ -1299,7 +1299,7 @@ actions.analyzeMarketStructure = function ({ priceData, direction }) {
   const swingHigh = Math.max(...highs);
 
   const averageRange = highs.map((h, i) => h - lows[i]).reduce((a, b) => a + b) / highs.length;
-  const noiseBuffer = averageRange * 1.2; // make configurable
+  const noiseBuffer = averageRange * marketNoiseBuffer; // make configurable
 
   return { swingLow, swingHigh, noiseBuffer };
 };
