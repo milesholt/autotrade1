@@ -66,6 +66,7 @@ tradeLimitPerc = 0.3;
 lineDistanceLimitPerc = 0.05;
 limitDistancePerc = 0.4;
 
+
 //previous limit and stop close percentages
 //dont forget to clear monitorlog to restart monitoring with new percentage values
 
@@ -95,6 +96,7 @@ stopClosePerc = 1.0;*/
 
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
+marketNoiseBuffer = 1.2; //stopHunting noise level buffer, creates new invisibleStopLoss
 
 momentumLimit = 0;
 rangelimit = 0;
