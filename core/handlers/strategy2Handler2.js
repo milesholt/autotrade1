@@ -1288,7 +1288,7 @@ actions.beginTrade = async function (set) {
         //Recent candles
         const recentCandles = data.slice(-20); // e.g., last 20 candles
         //Set stop level above noise level by determining market structure (noise level)
-        const marketStructure = await actions.analyzeMarketStructure({ recentCandles, direction: dir });
+        const marketStructure = await actions.analyzeMarketStructure(recentCandles);
         //Determine low volume
         const relaxed = await actions.isLowVolumeSession(); // Optional helper
         //Perform series of measures to check for stop hunting and confirm good entry point
@@ -1346,14 +1346,14 @@ actions.isLowVolumeSession = function() {
   return hour < 6 || hour >= 20; // Asian/late US session
 }
 
-actions.analyzeMarketStructure = function ({ lastCandles, direction }) {
+actions.analyzeMarketStructure = function (lastCandles) {
   
-  const lows = lastCandles.map(c => c.low);
-  const highs = lastCandles.map(c => c.high);
-  const swingLow = Math.min(...lows);
-  const swingHigh = Math.max(...highs);
+  const mlows = lastCandles.map(c => c.low);
+  const mhighs = lastCandles.map(c => c.high);
+  const swingLow = Math.min(...mlows);
+  const swingHigh = Math.max(...mhighs);
 
-  const averageRange = highs.map((h, i) => h - lows[i]).reduce((a, b) => a + b) / highs.length;
+  const averageRange = mhighs.map((h, i) => h - mlows[i]).reduce((a, b) => a + b) / mhighs.length;
   const noiseBuffer = averageRange * marketNoiseBuffer; // make configurable
 
   return { swingLow, swingHigh, noiseBuffer };
