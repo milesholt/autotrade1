@@ -1519,7 +1519,9 @@ actions.calculateTradeDetails = async function (params, set, marketStructure) {
 
   const trueStop = invisibleStopLoss;
   const atr = await actions.calculateATR2(data, 14);
-  const buffer = atr * 1.5;
+  const buffer = atr * marketNoiseBuffer;
+  const relaxed = await actions.isLowVolumeSession();
+  if (relaxed) buffer *= 1.2;
 
   let visibleStop;
   if (direction === 'BUY') {
@@ -1527,7 +1529,7 @@ actions.calculateTradeDetails = async function (params, set, marketStructure) {
   } else {
     visibleStop = trueStop + buffer;
   }
-  const visibleStopDistance = Math.abs(entryLevel - visibleStop);
+  const visibleStopDistance = Math.abs(entryPrice - visibleStop);
 
   //set visible stop distance
   stopDistance = visibleStopDistance;
