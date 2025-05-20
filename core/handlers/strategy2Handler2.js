@@ -1283,6 +1283,8 @@ actions.beginTrade = async function (set) {
           direction: dir,    
         };
 
+        let data = pricedata.support;
+
         //Recent candles
         const recentCandles = data.slice(-20); // e.g., last 20 candles
         //Set stop level above noise level by determining market structure (noise level)
