@@ -1256,13 +1256,35 @@ actions.beginTrade = async function (set) {
           direction: dir,    
         };
 
-        const marketStructure = actions.analyzeMarketStructure({ data, direction: dir });
-        const tradeDetails = await actions.calculateTradeDetails(tradeParams, set, marketStructure);
-        tradeDetails.direction = dir;
-        tradeDetails.entryPrice = entryPrice;
-        set.details = tradeDetails;
-        // Continue if tradeDetails was created successfully
-        await actions.openPosition(tradeDetails, set);
+        //Recent candles
+        const recentCandles = data.slice(-20); // e.g., last 20 candles
+        //Set stop level above noise level by determining market structure (noise level)
+        const marketStructure = await actions.analyzeMarketStructure({ recentCandles, direction: dir });
+        //Determine low volume
+        const relaxed = await actions.isLowVolumeSession(); // Optional helper
+        //Perform series of measures to check for stop hunting and confirm good entry point
+        const finalSignal = await actions.shouldEnterTrade(recentCandles, dir, {
+          relaxed,
+          minVolumeSpike: 1.5,
+          wickTolerance: 0.1
+        });
+        
+        if (finalSignal.valid) {
+          console.log(`Valid ${finalSignal.signal} signal: ${finalSignal.reason}`);
+
+          const tradeDetails = await actions.calculateTradeDetails(tradeParams, set, marketStructure);
+          tradeDetails.direction = dir;
+          tradeDetails.entryPrice = entryPrice;
+          set.details = tradeDetails;
+          // Continue if tradeDetails was created successfully
+          await actions.openPosition(tradeDetails, set);
+          
+        } else {
+          console.log('No valid entry at this time.');
+        }
+
+      
+        
   } catch (error) {
         console.error("Trade skipped:", error.message);
   }
@@ -1290,9 +1312,13 @@ actions.beginTrade = async function (set) {
   };
 };*/
 
-actions.analyzeMarketStructure = function ({ priceData, direction }) {
-  const lastCandles = priceData.slice(-20); // e.g., last 20 candles
+actions.isLowVolumeSession = function() {
+  const hour = new Date().getUTCHours();
+  return hour < 6 || hour >= 20; // Asian/late US session
+}
 
+actions.analyzeMarketStructure = function ({ lastCandles, direction }) {
+  
   const lows = lastCandles.map(c => c.low);
   const highs = lastCandles.map(c => c.high);
   const swingLow = Math.min(...lows);
@@ -1303,6 +1329,87 @@ actions.analyzeMarketStructure = function ({ priceData, direction }) {
 
   return { swingLow, swingHigh, noiseBuffer };
 };
+
+/*
+
+Stop hunting prevention function that integrates:
+
+Liquidity sweep detection (stop hunts)
+Reversal confirmation (engulfing candle)
+Order block reclaim + retest
+Volume spike filtering
+Relaxed mode for low-volume sessions
+
+*/
+
+actions.shouldEnterTrade = function(candles, direction, options = { relaxed: false, minVolumeSpike: 1.5, wickTolerance: 0.1 }) {
+  if (!candles || candles.length < 5) return false;
+
+  const c = candles;
+  const len = candles.length;
+  const last = c[len - 1];
+  const prev = c[len - 2];
+  const third = c[len - 3];
+  const fourth = c[len - 4];
+  const fifth = c[len - 5];
+
+  // === Volume Spike Detection ===
+  const avgVolume = (fifth.volume + fourth.volume + third.volume) / 3;
+  const volumeSpike = prev.volume >= avgVolume * options.minVolumeSpike;
+
+  // === Liquidity Zone - Wick Sweep Detection ===
+  const sweepHigh = third.high < prev.high && prev.close < third.high;
+  const sweepLow = third.low > prev.low && prev.close > third.low;
+
+  // === Engulfing Reversal ===
+  const bearishEngulfing = prev.open < last.open && prev.close > last.close;
+  const bullishEngulfing = prev.open > last.open && prev.close < last.close;
+
+  // === Order Block Confirmation ===
+  const wickTol = options.wickTolerance || 0.1; // 10% of candle range
+  const rangeOB = Math.abs(third.high - third.low) * wickTol;
+
+  const isOrderBlockUp =
+    third.open > third.close &&                  // bearish candle
+    prev.close > third.high &&                   // price closes above OB
+    Math.abs(last.low - third.high) < rangeOB;   // retest as support
+
+  const isOrderBlockDown =
+    third.close > third.open &&                  // bullish candle
+    prev.close < third.low &&                    // price closes below OB
+    Math.abs(last.high - third.low) < rangeOB;   // retest as resistance
+
+  // === Combine Conditions ===
+  const bullishConditions =
+    (sweepLow && bullishEngulfing && (volumeSpike || options.relaxed || isOrderBlockUp)) || isOrderBlockUp;
+
+  const bearishConditions =
+    (sweepHigh && bearishEngulfing && (volumeSpike || options.relaxed || isOrderBlockDown)) || isOrderBlockDown;
+
+  // === Final Decision ===
+  if (direction === 'BUY' && bullishConditions) {
+    return {
+      valid: true,
+      signal: 'BUY',
+      reason: 'Bullish setup after stop hunt (engulfing, OB, or volume)',
+      volumeSpike,
+      relaxed: options.relaxed
+    };
+  }
+
+  if (direction === 'SELL' && bearishConditions) {
+    return {
+      valid: true,
+      signal: 'SELL',
+      reason: 'Bearish setup after stop hunt (engulfing, OB, or volume)',
+      volumeSpike,
+      relaxed: options.relaxed
+    };
+  }
+
+  return { valid: false };
+}
+
 
 
 actions.calculateTradeDetails = function (params, set, marketStructure) {
