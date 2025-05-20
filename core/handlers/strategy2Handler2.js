@@ -761,6 +761,33 @@ actions.calculateATR = async function(highs, lows, closes, period) {
 
   return await actions.calculateSMARecent(trueRanges, period);
 }
+/**
+ * Calculates the ATR (Average True Range) over a given period.
+ * @param {Array} candles - Array of candle objects [{ high, low, close }, ...] ordered from oldest to latest.
+ * @param {number} period - Number of candles to include in the ATR calculation (e.g. 14).
+ * @returns {number} The average true range.
+ */
+actions.calculateATR2 = async function(candles, period = 14) {
+  if (!candles || candles.length < period + 1) return null;
+
+  let trValues = [];
+
+  for (let i = 1; i <= period; i++) {
+    const current = candles[i];
+    const previous = candles[i - 1];
+
+    const highLow = current.high - current.low;
+    const highClose = Math.abs(current.high - previous.close);
+    const lowClose = Math.abs(current.low - previous.close);
+
+    const trueRange = Math.max(highLow, highClose, lowClose);
+    trValues.push(trueRange);
+  }
+
+  // Calculate ATR = average of TR values
+  const atr = trValues.reduce((sum, tr) => sum + tr, 0) / period;
+  return parseFloat(atr.toFixed(5));
+}
 
 
 actions.calculateMomentum = async function(prices, period) {
@@ -1412,7 +1439,7 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
 
 
 
-actions.calculateTradeDetails = function (params, set, marketStructure) {
+actions.calculateTradeDetails = async function (params, set, marketStructure) {
   const {
     entryPrice,
     desiredLossAmount,
@@ -1487,6 +1514,23 @@ actions.calculateTradeDetails = function (params, set, marketStructure) {
   } else {
     takeProfitPrice = entryPrice - limitDistance;
   }
+
+  //Step 10: Calculate Visible Stop Loss / Distance
+
+  const trueStop = invisibleStopLoss;
+  const atr = await actions.calculateATR2(data, 14);
+  const buffer = atr * 1.5;
+
+  let visibleStop;
+  if (direction === 'BUY') {
+    visibleStop = trueStop - buffer;
+  } else {
+    visibleStop = trueStop + buffer;
+  }
+  const visibleStopDistance = Math.abs(entryLevel - visibleStop);
+
+  //set visible stop distance
+  stopDistance = visibleStopDistance;
 
   // Final Debug Output
   console.log("=== Trade Details ===");
