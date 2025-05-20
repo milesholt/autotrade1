@@ -96,7 +96,7 @@ stopClosePerc = 1.0;*/
 
 bumpVolatilityLimit = 0.6;
 percRiskLoss = 0.25;
-marketNoiseBuffer = 1.2; //stopHunting noise level buffer, creates new invisibleStopLoss
+marketNoiseBuffer = 1.5; //stopHunting noise level buffer, creates new invisibleStopLoss
 
 momentumLimit = 0;
 rangelimit = 0;
