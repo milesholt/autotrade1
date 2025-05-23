@@ -1374,6 +1374,8 @@ Relaxed mode for low-volume sessions
 actions.shouldEnterTrade = function(candles, direction, options = { relaxed: false, minVolumeSpike: 1.5, wickTolerance: 0.1 }) {
   if (!candles || candles.length < 5) return false;
 
+  console.log('Should Enter Trade logs:');
+
   const c = candles;
   const len = candles.length;
   const last = c[len - 1];
@@ -1385,6 +1387,7 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
   // === Volume Spike Detection ===
   const avgVolume = (fifth.volume + fourth.volume + third.volume) / 3;
   const volumeSpike = prev.volume >= avgVolume * options.minVolumeSpike;
+
 
   // === Liquidity Zone - Wick Sweep Detection ===
   const sweepHigh = third.high < prev.high && prev.close < third.high;
@@ -1435,6 +1438,18 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
       relaxed: options.relaxed
     };
   }
+
+  console.log('direction: ', direction);
+  console.log('relaxed: ', options.relaxed);
+  console.log('volume spike: ', volumeSpike);
+  console.log('sweepHigh: ', sweepHigh);
+  console.log('sweepLow: ', sweepLow);
+  console.log('bearishEngulfing: ', bearishEnguling);
+  console.log('bullishEngulfing: ', bullishEngulfing);
+  console.log('isOrderBlockUp: ', isOrderBlockUp);
+  console.log('isOrderBlockDown: ', isOrderBlockDown);
+  console.log('bullishConditions: ', bullishConditions);
+  console.log('bearishConditions: ', bearishConditions);
 
   return { valid: false };
 }
