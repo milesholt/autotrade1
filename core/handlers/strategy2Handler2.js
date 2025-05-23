@@ -1444,7 +1444,7 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
   console.log('volume spike: ', volumeSpike);
   console.log('sweepHigh: ', sweepHigh);
   console.log('sweepLow: ', sweepLow);
-  console.log('bearishEngulfing: ', bearishEnguling);
+  console.log('bearishEngulfing: ', bearishEngulfing);
   console.log('bullishEngulfing: ', bullishEngulfing);
   console.log('isOrderBlockUp: ', isOrderBlockUp);
   console.log('isOrderBlockDown: ', isOrderBlockDown);
