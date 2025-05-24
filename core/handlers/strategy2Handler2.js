@@ -1375,6 +1375,7 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
   if (!candles || candles.length < 5) return false;
 
   console.log('Should Enter Trade logs:');
+  console.log('Recent candles', candles);
 
   const c = candles;
   const len = candles.length;
@@ -1441,11 +1442,13 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
 
   console.log('direction: ', direction);
   console.log('relaxed: ', options.relaxed);
+  console.log('average volume: ', avgVolume);
   console.log('volume spike: ', volumeSpike);
   console.log('sweepHigh: ', sweepHigh);
   console.log('sweepLow: ', sweepLow);
   console.log('bearishEngulfing: ', bearishEngulfing);
   console.log('bullishEngulfing: ', bullishEngulfing);
+  console.log('Order block range: ', rangeOB);
   console.log('isOrderBlockUp: ', isOrderBlockUp);
   console.log('isOrderBlockDown: ', isOrderBlockDown);
   console.log('bullishConditions: ', bullishConditions);
