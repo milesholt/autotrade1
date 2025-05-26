@@ -1375,8 +1375,7 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
   if (!candles || candles.length < 5) return false;
 
   console.log('Should Enter Trade logs:');
-  console.log('Recent candles', candles);
-
+ 
   const c = candles;
   const len = candles.length;
   const last = c[len - 1];
@@ -1384,6 +1383,10 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
   const third = c[len - 3];
   const fourth = c[len - 4];
   const fifth = c[len - 5];
+
+  console.log('last', last);
+  console.log('prev', prev);
+  console.log('third', third);
 
   // === Volume Spike Detection ===
   const avgVolume = (fifth.volume + fourth.volume + third.volume) / 3;
