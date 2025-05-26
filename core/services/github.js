@@ -46,7 +46,7 @@ actions.getFile = async function(path, b = branch){
   } else {
     console.log('error getting file: ' +path+ '  from GitHub - HttpError');
     console.log('/repos/{owner}/{repo}/contents/{path}');
-    console.log(e);
+    //console.log(e);
   }
 });
 
