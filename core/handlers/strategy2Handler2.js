@@ -193,7 +193,8 @@ actions.iniRun = async function () {
       var exclusion1 = result.signal == 'BUY' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bullish';
       var exclusion2 = result.signal == 'SELL' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bearish';
       
-      var goAhead = (condition1 || condition2 || condition3 || condition4 || condition5 || condition6) && (!exclusion1 && !exclusion2);
+      //var goAhead = (condition1 || condition2 || condition3 || condition4 || condition5 || condition6) && (!exclusion1 && !exclusion2);
+      var goAhead = true;
 
       //Log signal and whether to make a trade or not, to be used by monitor as to wether to continue trading
       markets[set.marketidx].data.strategy2 = {
