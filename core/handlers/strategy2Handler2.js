@@ -1292,10 +1292,17 @@ actions.beginTrade = async function (set) {
         const marketStructure = await actions.analyzeMarketStructure(recentCandles);
         //Determine low volume
         const relaxed = await actions.isLowVolumeSession(); // Optional helper
-        //Perform series of measures to check for stop hunting and confirm good entry point
-        const finalSignal = await actions.shouldEnterTrade(recentCandles, dir, {
+        
+         //Perform series of measures to check for stop hunting and confirm good entry point
+        /*const finalSignal = await actions.shouldEnterTrade(recentCandles, dir, {
           relaxed,
           minVolumeSpike: 1.5,
+          wickTolerance: 0.1
+        });*/
+
+        const finalSignal = await actions.shouldEnterTrade(recentCandles, dir, {
+          mode: 'moderate',
+          minVolumeSpike: 1.3,
           wickTolerance: 0.1
         });
         
@@ -1372,7 +1379,7 @@ Relaxed mode for low-volume sessions
 
 */
 
-actions.shouldEnterTrade = function(candles, direction, options = { relaxed: false, minVolumeSpike: 1.5, wickTolerance: 0.1 }) {
+/*actions.shouldEnterTrade = function(candles, direction, options = { relaxed: false, minVolumeSpike: 1.5, wickTolerance: 0.1 }) {
   if (!candles || candles.length < 5) return false;
 
   console.log('Should Enter Trade logs:');
@@ -1459,7 +1466,109 @@ actions.shouldEnterTrade = function(candles, direction, options = { relaxed: fal
   console.log('bearishConditions: ', bearishConditions);
 
   return { valid: false };
-}
+}*/
+
+
+actions.shouldEnterTrade = function (
+  candles,
+  direction,
+  options = { mode: 'strict', minVolumeSpike: 1.5, wickTolerance: 0.1 }
+) {
+  if (!candles || candles.length < 5) return { valid: false };
+
+  const c = candles;
+  const len = candles.length;
+  const last = c[len - 1];
+  const prev = c[len - 2];
+  const third = c[len - 3];
+  const fourth = c[len - 4];
+  const fifth = c[len - 5];
+
+  // === Volume Spike ===
+  const avgVolume = (fifth.volume + fourth.volume + third.volume) / 3;
+  const volumeSpike = prev.volume >= avgVolume * options.minVolumeSpike;
+
+  // === Wick Sweeps ===
+  const sweepHigh = prev.high > third.high && last.close < third.high;
+  const sweepLow = prev.low < third.low && last.close > third.low;
+
+  // === Engulfing ===
+  const bearishEngulfing = last.open > prev.close && last.close < prev.open;
+  const bullishEngulfing = last.open < prev.close && last.close > prev.open;
+
+  // === Order Block Retest ===
+  const wickTol = options.wickTolerance || 0.1;
+  const rangeOB = Math.abs(third.high - third.low) * wickTol;
+
+  const isOrderBlockUp =
+    third.open > third.close && // bearish OB
+    prev.close > third.high &&
+    Math.abs(last.low - third.high) < rangeOB;
+
+  const isOrderBlockDown =
+    third.close > third.open && // bullish OB
+    prev.close < third.low &&
+    Math.abs(last.high - third.low) < rangeOB;
+
+  // === STRATEGY LOGIC ===
+  let bullishConditions = false;
+  let bearishConditions = false;
+
+  switch (options.mode) {
+    case 'strict':
+      bullishConditions =
+        (sweepLow && bullishEngulfing && (volumeSpike || isOrderBlockUp)) ||
+        isOrderBlockUp;
+
+      bearishConditions =
+        (sweepHigh && bearishEngulfing && (volumeSpike || isOrderBlockDown)) ||
+        isOrderBlockDown;
+      break;
+
+    case 'moderate':
+      bullishConditions =
+        (sweepLow && (bullishEngulfing || isOrderBlockUp || volumeSpike)) ||
+        (bullishEngulfing && (isOrderBlockUp || volumeSpike));
+
+      bearishConditions =
+        (sweepHigh && (bearishEngulfing || isOrderBlockDown || volumeSpike)) ||
+        (bearishEngulfing && (isOrderBlockDown || volumeSpike));
+      break;
+
+    case 'aggressive':
+      bullishConditions =
+        sweepLow || bullishEngulfing || isOrderBlockUp || volumeSpike;
+
+      bearishConditions =
+        sweepHigh || bearishEngulfing || isOrderBlockDown || volumeSpike;
+      break;
+
+    default:
+      return { valid: false, reason: 'Unknown strategy mode' };
+  }
+
+  // === Final Return ===
+  if (direction === 'BUY' && bullishConditions) {
+    return {
+      valid: true,
+      signal: 'BUY',
+      reason: `${options.mode.toUpperCase()} bullish signal`,
+      volumeSpike,
+    };
+  }
+
+  if (direction === 'SELL' && bearishConditions) {
+    return {
+      valid: true,
+      signal: 'SELL',
+      reason: `${options.mode.toUpperCase()} bearish signal`,
+      volumeSpike,
+    };
+  }
+
+  return { valid: false };
+};
+
 
 
 
