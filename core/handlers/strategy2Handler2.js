@@ -1309,7 +1309,7 @@ actions.beginTrade = async function (set) {
         if (finalSignal.valid) {
           console.log(`Valid ${finalSignal.signal} signal: ${finalSignal.reason}`);
 
-          const tradeDetails = await actions.calculateTradeDetails(tradeParams, set, marketStructure);
+          const tradeDetails = await actions.calculateTradeDetails(tradeParams, set, marketStructure, data);
           tradeDetails.direction = dir;
           tradeDetails.entryPrice = entryPrice;
           set.details = tradeDetails;
@@ -1585,7 +1585,7 @@ actions.shouldEnterTrade = function (
 
 
 
-actions.calculateTradeDetails = async function (params, set, marketStructure) {
+actions.calculateTradeDetails = async function (params, set, marketStructure, data) {
   const {
     entryPrice,
     desiredLossAmount,
