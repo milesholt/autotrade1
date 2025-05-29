@@ -1302,7 +1302,7 @@ actions.beginTrade = async function (set) {
 
         const finalSignal = await actions.shouldEnterTrade(recentCandles, dir, {
           mode: 'moderate',
-          minVolumeSpike: 1.1,
+          minVolumeSpike: 1.5,
           wickTolerance: 0.1
         });
         
