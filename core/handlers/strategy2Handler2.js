@@ -1468,6 +1468,42 @@ Relaxed mode for low-volume sessions
   return { valid: false };
 }*/
 
+actions.detectEngulfing = function(last, prev, sizeFactor = 1.2) {
+  const prevBodySize = Math.abs(prev.close - prev.open);
+  const lastBodySize = Math.abs(last.close - last.open);
+
+  // Guard against zero division
+  if (prevBodySize === 0) return { bullishEngulfing: false, bearishEngulfing: false };
+
+  // Bullish Engulfing:
+  // 1. Previous candle bearish
+  // 2. Last candle bullish
+  // 3. Last candle fully engulfs body of previous
+  // 4. Last candle body is at least `sizeFactor` times larger
+  const bullishEngulfing =
+    prev.close < prev.open && // previous bearish
+    last.close > last.open && // last bullish
+    last.open <= prev.close &&
+    last.close >= prev.open &&
+    lastBodySize >= prevBodySize * sizeFactor;
+
+  // Bearish Engulfing:
+  // 1. Previous candle bullish
+  // 2. Last candle bearish
+  // 3. Last candle fully engulfs body of previous
+  // 4. Last candle body is at least `sizeFactor` times larger
+  const bearishEngulfing =
+    prev.close > prev.open && // previous bullish
+    last.close < last.open && // last bearish
+    last.open >= prev.close &&
+    last.close <= prev.open &&
+    lastBodySize >= prevBodySize * sizeFactor;
+
+  return { bullishEngulfing, bearishEngulfing };
+  
+}
+
+
 
 actions.shouldEnterTrade = function (
   candles,
@@ -1493,9 +1529,10 @@ actions.shouldEnterTrade = function (
   const sweepLow = prev.low < third.low && last.close > third.low;
 
   // === Engulfing ===
-  const bearishEngulfing = last.open > prev.close && last.close < prev.open;
-  const bullishEngulfing = last.open < prev.close && last.close > prev.open;
-
+  //const bearishEngulfing = last.open > prev.close && last.close < prev.open;
+  //const bullishEngulfing = last.open < prev.close && last.close > prev.open;
+  const { bullishEngulfing, bearishEngulfing } = actions.detectEngulfing(last, prev);
+  
   // === Order Block Retest ===
   const wickTol = options.wickTolerance || 0.1;
   const rangeOB = Math.abs(third.high - third.low) * wickTol;
