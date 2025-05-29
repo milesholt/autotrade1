@@ -1302,7 +1302,7 @@ actions.beginTrade = async function (set) {
 
         const finalSignal = await actions.shouldEnterTrade(recentCandles, dir, {
           mode: 'moderate',
-          minVolumeSpike: 1.3,
+          minVolumeSpike: 1.1,
           wickTolerance: 0.1
         });
         
@@ -1546,6 +1546,19 @@ actions.shouldEnterTrade = function (
     default:
       return { valid: false, reason: 'Unknown strategy mode' };
   }
+
+  console.log('direction: ', direction);
+  console.log('average volume: ', avgVolume);
+  console.log('volume spike: ', volumeSpike);
+  console.log('sweepHigh: ', sweepHigh);
+  console.log('sweepLow: ', sweepLow);
+  console.log('bearishEngulfing: ', bearishEngulfing);
+  console.log('bullishEngulfing: ', bullishEngulfing);
+  console.log('Order block range: ', rangeOB);
+  console.log('isOrderBlockUp: ', isOrderBlockUp);
+  console.log('isOrderBlockDown: ', isOrderBlockDown);
+  console.log('bullishConditions: ', bullishConditions);
+  console.log('bearishConditions: ', bearishConditions);
 
   // === Final Return ===
   if (direction === 'BUY' && bullishConditions) {
