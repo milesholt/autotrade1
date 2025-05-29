@@ -161,6 +161,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                       stopLevel: p.stopLevel,
                       level: p.level
                     };
+
+                    
                     
                     // Pull from strategy details
                     const strategyDetails = markets[arr.marketId]?.data?.strategy2?.details;
@@ -181,7 +183,8 @@ actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attem
                     //monitorData.newLimit = Math.round(monitorData.newLimit);
 
                     //Update2 - Remove decimal places, but dont round
-                    monitorData.newLimit = parseFloat(monitorData.newLimit.toString().split('.')[0]);
+                    let newlimit = direction == 'BUY' ? monitorData.newlimitBuy : monitorData.newlimitSell;
+                    monitorData.newLimit = parseFloat(newlimit.toString().split('.')[0]);
 
                     //Add time when monitor of trade is created
                     monitorData.createdTimeStamp =  Date.now();
