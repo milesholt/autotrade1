@@ -1642,6 +1642,7 @@ actions.shouldEnterTrade = async function (
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }*/
 
+  //First check we are out of contraction (range) and expansion (smart money reversal) phases
   const checkContractExpand = await actions.hasContractExpand(data,direction);
   if (!checkContractExpand) {
     return { valid: false, reason: 'No contraction/expansion pattern' };
@@ -1650,7 +1651,7 @@ actions.shouldEnterTrade = async function (
   //Returns valid:true not false, continue
   console.log(checkContractExpand);
 
-  //Volume / liquidity / Smart money analysis
+  //Get confirmation from last 5 candle patterns (check liquidity, volume, engulfing, order block patterns)
   const checkConfirmation = await actions.isConfirmation(candles,direction,options);
   
   if (checkConfirmation.valid) {
