@@ -1300,7 +1300,7 @@ actions.beginTrade = async function (set) {
           wickTolerance: 0.1
         });*/
 
-        const finalSignal = await actions.shouldEnterTrade(recentCandles, dir, {
+        const finalSignal = await actions.shouldEnterTrade(data, recentCandles, dir, {
           mode: 'moderate',
           minVolumeSpike: 1.5,
           wickTolerance: 0.1
@@ -1620,6 +1620,7 @@ actions.shouldEnterAnalysis = function (
 };
 
 actions.shouldEnterTrade = async function (
+  data,
   candles,
   direction,
   options = { mode: 'strict', minVolumeSpike: 1.5, wickTolerance: 0.1 }
@@ -1629,14 +1630,20 @@ actions.shouldEnterTrade = async function (
   //Contraction and expandsion checks
 
   //Look at last 10 candles before expansion
-  const contractionCandles = candles.slice(-12, -2);
-  const wasConsolidating = actions.isContraction(contractionCandles);
+  //const contractionCandles = candles.slice(-12, -2);
+  //const wasConsolidating = actions.isContraction(contractionCandles);
+  //const hasExpanded = actions.isExpansion(candles, options);
+ /* if (!wasConsolidating || !hasExpanded) {
+    return { valid: false, reason: 'No contraction/expansion pattern' };
+  }*/
 
-  const hasExpanded = actions.isExpansion(candles, options);
-
-  if (!wasConsolidating || !hasExpanded) {
+  const hasExpanded = await actions.hasContractExpand2(data);
+  if (!hasExpanded) {
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }
+
+  //Returns valid:true not false, continue
+  console.log(hasExpanded);
 
   //Volume / liquidity / Smart money analysis
   const result = await actions.shouldEnterTradeAnalysis(candles,direction,options);
@@ -1706,6 +1713,98 @@ actions.isExpansion = function (candles, options) {
 };
 
 
+actions.hasContractExpand2 = async function (candles) {
+    if (candles.length < 30) return false;
+
+    const ATR_PERIOD = 14;
+    const CONTRACTION_LOOKBACK = 15;
+    const EXPANSION_CANDLES = 5;
+    const BODY_THRESHOLD_RATIO = 1.2;
+    const RETRACE_RATIO = 0.5;
+
+    // Helper: calculate ATR
+    function calculateATR(candles, period) {
+      const trs = [];
+      for (let i = 1; i < candles.length; i++) {
+        const high = candles[i].high;
+        const low = candles[i].low;
+        const prevClose = candles[i - 1].close;
+        const tr = Math.max(
+          high - low,
+          Math.abs(high - prevClose),
+          Math.abs(low - prevClose)
+        );
+        trs.push(tr);
+      }
+      const atr = trs.slice(-period).reduce((a, b) => a + b, 0) / period;
+      return atr;
+    }
+
+    const latestIndex = candles.length - 1;
+    const recentCandles = candles.slice(latestIndex - CONTRACTION_LOOKBACK - EXPANSION_CANDLES - 5);
+
+    const atr = calculateATR(recentCandles, ATR_PERIOD);
+
+    // 1. Detect contraction zone (small range + low candle body movement)
+    const contractionCandles = recentCandles.slice(0, CONTRACTION_LOOKBACK);
+    const contractionHigh = Math.max(...contractionCandles.map(c => c.high));
+    const contractionLow = Math.min(...contractionCandles.map(c => c.low));
+    const contractionRange = contractionHigh - contractionLow;
+
+    const avgBodySize = contractionCandles.reduce((sum, c) => {
+      return sum + Math.abs(c.close - c.open);
+    }, 0) / contractionCandles.length;
+
+    const isContraction =
+      contractionRange < atr * 1.5 &&
+      avgBodySize < atr * 0.4;
+
+    if (!isContraction) return false;
+
+    // 2. Look for expansion (strong breakout from contraction zone)
+    const expansionZone = recentCandles.slice(CONTRACTION_LOOKBACK, CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
+
+    let expansionDirection = null;
+    let expansionCandle = null;
+    for (const candle of expansionZone) {
+      const body = Math.abs(candle.close - candle.open);
+      if (body > BODY_THRESHOLD_RATIO * atr) {
+        if (candle.close > contractionHigh) {
+          expansionDirection = 'up';
+          expansionCandle = candle;
+          break;
+        } else if (candle.close < contractionLow) {
+          expansionDirection = 'down';
+          expansionCandle = candle;
+          break;
+        }
+      }
+    }
+
+    if (!expansionDirection) return false;
+
+    // 3. Look for retrace and confirmation
+    const postExpansion = recentCandles.slice(CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
+
+    for (const candle of postExpansion) {
+      const retraceLevel = expansionDirection === 'up'
+        ? expansionCandle.close - RETRACE_RATIO * Math.abs(expansionCandle.close - expansionCandle.open)
+        : expansionCandle.close + RETRACE_RATIO * Math.abs(expansionCandle.close - expansionCandle.open);
+
+      const validCandle = expansionDirection === 'up'
+        ? candle.low <= retraceLevel && candle.close > candle.open
+        : candle.high >= retraceLevel && candle.close < candle.open;
+
+      if (validCandle) {
+        return {
+          valid: true,
+          direction: expansionDirection,
+          reason: 'Confirmed trend after expansion and retrace',
+          entryTime: candle.time
+        };
+      }
+    }
+}
 
 actions.calculateTradeDetails = async function (params, set, marketStructure, data) {
   const {
