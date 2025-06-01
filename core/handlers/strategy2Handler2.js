@@ -1507,8 +1507,10 @@ actions.detectEngulfing = function(last, prev, sizeFactor = 1.2) {
 }
 
 
+//This analyses the last five candlesticks to determine if there is a confirmation of trend phase
+//Confirming via volume spike, sweep high/low and engulfing patterns
 
-actions.shouldEnterAnalysis = function (
+actions.isConfirmation = function (
   candles,
   direction,
   options = { mode: 'strict', minVolumeSpike: 1.5, wickTolerance: 0.1 }
@@ -1640,7 +1642,7 @@ actions.shouldEnterTrade = async function (
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }*/
 
-  const hasExpanded = await actions.hasContractExpand2(data,direction);
+  const hasExpanded = await actions.hasContractExpand(data,direction);
   if (!hasExpanded) {
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }
@@ -1649,7 +1651,7 @@ actions.shouldEnterTrade = async function (
   console.log(hasExpanded);
 
   //Volume / liquidity / Smart money analysis
-  const result = await actions.shouldEnterTradeAnalysis(candles,direction,options);
+  const result = await actions.isConfirmation(candles,direction,options);
   
   if (result.valid) {
     return {
@@ -1716,7 +1718,7 @@ actions.isExpansion = function (candles, options) {
 };
 
 
-actions.hasContractExpand2 = async function (candles,direction) {
+actions.hasContractExpand = async function (candles,direction) {
     if (candles.length < 30) return false;
 
     const ATR_PERIOD = 14;
