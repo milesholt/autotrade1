@@ -1640,7 +1640,7 @@ actions.shouldEnterTrade = async function (
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }*/
 
-  const hasExpanded = await actions.hasContractExpand2(data);
+  const hasExpanded = await actions.hasContractExpand2(data,direction);
   if (!hasExpanded) {
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }
@@ -1716,7 +1716,7 @@ actions.isExpansion = function (candles, options) {
 };
 
 
-actions.hasContractExpand2 = async function (candles) {
+actions.hasContractExpand2 = async function (candles,direction) {
     if (candles.length < 30) return false;
 
     const ATR_PERIOD = 14;
@@ -1798,10 +1798,14 @@ actions.hasContractExpand2 = async function (candles) {
         ? candle.low <= retraceLevel && candle.close > candle.open
         : candle.high >= retraceLevel && candle.close < candle.open;
 
-      if (validCandle) {
+      //once contraction and expansion phases are over, ensure trend direction is aligned with original market direction
+      const isCorrectDirection = (expansionDirection === 'up' && direction === 'BUY') || (expansionDirection === 'down' && direction === 'SELL');
+
+      if (validCandle && isCorrectDirection) {
         return {
           valid: true,
-          direction: expansionDirection,
+          expansionDirection: expansionDirection,
+          direction: direction,
           reason: 'Confirmed trend after expansion and retrace',
           entryTime: candle.time
         };
