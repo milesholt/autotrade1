@@ -194,7 +194,10 @@ actions.iniRun = async function () {
       var exclusion2 = result.signal == 'SELL' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bearish';
       
       //var goAhead = (condition1 || condition2 || condition3 || condition4 || condition5 || condition6) && (!exclusion1 && !exclusion2);
-      var goAhead = true;
+      
+      //ensure 4hour timeframe aligns with hourly timeframe - market is moving in right direction, confirmed by 4 hour timeframe.
+      var goAhead = (condition5 || condition6);
+      //var goAhead = true;
 
       //Log signal and whether to make a trade or not, to be used by monitor as to wether to continue trading
       markets[set.marketidx].data.strategy2 = {
