@@ -1627,7 +1627,11 @@ actions.shouldEnterTrade = async function (
   if (!candles || candles.length < 6) return { valid: false };
 
   //Contraction and expandsion checks
-  const wasConsolidating = actions.isContraction(candles.slice(0, -2));
+
+  //Look at last 10 candles before expansion
+  const contractionCandles = candles.slice(-12, -2);
+  const wasConsolidating = actions.isContraction(contractionCandles);
+
   const hasExpanded = actions.isExpansion(candles, options);
 
   if (!wasConsolidating || !hasExpanded) {
@@ -1648,7 +1652,7 @@ actions.shouldEnterTrade = async function (
 };
 
 
-actions.isContraction = function (candles, length = 5, maxRangeRatio = 0.3) {
+/*actions.isContraction = function (candles, length = 5, maxRangeRatio = 0.3) {
   const slice = candles.slice(-length);
   const highs = slice.map(c => c.high);
   const lows = slice.map(c => c.low);
@@ -1659,7 +1663,31 @@ actions.isContraction = function (candles, length = 5, maxRangeRatio = 0.3) {
   const avgBodyRange = bodyRanges.reduce((a, b) => a + b, 0) / bodyRanges.length;
 
   return (totalRange / avgBodyRange) < maxRangeRatio;
+};*/
+
+actions.isContraction = function (candles, minLength = 5, maxLength = 10, maxRangeRatio = 0.3) {
+  if (candles.length < maxLength) return false;
+
+  // Try longer to shorter windows
+  for (let len = maxLength; len >= minLength; len--) {
+    const slice = candles.slice(-len); // last `len` candles
+    const highs = slice.map(c => c.high);
+    const lows = slice.map(c => c.low);
+    const totalRange = Math.max(...highs) - Math.min(...lows);
+
+    const bodyRanges = slice.map(c => Math.abs(c.close - c.open));
+    const avgBodyRange = bodyRanges.reduce((a, b) => a + b, 0) / bodyRanges.length;
+
+    const rangeRatio = totalRange / avgBodyRange;
+
+    if (rangeRatio < maxRangeRatio) {
+      return true; // contraction found
+    }
+  }
+
+  return false;
 };
+
 
 
 actions.isExpansion = function (candles, options) {
