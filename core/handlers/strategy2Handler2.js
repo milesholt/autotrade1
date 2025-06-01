@@ -1505,7 +1505,7 @@ actions.detectEngulfing = function(last, prev, sizeFactor = 1.2) {
 
 
 
-actions.shouldEnterTrade = function (
+actions.shouldEnterAnalysis = function (
   candles,
   direction,
   options = { mode: 'strict', minVolumeSpike: 1.5, wickTolerance: 0.1 }
@@ -1619,6 +1619,63 @@ actions.shouldEnterTrade = function (
   return { valid: false };
 };
 
+actions.shouldEnterTrade = async function (
+  candles,
+  direction,
+  options = { mode: 'strict', minVolumeSpike: 1.5, wickTolerance: 0.1 }
+) {
+  if (!candles || candles.length < 6) return { valid: false };
+
+  //Contraction and expandsion checks
+  const wasConsolidating = actions.isContraction(candles.slice(0, -2));
+  const hasExpanded = actions.isExpansion(candles, options);
+
+  if (!wasConsolidating || !hasExpanded) {
+    return { valid: false, reason: 'No contraction/expansion pattern' };
+  }
+
+  //Volume / liquidity / Smart money analysis
+  const result = await actions.shouldEnterTradeAnalysis(candles,direction,options);
+  
+  if (result.valid) {
+    return {
+      ...result,
+      reason: `Trend Run after Expansion - ${result.reason}`,
+    };
+  }
+
+  return { valid: false, reason: 'No valid smart money entry after expansion' };
+};
+
+
+actions.isContraction = function (candles, length = 5, maxRangeRatio = 0.3) {
+  const slice = candles.slice(-length);
+  const highs = slice.map(c => c.high);
+  const lows = slice.map(c => c.low);
+  const totalRange = Math.max(...highs) - Math.min(...lows);
+
+  // Compare to average candle body range
+  const bodyRanges = slice.map(c => Math.abs(c.close - c.open));
+  const avgBodyRange = bodyRanges.reduce((a, b) => a + b, 0) / bodyRanges.length;
+
+  return (totalRange / avgBodyRange) < maxRangeRatio;
+};
+
+
+actions.isExpansion = function (candles, options) {
+  const c = candles;
+  const len = c.length;
+  const prev = c[len - 2];
+
+  const body = Math.abs(prev.close - prev.open);
+  const bodySizes = c.slice(len - 6, len - 2).map(c => Math.abs(c.close - c.open));
+  const avgBody = bodySizes.reduce((a, b) => a + b, 0) / bodySizes.length;
+
+  const largeBody = body > avgBody * 1.5;
+  const volSpike = prev.volume > options.minVolumeSpike;
+
+  return largeBody && volSpike;
+};
 
 
 
