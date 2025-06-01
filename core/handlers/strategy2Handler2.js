@@ -1642,18 +1642,18 @@ actions.shouldEnterTrade = async function (
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }*/
 
-  const hasExpanded = await actions.hasContractExpand(data,direction);
-  if (!hasExpanded) {
+  const checkContractExpand = await actions.hasContractExpand(data,direction);
+  if (!checkContractExpand) {
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }
 
   //Returns valid:true not false, continue
-  console.log(hasExpanded);
+  console.log(checkContractExpand);
 
   //Volume / liquidity / Smart money analysis
-  const result = await actions.isConfirmation(candles,direction,options);
+  const checkConfirmation = await actions.isConfirmation(candles,direction,options);
   
-  if (result.valid) {
+  if (checkConfirmation.valid) {
     return {
       ...result,
       reason: `Trend Run after Expansion - ${result.reason}`,
