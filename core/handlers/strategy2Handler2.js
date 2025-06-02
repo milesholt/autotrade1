@@ -1724,7 +1724,7 @@ actions.hasContractExpand = async function (candles,direction) {
     if (candles.length < 20) return false;
 
     const ATR_PERIOD = 14;
-    const CONTRACTION_LOOKBACK = 15;
+    const CONTRACTION_LOOKBACK = 10;
     const EXPANSION_CANDLES = 5;
     const BODY_THRESHOLD_RATIO = 1.2;
     const RETRACE_RATIO = 0.5;
