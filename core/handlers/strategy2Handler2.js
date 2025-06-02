@@ -1631,7 +1631,11 @@ actions.shouldEnterTrade = async function (
   direction,
   options = { mode: 'strict', minVolumeSpike: 1.5, wickTolerance: 0.1 }
 ) {
-  if (!candles || candles.length < 6) return { valid: false, reason: 'Recent candles less than 6' };
+  
+  //Complete data should be 72 hours, recent should be 20 (you can also use pricedata (72 hours), pricedata2 (24 hours))
+  //TO DO: Make sure data is 30 for this analyis, and recent should just be last 5.
+  if (!data || data.length < 20) return { valid: false, reason: 'No price data candles, or less than 20. Needs at least 20 candles.' };
+  if (!candles || candles.length < 6) return { valid: false, reason: 'No recent candles, or less than 6' };
 
   //Contraction and expandsion checks
 
