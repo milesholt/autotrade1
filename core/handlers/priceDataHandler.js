@@ -139,7 +139,7 @@ actions.getPriceData = async function(res = 'HOUR'){
             prc.push(r.prices[0]);
             if(prc.length == pointsLimit){ 
               console.log('pointsLimit', pointsLimit);
-              console.log('points limit hit, removing first price);
+              console.log('points limit hit, removing first price');
               prc.shift();              
             }
             cloud.updateFile(prc,prcPath);
