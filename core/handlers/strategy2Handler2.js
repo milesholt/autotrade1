@@ -1721,7 +1721,7 @@ actions.isExpansion = function (candles, options) {
 
 
 actions.hasContractExpand = async function (candles,direction) {
-    if (candles.length < 30) return false;
+    if (candles.length < 20) return false;
 
     const ATR_PERIOD = 14;
     const CONTRACTION_LOOKBACK = 15;
