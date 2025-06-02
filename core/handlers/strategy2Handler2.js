@@ -1649,8 +1649,8 @@ actions.shouldEnterTrade = async function (
 
   //First check we are out of contraction (range) and expansion (smart money reversal) phases
   const checkContractExpand = await actions.hasContractExpand(data,direction);
-  if (!checkContractExpand) {
-    return { valid: false, reason: 'No contraction/expansion pattern' };
+  if (checkContractExpand.valid === false) {
+    return { valid: false, reason:  checkContractExpand?.reason ?? 'No contraction/expansion pattern' };
   }
 
   //Returns valid:true not false, continue
@@ -1725,14 +1725,16 @@ actions.isExpansion = function (candles, options) {
 
 
 actions.hasContractExpand = async function (candles,direction) {
-    if (candles.length < 20) return false;
+    if (candles.length < 20) return { valid: false, reason: 'hasContactExpand stopped - Candles less than 20'};
 
     const ATR_PERIOD = 14;
+    const ATR_MAX_BODY_SIZE = 0.4;
+    const ATR_MAX_VOLATILITY_SIZE = 1.5;
     const CONTRACTION_LOOKBACK = 10;
     const EXPANSION_CANDLES = 5;
     const BODY_THRESHOLD_RATIO = 1.2;
     const RETRACE_RATIO = 0.5;
-
+  
     // Helper: calculate ATR
     function calculateATR(candles, period) {
       const trs = [];
@@ -1767,10 +1769,10 @@ actions.hasContractExpand = async function (candles,direction) {
     }, 0) / contractionCandles.length;
 
     const isContraction =
-      contractionRange < atr * 1.5 &&
-      avgBodySize < atr * 0.4;
+      contractionRange < (atr * ATR_MAX_VOLATILITY_SIZE) &&
+      avgBodySize < (atr * ATR_MAX_BODY_SIZE);
 
-    if (!isContraction) return false;
+    if (!isContraction) return { valid: false, reason: 'No contraction range detected'};
 
     // 2. Look for expansion (strong breakout from contraction zone)
     const expansionZone = recentCandles.slice(CONTRACTION_LOOKBACK, CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
@@ -1792,7 +1794,7 @@ actions.hasContractExpand = async function (candles,direction) {
       }
     }
 
-    if (!expansionDirection) return false;
+    if (!expansionDirection) return { valid: false, reason 'No expansion range detected'};
 
     // 3. Look for retrace and confirmation
     const postExpansion = recentCandles.slice(CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
@@ -1806,12 +1808,13 @@ actions.hasContractExpand = async function (candles,direction) {
         ? candle.low <= retraceLevel && candle.close > candle.open
         : candle.high >= retraceLevel && candle.close < candle.open;
 
-      //once contraction and expansion phases are over, ensure trend direction is aligned with original market direction
-      const isCorrectDirection = (expansionDirection === 'up' && direction === 'BUY') || (expansionDirection === 'down' && direction === 'SELL');
-      
-      if(!isCorrectDirection) console.log('expansionDirection was different to trend direction');
+      if (validCandle) {
 
-      if (validCandle && isCorrectDirection) {
+        //once contraction and expansion phases are over, ensure trend direction is aligned with original market direction
+        const isCorrectDirection = (expansionDirection === 'up' && direction === 'BUY') || (expansionDirection === 'down' && direction === 'SELL');
+        
+        if(!isCorrectDirection) return { valid: false, reason: 'expansionDirection was different to overall trend direction' };
+        
         return {
           valid: true,
           expansionDirection: expansionDirection,
@@ -1821,6 +1824,8 @@ actions.hasContractExpand = async function (candles,direction) {
         };
       }
     }
+
+    return { valid: false, reason: 'No valid candle to confirm retrace out of expansion');
 }
 
 actions.calculateTradeDetails = async function (params, set, marketStructure, data) {
