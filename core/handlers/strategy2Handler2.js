@@ -1730,7 +1730,7 @@ actions.hasContractExpand = async function (candles,direction) {
     const ATR_MAX_BODY_SIZE = 0.4;
     const ATR_MAX_VOLATILITY_SIZE = 1.5;
     const CONTRACTION_LOOKBACK = 15;
-    const EXPANSION_CANDLES = 10;
+    const EXPANSION_CANDLES = 15;
     const BODY_THRESHOLD_RATIO = 1.2;
     const RETRACE_RATIO = 0.5;
   
