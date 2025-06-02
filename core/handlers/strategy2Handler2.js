@@ -1321,6 +1321,7 @@ actions.beginTrade = async function (set) {
           
         } else {
           console.log('No valid entry at this time.');
+          console.log('Reason', finalSignal?.reason ?? 'No reason provided');
         }
 
       
@@ -1630,7 +1631,7 @@ actions.shouldEnterTrade = async function (
   direction,
   options = { mode: 'strict', minVolumeSpike: 1.5, wickTolerance: 0.1 }
 ) {
-  if (!candles || candles.length < 6) return { valid: false };
+  if (!candles || candles.length < 6) return { valid: false, reason: 'Recent candles less than 6' };
 
   //Contraction and expandsion checks
 
@@ -1661,7 +1662,7 @@ actions.shouldEnterTrade = async function (
     };
   }
 
-  return { valid: false, reason: 'No valid smart money entry after expansion' };
+  return { valid: false, reason: 'No valid confirmation entry after expansion' };
 };
 
 
