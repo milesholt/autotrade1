@@ -1794,7 +1794,7 @@ actions.hasContractExpand = async function (candles,direction) {
       }
     }
 
-    if (!expansionDirection) return { valid: false, reason 'No expansion range detected'};
+    if (!expansionDirection) return { valid: false, reason: 'No expansion range detected'};
 
     // 3. Look for retrace and confirmation
     const postExpansion = recentCandles.slice(CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
