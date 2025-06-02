@@ -1633,8 +1633,7 @@ actions.shouldEnterTrade = async function (
 ) {
   
   //Complete data should be 72 hours, recent should be 20 (you can also use pricedata (72 hours), pricedata2 (24 hours))
-  //TO DO: Make sure data is 30 for this analyis, and recent should just be last 5.
-  if (!data || data.length < 20) return { valid: false, reason: 'No price data candles, or less than 20. Needs at least 20 candles.' };
+  if (!data || data.length < 30) return { valid: false, reason: 'No price data candles, or less than 30. Needs at least 30 candles.' };
   if (!candles || candles.length < 6) return { valid: false, reason: 'No recent candles, or less than 6' };
 
   //Contraction and expandsion checks
@@ -1725,13 +1724,13 @@ actions.isExpansion = function (candles, options) {
 
 
 actions.hasContractExpand = async function (candles,direction) {
-    if (candles.length < 20) return { valid: false, reason: 'hasContactExpand stopped - Candles less than 20'};
+    if (candles.length < 30) return { valid: false, reason: 'hasContactExpand stopped - Candles less than 30'};
 
     const ATR_PERIOD = 14;
     const ATR_MAX_BODY_SIZE = 0.4;
     const ATR_MAX_VOLATILITY_SIZE = 1.5;
-    const CONTRACTION_LOOKBACK = 10;
-    const EXPANSION_CANDLES = 5;
+    const CONTRACTION_LOOKBACK = 15;
+    const EXPANSION_CANDLES = 10;
     const BODY_THRESHOLD_RATIO = 1.2;
     const RETRACE_RATIO = 0.5;
   
