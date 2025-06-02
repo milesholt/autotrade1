@@ -143,6 +143,7 @@ actions.getPriceData = async function(res = 'HOUR'){
               prc.shift();              
             }
             cloud.updateFile(prc,prcPath);
+            console.log('price length', prc.length);
             eval(name + '= prc');
           }
       }
