@@ -1825,7 +1825,7 @@ actions.hasContractExpand = async function (candles,direction) {
       }
     }
 
-    return { valid: false, reason: 'No valid candle to confirm retrace out of expansion');
+    return { valid: false, reason: 'No valid candle to confirm retrace out of expansion'};
 }
 
 actions.calculateTradeDetails = async function (params, set, marketStructure, data) {
