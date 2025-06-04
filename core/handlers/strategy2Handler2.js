@@ -156,7 +156,7 @@ actions.iniRun = async function () {
     console.log('Hours difference: ' + moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours"));
     console.log('tradeBeforeHours threshold: ' + tradeBeforeHours);
     
-    if((result.signal == 'BUY' || result.signal == 'SELL') && result.confidence == 'Strong' && tradebeforeCheck){
+    if((result.signal == 'BUY' || result.signal == 'SELL') && (result.confidence == 'Strong' || result.confidence == 'Moderate') && tradebeforeCheck){
       console.log('Making trade...');
       set.decision = result.signal;
 
