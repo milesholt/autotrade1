@@ -1649,7 +1649,7 @@ actions.shouldEnterTrade = async function (
   //First check we are out of contraction (range) and expansion (smart money reversal) phases
   const checkContractExpand = await actions.hasContractExpand(data,direction);
   if (checkContractExpand.valid === false) {
-    return { valid: false, reason:  checkContractExpand?.reason ?? 'No contraction/expansion pattern' };
+    return { valid: false, reason:  checkContractExpand?.reason ?? 'No contraction/expansion pattern', detail: checkContractExpand?.detail ?? 'No detail' };
   }
 
   //Returns valid:true not false, continue
