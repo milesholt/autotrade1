@@ -1646,6 +1646,10 @@ actions.shouldEnterTrade = async function (
     return { valid: false, reason: 'No contraction/expansion pattern' };
   }*/
 
+  //New strategy
+  cont newStrategy = await actions.analyzeThreePhaseStrategy(candles);
+  console.log('newStrategyAnalysis', newStrategy);
+
   //First check we are out of contraction (range) and expansion (smart money reversal) phases
   const checkContractExpand = await actions.hasContractExpand(data,direction);
   if (checkContractExpand.valid === false) {
@@ -1826,6 +1830,198 @@ actions.hasContractExpand = async function (candles,direction) {
 
     return { valid: false, reason: 'No valid candle to confirm retrace out of expansion'};
 }
+
+actions.detectBreakerBlock = async function(candles, config) {
+  const minCandles = 5;
+  if (!candles || candles.length < minCandles) return null;
+
+  const { wickThreshold = 0.3 } = config;
+
+  const getSwingLow = (data) => Math.min(...data.map(c => c.low));
+  const getSwingHigh = (data) => Math.max(...data.map(c => c.high));
+
+  const recent = candles.slice(-minCandles);
+  const [c1, c2, c3, c4, c5] = recent;
+
+  const swingLow = getSwingLow(candles.slice(0, -5));
+  const swingHigh = getSwingHigh(candles.slice(0, -5));
+
+  // === Bullish Breaker ===
+  if (
+    c1.close < c1.open && // bearish
+    c1.low < swingLow && // breaks a swing low
+    c2.close > c2.open && // bullish response
+    c2.close > c1.low && // closes back above key low
+    c3.low > c1.low // confirms rejection, stays above
+  ) {
+    const rejectionSize = ((c2.close - c1.low) / c1.low) * 100;
+    if (rejectionSize > wickThreshold) {
+      return {
+        type: 'bullish',
+        breakerZone: { low: c1.low, high: c1.close },
+        rejectionConfirmed: true
+      };
+    }
+  }
+
+  // === Bearish Breaker ===
+  if (
+    c1.close > c1.open && // bullish
+    c1.high > swingHigh && // breaks swing high
+    c2.close < c2.open && // bearish rejection
+    c2.close < c1.high && // closes back below high
+    c3.high < c1.high // confirms rejection
+  ) {
+    const rejectionSize = ((c1.high - c2.close) / c1.high) * 100;
+    if (rejectionSize > wickThreshold) {
+      return {
+        type: 'bearish',
+        breakerZone: { low: c1.close, high: c1.high },
+        rejectionConfirmed: true
+      };
+    }
+  }
+
+  return null;
+}
+
+
+
+actions.analyzeThreePhaseStrategy = async function(candles, config = 'moderate') {
+  if (!candles || candles.length < 3) return null;
+
+  // === PRESETS ===
+  const presets = {
+    strict: {
+      rangePct: 0.8,
+      wickThreshold: 0.5,
+      trendThreshold: 1.0,
+      fvgMinPct: 1.0,
+      bodySizePct: 0.5,
+      trendCandles: 5,
+    },
+    moderate: {
+      rangePct: 1.2,
+      wickThreshold: 0.3,
+      trendThreshold: 0.5,
+      fvgMinPct: 0.5,
+      bodySizePct: 0.3,
+      trendCandles: 4,
+    },
+    aggressive: {
+      rangePct: 2.0,
+      wickThreshold: 0.2,
+      trendThreshold: 0.2,
+      fvgMinPct: 0.2,
+      bodySizePct: 0.1,
+      trendCandles: 3,
+    },
+  };
+
+  const settings = typeof config === 'string' ? presets[config] : { ...presets.moderate, ...config };
+
+  const result = {
+    consolidation: false,
+    liquidityGrab: null,
+    breakout: null,
+    trendRun: null,
+    fairValueGap: null,
+    breakerBlock: null,
+  };
+
+  const len = candles.length;
+  const last = candles[len - 1];
+  const secondLast = candles[len - 2];
+  const thirdLast = candles[len - 3];
+
+  const bodySize = Math.abs(last.close - last.open);
+  const bodySizePct = (bodySize / last.open) * 100;
+
+  // === 1. CONSOLIDATION CHECK (using last N candles) ===
+  const rangeSlice = candles.slice(-settings.trendCandles);
+  const highs = rangeSlice.map(c => c.high);
+  const lows = rangeSlice.map(c => c.low);
+  const maxHigh = Math.max(...highs);
+  const minLow = Math.min(...lows);
+  const rangePct = ((maxHigh - minLow) / minLow) * 100;
+
+  if (rangePct < settings.rangePct) {
+    result.consolidation = true;
+  }
+
+  // === 2. LIQUIDITY GRAB CHECK ===
+  const prevHigh = highs.slice(0, -1).reduce((a, b) => Math.max(a, b), 0);
+  const prevLow = lows.slice(0, -1).reduce((a, b) => Math.min(a, b), Infinity);
+
+  if (
+    last.high > prevHigh &&
+    last.close < prevHigh &&
+    ((last.high - prevHigh) / prevHigh) * 100 > settings.wickThreshold
+  ) {
+    result.liquidityGrab = 'buy side';
+  } else if (
+    last.low < prevLow &&
+    last.close > prevLow &&
+    ((prevLow - last.low) / prevLow) * 100 > settings.wickThreshold
+  ) {
+    result.liquidityGrab = 'sell side';
+  }
+
+  // === 3. BREAKOUT / EXPANSION ===
+  if (last.close > maxHigh) {
+    result.breakout = 'bullish';
+  } else if (last.close < minLow) {
+    result.breakout = 'bearish';
+  }
+
+  // === 4. TREND RUN (HH/HL or LL/LH logic) ===
+  let trendRun = true;
+  const trendCandles = candles.slice(-settings.trendCandles);
+  for (let i = 1; i < trendCandles.length; i++) {
+    const prev = trendCandles[i - 1];
+    const curr = trendCandles[i];
+    if (
+      last.close > last.open && !(curr.high > prev.high && curr.low > prev.low)
+    ) {
+      trendRun = false;
+      break;
+    } else if (
+      last.close < last.open && !(curr.high < prev.high && curr.low < prev.low)
+    ) {
+      trendRun = false;
+      break;
+    }
+  }
+  if (trendRun) {
+    result.trendRun = last.close > last.open ? 'bullish' : 'bearish';
+  }
+
+  // === 5. FAIR VALUE GAP ===
+  const bullishGapSize = last.low - thirdLast.high;
+  const bearishGapSize = thirdLast.low - last.high;
+
+  const gapPct = (gap, base) => (gap / base) * 100;
+
+  if (bullishGapSize > 0 && gapPct(bullishGapSize, thirdLast.high) > settings.fvgMinPct) {
+    result.fairValueGap = {
+      type: 'bullish',
+      gapTop: last.low,
+      gapBottom: thirdLast.high,
+    };
+  } else if (bearishGapSize > 0 && gapPct(bearishGapSize, thirdLast.low) > settings.fvgMinPct) {
+    result.fairValueGap = {
+      type: 'bearish',
+      gapTop: thirdLast.low,
+      gapBottom: last.high,
+    };
+  }
+
+  // === 6. BREAKER BLOCK (simple reversal check) ===
+  result.breakerBlock = await actions.detectBreakerBlock(candles, settings);
+
+  return result;
+}
+
 
 actions.calculateTradeDetails = async function (params, set, marketStructure, data) {
   const {
