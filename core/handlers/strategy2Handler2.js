@@ -1647,7 +1647,7 @@ actions.shouldEnterTrade = async function (
   }*/
 
   //New strategy
-  cont newStrategy = await actions.analyzeThreePhaseStrategy(candles);
+  const newStrategy = await actions.analyzeThreePhaseStrategy(candles);
   console.log('newStrategyAnalysis', newStrategy);
 
   //First check we are out of contraction (range) and expansion (smart money reversal) phases
