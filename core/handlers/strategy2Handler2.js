@@ -1321,7 +1321,7 @@ actions.beginTrade = async function (set) {
           
         } else {
           console.log('No valid entry at this time.');
-          console.log('Reason', finalSignal?.reason ?? 'No reason provided');
+          console.log('Reason: ', finalSignal?.reason ?? 'No reason provided', 'Detail: ', finalSignal?.detail ?? 'Nod detail provided');
         }
 
       
