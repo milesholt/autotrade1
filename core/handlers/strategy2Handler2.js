@@ -1771,7 +1771,7 @@ actions.hasContractExpand = async function (candles,direction) {
       contractionRange < (atr * ATR_MAX_VOLATILITY_SIZE) &&
       avgBodySize < (atr * ATR_MAX_BODY_SIZE);
 
-    if (!isContraction) return { valid: false, reason: 'No contraction range detected'};
+    if (!isContraction) return { valid: false, reason: 'No contraction range detected', detail: { contractionRange: contractionRange, avgBodySize: avgBodySize, atrMaxVolatilitySize: (atr * ATR_MAX_VOLATILITY_SIZE), atrMaxBodySize: (atr * ATR_MAX_BODY_SIZE) } };
 
     // 2. Look for expansion (strong breakout from contraction zone)
     const expansionZone = recentCandles.slice(CONTRACTION_LOOKBACK, CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
