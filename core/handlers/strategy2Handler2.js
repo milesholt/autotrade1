@@ -1737,6 +1737,8 @@ actions.hasContractExpand = async function (candles,direction) {
     const EXPANSION_CANDLES = 15;
     const BODY_THRESHOLD_RATIO = 1.2;
     const RETRACE_RATIO = 0.5;
+
+    let data={};
   
     // Helper: calculate ATR
     function calculateATR(candles, period) {
@@ -1764,7 +1766,12 @@ actions.hasContractExpand = async function (candles,direction) {
     // 1. Detect contraction zone (small range + low candle body movement)
     const contractionCandles = recentCandles.slice(0, CONTRACTION_LOOKBACK);
 
+    data.contractionData = contractionCandles;
+  
+
     console.log('hasContractExpandCandles', contractionCandles);
+
+  
   
     const contractionHigh = Math.max(...contractionCandles.map(c => c.high));
     const contractionLow = Math.min(...contractionCandles.map(c => c.low));
@@ -1786,6 +1793,8 @@ actions.hasContractExpand = async function (candles,direction) {
 
     // 2. Look for expansion (strong breakout from contraction zone)
     const expansionZone = recentCandles.slice(CONTRACTION_LOOKBACK, CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
+
+    data.expansionData = expansionZone;
 
     let expansionDirection = null;
     let expansionCandle = null;
@@ -1809,6 +1818,8 @@ actions.hasContractExpand = async function (candles,direction) {
     // 3. Look for retrace and confirmation
     const postExpansion = recentCandles.slice(CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
 
+    data.trendRunData = postExpansion;
+
     for (const candle of postExpansion) {
       const retraceLevel = expansionDirection === 'up'
         ? expansionCandle.close - RETRACE_RATIO * Math.abs(expansionCandle.close - expansionCandle.open)
@@ -1824,14 +1835,20 @@ actions.hasContractExpand = async function (candles,direction) {
         const isCorrectDirection = (expansionDirection === 'up' && direction === 'BUY') || (expansionDirection === 'down' && direction === 'SELL');
         
         if(!isCorrectDirection) return { valid: false, reason: 'expansionDirection was different to overall trend direction' };
-        
-        return {
+
+        const result = {
           valid: true,
           expansionDirection: expansionDirection,
           direction: direction,
           reason: 'Confirmed trend after expansion and retrace',
           entryTime: candle.time
         };
+
+        data.result = result;
+
+        analysis.contractExpandData = data;
+        
+        return result;
       }
     }
 
@@ -1946,6 +1963,8 @@ actions.analyzeThreePhaseStrategy = async function(candles, config = 'moderate')
 
   // === 1. CONSOLIDATION CHECK (using last N candles) ===
   const rangeSlice = candles.slice(-settings.trendCandles);
+
+  result.consolidationData = rangeSlice;
 
 
   console.log('analyzeThreePhaseStrategy_rangeSlice', rangeSlice);
