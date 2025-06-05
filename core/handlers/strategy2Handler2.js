@@ -1686,7 +1686,7 @@ actions.shouldEnterTrade = async function (
   return (totalRange / avgBodyRange) < maxRangeRatio;
 };*/
 
-actions.isContraction = function (candles, minLength = 5, maxLength = 10, maxRangeRatio = 0.3) {
+actions.isContraction = function (candles, minLength = 10, maxLength = 15, maxRangeRatio = 0.3) {
   if (candles.length < maxLength) return false;
 
   // Try longer to shorter windows
@@ -1763,6 +1763,9 @@ actions.hasContractExpand = async function (candles,direction) {
 
     // 1. Detect contraction zone (small range + low candle body movement)
     const contractionCandles = recentCandles.slice(0, CONTRACTION_LOOKBACK);
+
+    console.log('hasContractExpandCandles', contractionCandles);
+  
     const contractionHigh = Math.max(...contractionCandles.map(c => c.high));
     const contractionLow = Math.min(...contractionCandles.map(c => c.low));
     const contractionRange = contractionHigh - contractionLow;
@@ -1774,6 +1777,10 @@ actions.hasContractExpand = async function (candles,direction) {
     const isContraction =
       contractionRange < (atr * ATR_MAX_VOLATILITY_SIZE) &&
       avgBodySize < (atr * ATR_MAX_BODY_SIZE);
+
+    const isContraction2 = await actions.isContraction(candles);
+
+    console.log('isContraction2', isContraction2);
 
     if (!isContraction) return { valid: false, reason: 'No contraction range detected', detail: { contractionRange: contractionRange, avgBodySize: avgBodySize, atrMaxVolatilitySize: (atr * ATR_MAX_VOLATILITY_SIZE), atrMaxBodySize: (atr * ATR_MAX_BODY_SIZE) } };
 
@@ -1939,6 +1946,10 @@ actions.analyzeThreePhaseStrategy = async function(candles, config = 'moderate')
 
   // === 1. CONSOLIDATION CHECK (using last N candles) ===
   const rangeSlice = candles.slice(-settings.trendCandles);
+
+
+  console.log('analyzeThreePhaseStrategy_rangeSlice', rangeSlice);
+  
   const highs = rangeSlice.map(c => c.high);
   const lows = rangeSlice.map(c => c.low);
   const maxHigh = Math.max(...highs);
