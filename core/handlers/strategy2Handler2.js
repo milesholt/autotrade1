@@ -1898,7 +1898,7 @@ actions.analyzeThreePhaseStrategy = async function(candles, config = 'moderate')
       trendThreshold: 1.0,
       fvgMinPct: 1.0,
       bodySizePct: 0.5,
-      trendCandles: 5,
+      trendCandles: 20,
     },
     moderate: {
       rangePct: 1.2,
@@ -1906,7 +1906,7 @@ actions.analyzeThreePhaseStrategy = async function(candles, config = 'moderate')
       trendThreshold: 0.5,
       fvgMinPct: 0.5,
       bodySizePct: 0.3,
-      trendCandles: 4,
+      trendCandles: 15,
     },
     aggressive: {
       rangePct: 2.0,
@@ -1914,7 +1914,7 @@ actions.analyzeThreePhaseStrategy = async function(candles, config = 'moderate')
       trendThreshold: 0.2,
       fvgMinPct: 0.2,
       bodySizePct: 0.1,
-      trendCandles: 3,
+      trendCandles: 10,
     },
   };
 
