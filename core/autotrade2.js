@@ -508,8 +508,7 @@ actions.exec = async function () {
     //Determine size
     await analysisHandler.actions.determineSize();
 
-    //Final analysis
-    await analysisHandler.actions.finalAnalysis();
+ 
 
     //Do any checks for open trades
     await tradeHandler.actions.determineNearProfit();
@@ -520,6 +519,9 @@ actions.exec = async function () {
 
     //await strategy2Handler.actions.iniRun();
     await strategy2Handler2.actions.iniRun();
+
+    //Final analysis
+    await analysisHandler.actions.finalAnalysis();
 
     //Determine trade
     //await tradeHandler.actions.determineTrade2();
