@@ -1739,6 +1739,7 @@ actions.hasContractExpand = async function (candles,direction) {
     const RETRACE_RATIO = 0.5;
 
     let data={};
+    let result = { valid: true };
   
     // Helper: calculate ATR
     function calculateATR(candles, period) {
@@ -1767,7 +1768,6 @@ actions.hasContractExpand = async function (candles,direction) {
     const contractionCandles = recentCandles.slice(0, CONTRACTION_LOOKBACK);
 
     data.contractionData = contractionCandles;
-  
 
     console.log('hasContractExpandCandles', contractionCandles);
 
@@ -1789,8 +1789,7 @@ actions.hasContractExpand = async function (candles,direction) {
 
     console.log('isContraction2', isContraction2);
 
-    if (!isContraction) return { valid: false, reason: 'No contraction range detected', detail: { contractionRange: contractionRange, avgBodySize: avgBodySize, atrMaxVolatilitySize: (atr * ATR_MAX_VOLATILITY_SIZE), atrMaxBodySize: (atr * ATR_MAX_BODY_SIZE) } };
-
+    
     // 2. Look for expansion (strong breakout from contraction zone)
     const expansionZone = recentCandles.slice(CONTRACTION_LOOKBACK, CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
 
@@ -1813,8 +1812,7 @@ actions.hasContractExpand = async function (candles,direction) {
       }
     }
 
-    if (!expansionDirection) return { valid: false, reason: 'No expansion range detected'};
-
+    
     // 3. Look for retrace and confirmation
     const postExpansion = recentCandles.slice(CONTRACTION_LOOKBACK + EXPANSION_CANDLES);
 
@@ -1829,25 +1827,31 @@ actions.hasContractExpand = async function (candles,direction) {
         ? candle.low <= retraceLevel && candle.close > candle.open
         : candle.high >= retraceLevel && candle.close < candle.open;
 
+      data.validCandle = validCandle;
+
+      analysis.contractExpandData = data;
+
+      if (!isContraction) return { valid: false, reason: 'No contraction range detected', detail: { contractionRange: contractionRange, avgBodySize: avgBodySize, atrMaxVolatilitySize: (atr * ATR_MAX_VOLATILITY_SIZE), atrMaxBodySize: (atr * ATR_MAX_BODY_SIZE) } };
+      if (!expansionDirection) return { valid: false, reason: 'No expansion range detected'};
+      
       if (validCandle) {
 
         //once contraction and expansion phases are over, ensure trend direction is aligned with original market direction
         const isCorrectDirection = (expansionDirection === 'up' && direction === 'BUY') || (expansionDirection === 'down' && direction === 'SELL');
+
+        if(!isCorrectDirection) return = { valid: false, reason: 'expansionDirection was different to overall trend direction' };
         
-        if(!isCorrectDirection) return { valid: false, reason: 'expansionDirection was different to overall trend direction' };
-
-        const result = {
-          valid: true,
-          expansionDirection: expansionDirection,
-          direction: direction,
-          reason: 'Confirmed trend after expansion and retrace',
-          entryTime: candle.time
-        };
-
-        data.result = result;
-
+        result = {
+            valid: true,
+            expansionDirection: expansionDirection,
+            direction: direction,
+            reason: 'Confirmed trend after expansion and retrace',
+            entryTime: candle.time
+          };
+        
+        data.result = result; 
         analysis.contractExpandData = data;
-        
+
         return result;
       }
     }
