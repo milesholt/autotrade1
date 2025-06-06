@@ -1839,7 +1839,7 @@ actions.hasContractExpand = async function (candles,direction) {
         //once contraction and expansion phases are over, ensure trend direction is aligned with original market direction
         const isCorrectDirection = (expansionDirection === 'up' && direction === 'BUY') || (expansionDirection === 'down' && direction === 'SELL');
 
-        if(!isCorrectDirection) return = { valid: false, reason: 'expansionDirection was different to overall trend direction' };
+        if(!isCorrectDirection) return { valid: false, reason: 'expansionDirection was different to overall trend direction' };
         
         result = {
             valid: true,
