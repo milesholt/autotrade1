@@ -536,7 +536,8 @@ FINAL ANALYSIS
       'availableLoss': availableLoss,
       'falseChecks' : falseChecks,
       'trueChecks' : trueChecks,
-      'marketClosed': market.marketClosed
+      'marketClosed': market.marketClosed,
+      'contractExpandAnalysis':contractExpandAnalysis
     };
 
   await log.analysisLog(analysis);
