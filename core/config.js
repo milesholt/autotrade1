@@ -416,6 +416,7 @@ resolutionPointsLimit_1Hour = 72;
 prevtrend4Hours = "ranging";
 
 //Analysis data
+contractExpandAnalysis = {};
 analysisDataSet = [];
 plotDataSet = [];
 plot4HourDataSet = [];
