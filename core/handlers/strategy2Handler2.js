@@ -1829,7 +1829,7 @@ actions.hasContractExpand = async function (candles,direction) {
 
       data.validCandle = validCandle;
 
-      analysis.contractExpandData = data;
+      contractExpandAnalysis = data;
 
       if (!isContraction) return { valid: false, reason: 'No contraction range detected', detail: { contractionRange: contractionRange, avgBodySize: avgBodySize, atrMaxVolatilitySize: (atr * ATR_MAX_VOLATILITY_SIZE), atrMaxBodySize: (atr * ATR_MAX_BODY_SIZE) } };
       if (!expansionDirection) return { valid: false, reason: 'No expansion range detected'};
@@ -1850,7 +1850,7 @@ actions.hasContractExpand = async function (candles,direction) {
           };
         
         data.result = result; 
-        analysis.contractExpandData = data;
+        contractExpandAnalysis = data;
 
         return result;
       }
