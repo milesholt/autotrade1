@@ -424,7 +424,36 @@ actions.drawChart = async function(priceData, lineData, analysis, rangeData){
       type: 'scatter'
   };
 
-  var traces = [trace1];
+   //Contract/Expand data
+
+  var contractExpand = analysis.contractExpandAnalysis;
+	
+	var contractionData = contractExpand.contractionData;
+	var expansionData = contractExpand.expansionData;
+	var trendRunData = contractExpand.trendRunData;
+	
+	
+	 // Phase highlight traces
+    const contractionTrace = {
+      x: contractionData.map(d => d.time),
+      y: contractionData.map(d => d.close),
+      mode: 'markers',
+      name: 'Contraction',
+      marker: { color: 'blue', size: 8, symbol: 'circle' },
+      type: 'scatter'
+    };
+
+    const expansionTrace = {
+      x: expansionData.map(d => d.time),
+      y: expansionData.map(d => d.close),
+      mode: 'markers',
+      name: 'Expansion',
+      marker: { color: 'orange', size: 8, symbol: 'diamond' },
+      type: 'scatter'
+    };
+
+  var traces = [trace1, contractionTrace, expansionTrace];
+
   if(isRange == true) traces.push(trace2);
 
   var data = traces;
