@@ -58,6 +58,15 @@ actions.iniRun = async function () {
     marketidx: mid,
   };
 
+  //reset contract/expand analysis object
+  contractExpandAnalysis = {
+    contractionData: [],
+    expansionData: [],
+    trendRunData: [],
+    validCandle: false,
+    result: {}
+  }
+
   console.log('------- RUNNING STRATEGY2 HANDLER ON EPIC: ' + market.epic + ' -------------');
   
   //console.log("------------------------prices---------------------");
