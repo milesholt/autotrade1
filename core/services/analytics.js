@@ -37,7 +37,7 @@ DRAW CHART
 
 */
 
-actions.drawChart = async function(priceData, lineData, analysis, rangeData){
+actions.drawChart = async function(priceData, lineData, analysisDataSet, rangeData){
 
   //priceData = priceData.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
 
