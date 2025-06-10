@@ -1337,6 +1337,7 @@ actions.beginTrade = async function (set) {
         
   } catch (error) {
         console.error("Trade skipped:", error.message);
+        console.log("Error: ", error);
   }
   
 };
