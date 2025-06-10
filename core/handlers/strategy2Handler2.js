@@ -1828,6 +1828,7 @@ actions.hasContractExpand = async function (candles,direction) {
 
     data.trendRunData = postExpansion;
 
+  if(expansionCandle !== null){
     for (const candle of postExpansion) {
       const retraceLevel = expansionDirection === 'up'
         ? expansionCandle.close - RETRACE_RATIO * Math.abs(expansionCandle.close - expansionCandle.open)
@@ -1864,7 +1865,8 @@ actions.hasContractExpand = async function (candles,direction) {
 
         return result;
       }
-    }
+    } //postExpansion for loop
+}//if expansionCandle not null
 
     return { valid: false, reason: 'No valid candle to confirm retrace out of expansion'};
 }
