@@ -452,11 +452,12 @@ actions.drawChart = async function(priceData, lineData, analysisDataSet, rangeDa
       type: 'scatter'
     };
 
-  var traces = [trace1, contractionTrace, expansionTrace];
+  //var traces = [trace1, contractionTrace, expansionTrace];
+  //if(isRange == true) traces.push(trace2);
 
-  if(isRange == true) traces.push(trace2);
 
-  var data = traces;
+
+  var data = strategy3PlotData;
 
   //if lines are the same, it means there is no range, otherwise apply all lines when there is a range
   if(isRange == true) shapes.push(supportline, resistanceline, midrangeline, momentumlineBuy, momentumlineSell, tradelineBuy, tradelineSell, minimumarea);
@@ -538,7 +539,7 @@ rBreak = [
       range:[lowestPrice,highestPrice],
       type: 'linear'
     },
-    shapes:shapes
+    //shapes:shapes //disabled to just show strategy3Data
   };
 
   var options = {
