@@ -497,7 +497,7 @@ actions.openPosition = async function(details,set,limit){
       level: null,
       limitDistance: null,
       limitLevel: limit,
-      stopDistance: null),
+      stopDistance: null,
       stopLevel: details.stopLoss,
       guaranteedStop: false,
       timeInForce: "FILL_OR_KILL",
