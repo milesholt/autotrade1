@@ -26,8 +26,10 @@ const testmailer = require('../tests/mailer.js');
 //var streamLogDir = path.join(__dirname, './stream.json');
 //var streamLogDir = '';
 
-
 actions.iniMonitor = async function(dealId,dealRef,epic,mid){
+}
+
+actions.iniMonitorOff = async function(dealId,dealRef,epic,mid){
 
   console.log('ini monitor');
   console.log(epic);
@@ -70,6 +72,9 @@ if(typeof mid == 'undefined'){
 }
 
 actions.beginMonitor = async function(dealId,dealRef,epic,mid,streamLogDir,attempt = false){
+}
+
+actions.beginMonitorOff = async function(dealId,dealRef,epic,mid,streamLogDir,attempt = false){
   //login
   // await api.login(true).then(r => {
   //   //console.log(util.inspect(r,false,null));
