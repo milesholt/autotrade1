@@ -323,7 +323,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   };
 };
 
-actions.plotAnalysisChart(candles, analysis) = async function {
+actions.plotAnalysisChart = async function(candles, analysis) {
   const timestamps = candles.map((_, i) => new Date(Date.now() - (candles.length - i) * 60 * 60 * 1000));
   const opens = candles.map(c => c.open);
   const highs = candles.map(c => c.high);
@@ -469,6 +469,41 @@ actions.plotAnalysisChart(candles, analysis) = async function {
   if (analysis.stopLoss) levelLines.push(line("Stop Loss", analysis.stopLoss, "red", "dash"));
   if (analysis.takeProfit1) levelLines.push(line("Take Profit 1", analysis.takeProfit1, "green"));
   if (analysis.takeProfit2) levelLines.push(line("Take Profit 2", analysis.takeProfit2, "darkgreen"));
+
+  // === Layout ===
+  const layout = {
+    title: 'Trading Strategy Analysis',
+    xaxis: { title: 'Time' },
+    yaxis: { title: 'Price' },
+    margin: { t: 40 }
+  };
+
+  // === HTML Output ===
+  const html = `
+    <html>
+      <head><script src="https://cdn.plot.ly/plotly-latest.min.js"></script></head>
+      <body>
+        <div id="chart" style="width:1000px;height:600px;"></div>
+        <script>
+          const data = ${JSON.stringify([
+            traceCandles,
+            traceEMA10,
+            traceEMA50,
+            traceMA200,
+            volZones,
+            srSupport,
+            srResistance,
+            ...levelLines
+          ])};
+          const layout = ${JSON.stringify(layout)};
+          Plotly.newPlot('chart', data, layout);
+        </script>
+      </body>
+    </html>
+  `;
+
+  fs.writeFileSync('analysis_chart.html', html);
+  console.log('✅ Chart saved to analysis_chart.html');
 }
 
 actions.openPosition = async function(details,set,limit){
