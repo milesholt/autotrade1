@@ -319,22 +319,22 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   };
 };
 
-actions.openPosition = async function(details,set){
+actions.openPosition = async function(details,set,limit){
 
     //No open positions, begin trade
     ticket = {
       currencyCode: "GBP",
-      direction: details.direction,
+      direction: details.signal,
       epic: set.epic,
       expiry: markets[set.marketidx].expiry,
-      size: details.size.toFixed(2),
+      size: 1,
       forceOpen: true,
       orderType: "MARKET",
       level: null,
-      limitDistance: details.limitDistance.toFixed(2),
-      limitLevel: null,
-      stopDistance: details.stopDistance.toFixed(2),
-      stopLevel: null,
+      limitDistance: null,
+      limitLevel: limit,
+      stopDistance: null),
+      stopLevel: details.stopLoss,
       guaranteedStop: false,
       timeInForce: "FILL_OR_KILL",
       trailingStop: null,
