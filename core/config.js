@@ -354,6 +354,8 @@ prices_4hour = [];
 pricedata = { support: [], resistance: [] };
 pricedata2 = { support: [], resistance: [] };
 pricedata3 = { support: [], resistance: [] };
+pricedata4hr = { support: [], resistance: [] };
+
 supportline = 0;
 resistanceline = 0;
 trend = "ranging";
