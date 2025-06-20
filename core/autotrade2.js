@@ -76,6 +76,7 @@ const tradeHandler = require("./handlers/tradeHandler.js");
 const aiHandler = require("./handlers/aiHandler.js");
 const strategy2Handler = require("./handlers/strategy2Handler.js");
 const strategy2Handler2 = require("./handlers/strategy2Handler2.js");
+const strategy3Handler = require("./handlers/strategy3Handler.js");
 const liveHandler = require("./handlers/liveHandler.js");
 
 /*
@@ -519,7 +520,8 @@ actions.exec = async function () {
     //await aiHandler.actions.iniRun();
 
     //await strategy2Handler.actions.iniRun();
-    await strategy2Handler2.actions.iniRun();
+    //await strategy2Handler2.actions.iniRun();
+    await strategy3Handler.actions.iniRun();
 
     //Final analysis
     await analysisHandler.actions.finalAnalysis();
@@ -599,6 +601,7 @@ errorHandler.actions.require();
 aiHandler.actions.require();
 strategy2Handler.actions.require();
 strategy2Handler2.actions.require();
+strategy3Handler.actions.require();
 liveHandler.actions.require();
 
 log.actions.require();
