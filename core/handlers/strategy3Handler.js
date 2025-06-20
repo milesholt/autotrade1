@@ -273,7 +273,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   const entry = closes[closes.length - 1];
   const recentHigh = Math.max(...hourlyCandles.slice(-10).map(c => c.high));
   const recentLow = Math.min(...hourlyCandles.slice(-10).map(c => c.low));
-  const atr = atrVals[atrVals.length - 1] || 0.001;
+  atr = atrVals[atrVals.length - 1] || 0.001;
 
   const stopLoss = trendBias === "BUY"
     ? recentLow - atr * 1.2
