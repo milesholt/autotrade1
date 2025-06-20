@@ -56,10 +56,11 @@ actions.iniRun = async function () {
   });
   
   let data = pricedata.support;
+  let data4hr = pricedata4hr.support;
   
 
   // Run the analysis
-  const result = await actions.doStrategy3(data);
+  const result = await actions.doStrategy3(data, data4hr);
   
   console.log('signal result from strategy3Handler:');
   console.log(result);
