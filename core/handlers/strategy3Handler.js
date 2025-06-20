@@ -515,7 +515,7 @@ actions.openPosition = async function(details,set,limit){
         console.log('Opening position response');
         console.log(util.inspect(r, false, null));
         
-      .catch((e) => {
+      }.catch((e) => {
         console.log('Error opening position', e);
       });
 };
