@@ -505,6 +505,22 @@ actions.openPosition = async function(details,set,limit){
       trailingStopIncrement: null,
     };
 
+    let go = true;
+
+    //Check existing trades
+    await api
+    .showOpenPositions()
+    .then(async (positionsData) => {
+      //console.log(util.inspect(positionsData, false, null));
+      if (positionsData.positions.length > 0) {
+        console.log('Existing trade still open, skipping openPosition');
+        go = false;
+      }
+    })
+    .catch((e) => console.log(e));
+
+   if(go === false) return;
+
     
     //Open a ticket for take profits
     await api
