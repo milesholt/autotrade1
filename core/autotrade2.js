@@ -433,6 +433,7 @@ actions.exec = async function () {
 
     //Sort price data
     await priceDataHandler.actions.sortPriceData();
+    await priceDataHandler.actions.sort4hrPriceData();
 
     //Sort dynamic limits
     await checkHandler.actions.configLimits();
