@@ -1,4 +1,155 @@
-const actions = {};
+var actions = {};
+var core;
+var lib;
+var loop;
+var notification;
+var api;
+var monitor;
+var util;
+var log;
+var lib;
+var error;
+var moment;
+
+//Call specific service to handle ai actions
+//const ai = require("../services/ai.js");
+
+/*
+
+REQUIRE
+
+*/
+
+actions.require = async function () {
+  core = require.main.exports;
+  lib = core.lib.actions;
+  cloud = core.cloudHandler.actions;
+  loop = core.loopHandler.actions.loop;
+  notification = core.notificationHandler.actions;
+  log = core.log.actions;
+  api = core.api;
+  check = core.checkHandler.actions;
+  monitor = core.monitor.actions;
+  error = core.errorHandler.actions;
+  util = core.util;
+  moment = core.moment;
+};
+
+actions.iniRun = async function () {
+  var set = {
+    epic: market.epic,
+    dataPath: aiDataDir,
+    prices: prices,
+    results: [],
+    findings: {},
+    go: false,
+    output: {},
+    lastCloseBid: lastCloseBid,
+    lastCloseAsk: lastCloseAsk,
+    marketidx: mid,
+  };
+
+  console.log('------- RUNNING STRATEGY3 HANDLER ON EPIC: ' + market.epic + ' -------------');
+  
+  tradebeforeCheck =  market.tradedBefore !== false ? moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
+  const tradedBefore = moment.utc(market.tradedBefore).local().valueOf(); // market.tradedBefore
+  const localUtcTime = moment.utc().local(); // Local UTC Time
+  const tradedBeforeDate = moment(tradedBefore).format('YYYY-MM-DD HH:mm:ss'); // Example format
+  const localUtcTimeDate = moment(localUtcTime).format('YYYY-MM-DD HH:mm:ss');
+  
+  //We will also get the last closed trade from the api
+  let lastTrades = await check.checkLastClosedTrades();
+
+  //Filter last by instrumentName
+  let lastTrade = null;
+  if(lastTrades.length) lastTrade = lastTrades.filter((m) => m.instrumentName == market.instrumentName)[0]; 
+  
+  if(lastTrade !== null){
+    console.log('Found last closed trade');
+    
+    const lastClosedTime = moment.utc(lastTrade.dateUtc).local().valueOf();
+    market.tradedBefore = lastClosedTime;
+    const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
+
+    console.log('lastClosedTime', lastClosedTime);
+    console.log('Difference in hours', lastDiffHours + ' hours');
+
+    tradebeforeCheck = lastDiffHours >= tradeBeforeHours;
+    
+  }
+
+
+  let day = moment.utc().local().format('ddd');
+  if( day == 'Sat' || day == 'Sun'){
+    console.log('Should be the weekend. Day is: ' + day);
+    console.log('Not beginning trade because it is the weekend and markets will be closed.');
+    return false;
+  }
+
+  //return result;
+  if(tradebeforeCheck == true){
+
+    console.log('tradebeforeCheck is true');
+    console.log('market.tradedBefore is: ' + tradedBefore  );
+    console.log('Local UTC Time is: ' + localUtcTime );
+    console.log(`Traded Before Date: ${tradedBeforeDate}`);
+    console.log(`Local UTC Time Date: ${localUtcTimeDate}`);
+    
+    console.log('Hours difference: ' + moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours"));
+    console.log('tradeBeforeHours threshold: ' + tradeBeforeHours);
+    
+    if((result.signal == 'BUY' || result.signal == 'SELL') && (result.confidence == 'Strong' || result.confidence == 'Moderate') && tradebeforeCheck){
+      console.log('Making trade...');
+      set.decision = result.signal;
+
+      //If the first two weeks is the same as previous two weeks (which is roughly a month, set as the latest direction for the month
+      //Otherwise if first two weeks differ or go in the opposite direction as previous two weeks, count as ranging
+      var month4Hours = (market.data.trend4Hours == market.data.prevtrend4Hours ? market.data.trend4Hours : 'ranging');
+
+      var t = {
+        week1: market.data.midtrend4Hours,
+        weeks2: market.data.trend4Hours,
+        prev2weeks: market.data.prevtrend4Hours,
+        month: month4Hours     
+      }
+
+      let goAhead = true;
+      
+      //Log signal and whether to make a trade or not, to be used by monitor as to wether to continue trading
+      markets[set.marketidx].data.strategy3 = {
+          result: result,
+          makeTrade: goAhead,
+          ticket: {}
+      };
+
+      if (goAhead) {
+
+          console.log('4 hours trends confirmed direction of trade. Going ahead');
+          console.log(t);
+        
+          // Proceed with trade
+          await actions.beginTrade(set);  
+      
+       } else {
+          console.log('Did not make trade, because 4 hour trends didnt confirm');
+          console.log(t); 
+       }
+
+      
+          } else {
+      console.log('Did not make trade');
+    }
+  } else {
+    console.log('Last trade was not later than ' + tradeBeforeHours + ' hours, waiting.');
+    console.log('market.tradedBefore is: ' + tradedBefore  );
+    console.log('Local UTC Time is: ' + localUtcTime );
+    console.log(`Traded Before Date: ${tradedBeforeDate}`);
+    console.log(`Local UTC Time Date: ${localUtcTimeDate}`);
+    console.log('Hours difference: ' + moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours"));
+    console.log('tradeBeforeHours threshold: ' + tradeBeforeHours);
+      
+  }  
+};
 
 actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   // === Utility functions ===
