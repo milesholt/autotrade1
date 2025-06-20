@@ -318,3 +318,40 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
     takeProfit2
   };
 };
+
+actions.openPosition = async function(details,set){
+
+    //No open positions, begin trade
+    ticket = {
+      currencyCode: "GBP",
+      direction: details.direction,
+      epic: set.epic,
+      expiry: markets[set.marketidx].expiry,
+      size: details.size.toFixed(2),
+      forceOpen: true,
+      orderType: "MARKET",
+      level: null,
+      limitDistance: details.limitDistance.toFixed(2),
+      limitLevel: null,
+      stopDistance: details.stopDistance.toFixed(2),
+      stopLevel: null,
+      guaranteedStop: false,
+      timeInForce: "FILL_OR_KILL",
+      trailingStop: null,
+      trailingStopIncrement: null,
+    };
+
+    
+    //Open a ticket for take profits
+    await api
+      .deal(ticket)
+      .then(async (r) => {
+        
+        let ref = r.positions.dealReference;
+        console.log('Opening position response');
+        console.log(util.inspect(r, false, null));
+        
+      .catch((e) => {
+        console.log('Error opening position', e);
+      });
+};
