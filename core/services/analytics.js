@@ -426,7 +426,7 @@ actions.drawChart = async function(priceData, lineData, analysisDataSet, rangeDa
 
    //Contract/Expand data
 
-  var contractExpand = analysis.contractExpandAnalysis;
+ /* var contractExpand = analysis.contractExpandAnalysis;
 	
 	var contractionData = contractExpand.contractionData;
 	var expansionData = contractExpand.expansionData;
@@ -450,7 +450,7 @@ actions.drawChart = async function(priceData, lineData, analysisDataSet, rangeDa
       name: 'Expansion',
       marker: { color: 'orange', size: 8, symbol: 'diamond' },
       type: 'scatter'
-    };
+    };*/
 
   //var traces = [trace1, contractionTrace, expansionTrace];
   //if(isRange == true) traces.push(trace2);
