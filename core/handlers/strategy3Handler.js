@@ -470,22 +470,7 @@ actions.plotAnalysisChart = async function(candles, analysis) {
   if (analysis.takeProfit1) levelLines.push(line("Take Profit 1", analysis.takeProfit1, "green"));
   if (analysis.takeProfit2) levelLines.push(line("Take Profit 2", analysis.takeProfit2, "darkgreen"));
 
-  // === Layout ===
-  const layout = {
-    title: 'Trading Strategy Analysis',
-    xaxis: { title: 'Time' },
-    yaxis: { title: 'Price' },
-    margin: { t: 40 }
-  };
-
-  // === HTML Output ===
-  const html = `
-    <html>
-      <head><script src="https://cdn.plot.ly/plotly-latest.min.js"></script></head>
-      <body>
-        <div id="chart" style="width:1000px;height:600px;"></div>
-        <script>
-          const data = ${JSON.stringify([
+  strategy3PlotData = [
             traceCandles,
             traceEMA10,
             traceEMA50,
@@ -494,16 +479,8 @@ actions.plotAnalysisChart = async function(candles, analysis) {
             srSupport,
             srResistance,
             ...levelLines
-          ])};
-          const layout = ${JSON.stringify(layout)};
-          Plotly.newPlot('chart', data, layout);
-        </script>
-      </body>
-    </html>
-  `;
-
-  fs.writeFileSync('analysis_chart.html', html);
-  console.log('✅ Chart saved to analysis_chart.html');
+          ]
+  
 }
 
 actions.openPosition = async function(details,set,limit){
