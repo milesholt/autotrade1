@@ -50,6 +50,19 @@ actions.iniRun = async function () {
   };
 
   console.log('------- RUNNING STRATEGY3 HANDLER ON EPIC: ' + market.epic + ' -------------');
+
+  pricedata.support.forEach((item, index) => {
+    item.volume = prices[index].lastTradedVolume;
+  });
+  
+  let data = pricedata.support;
+  
+
+  // Run the analysis
+  const result = await actions.doStrategy3(data);
+  
+  console.log('signal result from strategy3Handler:');
+  console.log(result);
   
   tradebeforeCheck =  market.tradedBefore !== false ? moment.utc().local().diff(moment.utc(market.tradedBefore).local().valueOf(), "hours") >= tradeBeforeHours ? true : false : true;
   const tradedBefore = moment.utc(market.tradedBefore).local().valueOf(); // market.tradedBefore
