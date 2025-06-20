@@ -61,6 +61,9 @@ actions.iniRun = async function () {
 
   // Run the analysis
   const result = await actions.doStrategy3(data, data4hr);
+
+  //Plot analysis
+  await actions.plotAnalysisChart(data, result);
   
   console.log('signal result from strategy3Handler:');
   console.log(result);
@@ -319,6 +322,154 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
     takeProfit2
   };
 };
+
+actions.plotAnalysisChart(candles, analysis) = async function {
+  const timestamps = candles.map((_, i) => new Date(Date.now() - (candles.length - i) * 60 * 60 * 1000));
+  const opens = candles.map(c => c.open);
+  const highs = candles.map(c => c.high);
+  const lows = candles.map(c => c.low);
+  const closes = candles.map(c => c.close);
+
+  // Moving averages
+  function sma(data, period) {
+    return data.map((_, i, arr) =>
+      i >= period - 1 ? arr.slice(i - period + 1, i + 1).reduce((sum, d) => sum + d.close, 0) / period : null
+    );
+  }
+
+  function ema(data, period) {
+    const k = 2 / (period + 1);
+    const result = [data[0].close];
+    for (let i = 1; i < data.length; i++) {
+      result.push((data[i].close - result[i - 1]) * k + result[i - 1]);
+    }
+    return result;
+  }
+
+  function stdDev(data, period = 20) {
+    return data.map((_, i) => {
+      if (i < period) return null;
+      const slice = data.slice(i - period + 1, i + 1).map(d => d.close);
+      const mean = slice.reduce((a, b) => a + b, 0) / period;
+      const variance = slice.reduce((a, b) => a + (b - mean) ** 2, 0) / period;
+      return Math.sqrt(variance);
+    });
+  }
+
+  const ema10 = ema(candles, 10);
+  const ema50 = ema(candles, 50);
+  const ma200 = sma(candles, 200);
+  const stdDevs = stdDev(candles, 20);
+
+  // === Trace setup ===
+
+  const traceCandles = {
+    x: timestamps,
+    open: opens,
+    high: highs,
+    low: lows,
+    close: closes,
+    type: 'candlestick',
+    name: 'Candles',
+    increasing: { line: { color: 'green' } },
+    decreasing: { line: { color: 'red' } }
+  };
+
+  const traceEMA10 = {
+    x: timestamps,
+    y: ema10,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'EMA 10',
+    line: { color: '#33aaff' }
+  };
+
+  const traceEMA50 = {
+    x: timestamps,
+    y: ema50,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'EMA 50',
+    line: { color: '#aa33ff' }
+  };
+
+  const traceMA200 = {
+    x: timestamps,
+    y: ma200,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'MA 200',
+    line: { color: '#ffaa00' }
+  };
+
+  // Volatility zones (contraction in gray)
+  const volZones = {
+    x: [],
+    y: [],
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Contraction Zone',
+    marker: { color: 'gray', size: 4, opacity: 0.4 }
+  };
+
+  stdDevs.forEach((std, i) => {
+    if (std && std < 0.5) {
+      volZones.x.push(timestamps[i]);
+      volZones.y.push(closes[i]);
+    }
+  });
+
+  // Support and resistance lines (from swing highs/lows)
+  function findSR(data, lookback = 20) {
+    let support = [], resistance = [];
+    for (let i = lookback; i < data.length - lookback; i++) {
+      const slice = data.slice(i - lookback, i + lookback + 1);
+      const low = Math.min(...slice.map(d => d.low));
+      const high = Math.max(...slice.map(d => d.high));
+
+      if (data[i].low === low) support.push({ x: timestamps[i], y: low });
+      if (data[i].high === high) resistance.push({ x: timestamps[i], y: high });
+    }
+    return { support, resistance };
+  }
+
+  const { support, resistance } = findSR(candles, 10);
+  const srSupport = {
+    x: support.map(p => p.x),
+    y: support.map(p => p.y),
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Support',
+    marker: { color: 'green', symbol: 'circle-open', size: 6 }
+  };
+
+  const srResistance = {
+    x: resistance.map(p => p.x),
+    y: resistance.map(p => p.y),
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Resistance',
+    marker: { color: 'red', symbol: 'cross-thin-open', size: 6 }
+  };
+
+  // Entry & TP/SL Lines
+  function line(name, price, color, dash = 'dot') {
+    return {
+      x: [timestamps[0], timestamps[timestamps.length - 1]],
+      y: [price, price],
+      type: 'scatter',
+      mode: 'lines',
+      name,
+      line: { color, dash }
+    };
+  }
+
+  const levelLines = [];
+  if (analysis.entry) levelLines.push(line("Entry", analysis.entry, "blue"));
+  if (analysis.stopLoss) levelLines.push(line("Stop Loss", analysis.stopLoss, "red", "dash"));
+  if (analysis.takeProfit1) levelLines.push(line("Take Profit 1", analysis.takeProfit1, "green"));
+  if (analysis.takeProfit2) levelLines.push(line("Take Profit 2", analysis.takeProfit2, "darkgreen"));
+}
 
 actions.openPosition = async function(details,set,limit){
 
