@@ -142,8 +142,9 @@ actions.iniRun = async function () {
           console.log(t);
         
           // Proceed with trade
-          await actions.beginTrade(set);  
-      
+          await actions.openPosition(result, set, result.takeProfit1);
+          await actions.openPosition(result, set, result.takeProfit2);
+                
        } else {
           console.log('Did not make trade, because 4 hour trends didnt confirm');
           console.log(t); 
@@ -327,7 +328,7 @@ actions.openPosition = async function(details,set,limit){
       direction: details.signal,
       epic: set.epic,
       expiry: markets[set.marketidx].expiry,
-      size: 1,
+      size: 0.5, //divide lot size by 2
       forceOpen: true,
       orderType: "MARKET",
       level: null,
