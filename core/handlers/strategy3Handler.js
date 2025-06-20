@@ -519,3 +519,8 @@ actions.openPosition = async function(details,set,limit){
         console.log('Error opening position', e);
       });
 };
+
+module.exports = {
+  actions: actions,
+};
+
