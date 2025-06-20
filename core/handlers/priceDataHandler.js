@@ -211,6 +211,44 @@ actions.sortPriceData = async function(){
   }
 }
 
+
+/* DO PRICE DATA FOR 4HOUR */
+
+actions.sort4hrPriceData = async function(){
+  if(prices_4hour.length > 0){
+    prices_4hour.forEach(async (price,idx) =>{
+      if(price !== null){
+        let time =  price.snapshotTime.replace(/\//g, '-');
+        let midOpen = parseFloat(parseFloat(price.openPrice.ask - ((price.openPrice.ask - price.openPrice.bid)/2) ).toFixed(2));
+        let midClose = parseFloat(parseFloat(price.closePrice.ask - ((price.closePrice.ask - price.closePrice.bid)/2) ).toFixed(2));
+        let midHigh = parseFloat(parseFloat(price.highPrice.ask - ((price.highPrice.ask - price.highPrice.bid)/2) ).toFixed(2));
+        let midLow = parseFloat(parseFloat(price.lowPrice.ask - ((price.lowPrice.ask - price.lowPrice.bid)/2) ).toFixed(2));
+        let askClose = price.closePrice.ask;
+        let bidClose = price.closePrice.bid;
+        let supportprice = midOpen <= midClose ? midOpen : midClose;
+        let resistprice = midOpen >= midClose ? midOpen : midClose;
+
+        //Main pricedata (full capture of 3 days)
+        pricedata4hr.support.push({'price': supportprice, 'open':midOpen, 'close': midClose, 'high': midHigh, 'low': midLow, 'diff': Math.round(Math.abs(midOpen - midClose)), 'time': time, 'closeAsk': askClose, 'closeBid': bidClose });
+        pricedata4hr.resistance.push({'price': resistprice, 'open':midOpen, 'close': midClose, 'high': midHigh, 'low': midLow, 'diff': Math.round(Math.abs(midOpen - midClose)), 'time': time, 'closeAsk': askClose, 'closeBid': bidClose });
+
+      }else{
+        loop('Price undefined? Waiting an hour and trying again');
+        return false;
+      }
+    });
+
+    //Clean data, remove any price data with 0
+    pricedata4hr.support = pricedata.support.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
+    pricedata4hr.resistance = pricedata.resistance.filter(price => price.open !== 0 && price.close !== 0 && price.high !== 0 && price.low !== 0);
+    pricedata4hr.support = pricedata.support.filter(price => price.closeAsk !== null && price.closeBid !== null);
+    pricedata4hr.resistance = pricedata.resistance.filter(price => price.closeAsk !== null && price.closeBid !== null);
+
+  } else {
+    return false;
+  }
+}
+
 /*
 
 SET PRICE DATA
