@@ -188,7 +188,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
     return result;
   }
 
-  function atr(data, period = 14) {
+  function calcAtr(data, period = 14) {
     return data.map((_, i) => {
       if (i === 0 || i < period) return null;
       const tr = Math.max(
@@ -241,7 +241,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   const ema10 = ema(hourlyCandles, 10);
   const ema50 = ema(hourlyCandles, 50);
   const ma200 = sma(hourlyCandles, 200);
-  const atrVals = atr(hourlyCandles, 14);
+  const atrVals = calcAtr(hourlyCandles, 14);
   const stdDevs = stdDev(hourlyCandles, 20);
 
   // === Determine Trend Bias
@@ -273,7 +273,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   const entry = closes[closes.length - 1];
   const recentHigh = Math.max(...hourlyCandles.slice(-10).map(c => c.high));
   const recentLow = Math.min(...hourlyCandles.slice(-10).map(c => c.low));
-  atr = atrVals[atrVals.length - 1] || 0.001;
+  const atr = atrVals[atrVals.length - 1] || 0.001;
 
   const stopLoss = trendBias === "BUY"
     ? recentLow - atr * 1.2
