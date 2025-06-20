@@ -241,7 +241,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   const stdDevs = stdDev(hourlyCandles, 20);
 
   // === Determine Trend Bias
-  const trendBias = ema10[ema10.length - 1] > ema50[ema50.length - 1] ? "up" : "down";
+  const trendBias = ema10[ema10.length - 1] > ema50[ema50.length - 1] ? "BUY" : "SELL";
   const aboveMa200 = closes[closes.length - 1] > ma200[ma200.length - 1];
 
   // === Check Contraction/Expansion
@@ -262,7 +262,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
 
   // === Confirm 4H Trend using EMA slope
   const ema4h = ema(fourHourCandles, 20);
-  const trend4h = ema4h[ema4h.length - 1] > ema4h[ema4h.length - 5] ? "up" : "down";
+  const trend4h = ema4h[ema4h.length - 1] > ema4h[ema4h.length - 5] ? "BUY" : "SELL";
   const directionAgreement = trendBias === trend4h;
 
   // === Entry price and SL/TP
@@ -271,13 +271,27 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   const recentLow = Math.min(...hourlyCandles.slice(-10).map(c => c.low));
   const atr = atrVals[atrVals.length - 1] || 0.001;
 
-  const stopLoss = trendBias === "up"
+  const stopLoss = trendBias === "BUY"
     ? recentLow - atr * 1.2
     : recentHigh + atr * 1.2;
 
   const risk = Math.abs(entry - stopLoss);
-  const takeProfit1 = trendBias === "up" ? entry + risk * 1.5 : entry - risk * 1.5;
-  const takeProfit2 = trendBias === "up" ? entry + risk * 3 : entry - risk * 3;
+  const takeProfit1 = trendBias === "BUY" ? entry + risk * 1.5 : entry - risk * 1.5;
+  const takeProfit2 = trendBias === "BUY" ? entry + risk * 3 : entry - risk * 3;
+
+  // === Confidence Scoring ===
+  let score = 0;
+  if (trendBias === 'up' && ema10[ema10.length - 1] > ema50[ema50.length - 1]) score++;
+  if ((trendBias === 'up' && aboveMa200) || (trendBias === 'down' && !aboveMa200)) score++;
+  if (reversalPattern) score++;
+  if (!contraction) score++;
+  if (isPullback) score++;
+  if (directionAgreement) score++;
+
+  const confidence =
+    score <= 2 ? 'Weak' :
+    score <= 4 ? 'Moderate' : 'Strong';
+
 
   // === Final decision
   const validEntry =
@@ -287,7 +301,8 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
 
   return {
     openPosition: validEntry,
-    direction: trendBias,
+    signal: trendBias,
+    confidence,
     reason: {
       trendBias,
       aboveMa200,
