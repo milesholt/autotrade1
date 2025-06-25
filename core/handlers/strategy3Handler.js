@@ -280,9 +280,15 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
     : recentHigh + atr * 1.2;
 
   const risk = Math.abs(entry - stopLoss);
-  const takeProfit1 = trendBias === "BUY" ? entry + risk * 1.5 : entry - risk * 1.5;
+ /* const takeProfit1 = trendBias === "BUY" ? entry + risk * 1.5 : entry - risk * 1.5;
   const takeProfit2 = trendBias === "BUY" ? entry + risk * 3 : entry - risk * 3;
+*/
 
+  const takeProfit1 = trendBias === "BUY" ? entry + risk * 1 : entry - risk * 1;
+  const takeProfit2 = trendBias === "BUY" ? entry + risk * 2 : entry - risk * 2;
+
+
+  
   // === Confidence Scoring ===
   let score = 0;
   if (trendBias === 'up' && ema10[ema10.length - 1] > ema50[ema50.length - 1]) score++;
