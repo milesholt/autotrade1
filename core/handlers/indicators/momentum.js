@@ -1,5 +1,5 @@
 var actions = {};
-var sma = require('sma');
+var sma = require('./sma.js');
 
 actions.calculateMomentum = async function(prices, period) {
   const smoothedCurrent = await sma.actions.calculateSMARecent(prices.slice(-period), period);
