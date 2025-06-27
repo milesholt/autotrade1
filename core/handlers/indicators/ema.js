@@ -1,6 +1,6 @@
 var actions = {};
 
-actions.calculateEMA = async function (data, fastPeriod, slowPeriod, signalPeriod) {
+actions.calculateEMA = async function (prices, period) {
   let multiplier = 2 / (period + 1); // Multiplier for EMA calculation
         let emaArray = [];
 
