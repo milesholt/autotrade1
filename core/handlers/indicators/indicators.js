@@ -2,17 +2,17 @@ var actions = {};
 
 //Tools
 
-var macd = require('./macd.js');
-var atr = require('./atr.js');
-var momentum = require('./momentum.js');
-var ema = require('./ema.js');
-var sma = require('./sma.js');
-var fibonacci = require('./fibonacci.js');
-var bollinger = require('./bollinger.js');
-var rsi = require('./rsi.js');
-var volume = require('./volume.js');
-var roc = require('./roc.js');
-var adx = require('./adx.js');
+var i_macd = require('./macd.js');
+var i_atr = require('./atr.js');
+var i_momentum = require('./momentum.js');
+var i_ema = require('./ema.js');
+var i_sma = require('./sma.js');
+var i_fibonacci = require('./fibonacci.js');
+var i_bollinger = require('./bollinger.js');
+var i_rsi = require('./rsi.js');
+var i_volume = require('./volume.js');
+var i_roc = require('./roc.js');
+var i_adx = require('./adx.js');
 
 actions.doTechnicalAnalysis(data){
     
@@ -74,23 +74,23 @@ actions.doTechnicalAnalysis(data){
     atr,
     roc
   ] = await Promise.all([
-    actions.calculateSMA(data, 10),
-    actions.calculateSMA(data, 20),
-    actions.calculateSMA(data, 50),
-    actions.calculateSMA(data, 70),
-    actions.calculateEMA(closes, 10),
-    actions.calculateEMA(closes, 20),
-    actions.calculateEMA(closes, 50),
-    actions.calculateEMA(closes, 70),
-    actions.calculateMACD(data, 12, 26, 9),
-    actions.calculateBollingerBands(data, 20, 2),
-    actions.getFibonacciLevels(data),
-    actions.calculateRSI(data, 14),
-    actions.getVolume(data),
-    actions.calculateADX(data, 14),
-    actions.calculateMomentum(closes, 14),
-    actions.calculateATR(highs,lows,closes, 20),
-    actions.calculateROC(closes, 14)
+    i_sma.actions.calculateSMA(data, 10),
+    i_sma.actions.calculateSMA(data, 20),
+    i_sma.actions.calculateSMA(data, 50),
+    i_sma.actions.calculateSMA(data, 70),
+    i_ema.actions.calculateEMA(closes, 10),
+    i_ema.actions.calculateEMA(closes, 20),
+    i_ema.actions.calculateEMA(closes, 50),
+    i_ema.actions.calculateEMA(closes, 70),
+    i_macd.actions.calculateMACD(data, 12, 26, 9),
+    i_bollinger.actions.calculateBollingerBands(data, 20, 2),
+    i_fibonacci.actions.getFibonacciLevels(data),
+    i_rsi.actions.calculateRSI(data, 14),
+    i_volume.actions.getVolume(data),
+    i_adx.actions.calculateADX(data, 14),
+    i_momentum.actions.calculateMomentum(closes, 14),
+    i_atr.actions.calculateATR(highs,lows,closes, 20),
+    i_roc.actions.calculateROC(closes, 14)
   ]);
 
   const currentPrice = data[data.length - 1].close;
