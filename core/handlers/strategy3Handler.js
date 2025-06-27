@@ -238,6 +238,10 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
   }
 
   // === Indicator Calculation ===
+
+  const analysis1 = indicators.doAnalysis(hourlyCandles);
+  console.log('analysis1', analysis1);
+  
   const closes = hourlyCandles.map(c => c.close);
   const ema10 = ema(hourlyCandles, 10);
   const ema50 = ema(hourlyCandles, 50);
