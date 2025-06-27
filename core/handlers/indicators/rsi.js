@@ -38,3 +38,9 @@ actions.calculateRSI = async function(data, period) {
 
     return rsiArray[rsiArray.length - 1];
   };
+
+module.exports = {
+  actions: actions,
+};
+
+
