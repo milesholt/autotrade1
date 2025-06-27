@@ -1,3 +1,5 @@
+var actions = {};
+
 actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeriod) {
    
     // Ensure the input data is valid
