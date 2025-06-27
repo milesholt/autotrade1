@@ -13,6 +13,7 @@ var moment;
 
 //Call specific service to handle ai actions
 //const ai = require("../services/ai.js");
+const indicators = require('./indicators/indicators.js');
 
 /*
 
