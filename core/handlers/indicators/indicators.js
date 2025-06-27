@@ -14,7 +14,7 @@ var i_volume = require('./volume.js');
 var i_roc = require('./roc.js');
 var i_adx = require('./adx.js');
 
-actions.doAnalysis(data){
+actions.doAnalysis = async function(data){
     
   // Make sure data is array and not empty
   if (!Array.isArray(data) || data.length === 0) {
