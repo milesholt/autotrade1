@@ -411,5 +411,16 @@ maAnalysis.overallAnalysis = {
 }
 
 module.exports = {
-  actions: actions
+  actions: actions,
+  sma: i_sma,
+  ema: i_ema,
+  atr: i_atr,
+  roc: i_roc,
+  adx: i_adx,
+  volume: i_volume,
+  fibonacci: i_fibonacci,
+  bollinger: i_bollinger,
+  macd: i_macd,
+  rsi: i_rsi,
+  momentum: i_momentum
 };
