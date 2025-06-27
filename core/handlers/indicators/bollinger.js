@@ -16,4 +16,6 @@ actions.calculateBollingerBands = async function(data, period, multiplier) {
     return { upper, lower };
   };
 
-
+module.exports = {
+  actions: actions,
+};
