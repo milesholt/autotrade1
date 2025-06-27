@@ -7,4 +7,6 @@ actions.calculateMomentum = async function(prices, period) {
   return smoothedCurrent - smoothedPast;
 }
 
-
+module.exports = {
+  actions: actions,
+};
