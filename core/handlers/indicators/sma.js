@@ -1,3 +1,4 @@
+var actions = {};
 
 actions.calculateSMA = async function(data, period) {
     // Calculate Simple Moving Average
@@ -16,3 +17,9 @@ actions.calculateSMARecent = async function(prices, period) {
   const sum = prices.slice(-period).reduce((acc, val) => acc + val, 0);
   return sum / period;
 };
+
+module.exports = {
+  actions: actions,
+};
+
+
