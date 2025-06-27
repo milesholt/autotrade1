@@ -20,3 +20,8 @@ actions.calculateATR = async function(candles, period = 14) {
   const atr = trValues.reduce((sum, tr) => sum + tr, 0) / period;
   return parseFloat(atr.toFixed(5));
 };
+
+module.exports = {
+  actions: actions,
+};
+
