@@ -1,7 +1,8 @@
 var actions = {};
+var sma = require('./sma.js');
 
 actions.calculateBollingerBands = async function(data, period, multiplier) {
-    const sma = await actions.calculateSMA(data, period);
+    const sma = await sma.actions.calculateSMA(data, period);
     const stdDev = [];
 
     for (let i = period - 1; i < data.length; i++) {
