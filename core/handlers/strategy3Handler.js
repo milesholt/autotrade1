@@ -239,7 +239,7 @@ actions.doStrategy3 = async function (hourlyCandles, fourHourCandles) {
 
   // === Indicator Calculation ===
 
-  const analysis1 = indicators.doAnalysis(hourlyCandles);
+  const analysis1 = await indicators.actions.doAnalysis(hourlyCandles);
   console.log('analysis1', analysis1);
   
   const closes = hourlyCandles.map(c => c.close);
