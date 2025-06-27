@@ -1,3 +1,5 @@
+var actions = {};
+
 actions.calculateRSI = async function(data, period) {
     const gains = [];
     const losses = [];
