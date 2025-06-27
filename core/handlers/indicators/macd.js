@@ -53,3 +53,7 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
     };
 };
 
+module.exports = {
+  actions: actions,
+};
+
