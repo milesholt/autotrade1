@@ -55,3 +55,7 @@ actions.getFibonacciLevels = async function (data) {
         levels
     };
 };
+
+module.exports = {
+  actions: actions,
+};
