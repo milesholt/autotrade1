@@ -11,6 +11,8 @@ var fibonacci = require('./fibonacci.js');
 var bollinger = require('./bollinger.js');
 var rsi = require('./rsi.js');
 var volume = require('./volume.js');
+var roc = require('./roc.js');
+var adx = require('./adx.js');
 
 actions.doTechnicalAnalysis(data){
     
