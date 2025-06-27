@@ -1,5 +1,7 @@
 var actions = {};
 
+var ema = require('./ema.js');
+
 actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeriod) {
    
     // Ensure the input data is valid
@@ -11,10 +13,10 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
     let closePrices = data.map(d => d.close); // Assuming the input is an array of objects with 'close' property
 
     // Calculate the fast EMA (shorter period)
-    let emaFast = await actions.calculateEMA(closePrices, fastPeriod);
+    let emaFast = await ema.actions.calculateEMA(closePrices, fastPeriod);
 
     // Calculate the slow EMA (longer period)
-    let emaSlow = await actions.calculateEMA(closePrices, slowPeriod);
+    let emaSlow = await ema.actions.calculateEMA(closePrices, slowPeriod);
 
     // Calculate MACD Line (difference between fast EMA and slow EMA)
     let macdLine = emaFast.map((value, index) => {
@@ -29,7 +31,7 @@ actions.calculateMACD = async function (data, fastPeriod, slowPeriod, signalPeri
 
     // Calculate the Signal Line (EMA of the MACD Line)
     // Ensure Signal Line length matches MACD Line length
-    let signalLineRaw = await actions.calculateEMA(validMacdLine, signalPeriod);
+    let signalLineRaw = await ema.actions.calculateEMA(validMacdLine, signalPeriod);
     let signalLine = macdLine.map((value, index) => {
         if (index >= slowPeriod - 1 && signalLineRaw[index - (slowPeriod - 1)] !== undefined) {
             return signalLineRaw[index - (slowPeriod - 1)];
