@@ -288,7 +288,7 @@ maAnalysis.overallAnalysis = {
   }
 
   // Volume Analysis
-  const averageVolume = await actions.calculateAverageVolume(data);
+  const averageVolume = await i_volume.actions.calculateAverageVolume(data);
   const currentVolume = volume[volume.length - 1];
   
   // Define which indicators are relevant for volume-confirmed moves
@@ -405,7 +405,6 @@ maAnalysis.overallAnalysis = {
       confidence = "Weak";
     }
   }
-
 
   return { signal, confidence, buyCertainty, sellCertainty, explanations };
 }
