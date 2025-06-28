@@ -409,6 +409,11 @@ maAnalysis.overallAnalysis = {
   return { signal, confidence, buyCertainty, sellCertainty, explanations };
 }
 
+actions.calculateDynamicThreshold = async function(baseThreshold, atrValue, currentPrice) {
+  const volatilityFactor = atrValue / currentPrice; // ATR as % of price
+  return baseThreshold * (1 + volatilityFactor); // Scale threshold
+}
+
 module.exports = {
   actions: actions,
   sma: i_sma,
