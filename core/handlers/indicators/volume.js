@@ -10,6 +10,10 @@ actions.calculateAverageVolume = async function(data, period) {
   return totalVolume / period;
 };
 
+actions.getVolume = async function(data) {
+    return data.map((item) => item.volume);
+  };
+
 module.exports = {
   actions:actions
 }
