@@ -274,7 +274,7 @@ maAnalysis.overallAnalysis = {
     buyIndicators: buyIndicators
   }
 
-  const rsiSignal = await actions.determineRSI(rsiData);
+  const rsiSignal = await i_rsi.actions.determineRSI(rsiData);
   if(rsiSignal.action == 'BUY'){
     buyCertainty += WEIGHTS.RSI;
     buyIndicators.push('RSI');
