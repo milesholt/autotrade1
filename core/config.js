@@ -414,8 +414,10 @@ bumpgroupcount = 0;
 lineDistance = 0;
 rangeConfirmations = 0;
 is4HoursTrendOveride = false;
-resolutionPointsLimit_4Hours = 60;
-resolutionPointsLimit_1Hour = 72;
+/*resolutionPointsLimit_4Hours = 60;
+resolutionPointsLimit_1Hour = 72;*/
+resolutionPointsLimit_4Hours = 200;
+resolutionPointsLimit_1Hour = 200;
 prevtrend4Hours = "ranging";
 
 //Analysis data
