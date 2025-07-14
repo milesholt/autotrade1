@@ -85,7 +85,7 @@ actions.iniRun = async function () {
   if(lastTrade !== null){
     console.log('Found last closed trade', lastTrade);
     
-    const lastClosedTime = moment.utc(lastTrade.dateUtc).local().valueOf();
+    const lastClosedTime = moment.utc(lastTrade.dateUtc ?? lastTrade.date).local().valueOf();
     market.tradedBefore = lastClosedTime;
     const lastDiffHours = localUtcTime.diff(lastClosedTime, "hours");
 
