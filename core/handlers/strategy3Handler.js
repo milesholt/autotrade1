@@ -82,7 +82,8 @@ actions.iniRun = async function () {
   let lastTrade = null;
   if(lastTrades.length) lastTrade = lastTrades.filter((m) => m.instrumentName == market.instrumentName)[0]; 
   
-  if(lastTrade !== null && typeof lastTrade !== undefined){
+  //check for null or undefined by using !=
+  if(lastTrade != null){
     console.log('Found last closed trade', lastTrade);
     
     const lastClosedTime = moment.utc(lastTrade.dateUtc ?? lastTrade.date).local().valueOf();
