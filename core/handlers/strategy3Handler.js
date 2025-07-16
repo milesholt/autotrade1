@@ -485,7 +485,6 @@ actions.plotAnalysisChart = async function(candles, analysis) {
             traceCandles,
             traceEMA10,
             traceEMA50,
-            traceMA200,
             volZones,
             srSupport,
             srResistance,
