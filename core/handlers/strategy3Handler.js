@@ -141,7 +141,7 @@ actions.iniRun = async function () {
       var condition3 = result.signal == 'SELL' && (t.week1 == 'ranging' || t.weeks2 == 'bearish') && t.month == 'bearish';
       var condition4 = result.signal == 'SELL' && (t.week1 == 'bearish' || t.weeks2 == 'ranging') && t.month == 'bearish';
 
-      //If previous two week in same direction
+      //If last two weeks (4 hour trend) in same direction
       var condition5 = result.signal == 'SELL' && t.weeks2 == 'bearish';
       var condition6 = result.signal == 'BUY' && t.weeks2 == 'bullish';
 
