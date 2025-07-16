@@ -132,7 +132,29 @@ actions.iniRun = async function () {
         month: month4Hours     
       }
 
-      let goAhead = true;
+       //Logic, we want to open a trade that's following a wider trend and not changing direction
+      //So in this case, we only open a trade when the signal aligns with wider trendlines using 4 hour trends
+      //This also tries to hold when the market might be ranging on a higher scale or have high volatility
+
+      var condition1 = result.signal == 'BUY' && (t.week1 == 'ranging' || t.weeks2 == 'bullish') && t.month == 'bullish';
+      var condition2 = result.signal == 'BUY' && (t.week1 == 'bullish' || t.weeks2 == 'ranging') && t.month == 'bullish';
+      var condition3 = result.signal == 'SELL' && (t.week1 == 'ranging' || t.weeks2 == 'bearish') && t.month == 'bearish';
+      var condition4 = result.signal == 'SELL' && (t.week1 == 'bearish' || t.weeks2 == 'ranging') && t.month == 'bearish';
+
+      //If previous two week in same direction
+      var condition5 = result.signal == 'SELL' && t.weeks2 == 'bearish';
+      var condition6 = result.signal == 'BUY' && t.weeks2 == 'bullish';
+
+      //Exclude these conditions because it suggests the market might be changing direction 
+      var exclusion1 = result.signal == 'BUY' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bullish';
+      var exclusion2 = result.signal == 'SELL' && t.week1 == 'ranging' && t.weeks2 == 'ranging' && t.month == 'bearish';
+      
+      //var goAhead = (condition1 || condition2 || condition3 || condition4 || condition5 || condition6) && (!exclusion1 && !exclusion2);
+      
+      //ensure 4hour timeframe aligns with hourly timeframe - market is moving in right direction, confirmed by 4 hour timeframe.
+      var goAhead = (condition5 || condition6);
+
+      //let goAhead = true;
       
       //Log signal and whether to make a trade or not, to be used by monitor as to wether to continue trading
       markets[set.marketidx].data.strategy3 = {
