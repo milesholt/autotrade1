@@ -504,7 +504,7 @@ actions.plotAnalysisChart = async function(candles, analysis) {
   if (analysis.takeProfit1) levelLines.push(line("Take Profit 1", analysis.takeProfit1, "green"));
   if (analysis.takeProfit2) levelLines.push(line("Take Profit 2", analysis.takeProfit2, "darkgreen"));
 
-  strategy3PlotData = [
+  /*strategy3PlotData = [
             traceCandles,
             traceEMA10,
             traceEMA50,
@@ -512,8 +512,10 @@ actions.plotAnalysisChart = async function(candles, analysis) {
             srSupport,
             srResistance,
             ...levelLines
-          ]
-  
+          ]*/
+
+  strategy3PlotData = []
+
 }
 
 actions.openPosition = async function(details,set,limit){
