@@ -514,7 +514,9 @@ actions.plotAnalysisChart = async function(candles, analysis) {
             ...levelLines
           ]*/
 
-  strategy3PlotData = [];
+  strategy3PlotData = [
+    traceCandles
+  ];
 
 }
 
