@@ -515,7 +515,8 @@ actions.plotAnalysisChart = async function(candles, analysis) {
           ]*/
 
   strategy3PlotData = [
-    traceCandles
+    traceCandles,
+    traceEMA10
   ];
 
 }
